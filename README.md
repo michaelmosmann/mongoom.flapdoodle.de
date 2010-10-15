@@ -8,6 +8,14 @@ Simply because none really fitted my needs.
 
 ## Howto
 
+### Maven
+
+	<dependency>
+	  <groupId>de.flapdoodle.mongoom</groupId>
+		<artifactId>de.flapdoodle.mongoom</artifactId>
+	  <version>1.0-SNAPSHOT</version>
+	</dependency>
+
 ### Setup
 
 	Mongo mongo = new Mongo( "localhost" , 27017 );
