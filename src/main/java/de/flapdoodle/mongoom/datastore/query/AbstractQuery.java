@@ -16,21 +16,10 @@
 
 package de.flapdoodle.mongoom.datastore.query;
 
-import java.util.List;
-
-import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.collections.common.Function;
-import de.flapdoodle.mongoom.IEntityQuery;
-import de.flapdoodle.mongoom.IQuery;
-import de.flapdoodle.mongoom.IQueryOperation;
-import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.mapping.IConverter;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
 
 public abstract class AbstractQuery<T,C extends IConverter<?>>
 {

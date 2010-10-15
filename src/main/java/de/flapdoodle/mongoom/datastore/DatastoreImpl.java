@@ -23,21 +23,19 @@ import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
 
-import com.mongodb.BasicDBObject;
+import com.google.common.collect.Lists;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.logging.LogConfig;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
-import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.datastore.query.Query;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
@@ -231,9 +229,12 @@ public class DatastoreImpl implements IDatastore
 			_logger.info("Ensure Index for " + entity);
 			IEntityConverter<?> converter = _mapper.getEntityConverter(entity);
 			List<IndexDef> indexes = converter.getIndexes();
-			for (IndexDef def : Lists.emptyIfNull(indexes))
+			if (indexes!=null)
 			{
-				Indexes.ensureIndex(_db, def, entities.get(entity));
+				for (IndexDef def : indexes)
+				{
+					Indexes.ensureIndex(_db, def, entities.get(entity));
+				}
 			}
 		}
 	}

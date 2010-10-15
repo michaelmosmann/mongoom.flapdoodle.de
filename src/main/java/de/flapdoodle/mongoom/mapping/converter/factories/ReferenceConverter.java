@@ -21,9 +21,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
-import de.flapdoodle.collections.Lists;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;

@@ -19,7 +19,8 @@ package de.flapdoodle.mongoom.mapping.converter.factories;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import de.flapdoodle.collections.Lists;
+import com.google.common.collect.Lists;
+
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;

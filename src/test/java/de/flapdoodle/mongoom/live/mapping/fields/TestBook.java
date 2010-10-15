@@ -16,10 +16,6 @@
 
 package de.flapdoodle.mongoom.live.mapping.fields;
 
-import java.util.List;
-import java.util.Map;
-
-import de.flapdoodle.collections.Lists;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 import de.flapdoodle.mongoom.live.AbstractMongoTest;

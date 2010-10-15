@@ -18,7 +18,8 @@ package de.flapdoodle.mongoom.live.beans.fields;
 
 import java.util.List;
 
-import de.flapdoodle.collections.Lists;
+import com.google.common.collect.Lists;
+
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Transient;

@@ -21,19 +21,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.collections.Maps;
-import de.flapdoodle.collections.common.Function;
-import de.flapdoodle.logging.LogConfig;
 import de.flapdoodle.mongoom.IQueryResult;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.iterator.TypedIterator;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.QueryException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.IReadConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;

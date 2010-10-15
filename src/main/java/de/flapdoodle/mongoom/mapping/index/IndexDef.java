@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.mapping.index;
 
 import java.util.List;
 
-import de.flapdoodle.collections.Lists;
+import com.google.common.collect.Lists;
 
 public class IndexDef
 {

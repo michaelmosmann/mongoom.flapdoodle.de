@@ -16,28 +16,21 @@
 
 package de.flapdoodle.mongoom.mapping.converter;
 
-import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Maps;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.collections.Maps;
-import de.flapdoodle.logging.LogConfig;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.exceptions.NotImplementedException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
-import de.flapdoodle.mongoom.mapping.index.FieldIndex;
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 public class EntityConverter<T> extends AbstractObjectConverter<T> implements IEntityConverter<T>
 {

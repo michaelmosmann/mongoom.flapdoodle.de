@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.mapping;
 
-import org.bson.BSON;
 
 public class Const
 {

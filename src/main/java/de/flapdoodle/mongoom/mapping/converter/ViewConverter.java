@@ -20,9 +20,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Sets;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;

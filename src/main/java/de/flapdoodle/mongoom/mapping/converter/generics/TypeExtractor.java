@@ -17,17 +17,13 @@
 package de.flapdoodle.mongoom.mapping.converter.generics;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import de.flapdoodle.collections.Lists;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 
 public class TypeExtractor
@@ -63,85 +59,16 @@ public class TypeExtractor
 		}
 	}
 
-//	/**
-//	 * Get the actual type arguments a child class has used to extend a generic
-//	 * base class.
-//	 * 
-//	 * @param baseClass
-//	 *          the base class
-//	 * @param childClass
-//	 *          the child class
-//	 * @return a list of the raw classes for the actual type arguments.
-//	 */
-//	public static <T> List<Class<?>> getTypeArguments(Class<T> baseClass, Class<? extends T> childClass)
-//	{
-//		Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
-//		Type type = childClass;
-//		// start walking up the inheritance hierarchy until we hit baseClass
-//		while (!getClass(type).equals(baseClass))
-//		{
-//			if (type instanceof Class)
-//			{
-//				// there is no useful information for us in raw types, so just keep
-//				// going.
-//				type = ((Class) type).getGenericSuperclass();
-//			}
-//			else
-//			{
-//				ParameterizedType parameterizedType = (ParameterizedType) type;
-//				Class<?> rawType = (Class) parameterizedType.getRawType();
-//
-//				Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-//				TypeVariable<?>[] typeParameters = rawType.getTypeParameters();
-//				for (int i = 0; i < actualTypeArguments.length; i++)
-//				{
-//					resolvedTypes.put(typeParameters[i], actualTypeArguments[i]);
-//				}
-//
-//				if (!rawType.equals(baseClass))
-//				{
-//					type = rawType.getGenericSuperclass();
-//				}
-//			}
-//		}
-//
-//		// finally, for each actual type argument provided to baseClass, determine
-//		// (if possible)
-//		// the raw class for that type argument.
-//		Type[] actualTypeArguments;
-//		if (type instanceof Class)
-//		{
-//			actualTypeArguments = ((Class) type).getTypeParameters();
-//		}
-//		else
-//		{
-//			actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
-//		}
-//		List<Class<?>> typeArgumentsAsClasses = new ArrayList<Class<?>>();
-//		// resolve types by chasing down type variables.
-//		for (Type baseType : actualTypeArguments)
-//		{
-//			while (resolvedTypes.containsKey(baseType))
-//			{
-//				baseType = resolvedTypes.get(baseType);
-//			}
-//			typeArgumentsAsClasses.add(getClass(baseType));
-//		}
-//		return typeArgumentsAsClasses;
-//	}
 	
-	public static <T> Map<Type,Type> getTypeArgumentMap(/*Class<T> baseClass, */Class<? extends T> childClass)
+	public static <T> Map<Type,Type> getTypeArgumentMap(Class<? extends T> childClass)
 	{
 		Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
 		Type type = childClass;
-		// start walking up the inheritance hierarchy until we hit baseClass
 		Class<?> baseClass=Object.class;
 		while (!getClass(type).equals(baseClass))
 		{
 			if (type instanceof Class)
 			{
-				// there is no useful information for us in raw types, so just keep
-				// going.
 				type = ((Class) type).getGenericSuperclass();
 			}
 			else
@@ -166,12 +93,7 @@ public class TypeExtractor
 		return resolvedTypes;
 	}
 	
-//  public static Class getParameterizedClass(Class<?> declaringClass, final Field field)
-//  {
-//      Type genericType = field.getGenericType();
-//			return getParameterizedClass(declaringClass, genericType, 0);
-//  }
-  
+ 
 	public static Class<?> getParameterizedClass(Class<?> declaringClass, Type genericType, final int index)
 	{
 		if (genericType instanceof ParameterizedType)
@@ -203,14 +125,10 @@ public class TypeExtractor
 		            	Type type = typeArgumentMap.get(typeVar);
 		            	if (type!=null)
 		            	{
-//		            		throw new MappingException("Type: "+type+" "+type.getClass());
 		            		return (Class<?>) type;
 		            	}
 		            	else
 		            	{
-		                // TODO: Figure out what to do... Walk back up the to
-		                // the parent class and try to get the variable type
-		                // from the T/V/X
 		                throw new MappingException("Generic Typed Class not supported:  <"
 		                        + ((TypeVariable) paramType).getName() + "> = "
 		                        + ((TypeVariable) paramType).getBounds()[0]);

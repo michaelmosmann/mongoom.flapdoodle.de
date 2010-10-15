@@ -24,9 +24,10 @@ import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
 
-import de.flapdoodle.collections.Maps;
-import de.flapdoodle.collections.Sets;
-import de.flapdoodle.logging.LogConfig;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;

@@ -20,13 +20,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.bson.types.ObjectId;
-
-import de.flapdoodle.logging.LogConfig;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
-import de.flapdoodle.mongoom.mapping.converter.generics.GenericTypeExtractor;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.types.Reference;
 

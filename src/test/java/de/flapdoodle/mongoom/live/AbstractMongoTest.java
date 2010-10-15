@@ -18,11 +18,11 @@ package de.flapdoodle.mongoom.live;
 
 import java.util.logging.Logger;
 
+import junit.framework.TestCase;
+
 import com.mongodb.Mongo;
 
-import de.flapdoodle.logging.LogConfig;
-
-import junit.framework.TestCase;
+import de.flapdoodle.mongoom.logging.LogConfig;
 
 public abstract class AbstractMongoTest extends TestCase
 {

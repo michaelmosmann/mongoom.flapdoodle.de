@@ -26,13 +26,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.collections.Maps;
-import de.flapdoodle.logging.LogConfig;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import de.flapdoodle.mongoom.annotations.ConverterType;
-import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.exceptions.NotImplementedException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.converter.EmbeddedObjectConverter;
 import de.flapdoodle.mongoom.mapping.converter.EntityConverter;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;

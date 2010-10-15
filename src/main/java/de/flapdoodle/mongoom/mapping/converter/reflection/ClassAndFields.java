@@ -21,7 +21,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import de.flapdoodle.collections.Lists;
+import com.google.common.collect.Lists;
+
 import de.flapdoodle.mongoom.annotations.MappedSuperclass;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 

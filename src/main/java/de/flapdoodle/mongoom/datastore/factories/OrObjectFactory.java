@@ -21,9 +21,9 @@ package de.flapdoodle.mongoom.datastore.factories;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Lists;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.QueryException;
 

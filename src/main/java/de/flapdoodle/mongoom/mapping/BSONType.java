@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.mapping;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import de.flapdoodle.collections.Maps;
+import com.google.common.collect.Maps;
 
 public enum BSONType
 {

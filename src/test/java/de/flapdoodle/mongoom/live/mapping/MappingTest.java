@@ -19,11 +19,10 @@ package de.flapdoodle.mongoom.live.mapping;
 import java.util.Date;
 import java.util.List;
 
-import de.flapdoodle.collections.Lists;
+import com.google.common.collect.Lists;
+
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
-import de.flapdoodle.mongoom.IQuery;
-import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.ObjectMapper;
 import de.flapdoodle.mongoom.live.AbstractMongoTest;
 import de.flapdoodle.mongoom.live.beans.Author;

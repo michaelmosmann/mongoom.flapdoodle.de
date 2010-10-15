@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping;
+package de.flapdoodle.mongoom.logging;
 
-import java.util.List;
+import java.util.logging.Logger;
 
-import com.mongodb.DBObject;
-
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
-
-public interface IEntityConverter<T> extends IConverter<T>, IReadConverter<T>
+public class LogConfig
 {
-	@Override
-	DBObject convertTo(T entity);
-	
-	DBObject convertToKey(T entity);
-	
-//	T convertFrom(DBObject dboject);
-	
-	void setId(T entity, Object id);
-	
-	void newVersion(T entity);
-//	String versionAttribute();
-//	Object getVersion(T entity);
-	
-	List<IndexDef> getIndexes();
-	
-	<V> IViewConverter<V> getView(Class<V> viewType);
+	public static Logger getLogger(Class<?> clazz)
+	{
+		return Logger.getLogger(clazz.getName());
+	}
+
 }

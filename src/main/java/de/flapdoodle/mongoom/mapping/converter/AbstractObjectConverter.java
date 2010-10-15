@@ -16,27 +16,21 @@
 
 package de.flapdoodle.mongoom.mapping.converter;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.collections.Lists;
-import de.flapdoodle.collections.Maps;
-import de.flapdoodle.collections.Sets;
-import de.flapdoodle.logging.LogConfig;
 import de.flapdoodle.mongoom.annotations.ConverterType;
 import de.flapdoodle.mongoom.annotations.Id;
-import de.flapdoodle.mongoom.annotations.MappedSuperclass;
-import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
@@ -45,7 +39,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.Const;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;
 import de.flapdoodle.mongoom.mapping.Mapper;

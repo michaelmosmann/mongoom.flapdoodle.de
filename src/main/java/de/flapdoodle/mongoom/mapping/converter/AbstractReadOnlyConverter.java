@@ -23,8 +23,8 @@ import java.util.logging.Logger;
 
 import com.mongodb.DBObject;
 
-import de.flapdoodle.logging.LogConfig;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
