@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>de.flapdoodle.p</groupId>
+  	<artifactId>de.flapdoodle.p--pom</artifactId>
+	  <version>1.1-SNAPSHOT</version>
+	</parent>
+
+  <groupId>de.flapdoodle.p</groupId>
+  <artifactId>de.flapdoodle.p--mongoom</artifactId>
+  <name>* ${pom.artifactId} (Projekt P - Mongo OM)</name>
+
+	<!--
+		https://docs.sonatype.org/display/Repository/Central+Sync+Requirements 
+		https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+	 -->
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/live/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+<!--
+					<basedir>${basedir}</basedir>
+-->
+					<header>${basedir}/src/etc/header.txt</header>
+<!--
+					<validHeaders>
+						<validHeader>/otherSupportedHeader.txt</validHeader>
+						<validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
+					</validHeaders>
+-->
+					<quiet>false</quiet>
+					<failIfMissing>true</failIfMissing>
+					<strictCheck>true</strictCheck>
+					<aggregate>false</aggregate>
+					<includes>
+						<include>src/**</include>
+						<include>**/test/**</include>
+					</includes>
+<!--
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>.clover/**</exclude>
+					</excludes>
+					<useDefaultExcludes>true</useDefaultExcludes>
+-->
+<!--
+					<mapping>
+						<jwc>XML_STYLE</jwc>
+						<application>XML_STYLE</application>
+						<myFileExtension>JAVADOC_STYLE</myFileExtension>
+					</mapping>
+					<useDefaultMapping>true</useDefaultMapping>
+-->
+					<properties>
+						<lic.year>2010</lic.year>
+						<lic.email>michael@mosmann.de</lic.email>
+						<lic.username>Michael Mosmann</lic.username>
+					</properties>
+					<encoding>UTF-8</encoding>
+<!--
+					<headerDefinitions>
+						<headerDefinition>def1.xml</headerDefinition>
+						<headerDefinition>def2.xml</headerDefinition>
+					</headerDefinitions>
+-->
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.flapdoodle</groupId>
+      <artifactId>de.flapdoodle--logging</artifactId>
+			<version>1.5.md-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>de.flapdoodle</groupId>
+      <artifactId>de.flapdoodle--base</artifactId>
+			<version>1.5.md-SNAPSHOT</version>
+    </dependency>
+
+		<!-- guice -->
+		<dependency>
+		  <groupId>de.flapdoodle.dependency</groupId>
+		  <artifactId>de.flapdoodle.dependency--google-guice</artifactId>
+      <version>1.3.dp-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+<!--
+    <dependency>
+      <groupId>de.flapdoodle.dependency</groupId>
+      <artifactId>de.flapdoodle.dependency- -cglib</artifactId>
+      <version>1.3.dp-SNAPSHOT</version>
+    </dependency>
+-->
+  </dependencies>
+
+</project>
