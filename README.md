@@ -22,6 +22,19 @@ Simply because none really fitted my needs.
 
 ### Mapping 	
 
+#### Minimal Mapping
+
+	@Entity("Document")
+	public class Document
+	{
+		@Id
+		ObjectId _id;
+	}
+
+#### All Mapping Options
+
+
+
 ### Indexes
 
 ### Query
