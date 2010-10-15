@@ -80,7 +80,8 @@ public abstract class AbstractReadOnlyConverter<T>
 		try
 		{
 			Field field = attribute.getField();
-			Object fieldValue = dbobject.get(attribute.getName());
+			String attributeName = attribute.getName();
+			Object fieldValue = getValue(dbobject, attributeName);
 	//				Object fieldValue = field.get(entity);
 			if (fieldValue!=null)
 			{
@@ -100,6 +101,28 @@ public abstract class AbstractReadOnlyConverter<T>
 		{
 			throw new MappingException(instance.getClass(),e);
 		}
+	}
+
+	private static Object getValue(DBObject dbobject, String attributeName)
+	{
+		Object fieldValue = null;
+		int dotIndex=attributeName.indexOf('.');
+		if (dotIndex!=-1)
+		{
+			String prefix=attributeName.substring(0,dotIndex);
+			String left=attributeName.substring(dotIndex+1);
+			Object sub=dbobject.get(prefix);
+			if (sub instanceof DBObject)
+			{
+				fieldValue=getValue((DBObject) sub, left);
+			}
+			else throw new IllegalArgumentException("Attribute "+prefix+" is not of type DBObject");
+		}
+		else
+		{
+			fieldValue = dbobject.get(attributeName);
+		}
+		return fieldValue;
 	}
 
 }
