@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.live;
+package de.flapdoodle.mongoom;
 
 import java.util.logging.Logger;
 
@@ -24,9 +24,9 @@ import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.logging.LogConfig;
 
-public abstract class AbstractMongoTest extends TestCase
+public abstract class AbstractMongoOMTest extends TestCase
 {
-	private static final Logger _logger = LogConfig.getLogger(AbstractMongoTest.class);
+	private static final Logger _logger = LogConfig.getLogger(AbstractMongoOMTest.class);
 	
 	private Mongo _mongo;
 	private static final String DATABASENAME="mongoom_test";

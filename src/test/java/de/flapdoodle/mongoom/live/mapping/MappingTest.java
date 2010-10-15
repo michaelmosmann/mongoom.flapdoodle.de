@@ -21,10 +21,10 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
 import de.flapdoodle.mongoom.ObjectMapper;
-import de.flapdoodle.mongoom.live.AbstractMongoTest;
 import de.flapdoodle.mongoom.live.beans.Author;
 import de.flapdoodle.mongoom.live.beans.Document;
 import de.flapdoodle.mongoom.live.beans.Log;
@@ -34,7 +34,7 @@ import de.flapdoodle.mongoom.live.beans.User;
 import de.flapdoodle.mongoom.live.beans.Author.Status;
 import de.flapdoodle.mongoom.live.beans.views.UsernameEmailView;
 
-public class MappingTest extends AbstractMongoTest
+public class MappingTest extends AbstractMongoOMTest
 {
 	public void testMapping()
 	{

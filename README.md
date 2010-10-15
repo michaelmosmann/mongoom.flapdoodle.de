@@ -8,7 +8,44 @@ Simply because none really fitted my needs.
 
 ## Howto
 
-## Test Test Test
+### Setup
+
+	Mongo mongo = new Mongo( "localhost" , 27017 );
+	ObjectMapper mapper = new ObjectMapper();
+	mapper.map(Document.class);
+	mapper.map(User.class);
+
+	IDatastore datastore = morphia.createDatastore(mongo, "databaseName");
+		
+	datastore.ensureCaps();
+	datastore.ensureIndexes();
+
+### Mapping 	
+
+### Indexes
+
+### Query
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Test Test Test - Ignore
 
 Lirum `Larum` löffelstiel:
 

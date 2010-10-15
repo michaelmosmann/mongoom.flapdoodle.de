@@ -16,15 +16,15 @@
 
 package de.flapdoodle.mongoom.live.mapping.id;
 
+import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.exceptions.UpdateFailedException;
-import de.flapdoodle.mongoom.live.AbstractMongoTest;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 import de.flapdoodle.mongoom.live.beans.id.BadUser;
 
-public class TestBadUser extends AbstractMongoTest
+public class TestBadUser extends AbstractMongoOMTest
 {
 	private IDatastore _datastore;
 

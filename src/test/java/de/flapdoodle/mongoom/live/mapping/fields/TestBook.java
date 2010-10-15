@@ -16,12 +16,12 @@
 
 package de.flapdoodle.mongoom.live.mapping.fields;
 
+import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
-import de.flapdoodle.mongoom.live.AbstractMongoTest;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 
-public class TestBook extends AbstractMongoTest
+public class TestBook extends AbstractMongoOMTest
 {
 	private IDatastore _datastore;
 
