@@ -72,10 +72,10 @@ public class TestBadUser extends AbstractMongoTest
 	{
 		super.setUp();
 
-		ObjectMapper morphia = new ObjectMapper();
-		morphia.map(BadUser.class);
+		ObjectMapper mongoom = new ObjectMapper();
+		mongoom.map(BadUser.class);
 
-		IDatastore datastore = morphia.createDatastore(getMongo(), getDatabaseName());
+		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
 		
 		datastore.ensureCaps();
 		datastore.ensureIndexes();

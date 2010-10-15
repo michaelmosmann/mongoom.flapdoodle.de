@@ -38,12 +38,12 @@ public class MappingTest extends AbstractMongoTest
 {
 	public void testMapping()
 	{
-		ObjectMapper morphia = new ObjectMapper();
-		morphia.map(Document.class);
-		morphia.map(User.class);
-		morphia.map(Log.class);
+		ObjectMapper mongoom = new ObjectMapper();
+		mongoom.map(Document.class);
+		mongoom.map(User.class);
+		mongoom.map(Log.class);
 
-		IDatastore datastore = morphia.createDatastore(getMongo(), getDatabaseName());
+		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
 		
 		datastore.ensureCaps();
 		datastore.ensureIndexes();
