@@ -13,7 +13,7 @@ Simply because none really fitted my needs.
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
-	  <version>1.0-SNAPSHOT</version>
+	  <version>1.0</version>
 	</dependency>
 
 ### Setup
