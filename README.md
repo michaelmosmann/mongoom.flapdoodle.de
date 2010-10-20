@@ -10,10 +10,22 @@ Simply because none really fitted my needs.
 
 ### Maven
 
+	Stable
+
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
 	  <version>1.0</version>
+	</dependency>
+
+	Snapshots
+
+	http://oss.sonatype.org/content/repositories/snapshots
+
+	<dependency>
+	  <groupId>de.flapdoodle.mongoom</groupId>
+		<artifactId>de.flapdoodle.mongoom</artifactId>
+	  <version>1.1-SNAPSHOT</version>
 	</dependency>
 
 ### Setup

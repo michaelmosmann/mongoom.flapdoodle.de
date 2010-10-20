@@ -21,66 +21,19 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
-public class ListConverter<T extends List> implements ITypeConverter<T>,IContainerConverter<T>
+public class ListConverter extends AbstractCollectionConverter<List>
 {
-	ITypeConverter _converter;
 	public ListConverter(ITypeConverter converter)
 	{
-		_converter=converter;
+		super(converter, List.class);
 	}
 
-	@Override
-	public T convertFrom(Object value)
+	protected List createEmptyCollection()
 	{
-		List ret=Lists.newArrayList();
-		for (Object v : (List) value)
-		{
-			ret.add(_converter.convertFrom(v));
-		}
-		return (T) ret;
-	}
-	
-	public Object convertTo(T value)
-	{
-		List ret=Lists.newArrayList();
-		for (Object v : value)
-		{
-			ret.add(_converter.convertTo(v));
-		}
-		return ret;
-	};
-	
-	@Override
-	public List<IndexDef> getIndexes()
-	{
-		return null;
-	}
-	@Override
-	public ITypeConverter<?> converter(String field)
-	{
-		throw new MappingException(List.class,"Fields not supported");
-	}
-	
-	@Override
-	public ITypeConverter<?> containerConverter()
-	{
-		return _converter;
-	}
-	
-	@Override
-	public boolean matchType(Class<?> entityClass, Class<?> type, Type genericType)
-	{
-		if (type.isAssignableFrom(List.class))
-		{
-			Class parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
-			return _converter.matchType(entityClass, parameterizedClass, parameterizedClass.getGenericSuperclass());
-		}
-		return false;
+		return Lists.newArrayList();
 	}
 }

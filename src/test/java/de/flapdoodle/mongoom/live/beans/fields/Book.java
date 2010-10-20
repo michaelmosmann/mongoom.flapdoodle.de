@@ -17,8 +17,10 @@
 package de.flapdoodle.mongoom.live.beans.fields;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Property;
@@ -39,13 +41,13 @@ public class Book extends ReferenceBean<Book>
 	Object _stuff;
 	
 	@Property("category")
-	List<String> _category;
+	Set<String> _category;
 
 	public static Book getInstance(String name, String... categories)
 	{
 		Book ret = new Book();
 		ret._name=name;
-		ret._category=Lists.newArrayList(categories);
+		ret._category=Sets.newHashSet(categories);
 		return ret;
 	}
 	
@@ -69,12 +71,12 @@ public class Book extends ReferenceBean<Book>
 		_stuff = stuff;
 	}
 
-	public List<String> getCategory()
+	public Set<String> getCategory()
 	{
 		return _category;
 	}
 
-	public void setCategory(List<String> category)
+	public void setCategory(Set<String> category)
 	{
 		_category = category;
 	}

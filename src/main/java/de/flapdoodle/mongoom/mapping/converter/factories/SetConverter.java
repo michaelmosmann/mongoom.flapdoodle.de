@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter;
+package de.flapdoodle.mongoom.mapping.converter.factories;
 
-import java.lang.reflect.Type;
+import java.util.Set;
+
+import com.google.inject.internal.Sets;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
-import de.flapdoodle.mongoom.mapping.Mapper;
 
-public interface ITypeConverterFactory<T>
+public class SetConverter extends AbstractCollectionConverter<Set>
 {
-	public ITypeConverter<? extends T> converter(Mapper mapper, Class<?> entityClass, Class<T> type, Type genericType);
+	public SetConverter(ITypeConverter converter)
+	{
+		super(converter, Set.class);
+	}
+
+	protected Set createEmptyCollection()
+	{
+		return Sets.newHashSet();
+	}
 }
