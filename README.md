@@ -10,7 +10,7 @@ Simply because none really fitted my needs.
 
 ### Maven
 
-	Stable
+Stable
 
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
@@ -18,9 +18,7 @@ Simply because none really fitted my needs.
 	  <version>1.0</version>
 	</dependency>
 
-	Snapshots
-
-	http://oss.sonatype.org/content/repositories/snapshots
+Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
