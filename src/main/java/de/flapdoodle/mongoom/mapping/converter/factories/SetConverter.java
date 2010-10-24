@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.mapping.converter.factories;
 
 import java.util.Set;
 
-import com.google.inject.internal.Sets;
+import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 
