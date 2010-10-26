@@ -94,7 +94,7 @@ public class TypeExtractor
 	}
 	
  
-	public static Class<?> getParameterizedClass(Class<?> declaringClass, Type genericType, final int index)
+	public static Type getParameterizedClass(Class<?> declaringClass, Type genericType, final int index)
 	{
 		if (genericType instanceof ParameterizedType)
 		{
@@ -114,7 +114,8 @@ public class TypeExtractor
 		        if (paramType instanceof ParameterizedType)
 		        {
 		            ParameterizedType paramPType = (ParameterizedType) paramType;
-		            return (Class) paramPType.getRawType();
+//		            return (Class) paramPType.getRawType();
+		            return paramPType;
 		        }
 		        else
 		        {
@@ -125,7 +126,7 @@ public class TypeExtractor
 		            	Type type = typeArgumentMap.get(typeVar);
 		            	if (type!=null)
 		            	{
-		            		return (Class<?>) type;
+		            		return type;
 		            	}
 		            	else
 		            	{
@@ -135,15 +136,17 @@ public class TypeExtractor
 		            	}
 		            }
 		            else
-		                if (paramType instanceof Class)
-		                {
-		                    return (Class) paramType;
-		                }
-		                else
-		                {
-		                    throw new MappingException(
-		                            "Unknown type... pretty bad... call for help, wave your hands... yeah!");
-		                }
+		            {
+	                if (paramType instanceof Class)
+	                {
+	                    return (Class) paramType;
+	                }
+	                else
+	                {
+	                    throw new MappingException(
+	                            "Unknown type... pretty bad... call for help, wave your hands... yeah!");
+	                }
+		            }
 		        }
 		    }
 		}

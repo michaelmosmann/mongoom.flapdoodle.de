@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.mapping.converter.factories;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -51,11 +52,25 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 	private ITypeConverter<Object> getContainerConverter(Mapper mapper, Class<?> entityClass, Class<Collection> type, Type genericType)
 	{
 		ITypeConverter<Object> converter=null;
-		Class parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
 		_logger.severe("ParamType: "+parameterizedClass+" for "+type);
 		if (parameterizedClass!=null)
 		{
-			converter = mapper.map(entityClass, parameterizedClass, parameterizedClass.getGenericSuperclass(), null);
+			Class parameterizedType=null;
+			Type genericSuperclass=null;
+			
+			if (parameterizedClass instanceof Class)
+			{
+				parameterizedType=(Class) parameterizedClass;
+				genericSuperclass=parameterizedType.getGenericSuperclass();
+			}
+			if (parameterizedClass instanceof ParameterizedType)
+			{
+				ParameterizedType ptype=(ParameterizedType) parameterizedClass;
+				parameterizedType=(Class) ptype.getRawType();
+				genericSuperclass=ptype;
+			}
+			converter = mapper.map(entityClass, parameterizedType, genericSuperclass, null);
 		}
 		return converter;
 	}

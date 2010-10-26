@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.mapping.converter.factories;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.List;
@@ -83,8 +84,25 @@ public abstract class AbstractCollectionConverter<T extends Collection> implemen
 	{
 		if (type.isAssignableFrom(_collectionType))
 		{
-			Class parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
-			return _converter.matchType(entityClass, parameterizedClass, parameterizedClass.getGenericSuperclass());
+			Type parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
+			
+			Class parameterizedType=null;
+			Type genericSuperclass=null;
+			
+			if (parameterizedClass instanceof Class)
+			{
+				parameterizedType=(Class) parameterizedClass;
+				genericSuperclass=parameterizedType.getGenericSuperclass();
+			}
+			if (parameterizedClass instanceof ParameterizedType)
+			{
+				ParameterizedType ptype=(ParameterizedType) parameterizedClass;
+				parameterizedType=(Class) ptype.getRawType();
+				genericSuperclass=ptype;
+			}
+
+			
+			return _converter.matchType(entityClass, parameterizedType, genericSuperclass);
 		}
 		return false;
 	}

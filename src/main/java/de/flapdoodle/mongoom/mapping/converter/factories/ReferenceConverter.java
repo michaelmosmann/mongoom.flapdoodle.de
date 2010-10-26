@@ -67,8 +67,8 @@ public class ReferenceConverter<T extends Reference> implements ITypeConverter<T
 	{
 		if (type.isAssignableFrom(Reference.class))
 		{
-			Class<?> parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
-			if (parameterizedClass.isAssignableFrom(_type))
+			Type parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
+			if ((parameterizedClass instanceof Class) && ((Class)parameterizedClass).isAssignableFrom(_type))
 			{
 				return true;
 			}

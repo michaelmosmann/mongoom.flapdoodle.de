@@ -20,6 +20,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.logging.Logger;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
@@ -36,12 +37,19 @@ public class ReferenceConverterFactory<T extends List> implements ITypeConverter
 	{
 		if (Reference.class.isAssignableFrom(type))
 		{
-			Class parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
+			Type parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
 			_logger.severe("ParamType: "+parameterizedClass+" for "+type);
 			if (parameterizedClass!=null)
 			{
+				if (parameterizedClass instanceof Class)
+				{
 //				ITypeConverter<Object> converter = mapper.map(ObjectId.class, ObjectId.class.getGenericSuperclass(), null);
-				return new ReferenceConverter(parameterizedClass);
+					return new ReferenceConverter((Class) parameterizedClass);
+				}
+				else
+				{
+					throw new MappingException(entityClass,"Type is not a Class: "+parameterizedClass);
+				}
 			}
 		}
 		return null;

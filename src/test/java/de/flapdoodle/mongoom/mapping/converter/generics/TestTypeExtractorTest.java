@@ -16,17 +16,27 @@
 
 package de.flapdoodle.mongoom.mapping.converter.generics;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.TestCase;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
+import de.flapdoodle.mongoom.types.Reference;
 
 public class TestTypeExtractorTest extends TestCase
 {
-	public void testFieldType()
+	Set<Reference<Book>> _books;
+	
+	public void testFieldType() throws SecurityException, NoSuchFieldException
 	{
 		Map<Type, Type> typeMap = TypeExtractor.getTypeArgumentMap(/*Object.class, */Book.class);
 		System.out.println("Types: "+typeMap);
+		
+		Field field = getClass().getDeclaredField("_books");
+		
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(getClass(), field.getGenericType(), 0);
+		System.out.println("ParamClass: "+parameterizedClass);
 	}
 }

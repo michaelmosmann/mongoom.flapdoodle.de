@@ -18,6 +18,7 @@ package de.flapdoodle.mongoom.mapping.converter;
 
 import java.lang.reflect.Type;
 
+import de.flapdoodle.mongoom.mapping.ILazyTypeConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 
