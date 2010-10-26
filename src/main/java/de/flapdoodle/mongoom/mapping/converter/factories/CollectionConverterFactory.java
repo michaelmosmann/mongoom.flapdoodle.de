@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 
@@ -34,25 +35,25 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 	private static final Logger _logger = LogConfig.getLogger(CollectionConverterFactory.class);
 	
 	@Override
-	public ITypeConverter<? extends Collection> converter(Mapper mapper, Class<?> entityClass, Class<Collection> type, Type genericType)
+	public ITypeConverter<? extends Collection> converter(Mapper mapper, MappingContext context, Class<Collection> type, Type genericType)
 	{
 		if (List.class.isAssignableFrom(type))
 		{
-			ITypeConverter<Object> converter = getContainerConverter(mapper, entityClass, type, genericType);
+			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
 			if (converter!=null) return new ListConverter(converter);
 		}
 		if (Set.class.isAssignableFrom(type))
 		{
-			ITypeConverter<Object> converter = getContainerConverter(mapper, entityClass, type, genericType);
+			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
 			if (converter!=null) return new SetConverter(converter);
 		}
 		return null;
 	}
 
-	private ITypeConverter<Object> getContainerConverter(Mapper mapper, Class<?> entityClass, Class<Collection> type, Type genericType)
+	private ITypeConverter<Object> getContainerConverter(Mapper mapper, MappingContext context, Class<Collection> type, Type genericType)
 	{
 		ITypeConverter<Object> converter=null;
-		Type parameterizedClass = TypeExtractor.getParameterizedClass(entityClass, genericType,0);
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(context.getEntityClass(), genericType,0);
 		_logger.severe("ParamType: "+parameterizedClass+" for "+type);
 		if (parameterizedClass!=null)
 		{
@@ -70,7 +71,7 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 				parameterizedType=(Class) ptype.getRawType();
 				genericSuperclass=ptype;
 			}
-			converter = mapper.map(entityClass, parameterizedType, genericSuperclass, null);
+			converter = mapper.map(context, parameterizedType, genericSuperclass, null);
 		}
 		return converter;
 	}

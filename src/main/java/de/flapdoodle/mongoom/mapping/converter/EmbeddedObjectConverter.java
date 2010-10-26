@@ -23,12 +23,13 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 
 public class EmbeddedObjectConverter<T> extends AbstractObjectConverter<T> implements ITypeConverter<T>
 {
-	public EmbeddedObjectConverter(Mapper mapper, Class<T> entityClass)
+	public EmbeddedObjectConverter(Mapper mapper, MappingContext<?> context,Class<T> entityClass)
 	{
-		super(mapper, entityClass);
+		super(mapper, context,entityClass);
 	}
 	
 	@Override

@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
 
 public abstract class AbstractReadOnlyConverter<T>
@@ -36,7 +37,7 @@ public abstract class AbstractReadOnlyConverter<T>
 	private final Class<T> _entityClass;
 	private final Constructor<T> _constructor;
 
-	public AbstractReadOnlyConverter(Mapper mapper, Class<T> entityClass)
+	public AbstractReadOnlyConverter(Mapper mapper, MappingContext<?> context, Class<T> entityClass)
 	{
 		_entityClass = entityClass;
 		_constructor = ClassAndFields.getConstructor(_entityClass);

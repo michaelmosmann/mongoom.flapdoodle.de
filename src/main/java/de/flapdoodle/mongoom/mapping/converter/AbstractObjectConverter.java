@@ -43,6 +43,7 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
@@ -61,11 +62,11 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 //	private final Class<T> _entityClass;
 //	private final Constructor<T> _constructor;
 	
-	protected AbstractObjectConverter(Mapper mapper, Class<T> entityClass)
+	protected AbstractObjectConverter(Mapper mapper, MappingContext<?> context,Class<T> entityClass)
 	{
 //		_entityClass = entityClass;
 //		_constructor = ClassAndFields.getConstructor(_entityClass);
-		super(mapper,entityClass);
+		super(mapper,context,entityClass);
 		
 		_attributes=Sets.newLinkedHashSet();
 		
@@ -119,7 +120,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 //				}
 				
 				_logger.severe("Map "+entityClass+" Field "+f+" -> "+f.getType()+":"+f.getGenericType());
-				ITypeConverter iConverter = mapper.map(entityClass,f.getType(),f.getGenericType(), f.getAnnotation(ConverterType.class));
+				ITypeConverter iConverter = mapper.map(context,f.getType(),f.getGenericType(), f.getAnnotation(ConverterType.class));
 				if (isVersioned)
 				{
 					versionFactory = mapper.getVersionFactory(f.getType());

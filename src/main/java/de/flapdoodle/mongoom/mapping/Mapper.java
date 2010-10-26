@@ -89,16 +89,24 @@ public class Mapper
 		}
 		if (entityName==null) throw new MappingException(entityClass,"No EntityName, You should try at least a Entity Annotation");
 		_entities.put(entityClass,entityName);
-		_entityConverter.put(entityClass, new EntityConverter<T>(this, entityClass));
+		_entityConverter.put(entityClass, new EntityConverter<T>(this, new MappingContext<T>(entityClass),entityClass));
 	}
 	
-	public <T> ITypeConverter<T> map(Class<?> entityClass, Class<?> type, Type genericType, ConverterType converterType)
+	public <T> ITypeConverter<T> map(MappingContext context, Class<?> type, Type genericType, ConverterType converterType)
+	{
+		context.mappingStart(type);
+		ITypeConverter<T> ret = getTypeConverter(context, type, genericType, converterType);
+		context.mappingEnd(type);
+		return ret;
+	}
+
+	private <T> ITypeConverter<T> getTypeConverter(MappingContext context, Class<?> type, Type genericType, ConverterType converterType)
 	{
 		if (converterType==null)
 		{
 			for (ITypeConverterFactory factory : _converterFactories)
 			{
-				ITypeConverter converter = factory.converter(this,entityClass,type,genericType);
+				ITypeConverter converter = factory.converter(this,context,type,genericType);
 				if (converter!=null) return converter;
 			}
 		}
@@ -107,7 +115,7 @@ public class Mapper
 //		if ((ret==null) || (converterType!=null))
 		ITypeConverter ret=null;
 		{
-			ret=getConverter(this,type,converterType);
+			ret=getConverter(this,context,type,converterType);
 		}
 		return ret;
 	}
@@ -132,7 +140,7 @@ public class Mapper
 		return null;
 	}
 	
-	private static ITypeConverter getConverter(Mapper mapper, Class<?> m,ConverterType annotation)
+	private static ITypeConverter getConverter(Mapper mapper, MappingContext context, Class<?> m,ConverterType annotation)
 	{
 		Class<? extends ITypeConverter> converterType=EmbeddedObjectConverter.class;
 		if (annotation==null) annotation = m.getAnnotation(ConverterType.class);
@@ -144,7 +152,7 @@ public class Mapper
 		Constructor<? extends ITypeConverter> constructor = null;
 		try
 		{
-			constructor=converterType.getConstructor(Mapper.class,Class.class);
+			constructor=converterType.getConstructor(Mapper.class,MappingContext.class,Class.class);
 		}
 		catch (SecurityException e)
 		{
@@ -159,7 +167,7 @@ public class Mapper
 		{
 			if (constructor!=null)
 			{
-				return constructor.newInstance(mapper,m);
+				return constructor.newInstance(mapper,context,m);
 			}
 			else
 			{

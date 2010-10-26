@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
 
 public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IViewConverter<T>
@@ -36,9 +37,9 @@ public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IV
 //	private Constructor<T> _constructor;
 	private Set<MappedAttribute> _attributes;
 
-	public ViewConverter(Mapper mapper, EntityConverter<T> entityConverter, Class<T> viewType)
+	public ViewConverter(Mapper mapper, EntityConverter<T> entityConverter, MappingContext<T> context,Class<T> viewType)
 	{
-		super(mapper,viewType);
+		super(mapper,context,viewType);
 		
 //		_viewType = viewType;
 //		_constructor = ClassAndFields.getConstructor(_viewType);

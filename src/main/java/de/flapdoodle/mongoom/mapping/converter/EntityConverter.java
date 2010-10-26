@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 
 public class EntityConverter<T> extends AbstractObjectConverter<T> implements IEntityConverter<T>
 {
@@ -38,9 +39,9 @@ public class EntityConverter<T> extends AbstractObjectConverter<T> implements IE
 	
 	Map<Class<?>,IViewConverter<?>> _viewConverter=Maps.newHashMap();
 	
-	public EntityConverter(Mapper mapper,Class<T> entityClass)
+	public EntityConverter(Mapper mapper,MappingContext<T> context,Class<T> entityClass)
 	{
-		super(mapper,entityClass);
+		super(mapper,context,entityClass);
 		
 		if (entityClass.getAnnotation(Entity.class)==null) throw new MappingException(entityClass,"Missing Entity Annotation");
 		
@@ -50,7 +51,7 @@ public class EntityConverter<T> extends AbstractObjectConverter<T> implements IE
 			for (Class<?> view : views.value())
 			{
 				_logger.severe("Map "+entityClass+" View "+view);
-				if (_viewConverter.put(view, new ViewConverter(mapper,this,view))!=null)
+				if (_viewConverter.put(view, new ViewConverter(mapper,this,context,view))!=null)
 				{
 					throw new MappingException(entityClass, "View allready mapped: "+view);
 				}

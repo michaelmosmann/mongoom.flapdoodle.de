@@ -20,12 +20,13 @@ import java.lang.reflect.Type;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 
 public class EnumConverterFactory<T extends Enum<T>> implements ITypeConverterFactory<T>
 {
 	@Override
-	public ITypeConverter<T> converter(Mapper mapper, Class<?> entityClass, Class<T> type, Type genericType)
+	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType)
 	{
 		if (Enum.class.isAssignableFrom(type))	return new EnumConverter<T>(type);
 		return null;

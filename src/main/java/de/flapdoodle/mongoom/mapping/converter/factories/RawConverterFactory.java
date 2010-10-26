@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 
 public class RawConverterFactory<T> implements ITypeConverterFactory<T>
@@ -63,7 +64,7 @@ public class RawConverterFactory<T> implements ITypeConverterFactory<T>
 	}
 	
 	@Override
-	public ITypeConverter<T> converter(Mapper mapper, Class<?> entityClass, Class<T> type, Type genericType)
+	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType)
 	{
 		if (_types.contains(type))
 		{

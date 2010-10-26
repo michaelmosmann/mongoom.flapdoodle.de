@@ -18,11 +18,11 @@ package de.flapdoodle.mongoom.mapping.converter;
 
 import java.lang.reflect.Type;
 
-import de.flapdoodle.mongoom.mapping.ILazyTypeConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingContext;
 
 public interface ITypeConverterFactory<T>
 {
-	public ITypeConverter<? extends T> converter(Mapper mapper, Class<?> entityClass, Class<T> type, Type genericType);
+	public ITypeConverter<? extends T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType);
 }
