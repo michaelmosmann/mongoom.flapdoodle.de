@@ -98,6 +98,10 @@ public class DatastoreImpl implements IDatastore
 		
 		switch (operation)
 		{
+			case Delete:
+				mustHaveObjectId=true;
+				reReadId=false;
+				break;
 			case Save:
 				mustHaveObjectId=true;
 				break;
@@ -142,6 +146,10 @@ public class DatastoreImpl implements IDatastore
 					_logger.info("Save: "+convertedEntity);
 					dbCollection.save(convertedEntity);
 					break;
+				case Delete:
+					_logger.info("Delete: "+key);
+					dbCollection.remove(key);
+					break;
 				default:
 					throw new ObjectMapperException("Operation not supported: "+operation);
 			}
@@ -151,10 +159,16 @@ public class DatastoreImpl implements IDatastore
 				Object savedIdValue = convertedEntity.get(Const.ID_FIELDNAME);
 				converter.setId(entity, savedIdValue);
 			}
+
+			Errors.checkError(_db,operation);
+			
+			if (operation==Operation.Delete)
+			{
+				converter.setId(entity, null);
+			}
 		}
 		finally
 		{
-			Errors.checkError(_db,operation);
 			_db.requestDone();
 		}
 		
@@ -162,29 +176,31 @@ public class DatastoreImpl implements IDatastore
 	
 	public <T> void delete(T entity)
 	{
-		IEntityConverter<T> converter = _mapper.getEntityConverter((Class<T>) entity.getClass());
-		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entity.getClass()));
-		try
-		{
-			_db.requestStart();
-			DBObject convertedEntity = converter.convertTo(entity);
-			Object idValue = convertedEntity.get(Const.ID_FIELDNAME);
-			if ((idValue==null) || (idValue instanceof ObjectId))
-			{
-				_logger.info("Delete: "+convertedEntity);
-				dbCollection.remove(convertedEntity);
-				converter.setId(entity, null);
-			}
-			else
-			{
-				throw new MappingException(entity.getClass(),"Can not save Entities with custom Id");
-			}
-		}
-		finally
-		{
-			Errors.checkError(_db,Operation.Delete);
-			_db.requestDone();
-		}
+		store(Operation.Delete, entity);
+		
+//		IEntityConverter<T> converter = _mapper.getEntityConverter((Class<T>) entity.getClass());
+//		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entity.getClass()));
+//		try
+//		{
+//			_db.requestStart();
+//			DBObject convertedEntity = converter.convertTo(entity);
+//			Object idValue = convertedEntity.get(Const.ID_FIELDNAME);
+//			if ((idValue==null) || (idValue instanceof ObjectId))
+//			{
+//				_logger.info("Delete: "+convertedEntity);
+//				dbCollection.remove(convertedEntity);
+//				converter.setId(entity, null);
+//			}
+//			else
+//			{
+//				throw new MappingException(entity.getClass(),"Can not save Entities with custom Id");
+//			}
+//		}
+//		finally
+//		{
+//			Errors.checkError(_db,Operation.Delete);
+//			_db.requestDone();
+//		}
 	};
 	
 	public <T> List<T> find(Class<T> entityClass)
