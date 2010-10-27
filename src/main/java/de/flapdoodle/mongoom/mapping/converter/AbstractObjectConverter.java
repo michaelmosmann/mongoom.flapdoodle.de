@@ -120,14 +120,14 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 //				}
 				
 				_logger.severe("Map "+entityClass+" Field "+f+" -> "+f.getType()+":"+f.getGenericType());
-				ITypeConverter iConverter = mapper.map(context,f.getType(),f.getGenericType(), f.getAnnotation(ConverterType.class));
+				ITypeConverter fieldConverter = mapper.map(context,f.getType(),f.getGenericType(), f.getAnnotation(ConverterType.class));
 				if (isVersioned)
 				{
 					versionFactory = mapper.getVersionFactory(f.getType());
 					if (versionFactory==null) throw new MappingException(entityClass,"VersionFactory not found: "+f);
 				}
 				
-				MappedAttribute mappedAttribute = new MappedAttribute(f,fieldName,iConverter);
+				MappedAttribute mappedAttribute = new MappedAttribute(f,fieldName,fieldConverter);
 				if (!_attributes.add(mappedAttribute))
 				{
 					throw new MappingException(entityClass,"Field with name "+fieldName+" allready defined");
@@ -139,7 +139,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				
 				if (idxAnn!=null)
 				{
-					List<IndexDef> subIndexes = iConverter.getIndexes();
+					List<IndexDef> subIndexes = fieldConverter.getIndexes();
 					if ((subIndexes!=null) && (!subIndexes.isEmpty())) throw new MappingException(entityClass,"Field "+f+" is indexed, but type has index too");
 					
 					IndexOption options = idxAnn.options();
@@ -165,7 +165,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 					}
 					else
 					{
-						List<IndexDef> subIndexes = iConverter.getIndexes();
+						List<IndexDef> subIndexes = fieldConverter.getIndexes();
 						if (subIndexes!=null)
 						{
 							for (IndexDef def : subIndexes)

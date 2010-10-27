@@ -63,7 +63,7 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 			if (parameterizedClass instanceof Class)
 			{
 				parameterizedType=(Class) parameterizedClass;
-				genericSuperclass=parameterizedType.getGenericSuperclass();
+				genericSuperclass=parameterizedClass;
 			}
 			if (parameterizedClass instanceof ParameterizedType)
 			{

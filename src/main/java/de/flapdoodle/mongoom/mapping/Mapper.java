@@ -92,11 +92,15 @@ public class Mapper
 		_entityConverter.put(entityClass, new EntityConverter<T>(this, new MappingContext<T>(entityClass),entityClass));
 	}
 	
-	public <T> ITypeConverter<T> map(MappingContext context, Class<?> type, Type genericType, ConverterType converterType)
+	public <M> ITypeConverter<M> map(MappingContext<?> context, Class<M> type, Type genericType, ConverterType converterType)
 	{
-		context.mappingStart(type);
-		ITypeConverter<T> ret = getTypeConverter(context, type, genericType, converterType);
-		context.mappingEnd(type);
+		ITypeConverter<M> ret=context.getConverter(type,genericType,converterType);
+		if (ret==null)
+		{
+			context.mappingStart(type,genericType,converterType);
+			ret = getTypeConverter(context, type, genericType, converterType);
+			context.mappingEnd(type,genericType,converterType,ret);
+		}
 		return ret;
 	}
 
@@ -192,6 +196,10 @@ public class Mapper
 		}
 		catch (InvocationTargetException e)
 		{
+			if (e.getCause() instanceof MappingException)
+			{
+				throw (MappingException) e.getCause();
+			}
 			throw new MappingException(m,"Could not Instanciate Constructor",e);
 		}
 		catch (SecurityException e)
