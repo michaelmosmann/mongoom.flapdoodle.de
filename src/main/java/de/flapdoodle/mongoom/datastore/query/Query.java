@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
 import de.flapdoodle.mongoom.logging.LogConfig;
+import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
@@ -48,6 +49,12 @@ public class Query<T> extends AbstractQuery<T,IEntityConverter<T>> implements IE
 	{
 		ITypeConverter<?> converter = getConverter().converter(field);
 		return new QueryOperation<T,IEntityQuery<T>>(this,getQueryBuilder(),field,converter);
+	}
+	
+	@Override
+	public IQueryOperation<T, IEntityQuery<T>> id()
+	{
+		return field(Const.ID_FIELDNAME);
 	}
 	
 	@Override

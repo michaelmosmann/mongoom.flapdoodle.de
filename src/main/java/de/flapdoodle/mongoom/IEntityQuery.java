@@ -23,6 +23,8 @@ public interface IEntityQuery<T> extends IQuery<T>
 {
 	@Override
 	IQueryOperation<T,IEntityQuery<T>> field(String string);
+	@Override
+	IQueryOperation<T,IEntityQuery<T>> id();
 
 	@Override
 	ISubQuery<T, IEntityQuery<T>> or();
