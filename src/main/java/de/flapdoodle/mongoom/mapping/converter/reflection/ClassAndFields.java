@@ -18,6 +18,7 @@ package de.flapdoodle.mongoom.mapping.converter.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
@@ -76,5 +77,27 @@ public class ClassAndFields
 		return ret;
 	}
 
+	public static <T> List<Method> getMethods(Class<? super T> entityClass)
+	{
+		List<Method> ret=Lists.newArrayList();
+		
+		Class<? super T> superclass = entityClass.getSuperclass();
+		if (superclass.getAnnotation(MappedSuperclass.class)!=null)
+		{
+			ret.addAll(getMethods(superclass));
+		}
+		
+		Method[] declaredFields = entityClass.getDeclaredMethods();
+		for (Method f : declaredFields)
+		{
+			int modifier = f.getModifiers();
+			if (!Modifier.isStatic(modifier))
+			{
+				ret.add(f);
+			}
+		}
+		
+		return ret;
+	}
 
 }
