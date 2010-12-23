@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,46 +30,43 @@ import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 
-public class CollectionConverterFactory implements ITypeConverterFactory<Collection>
-{
+public class CollectionConverterFactory implements ITypeConverterFactory<Collection> {
+
 	private static final Logger _logger = LogConfig.getLogger(CollectionConverterFactory.class);
-	
+
 	@Override
-	public ITypeConverter<? extends Collection> converter(Mapper mapper, MappingContext context, Class<Collection> type, Type genericType)
-	{
-		if (List.class.isAssignableFrom(type))
-		{
+	public ITypeConverter<? extends Collection> converter(Mapper mapper, MappingContext context, Class<Collection> type,
+			Type genericType) {
+		if (List.class.isAssignableFrom(type)) {
 			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
-			if (converter!=null) return new ListConverter(converter);
+			if (converter != null)
+				return new ListConverter(converter);
 		}
-		if (Set.class.isAssignableFrom(type))
-		{
+		if (Set.class.isAssignableFrom(type)) {
 			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
-			if (converter!=null) return new SetConverter(converter);
+			if (converter != null)
+				return new SetConverter(converter);
 		}
 		return null;
 	}
 
-	private ITypeConverter<Object> getContainerConverter(Mapper mapper, MappingContext context, Class<Collection> type, Type genericType)
-	{
-		ITypeConverter<Object> converter=null;
-		Type parameterizedClass = TypeExtractor.getParameterizedClass(context.getEntityClass(), genericType,0);
-		_logger.severe("ParamType: "+parameterizedClass+" for "+type);
-		if (parameterizedClass!=null)
-		{
-			Class parameterizedType=null;
-			Type genericSuperclass=null;
-			
-			if (parameterizedClass instanceof Class)
-			{
-				parameterizedType=(Class) parameterizedClass;
-				genericSuperclass=parameterizedClass;
+	private ITypeConverter<Object> getContainerConverter(Mapper mapper, MappingContext context, Class<Collection> type,
+			Type genericType) {
+		ITypeConverter<Object> converter = null;
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(context.getEntityClass(), genericType, 0);
+		_logger.severe("ParamType: " + parameterizedClass + " for " + type);
+		if (parameterizedClass != null) {
+			Class parameterizedType = null;
+			Type genericSuperclass = null;
+
+			if (parameterizedClass instanceof Class) {
+				parameterizedType = (Class) parameterizedClass;
+				genericSuperclass = parameterizedClass;
 			}
-			if (parameterizedClass instanceof ParameterizedType)
-			{
-				ParameterizedType ptype=(ParameterizedType) parameterizedClass;
-				parameterizedType=(Class) ptype.getRawType();
-				genericSuperclass=ptype;
+			if (parameterizedClass instanceof ParameterizedType) {
+				ParameterizedType ptype = (ParameterizedType) parameterizedClass;
+				parameterizedType = (Class) ptype.getRawType();
+				genericSuperclass = ptype;
 			}
 			converter = mapper.map(context, parameterizedType, genericSuperclass, null);
 		}

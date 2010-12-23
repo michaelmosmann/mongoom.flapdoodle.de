@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,67 +28,61 @@ import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("User")
 @Views(UsernameEmailView.class)
-public class User
-{
-	enum Status { Active, Online };
-	
+public class User {
+
+	enum Status {
+		Active,
+		Online
+	};
+
 	@Id
 	Reference<User> _id;
-	
+
 	@Property("username")
-	@Indexed(options=@IndexOption(unique=true))
+	@Indexed(options = @IndexOption(unique = true))
 	String _username;
-	
+
 	@Property("email")
 	String _email;
-	
+
 	@Property("status")
 	Status _status;
-	
+
 	@Version
 	String _version;
-	
-	protected User()
-	{
-		
+
+	protected User() {
+
 	}
-	
-	public static User getInstance(String username)
-	{
-		User ret=new User();
-		ret._username=username;
+
+	public static User getInstance(String username) {
+		User ret = new User();
+		ret._username = username;
 		return ret;
 	}
-	
-	public Reference<User> getId()
-	{
+
+	public Reference<User> getId() {
 		return _id;
 	}
-	
-	public String getEmail()
-	{
+
+	public String getEmail() {
 		return _email;
 	}
 
-	public void setEmail(String email)
-	{
+	public void setEmail(String email) {
 		_email = email;
 	}
-	
-	public Status getStatus()
-	{
+
+	public Status getStatus() {
 		return _status;
 	}
-	
-	public void setStatus(Status status)
-	{
+
+	public void setStatus(Status status) {
 		_status = status;
 	}
 
-	public String getUsername()
-	{
+	public String getUsername() {
 		return _username;
 	}
-	
-	
+
 }

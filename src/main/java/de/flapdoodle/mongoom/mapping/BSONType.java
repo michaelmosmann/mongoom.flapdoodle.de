@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
-public enum BSONType
-{
+public enum BSONType {
 	Double(1),
 	String(2),
 	Object(3),
@@ -41,22 +40,19 @@ public enum BSONType
 	Int64(18),
 	MinKey(255),
 	MaxKey(127);
-	
+
 	private final int _code;
 
-	private BSONType(int code)
-	{
+	private BSONType(int code) {
 		_code = code;
 	}
-	
-	public int code()
-	{
+
+	public int code() {
 		return _code;
 	}
-	
-	static Map<Class<?>,BSONType> _typeMap=Maps.newHashMap();
-	static
-	{
+
+	static Map<Class<?>, BSONType> _typeMap = Maps.newHashMap();
+	static {
 		_typeMap.put(Integer.class, Int32);
 		_typeMap.put(Long.class, Int64);
 		_typeMap.put(String.class, String);
@@ -69,10 +65,9 @@ public enum BSONType
 		_typeMap.put(Pattern.class, RegularExpression);
 		_typeMap.put(null, Null);
 	}
-	
-	public static BSONType getType(Class<?> type)
-	{
+
+	public static BSONType getType(Class<?> type) {
 		return _typeMap.get(type);
 	}
-	
+
 }

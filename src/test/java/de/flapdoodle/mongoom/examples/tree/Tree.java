@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,26 +20,23 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity(value="Tree")
-public class Tree
-{
+@Entity(value = "Tree")
+public class Tree {
+
 	@Id
 	Reference<Tree> _id;
-	
+
 	Node _root;
-	
-	public Reference<Tree> getId()
-	{
+
+	public Reference<Tree> getId() {
 		return _id;
 	}
-	
-	public Node getRoot()
-	{
+
+	public Node getRoot() {
 		return _root;
 	}
-	
-	public void setRoot(Node root)
-	{
+
+	public void setRoot(Node root) {
 		_root = root;
 	}
 }

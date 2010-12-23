@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,10 +41,10 @@ import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
-public class DatastoreImpl implements IDatastore
-{
-//	static enum Operation { SAVE, INSERT, UPDATE };
-	
+public class DatastoreImpl implements IDatastore {
+
+	//	static enum Operation { SAVE, INSERT, UPDATE };
+
 	static final Logger _logger = LogConfig.getLogger(DatastoreImpl.class);
 
 	private final Mapper _mapper;
@@ -55,200 +55,178 @@ public class DatastoreImpl implements IDatastore
 
 	private final DB _db;
 
-	public DatastoreImpl(Mapper mapper, Mongo mongo, String name)
-	{
+	public DatastoreImpl(Mapper mapper, Mongo mongo, String name) {
 		_mapper = mapper;
 		_mongo = mongo;
 		_name = name;
 
 		_db = _mongo.getDB(_name);
 	}
-	
+
 	@Override
-	public <T> void insert(T entity)
-	{
+	public <T> void insert(T entity) {
 		store(Operation.Insert, entity);
 	}
 
 	@Override
-	public <T> void save(T entity)
-	{
+	public <T> void save(T entity) {
 		store(Operation.Save, entity);
 	}
+
 	@Override
-	public <T> void update(T entity)
-	{
+	public <T> void update(T entity) {
 		store(Operation.Update, entity);
 	}
 
-	private <T> void store(Operation operation, T entity)
-	{
+	private <T> void store(Operation operation, T entity) {
 		IEntityConverter<T> converter = _mapper.getEntityConverter((Class<T>) entity.getClass());
 		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entity.getClass()));
 		DBObject key = converter.convertToKey(entity);
-		
-		if (key==null) throw new MappingException(entity.getClass(),"Key is NULL");
-//		DBObject convertedEntity = converter.convertTo(entity);
-		
+
+		if (key == null)
+			throw new MappingException(entity.getClass(), "Key is NULL");
+		//		DBObject convertedEntity = converter.convertTo(entity);
+
 		Object idValue = key.get(Const.ID_FIELDNAME);
 
-		boolean reReadId=true;
-		boolean mustHaveObjectId=false;
-		boolean update=false;
-		
-		switch (operation)
-		{
+		boolean reReadId = true;
+		boolean mustHaveObjectId = false;
+		boolean update = false;
+
+		switch (operation) {
 			case Delete:
-				mustHaveObjectId=true;
-				reReadId=false;
+				mustHaveObjectId = true;
+				reReadId = false;
 				break;
 			case Save:
-				mustHaveObjectId=true;
+				mustHaveObjectId = true;
 				break;
 			case Update:
-				reReadId=false;
-				update=true;
-				if (idValue==null) throw new MappingException(entity.getClass(),"Can not update Entities with Id not set");
+				reReadId = false;
+				update = true;
+				if (idValue == null)
+					throw new MappingException(entity.getClass(), "Can not update Entities with Id not set");
 				break;
 		}
-		
-		try
-		{
+
+		try {
 			_db.requestStart();
-			if (mustHaveObjectId)
-			{
-				if ((idValue!=null) && (!(idValue instanceof ObjectId)))
-				{
-					throw new MappingException(entity.getClass(),"Can not save Entities with custom Id");
+			if (mustHaveObjectId) {
+				if ((idValue != null) && (!(idValue instanceof ObjectId))) {
+					throw new MappingException(entity.getClass(), "Can not save Entities with custom Id");
 				}
 			}
-			
+
 			converter.newVersion(entity);
 			DBObject convertedEntity = converter.convertTo(entity);
-			
-			switch (operation)
-			{
+
+			switch (operation) {
 				case Insert:
-					_logger.info("Insert: "+convertedEntity);
-					if (idValue!=null)
-					{
-						_logger.log(Level.WARNING,"Insert with Id set: "+idValue,new Exception());
+					_logger.info("Insert: " + convertedEntity);
+					if (idValue != null) {
+						_logger.log(Level.WARNING, "Insert with Id set: " + idValue, new Exception());
 					}
 					dbCollection.insert(convertedEntity);
 					break;
 				case Update:
-					_logger.info("Update: "+convertedEntity+" (Id: "+idValue+")");
-//					BasicDBObject updateQuery=new BasicDBObject();
-//					updateQuery.put(Const.ID_FIELDNAME, idValue);
+					_logger.info("Update: " + convertedEntity + " (Id: " + idValue + ")");
+					//					BasicDBObject updateQuery=new BasicDBObject();
+					//					updateQuery.put(Const.ID_FIELDNAME, idValue);
 					dbCollection.update(key, convertedEntity, false, false);
 					break;
 				case Save:
-					_logger.info("Save: "+convertedEntity);
+					_logger.info("Save: " + convertedEntity);
 					dbCollection.save(convertedEntity);
 					break;
 				case Delete:
-					_logger.info("Delete: "+key);
+					_logger.info("Delete: " + key);
 					dbCollection.remove(key);
 					break;
 				default:
-					throw new ObjectMapperException("Operation not supported: "+operation);
+					throw new ObjectMapperException("Operation not supported: " + operation);
 			}
-			
-			if (reReadId)
-			{
+
+			if (reReadId) {
 				Object savedIdValue = convertedEntity.get(Const.ID_FIELDNAME);
 				converter.setId(entity, savedIdValue);
 			}
 
-			Errors.checkError(_db,operation);
-			
-			if (operation==Operation.Delete)
-			{
+			Errors.checkError(_db, operation);
+
+			if (operation == Operation.Delete) {
 				converter.setId(entity, null);
 			}
-		}
-		finally
-		{
+		} finally {
 			_db.requestDone();
 		}
-		
+
 	}
-	
-	public <T> void delete(T entity)
-	{
+
+	public <T> void delete(T entity) {
 		store(Operation.Delete, entity);
-		
-//		IEntityConverter<T> converter = _mapper.getEntityConverter((Class<T>) entity.getClass());
-//		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entity.getClass()));
-//		try
-//		{
-//			_db.requestStart();
-//			DBObject convertedEntity = converter.convertTo(entity);
-//			Object idValue = convertedEntity.get(Const.ID_FIELDNAME);
-//			if ((idValue==null) || (idValue instanceof ObjectId))
-//			{
-//				_logger.info("Delete: "+convertedEntity);
-//				dbCollection.remove(convertedEntity);
-//				converter.setId(entity, null);
-//			}
-//			else
-//			{
-//				throw new MappingException(entity.getClass(),"Can not save Entities with custom Id");
-//			}
-//		}
-//		finally
-//		{
-//			Errors.checkError(_db,Operation.Delete);
-//			_db.requestDone();
-//		}
+
+		//		IEntityConverter<T> converter = _mapper.getEntityConverter((Class<T>) entity.getClass());
+		//		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entity.getClass()));
+		//		try
+		//		{
+		//			_db.requestStart();
+		//			DBObject convertedEntity = converter.convertTo(entity);
+		//			Object idValue = convertedEntity.get(Const.ID_FIELDNAME);
+		//			if ((idValue==null) || (idValue instanceof ObjectId))
+		//			{
+		//				_logger.info("Delete: "+convertedEntity);
+		//				dbCollection.remove(convertedEntity);
+		//				converter.setId(entity, null);
+		//			}
+		//			else
+		//			{
+		//				throw new MappingException(entity.getClass(),"Can not save Entities with custom Id");
+		//			}
+		//		}
+		//		finally
+		//		{
+		//			Errors.checkError(_db,Operation.Delete);
+		//			_db.requestDone();
+		//		}
 	};
-	
-	public <T> List<T> find(Class<T> entityClass)
-	{
+
+	public <T> List<T> find(Class<T> entityClass) {
 		IEntityConverter<T> converter = _mapper.getEntityConverter(entityClass);
 		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entityClass));
 		DBCursor dbcursor = dbCollection.find();
-		
-		List<T> ret=Lists.newArrayList();
-		while (dbcursor.hasNext())
-		{
+
+		List<T> ret = Lists.newArrayList();
+		while (dbcursor.hasNext()) {
 			ret.add(converter.convertFrom(dbcursor.next()));
 		}
 		return ret;
 	}
-	
+
 	@Override
-	public <T> IEntityQuery<T> with(Class<T> entityClass)
-	{
+	public <T> IEntityQuery<T> with(Class<T> entityClass) {
 		IEntityConverter<T> converter = _mapper.getEntityConverter(entityClass);
 		DBCollection dbCollection = _db.getCollection(_mapper.getCollection(entityClass));
-		return new Query<T>(converter,dbCollection);
+		return new Query<T>(converter, dbCollection);
 	}
 
 	@Override
-	public void ensureCaps()
-	{
+	public void ensureCaps() {
 		Map<Class<?>, String> entities = _mapper.getEntities();
-		for (Class<?> entity : entities.keySet())
-		{
+		for (Class<?> entity : entities.keySet()) {
 			_logger.info("Ensure Caps for " + entity);
 			Caps.ensureCaps(_db, entity);
 		}
 	}
 
 	@Override
-	public void ensureIndexes()
-	{
+	public void ensureIndexes() {
 		Map<Class<?>, String> entities = _mapper.getEntities();
-		for (Class<?> entity : entities.keySet())
-		{
+		for (Class<?> entity : entities.keySet()) {
 			_logger.info("Ensure Index for " + entity);
 			IEntityConverter<?> converter = _mapper.getEntityConverter(entity);
 			List<IndexDef> indexes = converter.getIndexes();
-			if (indexes!=null)
-			{
-				for (IndexDef def : indexes)
-				{
+			if (indexes != null) {
+				for (IndexDef def : indexes) {
 					Indexes.ensureIndex(_db, def, entities.get(entity));
 				}
 			}

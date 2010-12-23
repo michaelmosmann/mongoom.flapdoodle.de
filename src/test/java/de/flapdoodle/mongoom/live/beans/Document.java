@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,61 +28,53 @@ import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 
 @Entity("Document")
-@IndexGroups(@IndexGroup(group="docId",options=@IndexOption(unique=true)))
-public class Document
-{
+@IndexGroups(@IndexGroup(group = "docId", options = @IndexOption(unique = true)))
+public class Document {
+
 	@Id
 	ObjectId _id;
-	
-//	@Property("name")
-	@IndexedInGroup(group="docId",direction=Direction.BOTH)
+
+	//	@Property("name")
+	@IndexedInGroup(group = "docId", direction = Direction.BOTH)
 	String _name;
-	
-//	@Property("author")
-	@IndexedInGroup(group="docId")
+
+	//	@Property("author")
+	@IndexedInGroup(group = "docId")
 	Author _author;
-	
-//	@Property("meta")
+
+	//	@Property("meta")
 	MetaInfo _meta;
-	
-	public ObjectId getId()
-	{
+
+	public ObjectId getId() {
 		return _id;
 	}
-	
-	public void setName(String name)
-	{
+
+	public void setName(String name) {
 		_name = name;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return _name;
 	}
-	
-	public Author getAuthor()
-	{
+
+	public Author getAuthor() {
 		return _author;
 	}
-	
-	public void setAuthor(Author author)
-	{
+
+	public void setAuthor(Author author) {
 		_author = author;
 	}
-	
-	public MetaInfo getMeta()
-	{
+
+	public MetaInfo getMeta() {
 		return _meta;
 	}
-	
-	public void setMeta(MetaInfo metaInfo)
-	{
+
+	public void setMeta(MetaInfo metaInfo) {
 		_meta = metaInfo;
 	}
-	
+
 	@Override
-	public String toString()
-	{
-		return "Document {id: "+_id+", name: "+_name+", author: "+_author+", meta: "+_meta+"}";
+	public String toString() {
+		return "Document {id: " + _id + ", name: " + _name + ", author: " + _author + ", meta: " + _meta + "}";
 	}
 }

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,13 +19,13 @@ package de.flapdoodle.mongoom.mapping.naming;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.mapping.IEntityNamingFactory;
 
-public class EntityAnnotationNamingFactory implements IEntityNamingFactory
-{
+public class EntityAnnotationNamingFactory implements IEntityNamingFactory {
+
 	@Override
-	public String getEntityName(Class<?> entityClass)
-	{
+	public String getEntityName(Class<?> entityClass) {
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
-		if (entityAnnotation!=null) return entityAnnotation.value();
+		if (entityAnnotation != null)
+			return entityAnnotation.value();
 		return null;
 	}
 }

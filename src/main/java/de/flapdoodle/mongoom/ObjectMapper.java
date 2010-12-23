@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,33 +24,27 @@ import com.mongodb.Mongo;
 import de.flapdoodle.mongoom.datastore.DatastoreImpl;
 import de.flapdoodle.mongoom.mapping.Mapper;
 
+public class ObjectMapper {
 
-public class ObjectMapper
-{
 	private final Mapper _mapper;
-	
-	public ObjectMapper()
-	{
+
+	public ObjectMapper() {
 		this(Collections.EMPTY_SET);
 	}
-	
-	public ObjectMapper(Set<Class> entityClasses)
-	{
-		_mapper=new Mapper();
-		for (Class m : entityClasses)
-		{
+
+	public ObjectMapper(Set<Class> entityClasses) {
+		_mapper = new Mapper();
+		for (Class m : entityClasses) {
 			_mapper.map(m);
 		}
 	}
-	
-	public synchronized ObjectMapper map(Class entityClass)
-	{
+
+	public synchronized ObjectMapper map(Class entityClass) {
 		_mapper.map(entityClass);
 		return this;
 	}
 
-	public IDatastore createDatastore(Mongo m, String name)
-	{
-		return new DatastoreImpl(_mapper,m,name);
+	public IDatastore createDatastore(Mongo m, String name) {
+		return new DatastoreImpl(_mapper, m, name);
 	}
 }

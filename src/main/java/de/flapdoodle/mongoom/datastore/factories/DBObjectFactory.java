@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,58 +27,43 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.QueryException;
 
-public class DBObjectFactory implements IDBObjectFactory
-{
+public class DBObjectFactory implements IDBObjectFactory {
+
 	Map<String, Object> _values = Maps.newLinkedHashMap();
 
-	private DBObjectFactory()
-	{
+	private DBObjectFactory() {
 
 	}
 
-	public static DBObjectFactory start()
-	{
+	public static DBObjectFactory start() {
 		return new DBObjectFactory();
 	}
 
 	@Override
-	public DBObject get()
-	{
+	public DBObject get() {
 		return asDBObject(_values);
 	}
 
-	private static DBObject asDBObject(Map<String, Object> values)
-	{
+	private static DBObject asDBObject(Map<String, Object> values) {
 		BasicDBObject ret = new BasicDBObject();
-		for (String key : values.keySet())
-		{
+		for (String key : values.keySet()) {
 			Object val = values.get(key);
-			if (val instanceof DBObjectFactory)
-			{
+			if (val instanceof DBObjectFactory) {
 				DBObjectFactory cval = (DBObjectFactory) val;
 				ret.put(key, cval.get());
-			}
-			else
-			{
-				if (val instanceof List)
-				{
-					List l=(List) val;
-					List valList=Lists.newArrayList();
-					for (Object o : l)
-					{
-						if (o instanceof DBObjectFactory)
-						{
+			} else {
+				if (val instanceof List) {
+					List l = (List) val;
+					List valList = Lists.newArrayList();
+					for (Object o : l) {
+						if (o instanceof DBObjectFactory) {
 							valList.add(asDBObject(((DBObjectFactory) o)._values));
-						}
-						else
-						{
+						} else {
 							valList.add(o);
 						}
 					}
 					ret.put(key, valList);
-				}
-				else
-				{
+				} else {
 					ret.put(key, val);
 				}
 			}
@@ -87,38 +72,30 @@ public class DBObjectFactory implements IDBObjectFactory
 	}
 
 	@Override
-	public DBObjectFactory set(String name, Object value)
-	{
+	public DBObjectFactory set(String name, Object value) {
 		Object old = _values.put(name, value);
-		if (old != null) new QueryException(name, old, value);
+		if (old != null)
+			new QueryException(name, old, value);
 		return this;
 	}
 
 	@Override
-	public Object getValue(String name)
-	{
+	public Object getValue(String name) {
 		return _values.get(name);
 	}
 
 	@Override
-	public DBObjectFactory get(String name)
-	{
+	public DBObjectFactory get(String name) {
 		Object old = _values.get(name);
 		DBObjectFactory map = new DBObjectFactory();
-		if (old != null)
-		{
-			if (old instanceof DBObjectFactory)
-			{
+		if (old != null) {
+			if (old instanceof DBObjectFactory) {
 				map = (DBObjectFactory) old;
 				_values.put(name, map);
+			} else {
+				throw new MappingException("value for " + name + " allready set");
 			}
-			else
-			{
-				throw new MappingException("value for "+name+" allready set");
-			}
-		}
-		else
-		{
+		} else {
 			_values.put(name, map);
 		}
 		return map;

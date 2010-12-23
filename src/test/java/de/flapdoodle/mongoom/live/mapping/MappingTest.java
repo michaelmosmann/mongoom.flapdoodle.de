@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,109 +34,96 @@ import de.flapdoodle.mongoom.live.beans.User;
 import de.flapdoodle.mongoom.live.beans.Author.Status;
 import de.flapdoodle.mongoom.live.beans.views.UsernameEmailView;
 
-public class MappingTest extends AbstractMongoOMTest
-{
-	public void testMapping()
-	{
+public class MappingTest extends AbstractMongoOMTest {
+
+	public void testMapping() {
 		ObjectMapper mongoom = new ObjectMapper();
 		mongoom.map(Document.class);
 		mongoom.map(User.class);
 		mongoom.map(Log.class);
 
 		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-		
+
 		datastore.ensureCaps();
 		datastore.ensureIndexes();
 
-		Document d=new Document();
+		Document d = new Document();
 		d.setName("Doc1");
-		Author a=new Author();
+		Author a = new Author();
 		a.seteMail("au@verlag.de");
 		a.setName("klaus");
 		a.setStatus(Status.Online);
 		d.setAuthor(a);
-		MetaInfo m=new MetaInfo();
-		m.setCategory(Lists.newArrayList("fun","sport"));
+		MetaInfo m = new MetaInfo();
+		m.setCategory(Lists.newArrayList("fun", "sport"));
 		m.setYear(2010);
-		m.setTags(Lists.newArrayList(Tag.getTag("sommer"),Tag.getTag("winter")));
+		m.setTags(Lists.newArrayList(Tag.getTag("sommer"), Tag.getTag("winter")));
 		d.setMeta(m);
-		
-		
+
 		datastore.insert(d);
-		System.out.println("Document: "+d.getId());
-		
-//		datastore.save(d);
-		Log log=new Log("Some Info");
+		System.out.println("Document: " + d.getId());
+
+		//		datastore.save(d);
+		Log log = new Log("Some Info");
 		datastore.insert(log);
-		System.out.println("Log: "+log.getId());
-		
+		System.out.println("Log: " + log.getId());
+
 		List<Log> list = datastore.find(Log.class);
 		assertEquals("Size", 1, list.size());
 
 		List<Document> documents = datastore.find(Document.class);
 		assertEquals("Size", 1, documents.size());
-		
-		assertEquals("Klaus", "klaus",documents.get(0).getAuthor().getName());
-		
-		documents=datastore.with(Document.class).field("name").eq("Doc1").result().asList();
+
+		assertEquals("Klaus", "klaus", documents.get(0).getAuthor().getName());
+
+		documents = datastore.with(Document.class).field("name").eq("Doc1").result().asList();
 		assertEquals("Size", 1, documents.size());
-		
-		documents=datastore.with(Document.class).field("meta.year").eq(2010).result().asList();
+
+		documents = datastore.with(Document.class).field("meta.year").eq(2010).result().asList();
 		assertEquals("Size", 1, documents.size());
-		
-		MetaInfo mq=new MetaInfo();
-		mq.setCategory(Lists.newArrayList("fun","sport"));
+
+		MetaInfo mq = new MetaInfo();
+		mq.setCategory(Lists.newArrayList("fun", "sport"));
 		mq.setYear(2010);
-		IEntityQuery<Document> query = datastore.with(Document.class).or()
-			.field("meta").eq(mq)
-			.field("meta.category").eq("fun")
-			.field("name").in("Doc1","Doc2","Doc3").parent()
-			.or()
-			.field("name").eq("DocX")
-			.parent()
-			.or()
-			.field("meta.year").not().type(Date.class)
-			.parent()
-			.or()
-			.field("meta.tags").elemMatch().field("tag").eq("sommer").parent()
-			.parent();
-	
-		
-//		query.field("meta.tags").elemMatch().field("tag").eq("sommer");
-		documents=query.result().asList();
+		IEntityQuery<Document> query = datastore.with(Document.class).or().field("meta").eq(mq).field("meta.category").eq(
+				"fun").field("name").in("Doc1", "Doc2", "Doc3").parent().or().field("name").eq("DocX").parent().or().field(
+				"meta.year").not().type(Date.class).parent().or().field("meta.tags").elemMatch().field("tag").eq("sommer").parent().parent();
+
+		//		query.field("meta.tags").elemMatch().field("tag").eq("sommer");
+		documents = query.result().asList();
 		assertEquals("Size", 1, documents.size());
 
-		System.out.println("Documents: "+documents);
+		System.out.println("Documents: " + documents);
 
-		documents=datastore.with(Document.class).or().field("meta.tags").elemMatch().field("tag").eq("sommer").parent().parent().result().asList();
-		System.out.println("Documents: "+documents);
+		documents = datastore.with(Document.class).or().field("meta.tags").elemMatch().field("tag").eq("sommer").parent().parent().result().asList();
+		System.out.println("Documents: " + documents);
 		assertEquals("Size", 1, documents.size());
-		
-		User user=User.getInstance("klaus");
+
+		User user = User.getInstance("klaus");
 		user.setEmail("ich@du.de");
 		datastore.insert(user);
-		System.out.println("Username: "+user.getUsername());
-		System.out.println("Username: "+user.getId());
+		System.out.println("Username: " + user.getUsername());
+		System.out.println("Username: " + user.getId());
 
-		user=User.getInstance("klaus2");
+		user = User.getInstance("klaus2");
 		user.setEmail("du@du.de");
 		datastore.insert(user);
-		System.out.println("Username: "+user.getUsername());
-		System.out.println("Username: "+user.getId());
+		System.out.println("Username: " + user.getUsername());
+		System.out.println("Username: " + user.getId());
 
-		List<UsernameEmailView> usernameEmails = datastore.with(User.class).withView(UsernameEmailView.class).order("email", false).asList();
-		System.out.println("Result: "+usernameEmails);
-		
-//		user=User.getInstance("klaus");
-//		user.setEmail("nix@du.de");
-//		datastore.save(user);
-		
+		List<UsernameEmailView> usernameEmails = datastore.with(User.class).withView(UsernameEmailView.class).order(
+				"email", false).asList();
+		System.out.println("Result: " + usernameEmails);
+
+		//		user=User.getInstance("klaus");
+		//		user.setEmail("nix@du.de");
+		//		datastore.save(user);
+
 		System.out.println("Ready, GO");
 	}
-	
+
 	@Override
-	protected boolean cleanUpAfterTest()
-	{
+	protected boolean cleanUpAfterTest() {
 		return false;
 	}
 }

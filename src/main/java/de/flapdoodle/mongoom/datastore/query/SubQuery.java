@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,45 +25,40 @@ import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 
-public class SubQuery<T,Q extends IQuery<T>> extends AbstractQuery<T,IConverter<?>> implements ISubQuery<T, Q>
-{
+public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, IConverter<?>> implements ISubQuery<T, Q> {
+
 	private final Q _query;
 
-	public SubQuery(Q query, IConverter<?> converter, IDBObjectFactory dbObjectFactory)
-	{
-		super(converter,dbObjectFactory);
+	public SubQuery(Q query, IConverter<?> converter, IDBObjectFactory dbObjectFactory) {
+		super(converter, dbObjectFactory);
 		_query = query;
-	}
-		
-	@Override
-	public IQueryOperation<T,ISubQuery<T, Q>> field(String field)
-	{
-		ITypeConverter<?> converter = getConverter().converter(field);
-		return new QueryOperation<T,ISubQuery<T, Q>>(this,getQueryBuilder(),field,converter);
-	}
-	
-	@Override
-	public IQueryOperation<T, ISubQuery<T, Q>> id()
-	{
-		return field(Const.ID_FIELDNAME);
-	}
-	
-	@Override
-	public ISubQuery<T, ISubQuery<T,Q>> or()
-	{
-		return new SubQuery<T,ISubQuery<T,Q>>(this,getConverter(),new OrObjectFactory(getQueryBuilder()));
 	}
 
 	@Override
-	public Q parent()
-	{
+	public IQueryOperation<T, ISubQuery<T, Q>> field(String field) {
+		ITypeConverter<?> converter = getConverter().converter(field);
+		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), field, converter);
+	}
+
+	@Override
+	public IQueryOperation<T, ISubQuery<T, Q>> id() {
+		return field(Const.ID_FIELDNAME);
+	}
+
+	@Override
+	public ISubQuery<T, ISubQuery<T, Q>> or() {
+		return new SubQuery<T, ISubQuery<T, Q>>(this, getConverter(), new OrObjectFactory(getQueryBuilder()));
+	}
+
+	@Override
+	public Q parent() {
 		return _query;
 	}
-//	@Override
-//	public Q or(IEntityQuery<T>... queries)
-//	{
-//		super.internalOr(queries);
-//		return (Q) this;
-//	};
+	//	@Override
+	//	public Q or(IEntityQuery<T>... queries)
+	//	{
+	//		super.internalOr(queries);
+	//		return (Q) this;
+	//	};
 
 }

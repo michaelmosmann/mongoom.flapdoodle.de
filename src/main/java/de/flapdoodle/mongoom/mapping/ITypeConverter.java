@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,12 +21,12 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
-public interface ITypeConverter<T> extends IConverter<T>
-{
+public interface ITypeConverter<T> extends IConverter<T> {
+
 	T convertFrom(Object value);
-	
+
 	List<IndexDef> getIndexes();
 
 	boolean matchType(Class<?> entityClass, Class<?> type, Type genericType);
-	
+
 }

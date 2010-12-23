@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,58 +28,50 @@ import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 
-@Entity(value="Book")
-public class Book extends ReferenceBean<Book>
-{
-	static String _doNotMap="DO_NOT_MAP";
-	
+@Entity(value = "Book")
+public class Book extends ReferenceBean<Book> {
+
+	static String _doNotMap = "DO_NOT_MAP";
+
 	@Property("name")
-	@Indexed(options=@IndexOption(unique=true))
+	@Indexed(options = @IndexOption(unique = true))
 	String _name;
-	
+
 	@Transient
 	Object _stuff;
-	
+
 	@Property("category")
 	Set<String> _category;
 
-	public static Book getInstance(String name, String... categories)
-	{
+	public static Book getInstance(String name, String... categories) {
 		Book ret = new Book();
-		ret._name=name;
-		ret._category=Sets.newHashSet(categories);
+		ret._name = name;
+		ret._category = Sets.newHashSet(categories);
 		return ret;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return _name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		_name = name;
 	}
 
-	public Object getStuff()
-	{
+	public Object getStuff() {
 		return _stuff;
 	}
 
-	public void setStuff(Object stuff)
-	{
+	public void setStuff(Object stuff) {
 		_stuff = stuff;
 	}
 
-	public Set<String> getCategory()
-	{
+	public Set<String> getCategory() {
 		return _category;
 	}
 
-	public void setCategory(Set<String> category)
-	{
+	public void setCategory(Set<String> category) {
 		_category = category;
 	}
-	
-	
+
 }

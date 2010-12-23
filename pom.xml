@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<parent>
-    <groupId>org.sonatype.oss</groupId>
-    <artifactId>oss-parent</artifactId>
-    <version>5</version>
-  </parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>de.flapdoodle.mongoom</groupId>
-  <artifactId>de.flapdoodle.mongoom</artifactId>
-  <name>Flapdoodle MongoDB ObjectMapper</name>
-  <version>1.1-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.flapdoodle.mongoom</groupId>
+	<artifactId>de.flapdoodle.mongoom</artifactId>
+	<name>Flapdoodle MongoDB ObjectMapper</name>
+	<version>1.1-SNAPSHOT</version>
 
 	<description>A mongodb object mapper supporting most mongodb features, like multikey index, typesafe query ...</description>
-  <url>http://github.com/michaelmosmann/mongoom.flapdoodle.de</url>
+	<url>http://github.com/michaelmosmann/mongoom.flapdoodle.de</url>
 
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 
 
 
 	<scm>
-    <connection>scm:git:git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</connection>
-    <developerConnection>scm:git:git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</developerConnection>
-    <url>git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</url>
-  </scm>
+		<connection>scm:git:git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</connection>
+		<developerConnection>scm:git:git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</developerConnection>
+		<url>git@github.com:michaelmosmann/mongoom.flapdoodle.de.git</url>
+	</scm>
 
 	<!--
-		https://docs.sonatype.org/display/Repository/Central+Sync+Requirements 
+		https://docs.sonatype.org/display/Repository/Central+Sync+Requirements
 		https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 		https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven
-	 -->
-  <build>
+	-->
+	<build>
 		<plugins>
 
 			<plugin>
@@ -49,27 +50,27 @@
 				</configuration>
 			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <configuration>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -86,16 +87,16 @@
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
-<!--
+					<!--
 					<basedir>${basedir}</basedir>
 -->
 					<header>${basedir}/src/etc/header.txt</header>
-<!--
-					<validHeaders>
+					<!--
+						<validHeaders>
 						<validHeader>/otherSupportedHeader.txt</validHeader>
 						<validHeader>http://www.company.com/yetAnotherSupportedHeader.txt</validHeader>
-					</validHeaders>
--->
+						</validHeaders>
+					-->
 					<quiet>false</quiet>
 					<failIfMissing>true</failIfMissing>
 					<strictCheck>true</strictCheck>
@@ -104,33 +105,27 @@
 						<include>src/**</include>
 						<include>**/test/**</include>
 					</includes>
-<!--
-					<excludes>
-						<exclude>target/**</exclude>
-						<exclude>.clover/**</exclude>
-					</excludes>
-					<useDefaultExcludes>true</useDefaultExcludes>
--->
-<!--
-					<mapping>
-						<jwc>XML_STYLE</jwc>
+					<!--
+						<excludes> <exclude>target/**</exclude>
+						<exclude>.clover/**</exclude> </excludes>
+						<useDefaultExcludes>true</useDefaultExcludes>
+					-->
+					<!--
+						<mapping> <jwc>XML_STYLE</jwc>
 						<application>XML_STYLE</application>
-						<myFileExtension>JAVADOC_STYLE</myFileExtension>
-					</mapping>
-					<useDefaultMapping>true</useDefaultMapping>
--->
+						<myFileExtension>JAVADOC_STYLE</myFileExtension> </mapping>
+						<useDefaultMapping>true</useDefaultMapping>
+					-->
 					<properties>
 						<lic.year>2010</lic.year>
 						<lic.email>michael@mosmann.de</lic.email>
 						<lic.username>Michael Mosmann</lic.username>
 					</properties>
 					<encoding>UTF-8</encoding>
-<!--
-					<headerDefinitions>
-						<headerDefinition>def1.xml</headerDefinition>
-						<headerDefinition>def2.xml</headerDefinition>
-					</headerDefinitions>
--->
+					<!--
+						<headerDefinitions> <headerDefinition>def1.xml</headerDefinition>
+						<headerDefinition>def2.xml</headerDefinition> </headerDefinitions>
+					-->
 				</configuration>
 				<executions>
 					<execution>
@@ -173,7 +168,7 @@
 		</profile>
 	</profiles>
 
-  <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -199,6 +194,6 @@
 			<artifactId>mongo-java-driver</artifactId>
 			<version>2.0</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 
 </project>

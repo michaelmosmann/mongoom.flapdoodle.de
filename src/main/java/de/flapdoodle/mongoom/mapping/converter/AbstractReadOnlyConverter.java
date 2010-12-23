@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,97 +30,70 @@ import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 
-public abstract class AbstractReadOnlyConverter<T>
-{
+public abstract class AbstractReadOnlyConverter<T> {
+
 	private static final Logger _logger = LogConfig.getLogger(AbstractReadOnlyConverter.class);
-	
+
 	private final Class<T> _entityClass;
 	private final Constructor<T> _constructor;
 
-	public AbstractReadOnlyConverter(Mapper mapper, MappingContext<?> context, Class<T> entityClass)
-	{
+	public AbstractReadOnlyConverter(Mapper mapper, MappingContext<?> context, Class<T> entityClass) {
 		_entityClass = entityClass;
 		_constructor = ClassInformation.getConstructor(_entityClass);
 
-		_logger.severe("Map "+_entityClass);
-		
+		_logger.severe("Map " + _entityClass);
 
 	}
-	
-	protected Class<T> getEntityClass()
-	{
+
+	protected Class<T> getEntityClass() {
 		return _entityClass;
 	}
-	
-	protected T newInstance()
-	{
-		try
-		{
+
+	protected T newInstance() {
+		try {
 			return _constructor.newInstance();
-		}
-		catch (IllegalArgumentException e)
-		{
-			throw new MappingException(_entityClass,"newInstance",e);
-		}
-		catch (InstantiationException e)
-		{
-			throw new MappingException(_entityClass,"newInstance",e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new MappingException(_entityClass,"newInstance",e);
-		}
-		catch (InvocationTargetException e)
-		{
-			throw new MappingException(_entityClass,"newInstance",e);
+		} catch (IllegalArgumentException e) {
+			throw new MappingException(_entityClass, "newInstance", e);
+		} catch (InstantiationException e) {
+			throw new MappingException(_entityClass, "newInstance", e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(_entityClass, "newInstance", e);
+		} catch (InvocationTargetException e) {
+			throw new MappingException(_entityClass, "newInstance", e);
 		}
 	}
-	
-	protected static <T> void setEntityField(T instance, MappedAttribute attribute, DBObject dbobject)
-	{
-		try
-		{
+
+	protected static <T> void setEntityField(T instance, MappedAttribute attribute, DBObject dbobject) {
+		try {
 			Field field = attribute.getField();
 			String attributeName = attribute.getName();
 			Object fieldValue = getValue(dbobject, attributeName);
-	//				Object fieldValue = field.get(entity);
-			if (fieldValue!=null)
-			{
+			//				Object fieldValue = field.get(entity);
+			if (fieldValue != null) {
 				ITypeConverter converter = attribute.getConverter();
 				field.set(instance, converter.convertFrom(fieldValue));
 			}
-		}
-		catch (MappingException e)
-		{
-			throw new MappingException(instance.getClass(),e);
-		}
-		catch (IllegalArgumentException e)
-		{
-			throw new MappingException(instance.getClass(),e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new MappingException(instance.getClass(),e);
+		} catch (MappingException e) {
+			throw new MappingException(instance.getClass(), e);
+		} catch (IllegalArgumentException e) {
+			throw new MappingException(instance.getClass(), e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(instance.getClass(), e);
 		}
 	}
 
-	private static Object getValue(DBObject dbobject, String attributeName)
-	{
+	private static Object getValue(DBObject dbobject, String attributeName) {
 		Object fieldValue = null;
-		int dotIndex=attributeName.indexOf('.');
-		if (dotIndex!=-1)
-		{
-			String prefix=attributeName.substring(0,dotIndex);
-			String left=attributeName.substring(dotIndex+1);
-			Object sub=dbobject.get(prefix);
-			if (sub instanceof DBObject)
-			{
-				fieldValue=getValue((DBObject) sub, left);
-			}
-			else throw new IllegalArgumentException("Attribute "+prefix+" is not of type DBObject");
-		}
-		else
-		{
+		int dotIndex = attributeName.indexOf('.');
+		if (dotIndex != -1) {
+			String prefix = attributeName.substring(0, dotIndex);
+			String left = attributeName.substring(dotIndex + 1);
+			Object sub = dbobject.get(prefix);
+			if (sub instanceof DBObject) {
+				fieldValue = getValue((DBObject) sub, left);
+			} else
+				throw new IllegalArgumentException("Attribute " + prefix + " is not of type DBObject");
+		} else {
 			fieldValue = dbobject.get(attributeName);
 		}
 		return fieldValue;

@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -44,186 +44,155 @@ import de.flapdoodle.mongoom.mapping.naming.FieldAnnotationNamingFactory;
 import de.flapdoodle.mongoom.mapping.naming.PrefixFieldNamingFactory;
 import de.flapdoodle.mongoom.mapping.versions.StringVersionFactory;
 
-public class Mapper
-{
+public class Mapper {
+
 	private static final Logger _logger = LogConfig.getLogger(Mapper.class);
-		
-	List<ITypeConverterFactory<?>> _converterFactories=Lists.newArrayList();
+
+	List<ITypeConverterFactory<?>> _converterFactories = Lists.newArrayList();
 	{
 		_converterFactories.add(new RawConverterFactory());
 		_converterFactories.add(new EnumConverterFactory());
 		_converterFactories.add(new CollectionConverterFactory());
 		_converterFactories.add(new ReferenceConverterFactory());
 	}
-	
-	List<IEntityNamingFactory> _entityNamingFactories=Lists.newArrayList();
+
+	List<IEntityNamingFactory> _entityNamingFactories = Lists.newArrayList();
 	{
 		_entityNamingFactories.add(new EntityAnnotationNamingFactory());
 	}
-	
-	List<IFieldNamingFactory> _fieldNamingFactories=Lists.newArrayList();
+
+	List<IFieldNamingFactory> _fieldNamingFactories = Lists.newArrayList();
 	{
 		_fieldNamingFactories.add(new FieldAnnotationNamingFactory());
 		_fieldNamingFactories.add(new PrefixFieldNamingFactory());
 	}
-	
-	Map<Class<?>, IVersionFactory<?>> _versionFactories=Maps.newHashMap();
+
+	Map<Class<?>, IVersionFactory<?>> _versionFactories = Maps.newHashMap();
 	{
 		_versionFactories.put(String.class, new StringVersionFactory());
 	}
 
-	Map<Class<?>, IEntityConverter<?>> _entityConverter=Maps.newHashMap();
-	
-	Map<Class<?>,String> _entities=Maps.newHashMap();
-	
-	public <T> void map(Class<T> entityClass)
-	{
-		if (_entityConverter.containsKey(entityClass)) throw new MappingException(entityClass,"allready mapped");
-		
-//		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
-//		if (entityAnnotation==null) throw new MappingException(entityClass,"No Entity Annotation");
-		String entityName=null;
-		for (IEntityNamingFactory n : _entityNamingFactories)
-		{
-			entityName=n.getEntityName(entityClass);
+	Map<Class<?>, IEntityConverter<?>> _entityConverter = Maps.newHashMap();
+
+	Map<Class<?>, String> _entities = Maps.newHashMap();
+
+	public <T> void map(Class<T> entityClass) {
+		if (_entityConverter.containsKey(entityClass))
+			throw new MappingException(entityClass, "allready mapped");
+
+		//		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
+		//		if (entityAnnotation==null) throw new MappingException(entityClass,"No Entity Annotation");
+		String entityName = null;
+		for (IEntityNamingFactory n : _entityNamingFactories) {
+			entityName = n.getEntityName(entityClass);
 		}
-		if (entityName==null) throw new MappingException(entityClass,"No EntityName, You should try at least a Entity Annotation");
-		_entities.put(entityClass,entityName);
-		_entityConverter.put(entityClass, new EntityConverter<T>(this, new MappingContext<T>(entityClass),entityClass));
+		if (entityName == null)
+			throw new MappingException(entityClass, "No EntityName, You should try at least a Entity Annotation");
+		_entities.put(entityClass, entityName);
+		_entityConverter.put(entityClass, new EntityConverter<T>(this, new MappingContext<T>(entityClass), entityClass));
 	}
-	
-	public <M> ITypeConverter<M> map(MappingContext<?> context, Class<M> type, Type genericType, ConverterType converterType)
-	{
-		ITypeConverter<M> ret=context.getConverter(type,genericType,converterType);
-		if (ret==null)
-		{
-			context.mappingStart(type,genericType,converterType);
+
+	public <M> ITypeConverter<M> map(MappingContext<?> context, Class<M> type, Type genericType,
+			ConverterType converterType) {
+		ITypeConverter<M> ret = context.getConverter(type, genericType, converterType);
+		if (ret == null) {
+			context.mappingStart(type, genericType, converterType);
 			ret = getTypeConverter(context, type, genericType, converterType);
-			context.mappingEnd(type,genericType,converterType,ret);
+			context.mappingEnd(type, genericType, converterType, ret);
 		}
 		return ret;
 	}
 
-	private <T> ITypeConverter<T> getTypeConverter(MappingContext context, Class<?> type, Type genericType, ConverterType converterType)
-	{
-		if (converterType==null)
-		{
-			for (ITypeConverterFactory factory : _converterFactories)
-			{
-				ITypeConverter converter = factory.converter(this,context,type,genericType);
-				if (converter!=null) return converter;
+	private <T> ITypeConverter<T> getTypeConverter(MappingContext context, Class<?> type, Type genericType,
+			ConverterType converterType) {
+		if (converterType == null) {
+			for (ITypeConverterFactory factory : _converterFactories) {
+				ITypeConverter converter = factory.converter(this, context, type, genericType);
+				if (converter != null)
+					return converter;
 			}
 		}
-		
-//		ITypeConverter ret=_converterMap.get(type);
-//		if ((ret==null) || (converterType!=null))
-		ITypeConverter ret=null;
+
+		//		ITypeConverter ret=_converterMap.get(type);
+		//		if ((ret==null) || (converterType!=null))
+		ITypeConverter ret = null;
 		{
-			ret=getConverter(this,context,type,converterType);
+			ret = getConverter(this, context, type, converterType);
 		}
 		return ret;
 	}
-	
-//	public void mapView(Class<?> entityClass, Class<?> view)
-//	{
-//		throw new NotImplementedException();
-//	}
-	
-	public Map<Class<?>,String> getEntities()
-	{
+
+	//	public void mapView(Class<?> entityClass, Class<?> view)
+	//	{
+	//		throw new NotImplementedException();
+	//	}
+
+	public Map<Class<?>, String> getEntities() {
 		return Collections.unmodifiableMap(_entities);
 	}
-	
-	public String getFieldName(Field field)
-	{
-		for (IFieldNamingFactory f : _fieldNamingFactories)
-		{
-			String name=f.getEntityName(field);
-			if (name!=null) return name;
+
+	public String getFieldName(Field field) {
+		for (IFieldNamingFactory f : _fieldNamingFactories) {
+			String name = f.getEntityName(field);
+			if (name != null)
+				return name;
 		}
 		return null;
 	}
-	
-	private static ITypeConverter getConverter(Mapper mapper, MappingContext context, Class<?> m,ConverterType annotation)
-	{
-		Class<? extends ITypeConverter> converterType=EmbeddedObjectConverter.class;
-		if (annotation==null) annotation = m.getAnnotation(ConverterType.class);
-		if (annotation!=null)
-		{
+
+	private static ITypeConverter getConverter(Mapper mapper, MappingContext context, Class<?> m, ConverterType annotation) {
+		Class<? extends ITypeConverter> converterType = EmbeddedObjectConverter.class;
+		if (annotation == null)
+			annotation = m.getAnnotation(ConverterType.class);
+		if (annotation != null) {
 			converterType = annotation.value();
 		}
-		
+
 		Constructor<? extends ITypeConverter> constructor = null;
-		try
-		{
-			constructor=converterType.getConstructor(Mapper.class,MappingContext.class,Class.class);
+		try {
+			constructor = converterType.getConstructor(Mapper.class, MappingContext.class, Class.class);
+		} catch (SecurityException e) {
+			_logger.log(Level.WARNING, "extended constructor not found", e);
+		} catch (NoSuchMethodException e) {
+			_logger.log(Level.WARNING, "extended constructor not found", e);
 		}
-		catch (SecurityException e)
-		{
-			_logger.log(Level.WARNING,"extended constructor not found",e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			_logger.log(Level.WARNING,"extended constructor not found",e);
-		}
-		
-		try
-		{
-			if (constructor!=null)
-			{
-				return constructor.newInstance(mapper,context,m);
-			}
-			else
-			{
+
+		try {
+			if (constructor != null) {
+				return constructor.newInstance(mapper, context, m);
+			} else {
 				constructor = converterType.getConstructor();
-				if (constructor!=null)
-				{
+				if (constructor != null) {
 					return constructor.newInstance();
-				}
-				else
-				{
-					throw new MappingException(m,"No Default Constructor");
+				} else {
+					throw new MappingException(m, "No Default Constructor");
 				}
 			}
-		}
-		catch (InstantiationException e)
-		{
-			throw new MappingException(m,"Could not Instanciate Constructor",e);
-		}
-		catch (IllegalAccessException e)
-		{
-			throw new MappingException(m,"Could not Instanciate Constructor",e);
-		}
-		catch (InvocationTargetException e)
-		{
-			if (e.getCause() instanceof MappingException)
-			{
+		} catch (InstantiationException e) {
+			throw new MappingException(m, "Could not Instanciate Constructor", e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(m, "Could not Instanciate Constructor", e);
+		} catch (InvocationTargetException e) {
+			if (e.getCause() instanceof MappingException) {
 				throw (MappingException) e.getCause();
 			}
-			throw new MappingException(m,"Could not Instanciate Constructor",e);
-		}
-		catch (SecurityException e)
-		{
-			throw new MappingException(m,"Could not Instanciate Constructor",e);
-		}
-		catch (NoSuchMethodException e)
-		{
-			throw new MappingException(m,"Could not Instanciate Constructor",e);
+			throw new MappingException(m, "Could not Instanciate Constructor", e);
+		} catch (SecurityException e) {
+			throw new MappingException(m, "Could not Instanciate Constructor", e);
+		} catch (NoSuchMethodException e) {
+			throw new MappingException(m, "Could not Instanciate Constructor", e);
 		}
 	}
 
-	public <T> IEntityConverter<T> getEntityConverter(Class<T> entityClass)
-	{
+	public <T> IEntityConverter<T> getEntityConverter(Class<T> entityClass) {
 		return (IEntityConverter<T>) _entityConverter.get(entityClass);
 	}
-	
-	public <T> IVersionFactory<T> getVersionFactory(Class<T> versionType)
-	{
+
+	public <T> IVersionFactory<T> getVersionFactory(Class<T> versionType) {
 		return (IVersionFactory<T>) _versionFactories.get(versionType);
 	}
-	
-	public String getCollection(Class<? extends Object> entityClass)
-	{
+
+	public String getCollection(Class<? extends Object> entityClass) {
 		return _entities.get(entityClass);
 	}
 }

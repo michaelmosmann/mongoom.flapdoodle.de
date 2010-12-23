@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,65 +32,57 @@ import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity(value="Document",cap=@CappedAt(count=12))
-@IndexGroups(@IndexGroup(group="multikey",options=@IndexOption(unique=true)))
+@Entity(value = "Document", cap = @CappedAt(count = 12))
+@IndexGroups(@IndexGroup(group = "multikey", options = @IndexOption(unique = true)))
 @Views(DocumentView.class)
-public class Document
-{
+public class Document {
+
 	// Custom Mapping between ObjectId and typed Reference
 	@Id
 	Reference<Document> _id;
-	
+
 	// Version support
 	@Version
 	String _version;
-	
+
 	// Indexed in IndexGroup
-	@IndexedInGroup(group="multikey",direction=Direction.ASC)
+	@IndexedInGroup(group = "multikey", direction = Direction.ASC)
 	String _name;
-	
+
 	// Indexed
 	@Indexed
 	Date _created;
-	
+
 	// Custom Propertyname
-	@Property(value="metainfo")
+	@Property(value = "metainfo")
 	Meta _meta;
 
-	public String getName()
-	{
+	public String getName() {
 		return _name;
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		_name = name;
 	}
 
-	public Date getCreated()
-	{
+	public Date getCreated() {
 		return _created;
 	}
 
-	public void setCreated(Date created)
-	{
+	public void setCreated(Date created) {
 		_created = created;
 	}
 
-	public Meta getMeta()
-	{
+	public Meta getMeta() {
 		return _meta;
 	}
 
-	public void setMeta(Meta meta)
-	{
+	public void setMeta(Meta meta) {
 		_meta = meta;
 	}
 
-	public Reference<Document> getId()
-	{
+	public Reference<Document> getId() {
 		return _id;
 	}
 
-	
 }
