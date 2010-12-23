@@ -29,7 +29,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
-import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 
 public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IViewConverter<T>
 {
@@ -45,7 +45,7 @@ public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IV
 //		_constructor = ClassAndFields.getConstructor(_viewType);
 		_attributes=Sets.newLinkedHashSet();
 
-		List<Field> fields = ClassAndFields.getFields(getEntityClass());
+		List<Field> fields = ClassInformation.getFields(getEntityClass());
 		for (Field f : fields)
 		{
 			f.setAccessible(true);

@@ -27,9 +27,9 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.annotations.MappedSuperclass;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 
-public class ClassAndFields
+public class ClassInformation
 {
-	private ClassAndFields()
+	private ClassInformation()
 	{
 		
 	}

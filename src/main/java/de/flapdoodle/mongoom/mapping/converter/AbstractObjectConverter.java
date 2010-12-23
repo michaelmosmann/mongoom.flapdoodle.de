@@ -44,7 +44,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
-import de.flapdoodle.mongoom.mapping.converter.reflection.ClassAndFields;
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
@@ -79,7 +79,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		MappedAttribute versionAttr=null;
 		IVersionFactory<?> versionFactory=null;
 		
-		List<Field> fields = ClassAndFields.getFields(entityClass);
+		List<Field> fields = ClassInformation.getFields(entityClass);
 		for (Field f : fields)
 		{
 			f.setAccessible(true);
