@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.mapping.converter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -32,6 +33,8 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.ConverterType;
 import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.annotations.OnRead;
+import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
@@ -40,6 +43,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;
@@ -57,9 +61,6 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 	private final MappedAttribute _idAttribute;
 	private final MappedAttribute _version;
 	private final IVersionFactory _versionFactory;
-
-	private final Method _onReadCallback;
-	private final Method _onWriteCallback;
 
 	private final List<IndexDef> _indexes;
 
@@ -82,12 +83,6 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		MappedAttribute idAttr = null;
 		MappedAttribute versionAttr = null;
 		IVersionFactory<?> versionFactory = null;
-
-		Method onReadCallback = null;
-		Method onWriteCallback = null;
-
-		_onReadCallback = onReadCallback;
-		_onWriteCallback = onWriteCallback;
 
 		List<Field> fields = ClassInformation.getFields(entityClass);
 		for (Field f : fields) {
@@ -225,19 +220,13 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		for (MappedAttribute a : _attributes) {
 			setEntityField(ret, a, dbobject);
 		}
-		invokeCallback(ret, _onReadCallback);
+		invokeOnReadCallback(ret);
 		return ret;
 	}
 
 	protected DBObject convertEntityToDBObject(T entity) {
-		invokeCallback(entity, _onWriteCallback);
+		invokeOnWriteCallback(entity);
 		return convertToDBObject(entity, _attributes);
-	}
-
-	private static <T> void invokeCallback(T ret, Method callback) {
-		if (callback != null) {
-
-		}
 	}
 
 	protected DBObject convertEntityToKeyDBObject(T entity) {

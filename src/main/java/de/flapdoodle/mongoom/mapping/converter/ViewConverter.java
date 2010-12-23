@@ -94,6 +94,7 @@ public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IV
 		for (MappedAttribute a : _attributes) {
 			setEntityField(ret, a, dbobject);
 		}
+		invokeOnReadCallback(ret);
 		return ret;
 	}
 

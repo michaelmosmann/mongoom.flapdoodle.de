@@ -19,11 +19,15 @@ package de.flapdoodle.mongoom.mapping.converter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.logging.Logger;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.annotations.OnRead;
+import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
@@ -37,11 +41,34 @@ public abstract class AbstractReadOnlyConverter<T> {
 	private final Class<T> _entityClass;
 	private final Constructor<T> _constructor;
 
+	private final Method _onReadCallback;
+	private final Method _onWriteCallback;
+
 	public AbstractReadOnlyConverter(Mapper mapper, MappingContext<?> context, Class<T> entityClass) {
 		_entityClass = entityClass;
 		_constructor = ClassInformation.getConstructor(_entityClass);
 
 		_logger.severe("Map " + _entityClass);
+
+		Method onReadCallback = null;
+		Method onWriteCallback = null;
+
+		for (Method m : ClassInformation.getMethods(entityClass)) {
+			m.setAccessible(true);
+			if (m.getAnnotation(OnRead.class)!=null)
+			{
+				if (onReadCallback!=null) throw new MappingException(entityClass, "Only on @OnRead supported: "+m.getName()+" (allready on "+onReadCallback.getName()+")");
+				onReadCallback=m;
+			}
+			if (m.getAnnotation(OnWrite.class)!=null)
+			{
+				if (onWriteCallback!=null) throw new MappingException(entityClass, "Only on @OnRead supported: "+m.getName()+" (allready on "+onWriteCallback.getName()+")");
+				onWriteCallback=m;
+			}
+		}
+
+		_onReadCallback = onReadCallback;
+		_onWriteCallback = onWriteCallback;
 
 	}
 
@@ -61,6 +88,37 @@ public abstract class AbstractReadOnlyConverter<T> {
 		} catch (InvocationTargetException e) {
 			throw new MappingException(_entityClass, "newInstance", e);
 		}
+	}
+	
+	protected void invokeOnReadCallback(T entity)
+	{
+		invokeCallback(entity, _onReadCallback);
+	}
+
+	protected void invokeOnWriteCallback(T entity)
+	{
+		invokeCallback(entity, _onWriteCallback);
+	}
+
+	private static <T> void invokeCallback(T ret, Method callback) {
+		if (callback != null) {
+			try {
+				callback.invoke(ret, null);
+			} catch (IllegalArgumentException e) {
+				extractAndThrowException(e);
+			} catch (IllegalAccessException e) {
+				extractAndThrowException(e);
+			} catch (InvocationTargetException e) {
+				extractAndThrowException(e);
+			}
+		}
+	}
+
+	private static void extractAndThrowException(Exception e) {
+		Throwable cause = e.getCause();
+		if (cause instanceof ObjectMapperException)
+			throw ((ObjectMapperException) cause);
+		throw new ObjectMapperException(cause);
 	}
 
 	protected static <T> void setEntityField(T instance, MappedAttribute attribute, DBObject dbobject) {
