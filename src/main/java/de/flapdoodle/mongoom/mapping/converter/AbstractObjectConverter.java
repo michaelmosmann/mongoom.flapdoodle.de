@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.mapping.converter;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,9 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 	private final MappedAttribute _version;
 	private final IVersionFactory _versionFactory;
 	
+	private final Method _onReadCallback;
+	private final Method _onWriteCallback;
+	
 	private final List<IndexDef> _indexes;
 
 //	private final Class<T> _entityClass;
@@ -78,6 +82,12 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		MappedAttribute idAttr=null;
 		MappedAttribute versionAttr=null;
 		IVersionFactory<?> versionFactory=null;
+		
+		Method onReadCallback=null;
+		Method onWriteCallback=null;
+		
+		_onReadCallback=onReadCallback;
+		_onWriteCallback=onWriteCallback;
 		
 		List<Field> fields = ClassInformation.getFields(entityClass);
 		for (Field f : fields)
@@ -225,12 +235,21 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		{
 			setEntityField(ret, a, dbobject);
 		}
+		invokeCallback(ret,_onReadCallback);
 		return ret;
 	}
 	
 	protected DBObject convertEntityToDBObject(T entity)
 	{
+		invokeCallback(entity, _onWriteCallback);
 		return convertToDBObject(entity, _attributes);
+	}
+
+	private static <T> void invokeCallback(T ret, Method callback) {
+		if (callback!=null)
+		{
+			
+		}
 	}
 
 	protected DBObject convertEntityToKeyDBObject(T entity)
