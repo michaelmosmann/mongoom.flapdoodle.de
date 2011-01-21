@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,15 +55,17 @@ public abstract class AbstractReadOnlyConverter<T> {
 
 		for (Method m : ClassInformation.getMethods(entityClass)) {
 			m.setAccessible(true);
-			if (m.getAnnotation(OnRead.class)!=null)
-			{
-				if (onReadCallback!=null) throw new MappingException(entityClass, "Only on @OnRead supported: "+m.getName()+" (allready on "+onReadCallback.getName()+")");
-				onReadCallback=m;
+			if (m.getAnnotation(OnRead.class) != null) {
+				if (onReadCallback != null)
+					throw new MappingException(entityClass, "Only on @OnRead supported: " + m.getName() + " (allready on "
+							+ onReadCallback.getName() + ")");
+				onReadCallback = m;
 			}
-			if (m.getAnnotation(OnWrite.class)!=null)
-			{
-				if (onWriteCallback!=null) throw new MappingException(entityClass, "Only on @OnRead supported: "+m.getName()+" (allready on "+onWriteCallback.getName()+")");
-				onWriteCallback=m;
+			if (m.getAnnotation(OnWrite.class) != null) {
+				if (onWriteCallback != null)
+					throw new MappingException(entityClass, "Only on @OnRead supported: " + m.getName() + " (allready on "
+							+ onWriteCallback.getName() + ")");
+				onWriteCallback = m;
 			}
 		}
 
@@ -89,14 +91,12 @@ public abstract class AbstractReadOnlyConverter<T> {
 			throw new MappingException(_entityClass, "newInstance", e);
 		}
 	}
-	
-	protected void invokeOnReadCallback(T entity)
-	{
+
+	protected void invokeOnReadCallback(T entity) {
 		invokeCallback(entity, _onReadCallback);
 	}
 
-	protected void invokeOnWriteCallback(T entity)
-	{
+	protected void invokeOnWriteCallback(T entity) {
 		invokeCallback(entity, _onWriteCallback);
 	}
 
@@ -147,10 +147,12 @@ public abstract class AbstractReadOnlyConverter<T> {
 			String prefix = attributeName.substring(0, dotIndex);
 			String left = attributeName.substring(dotIndex + 1);
 			Object sub = dbobject.get(prefix);
-			if (sub instanceof DBObject) {
-				fieldValue = getValue((DBObject) sub, left);
-			} else
-				throw new IllegalArgumentException("Attribute " + prefix + " is not of type DBObject");
+			if (sub!=null) {
+				if (sub instanceof DBObject) {
+					fieldValue = getValue((DBObject) sub, left);
+				} else
+					throw new IllegalArgumentException("Attribute " + prefix + " is not of type DBObject");
+			}
 		} else {
 			fieldValue = dbobject.get(attributeName);
 		}
