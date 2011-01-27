@@ -31,11 +31,34 @@ public class TestTypeExtractorTest extends TestCase {
 
 	public void testFieldType() throws SecurityException, NoSuchFieldException {
 		Map<Type, Type> typeMap = TypeExtractor.getTypeArgumentMap(/* Object.class, */Book.class);
-		System.out.println("Types: " + typeMap);
+//		System.out.println("Types: " + typeMap);
+		assertEquals("Types", "{T="+Book.class+"}",typeMap.toString());
 
 		Field field = getClass().getDeclaredField("_books");
 
 		Type parameterizedClass = TypeExtractor.getParameterizedClass(getClass(), field.getGenericType(), 0);
-		System.out.println("ParamClass: " + parameterizedClass);
+		assertEquals("ParamClass", ""+Reference.class.getName()+"<"+Book.class.getName()+">", parameterizedClass.toString());
+	}
+	
+	public void testInterfaceType() {
+		Type genericInterface = TypeExtractor.getGenericInterface(DummyImpl.class, IDummy.class);
+		assertNotNull("Generic Interface", genericInterface);
+		assertEquals("Generic Interface", getClass().getName()+"."+IDummy.class.getName()+"<"+String.class.getName()+">",genericInterface.toString());
+		
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(DummyImpl.class, genericInterface, 0);
+		assertEquals("Type", String.class.toString(),parameterizedClass.toString());
+		Class<?> typeClazz = TypeExtractor.getClass(parameterizedClass);
+		assertEquals("Class", String.class,typeClazz);
+	}
+	
+	static interface IDummy<T> {
+		void call(T dummy);
+	}
+	
+	static class DummyImpl implements IDummy<String> {
+		@Override
+		public void call(String dummy) {
+			
+		}
 	}
 }

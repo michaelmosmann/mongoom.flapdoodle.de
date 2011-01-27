@@ -23,6 +23,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.NoopReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.NoopWriteCallback;
+
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,4 +37,7 @@ public @interface Entity {
 	String value();
 
 	CappedAt cap() default @CappedAt(0);
+	
+	Class<? extends IEntityReadCallback<?>> onRead() default NoopReadCallback.class;
+	Class<? extends IEntityWriteCallback<?>> onWrite() default NoopWriteCallback.class;
 }

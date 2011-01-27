@@ -29,7 +29,18 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 public class TypeExtractor {
 
 	// http://www.artima.com/weblogs/viewpost.jsp?thread=208860
-
+	
+	public static Type getGenericInterface(Class<?> declaringClass, Class<?> interfaze) {
+		Type[] genericInterfaces = declaringClass.getGenericInterfaces();
+		for (Type t : genericInterfaces) {
+			Class<?> typeClass = getClass(t);
+			if (interfaze.isAssignableFrom(typeClass)) {
+				return t;
+			}
+		}
+		return null;
+	}
+	
 	public static Class<?> getClass(Type type) {
 		if (type instanceof Class) {
 			return (Class) type;

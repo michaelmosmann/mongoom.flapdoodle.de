@@ -21,10 +21,12 @@ import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.OnRead;
 import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.annotations.Transient;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.types.Reference;
 
 
-@Entity(value = "Stats")
+@Entity(value = "Stats",onRead=Stats.OnReadCallback.class,onWrite=Stats.OnWriteCallback.class)
 public class Stats {
 	@Id
 	Reference<Stats> _id;
@@ -38,13 +40,13 @@ public class Stats {
 	@Transient
 	Integer _readC;
 	
-	@OnRead
+//	@OnRead
 	protected void onRead()
 	{
 		if ((_a!=null) && (_b!=null)) _readC=_a+_b;
 	}
 	
-	@OnWrite
+//	@OnWrite
 	protected void onWrite()
 	{
 		if ((_a!=null) && (_b!=null)) _writeC=_a+_b;
@@ -80,5 +82,17 @@ public class Stats {
 		return _readC;
 	}
 	
+	public static class OnReadCallback implements IEntityReadCallback<Stats> {
+		@Override
+		public void onRead(Stats entity) {
+			entity.onRead();
+		}
+	}
 	
+	public static class OnWriteCallback implements IEntityWriteCallback<Stats> {
+		@Override
+		public void onWrite(Stats entity) {
+			entity.onWrite();
+		}
+	}
 }
