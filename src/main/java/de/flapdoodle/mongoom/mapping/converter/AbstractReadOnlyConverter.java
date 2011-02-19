@@ -64,47 +64,57 @@ public abstract class AbstractReadOnlyConverter<T> {
 		_logger.severe("Map " + _entityClass);
 
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
-		Class<? extends IEntityReadCallback<?>> onReadType = entityAnnotation.onRead();
-		Class<? extends IEntityWriteCallback<?>> onWriteType = entityAnnotation.onWrite();
-
-		IEntityReadCallback<T> onRead = null;
-		IEntityWriteCallback<T> onWrite = null;
-		if (onReadType != null) {
-			onRead = getCallback(entityClass, onReadType,IEntityReadCallback.class);
-		}
-		if (onWriteType != null) {
-			onWrite = getCallback(entityClass, onWriteType,IEntityWriteCallback.class);
-		}
-
-		_onRead = onRead;
-		_onWrite = onWrite;
-
-		Method onReadCallback = null;
-		Method onWriteCallback = null;
-
-		for (Method m : ClassInformation.getMethods(entityClass)) {
-			m.setAccessible(true);
-			if (m.getAnnotation(OnRead.class) != null) {
-				if (onReadCallback != null)
-					throw new MappingException(entityClass, "Only on @OnRead supported: " + m.getName() + " (allready on "
-							+ onReadCallback.getName() + ")");
-				onReadCallback = m;
+		if (entityAnnotation!=null)
+		{
+			Class<? extends IEntityReadCallback<?>> onReadType = entityAnnotation.onRead();
+			Class<? extends IEntityWriteCallback<?>> onWriteType = entityAnnotation.onWrite();
+	
+			IEntityReadCallback<T> onRead = null;
+			IEntityWriteCallback<T> onWrite = null;
+			if (onReadType != null) {
+				onRead = getCallback(entityClass, onReadType,IEntityReadCallback.class);
 			}
-			if (m.getAnnotation(OnWrite.class) != null) {
-				if (onWriteCallback != null)
-					throw new MappingException(entityClass, "Only on @OnRead supported: " + m.getName() + " (allready on "
-							+ onWriteCallback.getName() + ")");
-				onWriteCallback = m;
+			if (onWriteType != null) {
+				onWrite = getCallback(entityClass, onWriteType,IEntityWriteCallback.class);
+			}
+	
+			_onRead = onRead;
+			_onWrite = onWrite;
+			Method onReadCallback = null;
+			Method onWriteCallback = null;
+	
+			for (Method m : ClassInformation.getMethods(entityClass)) {
+				m.setAccessible(true);
+				if (m.getAnnotation(OnRead.class) != null) {
+					if (onReadCallback != null)
+						throw new MappingException(entityClass, "Only on @OnRead supported: " + m.getName() + " (allready on "
+								+ onReadCallback.getName() + ")");
+					onReadCallback = m;
+				}
+				if (m.getAnnotation(OnWrite.class) != null) {
+					if (onWriteCallback != null)
+						throw new MappingException(entityClass, "Only on @OnWrite supported: " + m.getName() + " (allready on "
+								+ onWriteCallback.getName() + ")");
+					onWriteCallback = m;
+				}
+			}
+	
+			_onReadCallback = onReadCallback;
+			_onWriteCallback = onWriteCallback;
+			if (_onReadCallback != null) {
+				_logger.severe("@OnRead is deprecated");
+			}
+			if (_onWriteCallback != null) {
+				_logger.severe("@OnWrite is deprecated");
 			}
 		}
-
-		_onReadCallback = onReadCallback;
-		_onWriteCallback = onWriteCallback;
-		if (_onReadCallback != null) {
-			_logger.severe("@OnRead is deprecated");
-		}
-		if (_onWriteCallback != null) {
-			_logger.severe("@OnWrite is deprecated");
+		else
+		{
+			_onRead = null;
+			_onWrite = null;
+			
+			_onReadCallback = null;
+			_onWriteCallback = null;			
 		}
 	}
 
