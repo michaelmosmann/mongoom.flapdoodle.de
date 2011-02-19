@@ -118,23 +118,23 @@ public abstract class AbstractReadOnlyConverter<T> {
 		}
 	}
 
-	private static <C> C getCallback(Class<?> entityClass, Class<?> onReadType,Class<C> interfaze) {
-		Type genericInterface = TypeExtractor.getGenericInterface(onReadType, interfaze);
+	private static <C> C getCallback(Class<?> entityClass, Class<?> callbackType,Class<C> interfaze) {
+		Type genericInterface = TypeExtractor.getGenericInterface(callbackType, interfaze);
 		if (genericInterface == null) {
-			throw new MappingException(entityClass, onReadType.getName() + " does not implement "
+			throw new MappingException(entityClass, callbackType.getName() + " does not implement "
 					+ IEntityReadCallback.class.getName());
 		}
-		Type parameterType = TypeExtractor.getParameterizedClass(onReadType, genericInterface, 0);
+		Type parameterType = TypeExtractor.getParameterizedClass(callbackType, genericInterface, 0);
 		if (parameterType == null) {
-			throw new MappingException(entityClass, onReadType.getName() + ": could not get TypeInformation");
+			throw new MappingException(entityClass, callbackType.getName() + ": could not get TypeInformation");
 		}
-		Class<?> callbackType = TypeExtractor.getClass(parameterType);
-		if (callbackType == null) {
-			throw new MappingException(entityClass, onReadType.getName() + ": could not get Class for " + parameterType);
+		Class<?> callbackEntityType = TypeExtractor.getClass(parameterType);
+		if (callbackEntityType == null) {
+			throw new MappingException(entityClass, callbackType.getName() + ": could not get Class for " + parameterType);
 		}
-		if (callbackType.isAssignableFrom(entityClass)) {
+		if (callbackEntityType.isAssignableFrom(entityClass)) {
 			try {
-				return (C) onReadType.newInstance();
+				return (C) callbackType.newInstance();
 			} catch (InstantiationException e) {
 				throw new MappingException(entityClass, e);
 			} catch (IllegalAccessException e) {
