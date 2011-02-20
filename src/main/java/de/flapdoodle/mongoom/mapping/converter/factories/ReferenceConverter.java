@@ -45,6 +45,8 @@ public class ReferenceConverter<T extends Reference> implements ITypeConverter<T
 	}
 
 	public Object convertTo(T value) {
+		if (value==null) return null;
+		
 		if (!_type.isAssignableFrom(value.getType()))
 			throw new MappingException(_type, "Reference " + value + " is not of Type " + _type);
 		return value.getId();
