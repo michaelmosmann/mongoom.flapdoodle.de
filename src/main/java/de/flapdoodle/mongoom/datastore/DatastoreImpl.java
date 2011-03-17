@@ -122,24 +122,24 @@ public class DatastoreImpl implements IDatastore {
 
 			switch (operation) {
 				case Insert:
-					_logger.info("Insert: " + convertedEntity);
+					_logger.fine("Insert: " + convertedEntity);
 					if (idValue != null) {
 						_logger.log(Level.WARNING, "Insert with Id set: " + idValue, new Exception());
 					}
 					dbCollection.insert(convertedEntity);
 					break;
 				case Update:
-					_logger.info("Update: " + convertedEntity + " (Id: " + idValue + ")");
+					_logger.fine("Update: " + convertedEntity + " (Id: " + idValue + ")");
 					//					BasicDBObject updateQuery=new BasicDBObject();
 					//					updateQuery.put(Const.ID_FIELDNAME, idValue);
 					dbCollection.update(key, convertedEntity, false, false);
 					break;
 				case Save:
-					_logger.info("Save: " + convertedEntity);
+					_logger.fine("Save: " + convertedEntity);
 					dbCollection.save(convertedEntity);
 					break;
 				case Delete:
-					_logger.info("Delete: " + key);
+					_logger.fine("Delete: " + key);
 					dbCollection.remove(key);
 					break;
 				default:
