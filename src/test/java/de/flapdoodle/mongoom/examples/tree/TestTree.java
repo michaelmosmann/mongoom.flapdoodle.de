@@ -56,8 +56,8 @@ public class TestTree extends AbstractMongoOMTest {
 		return ret;
 	}
 
-	@Override
-	protected boolean cleanUpAfterTest() {
-		return false;
-	}
+//	@Override
+//	protected boolean cleanUpAfterTest() {
+//		return false;
+//	}
 }

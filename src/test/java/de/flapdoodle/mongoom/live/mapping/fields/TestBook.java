@@ -54,8 +54,8 @@ public class TestBook extends AbstractMongoOMTest {
 		_datastore = datastore;
 	}
 
-	@Override
-	protected boolean cleanUpAfterTest() {
-		return false;
-	}
+//	@Override
+//	protected boolean cleanUpAfterTest() {
+//		return false;
+//	}
 }

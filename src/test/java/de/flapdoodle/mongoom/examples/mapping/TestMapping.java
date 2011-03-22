@@ -54,8 +54,8 @@ public class TestMapping extends AbstractMongoOMTest {
 		assertEquals("Keywords", true, keywords.contains("One"));
 	}
 
-	@Override
-	protected boolean cleanUpAfterTest() {
-		return false;
-	}
+//	@Override
+//	protected boolean cleanUpAfterTest() {
+//		return false;
+//	}
 }

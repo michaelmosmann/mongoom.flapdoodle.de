@@ -22,32 +22,47 @@ import junit.framework.TestCase;
 
 import com.mongodb.Mongo;
 
+import de.flapdoodle.embedmongo.MongoDBRuntime;
+import de.flapdoodle.embedmongo.MongodExecutable;
+import de.flapdoodle.embedmongo.MongodProcess;
+import de.flapdoodle.embedmongo.config.MongodConfig;
+import de.flapdoodle.embedmongo.distribution.Version;
 import de.flapdoodle.mongoom.logging.LogConfig;
 
 public abstract class AbstractMongoOMTest extends TestCase {
 
 	private static final Logger _logger = LogConfig.getLogger(AbstractMongoOMTest.class);
+	private MongodExecutable _mongodExe;
+	private MongodProcess _mongod;
 
 	private Mongo _mongo;
 	private static final String DATABASENAME = "mongoom_test";
 
 	@Override
 	protected void setUp() throws Exception {
+
+		MongoDBRuntime runtime = MongoDBRuntime.getDefaultInstance();
+		_mongodExe = runtime.prepare(new MongodConfig(Version.V1_8_0, 12345));
+		_mongod=_mongodExe.start();
+		
 		super.setUp();
 
-		_mongo = new Mongo("localhost", 27017);
+		_mongo = new Mongo("localhost", 12345);
 		_logger.severe("DB: " + _mongo.getDatabaseNames());
-
-		if (!cleanUpAfterTest()) {
-			_mongo.dropDatabase(DATABASENAME);
-		}
+//
+//		if (!cleanUpAfterTest()) {
+//			_mongo.dropDatabase(DATABASENAME);
+//		}
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (cleanUpAfterTest())
-			_mongo.dropDatabase(DATABASENAME);
+//		if (cleanUpAfterTest())
+//			_mongo.dropDatabase(DATABASENAME);
 		super.tearDown();
+		
+		_mongod.stop();
+		_mongodExe.cleanup();
 	}
 
 	public Mongo getMongo() {
@@ -58,7 +73,7 @@ public abstract class AbstractMongoOMTest extends TestCase {
 		return DATABASENAME;
 	}
 
-	protected boolean cleanUpAfterTest() {
-		return true;
-	}
+//	protected boolean cleanUpAfterTest() {
+//		return true;
+//	}
 }

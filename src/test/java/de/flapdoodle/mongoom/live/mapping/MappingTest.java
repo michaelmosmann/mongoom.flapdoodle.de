@@ -122,8 +122,8 @@ public class MappingTest extends AbstractMongoOMTest {
 		System.out.println("Ready, GO");
 	}
 
-	@Override
-	protected boolean cleanUpAfterTest() {
-		return false;
-	}
+//	@Override
+//	protected boolean cleanUpAfterTest() {
+//		return false;
+//	}
 }

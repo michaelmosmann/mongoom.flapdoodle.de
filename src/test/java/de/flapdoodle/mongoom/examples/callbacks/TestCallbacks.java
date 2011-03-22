@@ -43,8 +43,8 @@ public class TestCallbacks extends AbstractMongoOMTest {
 		assertEquals("C", Integer.valueOf(5), list.get(0).getReadC());
 	}
 
-	@Override
-	protected boolean cleanUpAfterTest() {
-		return false;
-	}
+//	@Override
+//	protected boolean cleanUpAfterTest() {
+//		return false;
+//	}
 }
