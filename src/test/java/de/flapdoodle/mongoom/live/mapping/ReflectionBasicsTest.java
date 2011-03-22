@@ -25,8 +25,13 @@ import junit.framework.TestCase;
 public class ReflectionBasicsTest extends TestCase {
 
 	public void testConstructor() throws InstantiationException, IllegalAccessException {
-		User user = User.class.newInstance();
-		assertNotNull("newInstance", user);
+		try
+		{
+			User user = User.class.newInstance();
+		}
+		catch (IllegalAccessException iax) {
+			// default constructor is protected 
+		}
 	}
 
 	public void testConstructorList() throws IllegalArgumentException, InstantiationException, IllegalAccessException,
