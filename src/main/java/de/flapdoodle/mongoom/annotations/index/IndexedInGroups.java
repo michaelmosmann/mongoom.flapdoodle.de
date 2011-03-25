@@ -23,17 +23,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.flapdoodle.mongoom.annotations.Direction;
-
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
-@Target( {ElementType.FIELD})
-public @interface IndexedInGroup {
+@Target({ElementType.FIELD})
+public @interface IndexedInGroups {
 
-	String group();
+	IndexedInGroup[] value();
 
-	Direction direction() default Direction.ASC;
-	
-	int priority() default 0;
 }

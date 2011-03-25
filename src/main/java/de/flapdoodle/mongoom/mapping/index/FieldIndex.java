@@ -22,10 +22,12 @@ public class FieldIndex {
 
 	final String _name;
 	final Direction _direction;
+	final int _priority;
 
-	public FieldIndex(String name, Direction direction) {
+	public FieldIndex(String name, Direction direction, int priority) {
 		_name = name;
 		_direction = direction;
+		_priority = priority;
 	}
 
 	public String name() {
@@ -35,9 +37,13 @@ public class FieldIndex {
 	public Direction direction() {
 		return _direction;
 	}
+	
+	public int priority() {
+		return _priority;
+	}
 
 	@Override
 	public String toString() {
-		return _name + ": " + _direction;
+		return _name + ": " + _direction+"("+_priority+")";
 	}
 }
