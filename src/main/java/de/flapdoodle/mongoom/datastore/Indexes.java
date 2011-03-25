@@ -16,9 +16,15 @@
 
 package de.flapdoodle.mongoom.datastore;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Direction;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
@@ -37,7 +43,17 @@ public final class Indexes {
 		// boolean dropDupsOnCreate) {
 		BasicDBObjectBuilder keys = BasicDBObjectBuilder.start();
 		BasicDBObjectBuilder keyOpts = null;
-		for (FieldIndex def : index.fields()) {
+		List<FieldIndex> indexSorted=Lists.newArrayList(index.fields());
+		Collections.sort(indexSorted, new Comparator<FieldIndex>() {
+			@Override
+			public int compare(FieldIndex o1, FieldIndex o2) {
+				if (o1.priority()==o2.priority()) return 0;
+				if (o1.priority()<o2.priority()) return 1;
+				return -1;
+			}
+		});
+		
+		for (FieldIndex def : indexSorted) {
 			String fieldName = def.name();
 			Direction dir = def.direction();
 			if (dir == Direction.BOTH)
@@ -66,14 +82,16 @@ public final class Indexes {
 		try {
 			db.requestStart();
 			DBCollection dbColl = db.getCollection(collectionName);
-			DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + keys);
+			DBObject indexKeys = keys.get();
+			DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
 			if (keyOpts == null) {
-				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + keys);
-				dbColl.ensureIndex(keys.get());
+				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
+				dbColl.ensureIndex(indexKeys);
 			} else {
-				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + keys
-						+ " and opts " + keyOpts);
-				dbColl.ensureIndex(keys.get(), keyOpts.get());
+				DBObject options = keyOpts.get();
+				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys
+						+ " and opts " + options);
+				dbColl.ensureIndex(indexKeys, options);
 			}
 		} finally {
 			Errors.checkError(db, Operation.Insert);
