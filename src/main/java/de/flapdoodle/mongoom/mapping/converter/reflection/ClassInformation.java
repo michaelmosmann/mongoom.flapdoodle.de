@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,8 +21,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.annotations.MappedSuperclass;
 import de.flapdoodle.mongoom.exceptions.MappingException;
@@ -48,18 +50,24 @@ public class ClassInformation {
 	}
 
 	public static <T> List<Field> getFields(Class<? super T> entityClass) {
+		return getFields(entityClass, null);
+	}
+
+	public static <T> List<Field> getFields(Class<? super T> entityClass, Set<String> filter) {
 		List<Field> ret = Lists.newArrayList();
 
 		Class<? super T> superclass = entityClass.getSuperclass();
 		if (superclass.getAnnotation(MappedSuperclass.class) != null) {
-			ret.addAll(getFields(superclass));
+			ret.addAll(getFields(superclass, filter));
 		}
 
 		Field[] declaredFields = entityClass.getDeclaredFields();
 		for (Field f : declaredFields) {
-			int modifier = f.getModifiers();
-			if (!Modifier.isStatic(modifier)) {
-				ret.add(f);
+			if ((filter == null) || (filter.contains(f.getName()))) {
+				int modifier = f.getModifiers();
+				if (!Modifier.isStatic(modifier)) {
+					ret.add(f);
+				}
 			}
 		}
 
