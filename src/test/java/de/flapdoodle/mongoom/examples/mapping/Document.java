@@ -39,7 +39,8 @@ import de.flapdoodle.mongoom.types.Reference;
 @Views(DocumentView.class)
 public class Document {
 
-	IEntityProperty<String> NAME=PropertyFactory.alias(Document.class,"_name",String.class);
+	final static IEntityProperty<String> NAME=PropertyFactory.alias(Document.class,"_name",String.class);
+	
 	// Custom Mapping between ObjectId and typed Reference
 	@Id
 	Reference<Document> _id;
