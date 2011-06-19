@@ -22,6 +22,8 @@ import java.util.Set;
 import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.datastore.DatastoreImpl;
+import de.flapdoodle.mongoom.mapping.MappingConfig;
+import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.mapping.Mapper;
 
 public class ObjectMapper {
@@ -29,9 +31,10 @@ public class ObjectMapper {
 	private final Mapper _mapper;
 
 	public ObjectMapper() {
-		this(Collections.EMPTY_SET);
+		this(MappingConfig.getDefaults(),Collections.EMPTY_SET);
 	}
 
+	@Deprecated
 	public ObjectMapper(Set<Class> entityClasses) {
 		_mapper = new Mapper();
 		for (Class m : entityClasses) {
@@ -39,6 +42,17 @@ public class ObjectMapper {
 		}
 	}
 
+	public ObjectMapper(IMappingConfig mappingConfig) {
+		this(mappingConfig,Collections.EMPTY_SET);
+	}
+	
+	public ObjectMapper(IMappingConfig mappingConfig,Set<Class> entityClasses) {
+		_mapper = new Mapper(mappingConfig);
+		for (Class m : entityClasses) {
+			_mapper.map(m);
+		}
+	}
+	
 	public synchronized ObjectMapper map(Class entityClass) {
 		_mapper.map(entityClass);
 		return this;

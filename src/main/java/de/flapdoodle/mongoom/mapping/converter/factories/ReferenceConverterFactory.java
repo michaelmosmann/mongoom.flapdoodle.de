@@ -26,6 +26,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.types.Reference;
 
@@ -34,7 +35,7 @@ public class ReferenceConverterFactory<T extends List> implements ITypeConverter
 	private static final Logger _logger = LogConfig.getLogger(ReferenceConverterFactory.class);
 
 	@Override
-	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType) {
+	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType, IAnnotated annotations) {
 		if (Reference.class.isAssignableFrom(type)) {
 			Type parameterizedClass = TypeExtractor.getParameterizedClass(context.getEntityClass(), genericType, 0);
 			_logger.severe("ParamType: " + parameterizedClass + " for " + type);

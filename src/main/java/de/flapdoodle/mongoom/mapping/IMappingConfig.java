@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter;
+package de.flapdoodle.mongoom.mapping;
 
-import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
 
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
-import de.flapdoodle.mongoom.mapping.Mapper;
-import de.flapdoodle.mongoom.mapping.MappingContext;
-import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
+import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 
-public interface ITypeConverterFactory<T> {
 
-	public ITypeConverter<? extends T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType, IAnnotated annotations);
+public interface IMappingConfig {
+
+	List<ITypeConverterFactory<?>> getConverterFactories();
+
+	List<IFieldNamingFactory> getFieldNamingFactories();
+
+	List<IEntityNamingFactory> getEntityNamingFactories();
+
+	Map<Class<?>, IVersionFactory<?>> getVersionFactories();
+
 }

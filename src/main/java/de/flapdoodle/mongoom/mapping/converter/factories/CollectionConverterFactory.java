@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 
 public class CollectionConverterFactory implements ITypeConverterFactory<Collection> {
@@ -36,22 +37,22 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 
 	@Override
 	public ITypeConverter<? extends Collection> converter(Mapper mapper, MappingContext context, Class<Collection> type,
-			Type genericType) {
+			Type genericType, IAnnotated annotations) {
 		if (List.class.isAssignableFrom(type)) {
-			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
+			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType,annotations);
 			if (converter != null)
-				return new ListConverter(converter);
+				return new ListConverter(converter,annotations);
 		}
 		if (Set.class.isAssignableFrom(type)) {
-			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType);
+			ITypeConverter<Object> converter = getContainerConverter(mapper, context, type, genericType,annotations);
 			if (converter != null)
-				return new SetConverter(converter);
+				return new SetConverter(converter,annotations);
 		}
 		return null;
 	}
 
 	private ITypeConverter<Object> getContainerConverter(Mapper mapper, MappingContext context, Class<Collection> type,
-			Type genericType) {
+			Type genericType, IAnnotated annotations) {
 		ITypeConverter<Object> converter = null;
 		Type parameterizedClass = TypeExtractor.getParameterizedClass(context.getEntityClass(), genericType, 0);
 		_logger.severe("ParamType: " + parameterizedClass + " for " + type);
@@ -68,7 +69,7 @@ public class CollectionConverterFactory implements ITypeConverterFactory<Collect
 				parameterizedType = (Class) ptype.getRawType();
 				genericSuperclass = ptype;
 			}
-			converter = mapper.map(context, parameterizedType, genericSuperclass, null);
+			converter = mapper.map(context, parameterizedType, genericSuperclass, null,annotations);
 		}
 		return converter;
 	}

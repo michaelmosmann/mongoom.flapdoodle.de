@@ -21,11 +21,12 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class SetConverter extends AbstractCollectionConverter<Set> {
 
-	public SetConverter(ITypeConverter converter) {
-		super(converter, Set.class);
+	public SetConverter(ITypeConverter converter, IAnnotated annotations) {
+		super(converter, Set.class,annotations);
 	}
 
 	protected Set createEmptyCollection() {

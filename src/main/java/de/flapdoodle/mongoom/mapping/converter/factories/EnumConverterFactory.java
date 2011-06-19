@@ -22,13 +22,14 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class EnumConverterFactory<T extends Enum<T>> implements ITypeConverterFactory<T> {
 
 	@Override
-	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType) {
+	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType, IAnnotated annotations) {
 		if (Enum.class.isAssignableFrom(type))
-			return new EnumConverter<T>(type);
+			return new EnumConverter<T>(type,annotations);
 		return null;
 	}
 }

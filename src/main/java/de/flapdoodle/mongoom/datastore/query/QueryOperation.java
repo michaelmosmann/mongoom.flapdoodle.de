@@ -202,6 +202,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	}
 
 	private ITypeConverter getConverter(boolean listAllowed) {
+		if (_converter==null) throw new MappingException("No Converter for " + _field);
 		if (listAllowed) {
 			if (_converter instanceof IContainerConverter) {
 				return ((IContainerConverter) _converter).containerConverter();

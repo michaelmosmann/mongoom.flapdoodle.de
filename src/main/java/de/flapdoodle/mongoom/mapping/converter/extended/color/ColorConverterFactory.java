@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter;
+package de.flapdoodle.mongoom.mapping.converter.extended.color;
 
+import java.awt.Color;
 import java.lang.reflect.Type;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
+import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
-public interface ITypeConverterFactory<T> {
 
-	public ITypeConverter<? extends T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType, IAnnotated annotations);
+public class ColorConverterFactory implements ITypeConverterFactory<Color> {
+
+	@Override
+	public ITypeConverter<? extends Color> converter(Mapper mapper, MappingContext context, Class<Color> type,
+			Type genericType, IAnnotated annotations) {
+		return new ColorConverter(annotations);
+	}
+	
 }

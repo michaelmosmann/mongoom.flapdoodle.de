@@ -50,6 +50,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
+import de.flapdoodle.mongoom.mapping.converter.annotations.AnnotatedField;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
@@ -92,10 +93,9 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				//				String fieldName=f.getName();
 				//				Property pAnn = f.getAnnotation(Property.class);
 				Id idAnn = f.getAnnotation(Id.class);
-				Indexed idxAnn = f.getAnnotation(Indexed.class);
-				IndexedInGroup idxInGAnn = f.getAnnotation(IndexedInGroup.class);
-				IndexedInGroups idxInGAnns = f.getAnnotation(IndexedInGroups.class);
 
+				checkForOnlyOneAnnotation(entityClass, f, Id.class,Indexed.class,IndexedInGroup.class,IndexedInGroups.class,Version.class);
+				
 				boolean isVersioned = f.getAnnotation(Version.class) != null;
 				if ((isVersioned) && (!isEntity()))
 					throw new MappingException(entityClass, "Version only supported in EntityClass");
@@ -107,10 +107,9 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 						throw new MappingException(entityClass, "More then one Id");
 					idSet = true;
 
-					//					fieldName=Const.ID_FIELDNAME;
-					//					if (pAnn!=null) throw new MappingException(entityClass,"Id and Property in same place");
-					if (idxAnn != null)
-						throw new MappingException(entityClass, "Id and Indexed in same place");
+// -> checkForOnlyOneAnnotation()
+//					if (idxAnn != null)
+//						throw new MappingException(entityClass, "Id and Indexed in same place");
 //					if (idxInGAnn != null)
 //						throw new MappingException(entityClass, "Id and IndexedInGroup in same place");
 //					if (idxInGAnns != null)
@@ -130,7 +129,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 
 				_logger.severe("Map " + entityClass + " Field " + f + " -> " + f.getType() + ":" + f.getGenericType());
 				ITypeConverter fieldConverter = mapper.map(context, f.getType(), f.getGenericType(),
-						f.getAnnotation(ConverterType.class));
+						f.getAnnotation(ConverterType.class), new AnnotatedField(f));
 				if (isVersioned) {
 					versionFactory = mapper.getVersionFactory(f.getType());
 					if (versionFactory == null)
@@ -146,65 +145,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				if (isVersioned)
 					versionAttr = mappedAttribute;
 
-				if ((idxAnn != null) && (idxInGAnn != null))
-					throw new MappingException(entityClass, "Field " + f + " is indexed and indexedInGroup");
-				if ((idxAnn != null) && (idxInGAnns != null))
-					throw new MappingException(entityClass, "Field " + f + " is indexed and indexedInGroups");
-				if ((idxInGAnn != null) && (idxInGAnns != null))
-					throw new MappingException(entityClass, "Field " + f + " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
-				if ((idxInGAnns != null) && (idxInGAnns.value().length==0))
-					throw new MappingException(entityClass, "Field " + f + " is indexedInGroups but in which one? (Annotation value is empty)");
-
-				IndexedInGroup[] idxInGAnnList=null; 
-				if (idxInGAnn!=null) idxInGAnnList=new IndexedInGroup[]{idxInGAnn};
-				if (idxInGAnns!=null) idxInGAnnList=idxInGAnns.value();
-				
-				if (idxAnn != null) {
-					List<IndexDef> subIndexes = fieldConverter.getIndexes();
-					if ((subIndexes != null) && (!subIndexes.isEmpty()))
-						throw new MappingException(entityClass, "Field " + f + " is indexed, but type has index too");
-
-					IndexOption options = idxAnn.options();
-					String name = idxAnn.name();
-					if (name.length() == 0)
-						name = null;
-					indexDefinitions.add(new IndexDef(name, Lists.newArrayList(new FieldIndex(fieldName, idxAnn.direction(),0)),
-							options.unique(), options.dropDups()));
-				} else {
-					if (idxInGAnnList != null) {
-						for (IndexedInGroup iig : idxInGAnnList) {
-							String groupName = iig.group();
-							if (isEntity()) {
-								EntityIndexDef def = indexGroupMap.get(groupName);
-								if (def == null)
-									throw new MappingException(entityClass, "Field " + f + ", IndexGroup " + groupName + " not defined");
-								def.addField(new FieldIndex(fieldName, iig.direction(),iig.priority()));
-							} else {
-								indexDefinitions.add(new IndexDef(groupName, new FieldIndex(fieldName, iig.direction(),iig.priority())));
-							}
-						}
-					} else {
-						List<IndexDef> subIndexes = fieldConverter.getIndexes();
-						if (subIndexes != null) {
-							for (IndexDef def : subIndexes) {
-								if (def.group() != null) {
-									EntityIndexDef gdef = indexGroupMap.get(def.group());
-									if (gdef == null)
-										throw new MappingException(entityClass, "Field " + f + ", IndexGroup " + def.group()
-												+ " not defined (in FieldType)");
-									FieldIndex field = def.fields().get(0);
-									gdef.addField(new FieldIndex(fieldName + "." + field.name(), field.direction(),field.priority()));
-								} else {
-									List<FieldIndex> indexFields = Lists.newArrayList();
-									for (FieldIndex fi : def.fields()) {
-										indexFields.add(new FieldIndex(fieldName + "." + fi.name(), fi.direction(),fi.priority()));
-									}
-									indexDefinitions.add(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups()));
-								}
-							}
-						}
-					}
-				}
+				extractIndex(entityClass, f, fieldName, fieldConverter, indexGroupMap, indexDefinitions);
 			}
 		}
 
@@ -218,6 +159,97 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 			throw new MappingException(entityClass, "Id not found");
 
 	}
+
+	private void extractIndex(Class<T> entityClass, Field f, String fieldName, ITypeConverter fieldConverter,
+			Map<String, EntityIndexDef> indexGroupMap, List<IndexDef> indexDefinitions) {
+		Indexed idxAnn = f.getAnnotation(Indexed.class);
+		IndexedInGroup idxInGAnn = f.getAnnotation(IndexedInGroup.class);
+		IndexedInGroups idxInGAnns = f.getAnnotation(IndexedInGroups.class);
+
+		if ((idxAnn != null) && (idxInGAnn != null))
+			throw new MappingException(entityClass, "Field " + f + " is indexed and indexedInGroup");
+		if ((idxAnn != null) && (idxInGAnns != null))
+			throw new MappingException(entityClass, "Field " + f + " is indexed and indexedInGroups");
+		if ((idxInGAnn != null) && (idxInGAnns != null))
+			throw new MappingException(entityClass, "Field " + f
+					+ " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
+		if ((idxInGAnns != null) && (idxInGAnns.value().length == 0))
+			throw new MappingException(entityClass, "Field " + f
+					+ " is indexedInGroups but in which one? (Annotation value is empty)");
+
+		IndexedInGroup[] idxInGAnnList = null;
+		if (idxInGAnn != null)
+			idxInGAnnList = new IndexedInGroup[] {idxInGAnn};
+		if (idxInGAnns != null)
+			idxInGAnnList = idxInGAnns.value();
+
+		if (idxAnn != null) {
+			List<IndexDef> subIndexes = fieldConverter.getIndexes();
+			if ((subIndexes != null) && (!subIndexes.isEmpty()))
+				throw new MappingException(entityClass, "Field " + f + " is indexed, but type has index too");
+
+			IndexOption options = idxAnn.options();
+			String name = idxAnn.name();
+			if (name.length() == 0)
+				name = null;
+			indexDefinitions.add(new IndexDef(name, Lists.newArrayList(new FieldIndex(fieldName, idxAnn.direction(), 0)),
+					options.unique(), options.dropDups()));
+		} else {
+			if (idxInGAnnList != null) {
+				for (IndexedInGroup iig : idxInGAnnList) {
+					String groupName = iig.group();
+					if (isEntity()) {
+						EntityIndexDef def = indexGroupMap.get(groupName);
+						if (def == null)
+							throw new MappingException(entityClass, "Field " + f + ", IndexGroup " + groupName + " not defined");
+						def.addField(new FieldIndex(fieldName, iig.direction(), iig.priority()));
+					} else {
+						indexDefinitions.add(new IndexDef(groupName, new FieldIndex(fieldName, iig.direction(), iig.priority())));
+					}
+				}
+			} else {
+				List<IndexDef> subIndexes = fieldConverter.getIndexes();
+				if (subIndexes != null) {
+					for (IndexDef def : subIndexes) {
+						if (def.group() != null) {
+							EntityIndexDef gdef = indexGroupMap.get(def.group());
+							if (gdef == null)
+								throw new MappingException(entityClass, "Field " + f + ", IndexGroup " + def.group()
+										+ " not defined (in FieldType)");
+							FieldIndex field = def.fields().get(0);
+							gdef.addField(new FieldIndex(fieldName + "." + field.name(), field.direction(), field.priority()));
+						} else {
+							List<FieldIndex> indexFields = Lists.newArrayList();
+							for (FieldIndex fi : def.fields()) {
+								indexFields.add(new FieldIndex(fieldName + "." + fi.name(), fi.direction(), fi.priority()));
+							}
+							indexDefinitions.add(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups()));
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void checkForOnlyOneAnnotation(Class<T> entityClass, Field f, Class<?>... annotations) {
+		Class<?> last = null;
+		for (Class annotation : annotations) {
+			if (f.getAnnotation(annotation) != null) {
+				if (last !=null)
+					throw new MappingException(entityClass, "Field " + f + ": " + last + " collides with " + annotation);
+				last=annotation;
+			}
+		}
+	}
+
+//	private void checkForAnnotationCollisions(Class<T> entityClass, Field f, Class<?> annotatedWith,
+//			Class<?>... annotations) {
+//		for (Class annotation : annotations) {
+//			if (f.getAnnotation(annotation) != null) {
+//				throw new MappingException(entityClass, "Field " + f + ": " + annotatedWith + " collides with " + annotation);
+//			}
+//		}
+//	}
 
 	protected boolean isEntity() {
 		return false;

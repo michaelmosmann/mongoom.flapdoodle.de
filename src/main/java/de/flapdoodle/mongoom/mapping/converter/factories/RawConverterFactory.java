@@ -32,6 +32,7 @@ import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class RawConverterFactory<T> implements ITypeConverterFactory<T> {
 
@@ -62,13 +63,13 @@ public class RawConverterFactory<T> implements ITypeConverterFactory<T> {
 	}
 
 	@Override
-	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType) {
+	public ITypeConverter<T> converter(Mapper mapper, MappingContext context, Class<T> type, Type genericType, IAnnotated annotations) {
 		if (_types.contains(type)) {
 			_logger.severe("Using RawConverter for " + type);
 			Class<?> objectClass = _objectType.get(type);
 			if (objectClass == null)
 				objectClass = type;
-			return new RawConverter<T>(objectClass);
+			return new RawConverter<T>(objectClass,annotations);
 		}
 		return null;
 	}

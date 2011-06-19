@@ -24,6 +24,7 @@ import java.util.List;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
@@ -33,7 +34,7 @@ public abstract class AbstractCollectionConverter<T extends Collection> implemen
 	protected ITypeConverter _converter;
 	private Class<T> _collectionType;
 
-	public AbstractCollectionConverter(ITypeConverter converter, Class<T> collectionType) {
+	public AbstractCollectionConverter(ITypeConverter converter, Class<T> collectionType, IAnnotated annotations) {
 		_converter = converter;
 		_collectionType = collectionType;
 	}

@@ -21,13 +21,14 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 public class EnumConverter<T extends Enum<T>> implements ITypeConverter<T> {
 
 	private final Class<T> _enumClass;
 
-	public EnumConverter(Class<T> enumClass) {
+	public EnumConverter(Class<T> enumClass, IAnnotated annotations) {
 		_enumClass = enumClass;
 	}
 

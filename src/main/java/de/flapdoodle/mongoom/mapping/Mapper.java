@@ -35,6 +35,7 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.converter.EmbeddedObjectConverter;
 import de.flapdoodle.mongoom.mapping.converter.EntityConverter;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.factories.EnumConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.factories.CollectionConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.factories.RawConverterFactory;
@@ -48,40 +49,50 @@ public class Mapper {
 
 	private static final Logger _logger = LogConfig.getLogger(Mapper.class);
 
-	List<ITypeConverterFactory<?>> _converterFactories = Lists.newArrayList();
-	{
-		_converterFactories.add(new RawConverterFactory());
-		_converterFactories.add(new EnumConverterFactory());
-		_converterFactories.add(new CollectionConverterFactory());
-		_converterFactories.add(new ReferenceConverterFactory());
-	}
+	final List<ITypeConverterFactory<?>> _converterFactories; //= Lists.newArrayList();
+//	{
+//		_converterFactories.add(new RawConverterFactory());
+//		_converterFactories.add(new EnumConverterFactory());
+//		_converterFactories.add(new CollectionConverterFactory());
+//		_converterFactories.add(new ReferenceConverterFactory());
+//	}
 
-	List<IEntityNamingFactory> _entityNamingFactories = Lists.newArrayList();
-	{
-		_entityNamingFactories.add(new EntityAnnotationNamingFactory());
-	}
+	final List<IEntityNamingFactory> _entityNamingFactories; // = Lists.newArrayList();
+//	{
+//		_entityNamingFactories.add(new EntityAnnotationNamingFactory());
+//	}
 
-	List<IFieldNamingFactory> _fieldNamingFactories = Lists.newArrayList();
-	{
-		_fieldNamingFactories.add(new FieldAnnotationNamingFactory());
-		_fieldNamingFactories.add(new PrefixFieldNamingFactory());
-	}
+	final List<IFieldNamingFactory> _fieldNamingFactories; // = Lists.newArrayList();
+//	{
+//		_fieldNamingFactories.add(new FieldAnnotationNamingFactory());
+//		_fieldNamingFactories.add(new PrefixFieldNamingFactory());
+//	}
 
-	Map<Class<?>, IVersionFactory<?>> _versionFactories = Maps.newHashMap();
-	{
-		_versionFactories.put(String.class, new StringVersionFactory());
-	}
+	final Map<Class<?>, IVersionFactory<?>> _versionFactories; // = Maps.newHashMap();
+//	{
+//		_versionFactories.put(String.class, new StringVersionFactory());
+//	}
 
 	Map<Class<?>, IEntityConverter<?>> _entityConverter = Maps.newHashMap();
 
 	Map<Class<?>, String> _entities = Maps.newHashMap();
 
+	
+	public Mapper() {
+		this(MappingConfig.getDefaults());
+	}
+	
+	public Mapper(IMappingConfig mappingConfig) {
+		_converterFactories=Lists.newArrayList(mappingConfig.getConverterFactories());
+		_entityNamingFactories=Lists.newArrayList(mappingConfig.getEntityNamingFactories());
+		_versionFactories=Maps.newLinkedHashMap(mappingConfig.getVersionFactories());
+		_fieldNamingFactories=Lists.newArrayList(mappingConfig.getFieldNamingFactories());
+	}
+	
 	public <T> void map(Class<T> entityClass) {
 		if (_entityConverter.containsKey(entityClass))
 			throw new MappingException(entityClass, "allready mapped");
 
-		//		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
-		//		if (entityAnnotation==null) throw new MappingException(entityClass,"No Entity Annotation");
 		String entityName = null;
 		for (IEntityNamingFactory n : _entityNamingFactories) {
 			entityName = n.getEntityName(entityClass);
@@ -93,21 +104,21 @@ public class Mapper {
 	}
 
 	public <M> ITypeConverter<M> map(MappingContext<?> context, Class<M> type, Type genericType,
-			ConverterType converterType) {
+			ConverterType converterType, IAnnotated annotations) {
 		ITypeConverter<M> ret = context.getConverter(type, genericType, converterType);
 		if (ret == null) {
 			context.mappingStart(type, genericType, converterType);
-			ret = getTypeConverter(context, type, genericType, converterType);
+			ret = getTypeConverter(context, type, genericType, converterType,annotations);
 			context.mappingEnd(type, genericType, converterType, ret);
 		}
 		return ret;
 	}
 
 	private <T> ITypeConverter<T> getTypeConverter(MappingContext context, Class<?> type, Type genericType,
-			ConverterType converterType) {
+			ConverterType converterType, IAnnotated annotations) {
 		if (converterType == null) {
 			for (ITypeConverterFactory factory : _converterFactories) {
-				ITypeConverter converter = factory.converter(this, context, type, genericType);
+				ITypeConverter converter = factory.converter(this, context, type, genericType,annotations);
 				if (converter != null)
 					return converter;
 			}

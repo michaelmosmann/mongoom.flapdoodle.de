@@ -21,13 +21,14 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 public class RawConverter<T> implements ITypeConverter<T> {
 
 	private final Class<?> _type;
 
-	public RawConverter(Class<?> type) {
+	public RawConverter(Class<?> type, IAnnotated annotations) {
 		_type = type;
 	}
 

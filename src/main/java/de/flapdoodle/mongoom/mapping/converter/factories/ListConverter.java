@@ -23,12 +23,13 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 
 public class ListConverter extends AbstractCollectionConverter<List> {
 
-	public ListConverter(ITypeConverter converter) {
-		super(converter, List.class);
+	public ListConverter(ITypeConverter converter, IAnnotated annotations) {
+		super(converter, List.class,annotations);
 	}
 
 	protected List createEmptyCollection() {

@@ -23,6 +23,7 @@ import org.bson.types.ObjectId;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.annotations.NothingAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.types.Reference;
@@ -35,7 +36,7 @@ public class ReferenceConverter<T extends Reference> implements ITypeConverter<T
 
 	public ReferenceConverter(Class<?> type) {
 		_type = type;
-		_converter = new RawConverter<ObjectId>(ObjectId.class);
+		_converter = new RawConverter<ObjectId>(ObjectId.class,new NothingAnnotated());
 	}
 
 	@Override
