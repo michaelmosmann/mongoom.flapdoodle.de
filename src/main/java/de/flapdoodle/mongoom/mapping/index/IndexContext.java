@@ -19,14 +19,16 @@ package de.flapdoodle.mongoom.mapping.index;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
+import de.flapdoodle.mongoom.mapping.converter.MappedAttribute;
 
 public class IndexContext<T> {
 
 	private Class<T> _entityClass;
 	private boolean _isEntity;
-	private Field _f;
+	private Field _field;
 	private String _fieldName;
 	private ITypeConverter _fieldConverter;
 	private Map<String, EntityIndexDef> _indexGroupMap;
@@ -36,7 +38,7 @@ public class IndexContext<T> {
 			Map<String, EntityIndexDef> indexGroupMap, List<IndexDef> indexDefinitions) {
 		_entityClass = entityClass;
 		_isEntity = isEntity;
-		_f = f;
+		_field = f;
 		_fieldName = fieldName;
 		_fieldConverter = fieldConverter;
 		_indexGroupMap = indexGroupMap;
@@ -51,8 +53,8 @@ public class IndexContext<T> {
 		return _isEntity;
 	}
 
-	public Field getF() {
-		return _f;
+	public Field getField() {
+		return _field;
 	}
 
 	public String getFieldName() {
@@ -63,12 +65,12 @@ public class IndexContext<T> {
 		return _fieldConverter;
 	}
 
-	public Map<String, EntityIndexDef> getIndexGroupMap() {
-		return _indexGroupMap;
+	public EntityIndexDef getIndexGroup(String name) {
+		return _indexGroupMap.get(name);
 	}
 
-	public List<IndexDef> getIndexDefinitions() {
-		return _indexDefinitions;
+	public void addIndexDefinitions(IndexDef indexDef) {
+		_indexDefinitions.add(indexDef);
 	}
 
 }

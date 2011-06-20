@@ -53,9 +53,9 @@ import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.annotations.AnnotatedField;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
-import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexContext;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
+import de.flapdoodle.mongoom.mapping.index.IndexParser;
 
 public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConverter<T> {
 
@@ -147,7 +147,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				if (isVersioned)
 					versionAttr = mappedAttribute;
 
-				extractIndex(new IndexContext<T>(entityClass, isEntity(), f, fieldName, fieldConverter, indexGroupMap, indexDefinitions));
+				IndexParser.extractIndex(new IndexContext<T>(entityClass, isEntity(), f, fieldName, fieldConverter, indexGroupMap, indexDefinitions));
 			}
 		}
 
@@ -160,80 +160,6 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 		if ((!idSet) && (isEntity()))
 			throw new MappingException(entityClass, "Id not found");
 
-	}
-
-	private static <T> void extractIndex(IndexContext<T> indexContext) {
-		Indexed indexedAnn = indexContext.getF().getAnnotation(Indexed.class);
-		IndexedInGroup indexedInGroupAnn = indexContext.getF().getAnnotation(IndexedInGroup.class);
-		IndexedInGroups indexedInGroupsAnn = indexContext.getF().getAnnotation(IndexedInGroups.class);
-
-		if ((indexedAnn != null) && (indexedInGroupAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF() + " is indexed and indexedInGroup");
-		if ((indexedAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF() + " is indexed and indexedInGroups");
-		if ((indexedInGroupAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF()
-					+ " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
-		if ((indexedInGroupsAnn != null) && (indexedInGroupsAnn.value().length == 0))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF()
-					+ " is indexedInGroups but in which one? (Annotation value is empty)");
-
-		IndexedInGroup[] idxInGAnnList = null;
-		if (indexedInGroupAnn != null)
-			idxInGAnnList = new IndexedInGroup[] {indexedInGroupAnn};
-		if (indexedInGroupsAnn != null)
-			idxInGAnnList = indexedInGroupsAnn.value();
-
-		if (indexedAnn != null) {
-			List<IndexDef> subIndexes = indexContext.getFieldConverter().getIndexes();
-			if ((subIndexes != null) && (!subIndexes.isEmpty()))
-				throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF() + " is indexed, but type has index too");
-
-			IndexOption options = indexedAnn.options();
-			String name = indexedAnn.name();
-			if (name.length() == 0)
-				name = null;
-			indexContext.getIndexDefinitions().add(new IndexDef(name, Lists.newArrayList(new FieldIndex(indexContext.getFieldName(), indexedAnn.direction(), 0)),
-					options.unique(), options.dropDups()));
-		} else {
-			if (idxInGAnnList != null) {
-				for (IndexedInGroup iig : idxInGAnnList) {
-					String groupName = iig.group();
-					if (indexContext.isEntity()) {
-						EntityIndexDef def = indexContext.getIndexGroupMap().get(groupName);
-						if (def == null)
-							throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF() + ", IndexGroup " + groupName + " not defined");
-						def.addField(new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority()));
-					} else {
-						indexContext.getIndexDefinitions().add(new IndexDef(groupName, new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority())));
-					}
-				}
-			} else {
-				processFieldIndexes(indexContext);
-			}
-		}
-	}
-
-	private static <T> void processFieldIndexes(IndexContext<T> indexContext) {
-		List<IndexDef> subIndexes = indexContext.getFieldConverter().getIndexes();
-		if (subIndexes != null) {
-			for (IndexDef def : subIndexes) {
-				if (def.group() != null) {
-					EntityIndexDef gdef = indexContext.getIndexGroupMap().get(def.group());
-					if (gdef == null)
-						throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getF() + ", IndexGroup " + def.group()
-								+ " not defined (in FieldType)");
-					FieldIndex field = def.fields().get(0);
-					gdef.addField(new FieldIndex(indexContext.getFieldName() + "." + field.name(), field.direction(), field.priority()));
-				} else {
-					List<FieldIndex> indexFields = Lists.newArrayList();
-					for (FieldIndex fi : def.fields()) {
-						indexFields.add(new FieldIndex(indexContext.getFieldName() + "." + fi.name(), fi.direction(), fi.priority()));
-					}
-					indexContext.getIndexDefinitions().add(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups()));
-				}
-			}
-		}
 	}
 
 	private void checkForOnlyOneAnnotation(Class<T> entityClass, Field f, Class<?>... annotations) {
