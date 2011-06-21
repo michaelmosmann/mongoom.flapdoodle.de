@@ -31,4 +31,9 @@ public class AnnotatedField implements IAnnotated {
 	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
 		return _field.getAnnotation(annotationClass);
 	}
+	
+	@Override
+	public String toString() {
+		return "AnnotatedField("+_field+")";
+	}
 }

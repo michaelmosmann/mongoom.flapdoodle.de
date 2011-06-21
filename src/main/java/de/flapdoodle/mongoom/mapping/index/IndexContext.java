@@ -23,18 +23,19 @@ import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.converter.MappedAttribute;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class IndexContext<T> {
 
 	private Class<T> _entityClass;
 	private boolean _isEntity;
-	private Field _field;
+	private IAnnotated _field;
 	private String _fieldName;
 	private ITypeConverter _fieldConverter;
 	private Map<String, EntityIndexDef> _indexGroupMap;
 	private List<IndexDef> _indexDefinitions;
 
-	public IndexContext(Class<T> entityClass, boolean isEntity, Field f, String fieldName, ITypeConverter fieldConverter,
+	public IndexContext(Class<T> entityClass, boolean isEntity, IAnnotated f, String fieldName, ITypeConverter fieldConverter,
 			Map<String, EntityIndexDef> indexGroupMap, List<IndexDef> indexDefinitions) {
 		_entityClass = entityClass;
 		_isEntity = isEntity;
@@ -53,7 +54,7 @@ public class IndexContext<T> {
 		return _isEntity;
 	}
 
-	public Field getField() {
+	public IAnnotated getField() {
 		return _field;
 	}
 

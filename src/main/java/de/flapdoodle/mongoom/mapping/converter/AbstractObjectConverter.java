@@ -147,7 +147,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				if (isVersioned)
 					versionAttr = mappedAttribute;
 
-				IndexParser.extractIndex(new IndexContext<T>(entityClass, isEntity(), f, fieldName, fieldConverter, indexGroupMap, indexDefinitions));
+				IndexParser.extractIndex(new IndexContext<T>(entityClass, isEntity(), new AnnotatedField(f), fieldName, fieldConverter, indexGroupMap, indexDefinitions));
 			}
 		}
 

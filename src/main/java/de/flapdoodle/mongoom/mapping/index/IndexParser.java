@@ -26,6 +26,7 @@ import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 
 public class IndexParser {
@@ -53,7 +54,7 @@ public class IndexParser {
 	}
 
 	public static <T> void extractIndex(IndexContext<T> indexContext) {
-		Field field = indexContext.getField();
+		IAnnotated field = indexContext.getField();
 		
 		Indexed indexedAnn = field.getAnnotation(Indexed.class);
 		IndexedInGroup indexedInGroupAnn = field.getAnnotation(IndexedInGroup.class);
