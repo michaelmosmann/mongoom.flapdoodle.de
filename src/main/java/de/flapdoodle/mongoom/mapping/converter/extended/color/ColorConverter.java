@@ -37,6 +37,7 @@ public class ColorConverter implements ITypeConverter<Color> {
 	private static RawConverter<Integer> _convertColorPart;
 	
 	public ColorConverter(IAnnotated annotations) {
+		ColorConverterOptions colorOptions = annotations.getAnnotation(ColorConverterOptions.class);
 		_convertColorPart = new RawConverter<Integer>(Integer.class, new NothingAnnotated());
 	}
 	

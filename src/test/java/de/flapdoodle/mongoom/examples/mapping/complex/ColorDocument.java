@@ -41,7 +41,8 @@ public class ColorDocument {
 	@IndexedInGroup(group="colorName",priority=1)
 	String _name;
 
-	@ColorConverterOptions(indexed=@Indexed(options=@IndexOption(unique=true)),red=@IndexedInGroups({@IndexedInGroup(group="colorName",priority=10)}))
+	@ColorConverterOptions(red=@IndexedInGroups({@IndexedInGroup(group="colorName",priority=10)}))
+	@Indexed(options=@IndexOption(unique=true))
 	Color _color;
 
 	public String getName() {
