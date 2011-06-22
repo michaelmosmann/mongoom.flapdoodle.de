@@ -49,14 +49,14 @@ public class ClassInformation {
 		throw new MappingException(entityClass, "No default Constuctor");
 	}
 
-	public static <T> List<Field> getFields(Class<? super T> entityClass) {
+	public static List<Field> getFields(Class<?> entityClass) {
 		return getFields(entityClass, null);
 	}
 
-	public static <T> List<Field> getFields(Class<? super T> entityClass, Set<String> filter) {
+	public static List<Field> getFields(Class<?> entityClass, Set<String> filter) {
 		List<Field> ret = Lists.newArrayList();
 
-		Class<? super T> superclass = entityClass.getSuperclass();
+		Class<?> superclass = entityClass.getSuperclass();
 		if (superclass.getAnnotation(MappedSuperclass.class) != null) {
 			ret.addAll(getFields(superclass, filter));
 		}

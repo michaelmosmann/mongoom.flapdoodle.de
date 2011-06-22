@@ -26,7 +26,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -37,9 +36,6 @@ import de.flapdoodle.mongoom.annotations.OnRead;
 import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.Version;
-import de.flapdoodle.mongoom.annotations.index.IndexGroup;
-import de.flapdoodle.mongoom.annotations.index.IndexGroups;
-import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
@@ -51,6 +47,7 @@ import de.flapdoodle.mongoom.mapping.IVersionFactory;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.annotations.AnnotatedField;
+import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexContext;
@@ -78,7 +75,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 
 		_attributes = Sets.newLinkedHashSet();
 
-		Map<String, EntityIndexDef> indexGroupMap = getIndexGroupMap(entityClass);
+		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 		List<IndexDef> indexDefinitions = Lists.newArrayList();
 		if (!isEntity() && (!indexDefinitions.isEmpty()))
 			throw new MappingException(entityClass, "Use IndexGroup Definitions only on Entities");
@@ -96,7 +93,7 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				//				Property pAnn = f.getAnnotation(Property.class);
 				Id idAnn = f.getAnnotation(Id.class);
 
-				checkForOnlyOneAnnotation(entityClass, f, Id.class,Indexed.class,IndexedInGroup.class,IndexedInGroups.class,Version.class);
+				Annotations.checkForOnlyOneAnnotation(entityClass, f, Id.class,Indexed.class,IndexedInGroup.class,IndexedInGroups.class,Version.class);
 				
 				boolean isVersioned = f.getAnnotation(Version.class) != null;
 				if ((isVersioned) && (!isEntity()))
@@ -161,26 +158,6 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 			throw new MappingException(entityClass, "Id not found");
 
 	}
-
-	private void checkForOnlyOneAnnotation(Class<T> entityClass, Field f, Class<?>... annotations) {
-		Class<?> last = null;
-		for (Class annotation : annotations) {
-			if (f.getAnnotation(annotation) != null) {
-				if (last !=null)
-					throw new MappingException(entityClass, "Field " + f + ": " + last + " collides with " + annotation);
-				last=annotation;
-			}
-		}
-	}
-
-//	private void checkForAnnotationCollisions(Class<T> entityClass, Field f, Class<?> annotatedWith,
-//			Class<?>... annotations) {
-//		for (Class annotation : annotations) {
-//			if (f.getAnnotation(annotation) != null) {
-//				throw new MappingException(entityClass, "Field " + f + ": " + annotatedWith + " collides with " + annotation);
-//			}
-//		}
-//	}
 
 	protected boolean isEntity() {
 		return false;
@@ -275,33 +252,6 @@ public abstract class AbstractObjectConverter<T> extends AbstractReadOnlyConvert
 				return m;
 		}
 		throw new MappingException(getEntityClass(), "Field " + name + " not defined");
-	}
-
-	private static Map<String, EntityIndexDef> getIndexGroupMap(Class<?> entityClass) {
-		Map<String, EntityIndexDef> map = Maps.newHashMap();
-		IndexGroup[] indexGroups = getIndexGroups(entityClass);
-		for (IndexGroup ig : indexGroups) {
-			IndexOption options = ig.options();
-			String name = ig.name();
-			if (name.length() == 0)
-				name = null;
-			map.put(ig.group(), new EntityIndexDef(name, options.unique(), options.dropDups()));
-		}
-		return map;
-	}
-
-	private static IndexGroup[] getIndexGroups(Class<?> entityClass) {
-		IndexGroup[] list = {};
-		IndexGroups indexGroups = entityClass.getAnnotation(IndexGroups.class);
-		if (indexGroups != null) {
-			list = indexGroups.value();
-		} else {
-			IndexGroup indexGroup = entityClass.getAnnotation(IndexGroup.class);
-			if (indexGroup != null) {
-				list = new IndexGroup[] {indexGroup};
-			}
-		}
-		return list;
 	}
 
 	public boolean matchType(Class<?> entityClass, Class<?> type, Type genericType) {

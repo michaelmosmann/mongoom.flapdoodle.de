@@ -18,9 +18,13 @@ package de.flapdoodle.mongoom.mapping.index;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.annotations.index.IndexGroup;
+import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
@@ -105,6 +109,33 @@ public class IndexParser {
 				processFieldIndexes(indexContext);
 			}
 		}
+	}
+
+	private static IndexGroup[] getIndexGroups(Class<?> entityClass) {
+		IndexGroup[] list = {};
+		IndexGroups indexGroups = entityClass.getAnnotation(IndexGroups.class);
+		if (indexGroups != null) {
+			list = indexGroups.value();
+		} else {
+			IndexGroup indexGroup = entityClass.getAnnotation(IndexGroup.class);
+			if (indexGroup != null) {
+				list = new IndexGroup[] {indexGroup};
+			}
+		}
+		return list;
+	}
+
+	public static Map<String, EntityIndexDef> getIndexGroupMap(Class<?> entityClass) {
+		Map<String, EntityIndexDef> map = Maps.newHashMap();
+		IndexGroup[] indexGroups = getIndexGroups(entityClass);
+		for (IndexGroup ig : indexGroups) {
+			IndexOption options = ig.options();
+			String name = ig.name();
+			if (name.length() == 0)
+				name = null;
+			map.put(ig.group(), new EntityIndexDef(name, options.unique(), options.dropDups()));
+		}
+		return map;
 	}
 
 }
