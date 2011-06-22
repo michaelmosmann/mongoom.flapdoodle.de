@@ -144,7 +144,7 @@ public class Mapper {
 
 	public String getFieldName(Field field) {
 		for (IFieldNamingFactory f : _fieldNamingFactories) {
-			String name = f.getEntityName(field);
+			String name = f.getFieldName(field);
 			if (name != null)
 				return name;
 		}

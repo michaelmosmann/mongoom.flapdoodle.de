@@ -28,7 +28,7 @@ import de.flapdoodle.mongoom.mapping.IFieldNamingFactory;
 public class FieldAnnotationNamingFactory implements IFieldNamingFactory {
 
 	@Override
-	public String getEntityName(Field field) {
+	public String getFieldName(Field field) {
 		Property propertyAnnotation = field.getAnnotation(Property.class);
 		Id idAnnotation = field.getAnnotation(Id.class);
 		Version versionAnnotation = field.getAnnotation(Version.class);

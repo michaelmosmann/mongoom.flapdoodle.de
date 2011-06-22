@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.mapping.IFieldNamingFactory;
 public class PrefixFieldNamingFactory implements IFieldNamingFactory {
 
 	@Override
-	public String getEntityName(Field field) {
+	public String getFieldName(Field field) {
 		if (field.getAnnotation(Id.class) != null) {
 			throw new MappingException(field.getDeclaringClass(),
 					"No Fieldname resolved for Id. You should never reach this point. Something went wrong.");

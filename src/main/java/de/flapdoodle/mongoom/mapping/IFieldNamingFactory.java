@@ -20,5 +20,5 @@ import java.lang.reflect.Field;
 
 public interface IFieldNamingFactory {
 
-	String getEntityName(Field field);
+	String getFieldName(Field field);
 }
