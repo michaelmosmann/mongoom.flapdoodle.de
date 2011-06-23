@@ -18,10 +18,12 @@ package de.flapdoodle.mongoom.parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.TestCase;
 
 import com.google.common.collect.Lists;
+import com.google.inject.internal.Sets;
 
 import de.flapdoodle.mongoom.examples.mapping.Document;
 import de.flapdoodle.mongoom.examples.mapping.complex.ColorDocument;
@@ -43,7 +45,7 @@ public class TestMappingParser extends TestCase {
 		IMappingConfig mappingConfig = MappingConfig.getDefaults();
 		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
 		
-		ArrayList<Class<?>> classes = Lists.newArrayList();
+		Set<Class<?>> classes = Sets.newLinkedHashSet();
 		classes.add(SimpleBean.class);
 		classes.add(BeanWithCollections.class);
 		

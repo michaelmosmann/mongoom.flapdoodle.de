@@ -18,8 +18,10 @@ package de.flapdoodle.mongoom.parser;
 
 import java.lang.reflect.Type;
 
+import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
-public interface IType {
+
+public interface IType extends IAnnotated {
 
 	Class<?> getType();
 

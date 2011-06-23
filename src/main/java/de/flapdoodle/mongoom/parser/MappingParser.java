@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.parser;
 
 import java.util.List;
+import java.util.Set;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
@@ -24,7 +25,7 @@ import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class MappingParser {
 
-	public static Mapping map(List<Class<?>> entityClasses,IEntityParserFactory entityParserFactory) {
+	public static Mapping map(Set<Class<?>> entityClasses,IEntityParserFactory entityParserFactory) {
 		Mapping ret=new Mapping();
 		for (Class<?> entityClass : entityClasses) {
 			IEntityParser typeParser=entityParserFactory.getParser(ClassType.of(entityClass));

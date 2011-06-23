@@ -49,10 +49,10 @@ public class Annotations {
 		
 	}
 	
-	public static void errorIfAnnotated(Class<?> objectClass, Class<?>... annotations) {
+	public static void errorIfAnnotated(IAnnotated type, Class<?>... annotations) {
 		for (Class annotation : annotations) {
-			if (objectClass.getAnnotation(annotation) != null) {
-					throw new MappingException(objectClass, "" + annotation+" not allowed");
+			if (type.getAnnotation(annotation) != null) {
+					throw new MappingException(type.getType(), "" + annotation+" not allowed");
 			}
 		}
 		

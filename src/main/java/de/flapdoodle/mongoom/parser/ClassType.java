@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 public class ClassType implements IType {
@@ -34,6 +35,11 @@ public class ClassType implements IType {
 	@Override
 	public Class<?> getType() {
 		return _clazz;
+	}
+	
+	@Override
+	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+		return _clazz.getAnnotation(annotationClass);
 	}
 	
 	public static ClassType of(Class<?> clazz) {

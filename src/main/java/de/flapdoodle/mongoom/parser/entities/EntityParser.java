@@ -40,6 +40,7 @@ import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
+import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class EntityParser extends AbstractParser implements IEntityParser {
@@ -60,6 +61,8 @@ public class EntityParser extends AbstractParser implements IEntityParser {
 		}
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
+		EntityMapping entityMapping=mapping.newEntity(entityClass);
+		
 		List<Field> fields = ClassInformation.getFields(entityClass);
 
 		boolean idSet = false;
@@ -90,7 +93,7 @@ public class EntityParser extends AbstractParser implements IEntityParser {
 				
 				ITypeParser parser = _typeParserFactory.getParser(fieldType);
 				if (parser==null) error(type,"no parser for "+field);
-				parser.parse(mapping, fieldType);
+				parser.parse(entityMapping, fieldType);
 			}
 		}
 	}

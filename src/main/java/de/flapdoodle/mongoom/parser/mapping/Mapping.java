@@ -16,9 +16,25 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.Map;
+import java.util.Set;
+
+import com.google.common.collect.Maps;
+
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 
 
 public class Mapping implements IEntityMapping {
+
+	Map<Class<?>,EntityMapping> _entities=Maps.newHashMap();
+	
+	@Override
+	public EntityMapping newEntity(Class<?> entityClass) {
+		if (_entities.containsKey(entityClass)) throw new MappingException(entityClass,"allready mapped");
+		EntityMapping ret = new EntityMapping(entityClass);
+		_entities.put(entityClass, ret);
+		return ret;
+	}
 
 }

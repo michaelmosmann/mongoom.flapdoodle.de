@@ -24,4 +24,9 @@ public class NothingAnnotated implements IAnnotated {
 	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
 		return null;
 	}
+	
+	@Override
+	public Class<?> getType() {
+		return NothingAnnotated.class;
+	}
 }

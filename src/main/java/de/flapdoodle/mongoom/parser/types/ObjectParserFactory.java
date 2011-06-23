@@ -59,14 +59,13 @@ public class ObjectParserFactory extends AbstractParser implements ITypeParserFa
 		return new ObjectParser();
 	}
 
-	class ObjectParser implements ITypeParser {
+	class ObjectParser extends AbstractTypeParser {
 
 		@Override
 		public void parse(IMapping mapping, IType type) {
+			super.parse(mapping, type);
 			Class<?> objectClass=type.getType();
 			
-			Annotations.errorIfAnnotated(objectClass, Entity.class, IndexedInGroup.class,
-					IndexedInGroups.class);
 			
 			List<Field> fields = ClassInformation.getFields(objectClass);
 			

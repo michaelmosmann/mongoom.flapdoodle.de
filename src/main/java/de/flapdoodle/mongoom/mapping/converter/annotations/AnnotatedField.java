@@ -32,6 +32,12 @@ public class AnnotatedField implements IAnnotated {
 		return _field.getAnnotation(annotationClass);
 	}
 	
+	
+	@Override
+	public Class<?> getType() {
+		return _field.getType();
+	}
+	
 	@Override
 	public String toString() {
 		return "AnnotatedField("+_field+")";

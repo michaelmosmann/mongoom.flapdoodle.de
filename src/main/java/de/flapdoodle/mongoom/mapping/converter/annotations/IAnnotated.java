@@ -21,4 +21,5 @@ import java.lang.annotation.Annotation;
 
 public interface IAnnotated {
 	public <T extends Annotation> T getAnnotation(Class<T> annotationClass);
+	public Class<?> getType();
 }

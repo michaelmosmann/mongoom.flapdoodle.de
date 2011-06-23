@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
@@ -36,6 +37,11 @@ public class FieldType implements IType {
 	@Override
 	public Type getGenericType() {
 		return _field.getGenericType();
+	}
+	
+	@Override
+	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+		return _field.getAnnotation(annotationClass);
 	}
 	
 	public static FieldType of(Field field) {
