@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.parser.types.collections;
 
 import java.util.List;
+import java.util.Set;
 
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -30,6 +31,9 @@ public class CollectionParserFactory implements ITypeParserFactory {
 		Class<?> collectionType = type.getType();
 		if (List.class.isAssignableFrom(collectionType)) {
 			return new ListParser();
+		}
+		if (Set.class.isAssignableFrom(collectionType)) {
+			return new SetParser();
 		}
 		return null;
 	}

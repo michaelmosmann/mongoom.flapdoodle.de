@@ -35,10 +35,11 @@ import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.FieldType;
+import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.Mapping;
+import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 
 public class ObjectParserFactory extends AbstractParser implements ITypeParserFactory {
@@ -61,7 +62,7 @@ public class ObjectParserFactory extends AbstractParser implements ITypeParserFa
 	class ObjectParser implements ITypeParser {
 
 		@Override
-		public void parse(Mapping mapping, IType type) {
+		public void parse(IMapping mapping, IType type) {
 			Class<?> objectClass=type.getType();
 			
 			Annotations.errorIfAnnotated(objectClass, Entity.class, IndexedInGroup.class,

@@ -44,8 +44,8 @@ public class TestMappingParser extends TestCase {
 		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
 		
 		ArrayList<Class<?>> classes = Lists.newArrayList();
-		classes.add(ColorDocument.class);
-		classes.add(Document.class);
+		classes.add(SimpleBean.class);
+		classes.add(BeanWithCollections.class);
 		
 		List<ITypeParserFactory> factories=Lists.newArrayList();
 		factories.add(new ReferenceParserFactory());

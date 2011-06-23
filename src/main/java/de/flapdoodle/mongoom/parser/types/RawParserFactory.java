@@ -34,10 +34,11 @@ import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.factories.RawConverter;
 import de.flapdoodle.mongoom.mapping.converter.factories.RawConverterFactory;
+import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.Mapping;
+import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class RawParserFactory implements ITypeParserFactory {
 
@@ -70,7 +71,7 @@ public class RawParserFactory implements ITypeParserFactory {
 	@Override
 	public ITypeParser getParser(IType type) {
 		if (_types.contains(type.getType())) {
-			_logger.severe("Using RawConverter for " + type);
+			_logger.severe("Using RawParser for " + type);
 			Class<?> objectClass = _objectType.get(type.getType());
 			if (objectClass == null)
 				objectClass = type.getType();
@@ -88,7 +89,7 @@ public class RawParserFactory implements ITypeParserFactory {
 		}
 
 		@Override
-		public void parse(Mapping mapping, IType clazz) {
+		public void parse(IMapping mapping, IType clazz) {
 			// TODO Auto-generated method stub
 
 		}

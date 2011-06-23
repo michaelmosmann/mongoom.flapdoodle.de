@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.mapping;
+
+import de.flapdoodle.mongoom.parser.IEntityMapping;
 
 
-public class Mapping {
+public class Mapping implements IEntityMapping {
 
 }

@@ -34,11 +34,13 @@ import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.FieldType;
+import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
+import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.Mapping;
+import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class EntityParser extends AbstractParser implements IEntityParser {
 
@@ -49,7 +51,7 @@ public class EntityParser extends AbstractParser implements IEntityParser {
 	}
 
 	@Override
-	public void parse(Mapping mapping, IType type) {
+	public void parse(IEntityMapping mapping, IType type) {
 		Class<?> entityClass=type.getType();
 		
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);

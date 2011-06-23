@@ -17,14 +17,15 @@
 package de.flapdoodle.mongoom.parser.types.collections;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
-import de.flapdoodle.mongoom.parser.Mapping;
+import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 
 public class ListParser extends AbstractCollectionParser {
 
 	@Override
-	public void parse(Mapping mapping, IType clazz) {
+	public void parse(IMapping mapping, IType clazz) {
 		
 	}
 

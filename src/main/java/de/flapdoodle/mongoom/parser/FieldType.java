@@ -42,5 +42,9 @@ public class FieldType implements IType {
 		return new FieldType(field);
 	}
 
+	@Override
+	public String toString() {
+		return "FieldType("+_field+")";
+	}
 	
 }

@@ -39,4 +39,10 @@ public class ClassType implements IType {
 	public static ClassType of(Class<?> clazz) {
 		return new ClassType(clazz);
 	}
+	
+	@Override
+	public String toString() {
+		return "ClassType("+_clazz+")";
+	}
+
 }
