@@ -19,6 +19,6 @@ package de.flapdoodle.mongoom.parser;
 
 public interface ITypeParser {
 
-	void parse(IMapping mapping, IType clazz);
+	void parse(IPropertyMapping mapping, IType type);
 
 }

@@ -2,9 +2,10 @@ package de.flapdoodle.mongoom.parser;
 
 import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 
+public interface IEntityMapping extends IPropertyMapping {
 
-public interface IEntityMapping extends IMapping {
+	void setVersionProperty(String name);
 
-	EntityMapping newEntity(Class<?> entityClass);
+	void setIdProperty(String name);
 
 }

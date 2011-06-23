@@ -36,6 +36,7 @@ import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IPropertyMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
@@ -56,36 +57,18 @@ public class ObjectParserFactory extends AbstractParser implements ITypeParserFa
 	public ITypeParser getParser(IType type) {
 		Class<?> objectType = type.getType();
 		if (_illegalTypes.contains(objectType)) error(type,"Should not be parsed with "+getClass()+", configuration error");
-		return new ObjectParser();
+		return new ObjectParser(_typeParserFactory);
 	}
 
-	class ObjectParser extends AbstractTypeParser {
+	static class ObjectParser extends AbstractObjectParser {
 
-		@Override
-		public void parse(IMapping mapping, IType type) {
-			super.parse(mapping, type);
-			Class<?> objectClass=type.getType();
-			
-			
-			List<Field> fields = ClassInformation.getFields(objectClass);
-			
-			for (Field field : fields) {
-				field.setAccessible(true);
-				if (field.getAnnotation(Transient.class) == null) {
-					Annotations.errorIfAnnotated(objectClass, field, Id.class, Version.class);
-					
-					Annotations.checkForOnlyOneAnnotation(objectClass, field, Indexed.class, IndexedInGroup.class,
-							IndexedInGroups.class);
-
-					FieldType fieldType = FieldType.of(field);
-					
-					ITypeParser parser = _typeParserFactory.getParser(fieldType);
-					if (parser==null) error(type,"no parser for "+field);
-					parser.parse(mapping, fieldType);
-				}
-			}
-
+		public ObjectParser(ITypeParserFactory typeParserFactory) {
+			super(typeParserFactory);
 		}
 		
+		@Override
+		public void parse(IPropertyMapping mapping, IType type) {
+			parseFields(mapping, type);
+		}
 	}
 }

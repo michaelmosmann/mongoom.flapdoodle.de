@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,65 +37,89 @@ import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
 import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IPropertyMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.types.AbstractObjectParser;
 
-public class EntityParser extends AbstractParser implements IEntityParser {
-
-	private final ITypeParserFactory _typeParserFactory;
+public class EntityParser extends AbstractObjectParser<IEntityMapping> implements IEntityParser {
 
 	public EntityParser(ITypeParserFactory typeParserFactory) {
-		_typeParserFactory = typeParserFactory;
+		super(typeParserFactory);
 	}
 
 	@Override
-	public void parse(IEntityMapping mapping, IType type) {
-		Class<?> entityClass=type.getType();
-		
+	public void parse(IMapping mapping, IType type) {
+		Class<?> entityClass = type.getType();
+
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
 		if (entityAnnotation == null) {
 			error(type, "Missing " + Entity.class + " Annotation");
 		}
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
-		EntityMapping entityMapping=mapping.newEntity(entityClass);
-		
-		List<Field> fields = ClassInformation.getFields(entityClass);
+		IEntityMapping entityMapping = mapping.newEntity(entityClass);
 
-		boolean idSet = false;
-		boolean isVersioned = false;
+		parseFields(entityMapping, type);
 
-		for (Field field : fields) {
-			field.setAccessible(true);
-			if (field.getAnnotation(Transient.class) == null) {
-				Annotations.checkForOnlyOneAnnotation(entityClass, field, Id.class, Indexed.class, IndexedInGroup.class,
-						IndexedInGroups.class, Version.class);
+		//		List<Field> fields = ClassInformation.getFields(entityClass);
+		//
+		//		boolean idSet = false;
+		//		boolean isVersioned = false;
+		//
+		//		for (Field field : fields) {
+		//			field.setAccessible(true);
+		//			if (field.getAnnotation(Transient.class) == null) {
+		//				Annotations.checkForOnlyOneAnnotation(entityClass, field, Id.class, Indexed.class, IndexedInGroup.class,
+		//						IndexedInGroups.class, Version.class);
+		//
+		//				Id idAnn = field.getAnnotation(Id.class);
+		//				Version versionAnn = field.getAnnotation(Version.class);
+		//
+		//				if (versionAnn != null) {
+		//					if (isVersioned)
+		//						error(type, "more than one version annotation");
+		//					isVersioned = true;
+		//					entityMapping.setVersionProperty(field.getName());
+		//				}
+		//
+		//				if (idAnn != null) {
+		//					if (idSet)
+		//						error(type, "more then one Id annotation");
+		//					idSet = true;
+		//				}
+		//
+		//				FieldType fieldType = FieldType.of(field);
+		//				
+		//				ITypeParser parser = _typeParserFactory.getParser(fieldType);
+		//				if (parser==null) error(type,"no parser for "+field);
+		//				
+		//				IPropertyMapping property = entityMapping.newProperty(field.getName());
+		//				parser.parse(property, fieldType);
+		//				
+		//			}
+		//		}
+	}
 
-				Id idAnn = field.getAnnotation(Id.class);
-				Version versionAnn = field.getAnnotation(Version.class);
-
-				if (versionAnn != null) {
-					if (isVersioned)
-						error(type, "more than one version annotation");
-					isVersioned = true;
-				}
-
-				if (idAnn != null) {
-					if (idSet)
-						error(type, "more then one Id annotation");
-					idSet = true;
-				}
-
-				FieldType fieldType = FieldType.of(field);
-				
-				ITypeParser parser = _typeParserFactory.getParser(fieldType);
-				if (parser==null) error(type,"no parser for "+field);
-				parser.parse(entityMapping, fieldType);
-			}
+	@Override
+	protected void postProcessProperty(IEntityMapping mapping, FieldType fieldType,String name) {
+		Id idAnn = fieldType.getAnnotation(Id.class);
+		Version versionAnn = fieldType.getAnnotation(Version.class);
+		if (idAnn!=null) {
+			mapping.setIdProperty(name);
 		}
+		if (versionAnn !=null) {
+			mapping.setVersionProperty(name);
+		}
+	}
+
+	@Override
+	protected void checkAnnotations(Class<?> objectClass, Field field) {
+		Annotations.checkForOnlyOneAnnotation(objectClass, field, Id.class, Indexed.class, IndexedInGroup.class,
+				IndexedInGroups.class, Version.class);
 	}
 
 }

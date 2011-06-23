@@ -23,14 +23,15 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
+import de.flapdoodle.mongoom.parser.IMapping;
 
 
-public class Mapping implements IEntityMapping {
+public class Mapping implements IMapping {
 
 	Map<Class<?>,EntityMapping> _entities=Maps.newHashMap();
 	
 	@Override
-	public EntityMapping newEntity(Class<?> entityClass) {
+	public IEntityMapping newEntity(Class<?> entityClass) {
 		if (_entities.containsKey(entityClass)) throw new MappingException(entityClass,"allready mapped");
 		EntityMapping ret = new EntityMapping(entityClass);
 		_entities.put(entityClass, ret);
