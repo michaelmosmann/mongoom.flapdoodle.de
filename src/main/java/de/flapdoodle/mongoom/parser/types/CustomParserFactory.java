@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.parser.types;
 
 import java.util.List;
 
-import com.google.inject.internal.Lists;
+import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.IType;
