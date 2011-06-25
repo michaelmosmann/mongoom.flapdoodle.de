@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.parser.types.extended.color;
 import java.awt.Color;
 
 import de.flapdoodle.mongoom.parser.IMapping;
-import de.flapdoodle.mongoom.parser.IPropertyMapping;
+import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
@@ -39,7 +39,7 @@ public class ColorParserFactory implements ITypeParserFactory {
 	static class ColorParser implements ITypeParser {
 
 		@Override
-		public void parse(IPropertyMapping mapping, IType clazz) {
+		public void parse(IMapProperties mapping, IType clazz) {
 			// TODO Auto-generated method stub
 			
 		}

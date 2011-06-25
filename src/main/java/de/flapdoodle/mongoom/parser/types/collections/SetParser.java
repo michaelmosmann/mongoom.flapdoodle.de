@@ -17,7 +17,7 @@
 package de.flapdoodle.mongoom.parser.types.collections;
 
 import de.flapdoodle.mongoom.parser.IMapping;
-import de.flapdoodle.mongoom.parser.IPropertyMapping;
+import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.parser.mapping.Mapping;
 public class SetParser extends AbstractCollectionParser {
 
 	@Override
-	public void parse(IPropertyMapping mapping, IType clazz) {
+	public void parse(IMapProperties mapping, IType clazz) {
 		
 	}
 

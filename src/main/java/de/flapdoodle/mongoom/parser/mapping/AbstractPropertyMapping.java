@@ -22,11 +22,11 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IPropertyMapping;
+import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 
 
-public abstract class AbstractPropertyMapping implements IPropertyMapping {
+public abstract class AbstractPropertyMapping implements IMapProperties {
 	private final IType _type;
 	Map<String, FieldMapping> _properties=Maps.newLinkedHashMap();
 

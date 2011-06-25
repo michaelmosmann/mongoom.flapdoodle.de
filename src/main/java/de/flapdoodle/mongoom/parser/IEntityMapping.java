@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.parser;
 
 import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 
-public interface IEntityMapping extends IPropertyMapping {
+public interface IEntityMapping extends IMapProperties {
 
 	void setVersionProperty(String name);
 

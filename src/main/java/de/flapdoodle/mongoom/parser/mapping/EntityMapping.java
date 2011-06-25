@@ -23,7 +23,7 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
-import de.flapdoodle.mongoom.parser.IPropertyMapping;
+import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 
 
