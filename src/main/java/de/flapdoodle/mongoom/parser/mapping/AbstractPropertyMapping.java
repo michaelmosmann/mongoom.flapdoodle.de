@@ -16,34 +16,44 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IPropertyMapping;
 import de.flapdoodle.mongoom.parser.IType;
-import de.flapdoodle.mongoom.parser.types.AbstractTypeParser;
 
-public class FieldMapping extends AbstractPropertyMapping implements IMappedProperty {
 
-	private final String _name;
+public abstract class AbstractPropertyMapping implements IPropertyMapping {
+	private final IType _type;
+	Map<String, FieldMapping> _properties=Maps.newLinkedHashMap();
 
-	public FieldMapping(IType type, String name) {
-		super(type);
-		_name = name;
+	
+	protected AbstractPropertyMapping(IType type) {
+		_type=type;
+	}
+	
+	protected void error(String message) {
+		throw new MappingException(_type.getType(), message);
+	}
+	
+	protected IType getType() {
+		return _type;
 	}
 
 	@Override
-	public String getName() {
-		return _name;
-	};
-
-	
-	@Override
-	public IType getType() {
-		return super.getType();
+	public IMappedProperty newProperty(IType type, String name) {
+		if (_properties.containsKey(name)) throw new MappingException(_type.getType(),"Property "+name+" allready mapped");
+		FieldMapping ret = new FieldMapping(type,name);
+		_properties.put(name, ret);
+		return ret;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Field(type=" + getType() + ",name=" + _name + "," + super.toString() + ")";
+		if (!_properties.isEmpty())	return "properties="+_properties;
+		return "";
 	}
 }

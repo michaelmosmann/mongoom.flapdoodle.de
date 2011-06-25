@@ -22,6 +22,7 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMapping;
 
@@ -31,11 +32,16 @@ public class Mapping implements IMapping {
 	Map<Class<?>,EntityMapping> _entities=Maps.newHashMap();
 	
 	@Override
-	public IEntityMapping newEntity(Class<?> entityClass) {
-		if (_entities.containsKey(entityClass)) throw new MappingException(entityClass,"allready mapped");
+	public IEntityMapping newEntity(ClassType entityClass) {
+		if (_entities.containsKey(entityClass)) throw new MappingException(entityClass.getType(),"allready mapped");
 		EntityMapping ret = new EntityMapping(entityClass);
-		_entities.put(entityClass, ret);
+		_entities.put(entityClass.getType(), ret);
 		return ret;
+	}
+	
+	@Override
+	public String toString() {
+		return "Mapping("+_entities.values()+")";
 	}
 
 }

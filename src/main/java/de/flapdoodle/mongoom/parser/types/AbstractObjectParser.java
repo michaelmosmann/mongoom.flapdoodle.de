@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.parser.FieldType;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IPropertyMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -60,16 +61,16 @@ public abstract class AbstractObjectParser<T extends IPropertyMapping> extends A
 				ITypeParser parser = _typeParserFactory.getParser(fieldType);
 				if (parser==null) error(type,"no parser for "+field);
 				
-				IPropertyMapping property = mapping.newProperty(field.getName());
+				IMappedProperty property = mapping.newProperty(fieldType, field.getName());
 				parser.parse(property, fieldType);
 				
-				postProcessProperty(mapping,fieldType,field.getName());
+				postProcessProperty(mapping,property);
 			}
 		}
 
 	}
 
-	protected void postProcessProperty(T mapping, FieldType fieldType,String name) {
+	protected void postProcessProperty(T mapping, IMappedProperty field) {
 		
 	}
 

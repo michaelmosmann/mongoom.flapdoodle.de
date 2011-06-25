@@ -50,7 +50,8 @@ public class FieldType implements IType {
 
 	@Override
 	public String toString() {
-		return "FieldType("+_field+")";
+		if (_field.getGenericType()==_field.getType()) return "FieldType("+_field.getType()+")";
+		return "FieldType("+_field.getGenericType()+")";
 	}
 	
 }

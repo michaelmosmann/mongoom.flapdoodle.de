@@ -16,7 +16,10 @@
 
 package de.flapdoodle.mongoom.parser;
 
+public interface IMappedProperty extends IPropertyMapping {
 
-public interface IPropertyMapping {
-	IMappedProperty newProperty(IType type, String name);
+	IType getType();
+
+	String getName();
+
 }

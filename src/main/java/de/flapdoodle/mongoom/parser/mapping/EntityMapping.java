@@ -21,39 +21,35 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IPropertyMapping;
+import de.flapdoodle.mongoom.parser.IType;
 
 
-public class EntityMapping implements IEntityMapping{
+public class EntityMapping extends AbstractPropertyMapping implements IEntityMapping{
 
-	private final Class<?> _entityClass;
-	Map<String, FieldMapping> _properties=Maps.newLinkedHashMap();
 	private String _versionProperty;
 	private String _idProperty;
 
-	public EntityMapping(Class<?> entityClass) {
-		_entityClass = entityClass;
+	public EntityMapping(ClassType entityClass) {
+		super(entityClass);
 	}
 	
-	@Override
-	public IPropertyMapping newProperty(String name) {
-		if (_properties.containsKey(name)) throw new MappingException(_entityClass,"Property "+name+" allready mapped");
-		FieldMapping ret = new FieldMapping(name);
-		_properties.put(name, ret);
-		return ret;
-	}
-
 	public void setVersionProperty(String versionProperty) {
-		if (_versionProperty!=null) throw new MappingException(_entityClass,"versioned property allready set: "+_versionProperty+"->"+versionProperty);
+		if (_versionProperty!=null) error("versioned property allready set: "+_versionProperty+"->"+versionProperty);
 		_versionProperty = versionProperty;
 		
 	}
 	
 	@Override
 	public void setIdProperty(String idProperty) {
-		if (_idProperty!=null) throw new MappingException(_entityClass,"id property allready set: "+_idProperty+"->"+idProperty);
+		if (_idProperty!=null) error("id property allready set: "+_idProperty+"->"+idProperty);
 		_idProperty = idProperty;
 	}
 
+	@Override
+	public String toString() {
+		return "Entity("+getType()+",id="+_idProperty+",version="+_versionProperty+",properties="+_properties+")";
+	}
 }

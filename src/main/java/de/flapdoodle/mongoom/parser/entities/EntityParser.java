@@ -33,9 +33,11 @@ import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.parser.AbstractParser;
+import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IPropertyMapping;
 import de.flapdoodle.mongoom.parser.IType;
@@ -61,7 +63,7 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 		}
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
-		IEntityMapping entityMapping = mapping.newEntity(entityClass);
+		IEntityMapping entityMapping = mapping.newEntity(ClassType.of(entityClass));
 
 		parseFields(entityMapping, type);
 
@@ -105,7 +107,9 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 	}
 
 	@Override
-	protected void postProcessProperty(IEntityMapping mapping, FieldType fieldType,String name) {
+	protected void postProcessProperty(IEntityMapping mapping, IMappedProperty fieldMapping) {
+		IType fieldType = fieldMapping.getType();
+		String name=fieldMapping.getName();
 		Id idAnn = fieldType.getAnnotation(Id.class);
 		Version versionAnn = fieldType.getAnnotation(Version.class);
 		if (idAnn!=null) {
@@ -114,6 +118,7 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 		if (versionAnn !=null) {
 			mapping.setVersionProperty(name);
 		}
+		super.postProcessProperty(mapping, fieldMapping);
 	}
 
 	@Override
