@@ -20,6 +20,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
+import sun.awt.datatransfer.DataTransferer.IndexOrderComparator;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -59,32 +61,18 @@ public class IndexParser {
 
 	public static <T> void extractIndex(IndexContext<T> indexContext) {
 		IAnnotated field = indexContext.getField();
+		Class<T> entityClass = indexContext.getEntityClass();
 		
-		Indexed indexedAnn = field.getAnnotation(Indexed.class);
-		IndexedInGroup indexedInGroupAnn = field.getAnnotation(IndexedInGroup.class);
-		IndexedInGroups indexedInGroupsAnn = field.getAnnotation(IndexedInGroups.class);
-	
-		if ((indexedAnn != null) && (indexedInGroupAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + field + " is indexed and indexedInGroup");
-		if ((indexedAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + field + " is indexed and indexedInGroups");
-		if ((indexedInGroupAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + field
-					+ " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
-		if ((indexedInGroupsAnn != null) && (indexedInGroupsAnn.value().length == 0))
-			throw new MappingException(indexContext.getEntityClass(), "Field " + field
-					+ " is indexedInGroups but in which one? (Annotation value is empty)");
-	
+		Indexed indexedAnn=null;
 		IndexedInGroup[] idxInGAnnList = null;
-		if (indexedInGroupAnn != null)
-			idxInGAnnList = new IndexedInGroup[] {indexedInGroupAnn};
-		if (indexedInGroupsAnn != null)
-			idxInGAnnList = indexedInGroupsAnn.value();
+		OneOrOther<Indexed, IndexedInGroup[]> indexOrIndexGroups = getIndexDef(entityClass, field);
+		if (indexOrIndexGroups.getOne()!=null) indexedAnn=indexOrIndexGroups.getOne();
+		else idxInGAnnList=indexOrIndexGroups.getOther();
 	
 		if (indexedAnn != null) {
 			List<IndexDef> subIndexes = indexContext.getFieldConverter().getIndexes();
 			if ((subIndexes != null) && (!subIndexes.isEmpty()))
-				throw new MappingException(indexContext.getEntityClass(), "Field " + field + " is indexed, but type has index too");
+				throw new MappingException(entityClass, "Field " + field + " is indexed, but type has index too");
 	
 			IndexOption options = indexedAnn.options();
 			String name = indexedAnn.name();
@@ -99,7 +87,7 @@ public class IndexParser {
 					if (indexContext.isEntity()) {
 						EntityIndexDef def = indexContext.getIndexGroup(groupName);
 						if (def == null)
-							throw new MappingException(indexContext.getEntityClass(), "Field " + field + ", IndexGroup " + groupName + " not defined");
+							throw new MappingException(entityClass, "Field " + field + ", IndexGroup " + groupName + " not defined");
 						def.addField(new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority()));
 					} else {
 						indexContext.addIndexDefinitions(new IndexDef(groupName, new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority())));
@@ -109,6 +97,31 @@ public class IndexParser {
 				processFieldIndexes(indexContext);
 			}
 		}
+	}
+	
+	public static OneOrOther<Indexed, IndexedInGroup[]> getIndexDef(Class<?> entityClass, IAnnotated field) {
+		Indexed indexedAnn = field.getAnnotation(Indexed.class);
+		IndexedInGroup indexedInGroupAnn = field.getAnnotation(IndexedInGroup.class);
+		IndexedInGroups indexedInGroupsAnn = field.getAnnotation(IndexedInGroups.class);
+	
+		if ((indexedAnn != null) && (indexedInGroupAnn != null))
+			throw new MappingException(entityClass, "Field " + field + " is indexed and indexedInGroup");
+		if ((indexedAnn != null) && (indexedInGroupsAnn != null))
+			throw new MappingException(entityClass, "Field " + field + " is indexed and indexedInGroups");
+		if ((indexedInGroupAnn != null) && (indexedInGroupsAnn != null))
+			throw new MappingException(entityClass, "Field " + field
+					+ " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
+		if ((indexedInGroupsAnn != null) && (indexedInGroupsAnn.value().length == 0))
+			throw new MappingException(entityClass, "Field " + field
+					+ " is indexedInGroups but in which one? (Annotation value is empty)");
+	
+		IndexedInGroup[] idxInGAnnList = null;
+		if (indexedInGroupAnn != null)
+			idxInGAnnList = new IndexedInGroup[] {indexedInGroupAnn};
+		if (indexedInGroupsAnn != null)
+			idxInGAnnList = indexedInGroupsAnn.value();
+
+		return new OneOrOther<Indexed, IndexedInGroup[]>(indexedAnn, idxInGAnnList);
 	}
 
 	private static IndexGroup[] getIndexGroups(Class<?> entityClass) {

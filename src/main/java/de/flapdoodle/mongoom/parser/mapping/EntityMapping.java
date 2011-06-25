@@ -21,9 +21,11 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
 
 
@@ -31,6 +33,7 @@ public class EntityMapping extends AbstractPropertyMapping implements IEntityMap
 
 	private String _versionProperty;
 	private String _idProperty;
+	private Map<String, EntityIndexDef> _indexGroupMap;
 
 	public EntityMapping(ClassType entityClass) {
 		super(entityClass);
@@ -49,7 +52,13 @@ public class EntityMapping extends AbstractPropertyMapping implements IEntityMap
 	}
 
 	@Override
+	public void setIndexGroups(Map<String, EntityIndexDef> indexGroupMap) {
+		_indexGroupMap = indexGroupMap;
+		
+	}
+
+	@Override
 	public String toString() {
-		return "Entity("+getType()+",id="+_idProperty+",version="+_versionProperty+",properties="+_properties+")";
+		return "Entity("+getType()+",id="+_idProperty+",version="+_versionProperty+",indexes="+_indexGroupMap+",properties="+_properties+")";
 	}
 }

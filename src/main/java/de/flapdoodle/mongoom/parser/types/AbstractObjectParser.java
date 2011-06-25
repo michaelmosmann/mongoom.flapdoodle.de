@@ -25,8 +25,11 @@ import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
+import de.flapdoodle.mongoom.datastore.Indexes;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.mapping.index.IndexParser;
+import de.flapdoodle.mongoom.mapping.index.OneOrOther;
 import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
@@ -71,6 +74,9 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 	}
 
 	protected void postProcessProperty(T mapping, IMappedProperty field) {
+		OneOrOther<Indexed, IndexedInGroup[]> indexOrIdxInGroup = IndexParser.getIndexDef(mapping.getType().getType(), field.getType());
+		if (indexOrIdxInGroup.getOne()!=null) field.setIndex(indexOrIdxInGroup.getOne());
+		if (indexOrIdxInGroup.getOther()!=null) field.setIndexedInGroup(indexOrIdxInGroup.getOther());
 		
 	}
 

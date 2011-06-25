@@ -16,6 +16,12 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
@@ -25,6 +31,8 @@ import de.flapdoodle.mongoom.parser.types.AbstractTypeParser;
 public class FieldMapping extends AbstractPropertyMapping implements IMappedProperty {
 
 	private final String _name;
+	Indexed _indexed;
+	List<IndexedInGroup> _indexedInGroups;
 
 	public FieldMapping(IType type, String name) {
 		super(type);
@@ -36,14 +44,28 @@ public class FieldMapping extends AbstractPropertyMapping implements IMappedProp
 		return _name;
 	};
 
-	
 	@Override
-	public IType getType() {
-		return super.getType();
+	public void setIndex(Indexed indexed) {
+		_indexed = indexed;
+		if (_indexedInGroups!=null) error("allready indexedInGroup");
 	}
-	
+
+	@Override
+	public void setIndexedInGroup(IndexedInGroup[] indexedInGroups) {
+		_indexedInGroups = Lists.newArrayList(indexedInGroups);
+		if (_indexed!=null) error("allready indexed");
+	}
+
+
 	@Override
 	public String toString() {
-		return "Field(type=" + getType() + ",name=" + _name + "," + super.toString() + ")";
+		StringBuilder sb=new StringBuilder();
+		sb.append("Field(type=").append(getType()).append(",name=").append(_name).append(",");
+		if (_indexed!=null) sb.append(",indexed=").append(_indexed);
+		if (_indexedInGroups!=null) sb.append(",indexedinGroup=").append(_indexedInGroups);
+		sb.append(super.toString()).append(")");
+		return sb.toString();
 	}
+
+
 }

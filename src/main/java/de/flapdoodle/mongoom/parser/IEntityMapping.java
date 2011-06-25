@@ -16,12 +16,16 @@
 
 package de.flapdoodle.mongoom.parser;
 
-import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
+import java.util.Map;
+
+import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 
 public interface IEntityMapping extends IMapProperties {
 
 	void setVersionProperty(String name);
 
 	void setIdProperty(String name);
+	
+	void setIndexGroups(Map<String, EntityIndexDef> indexGroupMap);
 
 }

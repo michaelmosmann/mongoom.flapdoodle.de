@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.mapping.index;
 
-public interface IMapProperties {
 
-	IType getType();
+public class OneOrOther<A,B> {
+	private final A _one;
+	private final B _other;
 
-	IMappedProperty newProperty(IType type, String name);
+	public OneOrOther(A one,B other) {
+		_one = one;
+		_other = other;
+	}
+	
+	
+	public A getOne() {
+		return _one;
+	}
+	
+	
+	public B getOther() {
+		return _other;
+	}
 }

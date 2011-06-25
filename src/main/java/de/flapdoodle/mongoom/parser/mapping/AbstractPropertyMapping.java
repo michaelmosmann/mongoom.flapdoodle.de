@@ -39,7 +39,8 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 		throw new MappingException(_type.getType(), message);
 	}
 	
-	protected IType getType() {
+	@Override
+	public IType getType() {
 		return _type;
 	}
 

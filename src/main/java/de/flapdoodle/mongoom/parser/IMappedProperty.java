@@ -16,10 +16,15 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+
 public interface IMappedProperty extends IMapProperties {
 
-	IType getType();
-
 	String getName();
+
+	void setIndex(Indexed indexed);
+
+	void setIndexedInGroup(IndexedInGroup[] other);
 
 }

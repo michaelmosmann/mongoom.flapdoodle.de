@@ -65,45 +65,9 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 
 		IEntityMapping entityMapping = mapping.newEntity(ClassType.of(entityClass));
 
+		entityMapping.setIndexGroups(indexGroupMap);
+		
 		parseFields(entityMapping, type);
-
-		//		List<Field> fields = ClassInformation.getFields(entityClass);
-		//
-		//		boolean idSet = false;
-		//		boolean isVersioned = false;
-		//
-		//		for (Field field : fields) {
-		//			field.setAccessible(true);
-		//			if (field.getAnnotation(Transient.class) == null) {
-		//				Annotations.checkForOnlyOneAnnotation(entityClass, field, Id.class, Indexed.class, IndexedInGroup.class,
-		//						IndexedInGroups.class, Version.class);
-		//
-		//				Id idAnn = field.getAnnotation(Id.class);
-		//				Version versionAnn = field.getAnnotation(Version.class);
-		//
-		//				if (versionAnn != null) {
-		//					if (isVersioned)
-		//						error(type, "more than one version annotation");
-		//					isVersioned = true;
-		//					entityMapping.setVersionProperty(field.getName());
-		//				}
-		//
-		//				if (idAnn != null) {
-		//					if (idSet)
-		//						error(type, "more then one Id annotation");
-		//					idSet = true;
-		//				}
-		//
-		//				FieldType fieldType = FieldType.of(field);
-		//				
-		//				ITypeParser parser = _typeParserFactory.getParser(fieldType);
-		//				if (parser==null) error(type,"no parser for "+field);
-		//				
-		//				IPropertyMapping property = entityMapping.newProperty(field.getName());
-		//				parser.parse(property, fieldType);
-		//				
-		//			}
-		//		}
 	}
 
 	@Override
