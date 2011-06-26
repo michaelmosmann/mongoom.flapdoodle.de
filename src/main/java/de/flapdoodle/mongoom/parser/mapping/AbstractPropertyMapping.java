@@ -22,6 +22,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
@@ -45,7 +46,8 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 	}
 
 	@Override
-	public IMappedProperty newProperty(IType type, String name) {
+	public IMappedProperty newProperty(IFieldType type) {
+		String name=type.getName();
 		if (_properties.containsKey(name))
 			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
 		FieldMapping ret = new FieldMapping(type, name);
@@ -54,7 +56,8 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 	}
 	
 	@Override
-	public IMappedProperty newProperty(IType type, String name, IMappedProperty proxy) {
+	public IMappedProperty newProperty(IFieldType type, IMappedProperty proxy) {
+		String name=type.getName();
 		if (_properties.containsKey(name))
 			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
 		MappedPropertyProxy ret = new MappedPropertyProxy(type, name,proxy);

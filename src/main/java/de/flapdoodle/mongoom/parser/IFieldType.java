@@ -16,11 +16,7 @@
 
 package de.flapdoodle.mongoom.parser;
 
-public interface IMapProperties {
 
-	IType getType();
-
-	IMappedProperty newProperty(IFieldType type);
-
-	IMappedProperty newProperty(IFieldType type, IMappedProperty allreadyMapped);
+public interface IFieldType extends IType {
+	String getName();
 }

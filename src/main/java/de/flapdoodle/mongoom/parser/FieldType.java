@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 
-public class FieldType implements IType {
+public class FieldType implements IFieldType {
 	
 	private final Field _field;
 
@@ -40,6 +40,11 @@ public class FieldType implements IType {
 	}
 	
 	@Override
+	public String getName() {
+		return _field.getName();
+	}
+	
+	@Override
 	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
 		return _field.getAnnotation(annotationClass);
 	}
@@ -53,5 +58,6 @@ public class FieldType implements IType {
 		if (_field.getGenericType()==_field.getType()) return "FieldType("+_field.getType()+")";
 		return "FieldType("+_field.getGenericType()+")";
 	}
+
 	
 }

@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
 
@@ -46,12 +47,12 @@ class MappedPropertyProxy implements IMappedProperty {
 	}
 
 	@Override
-	public IMappedProperty newProperty(IType type, String name) {
+	public IMappedProperty newProperty(IFieldType type) {
 		throw new MappingException(_allreadyMapped.getType().getType(), "this should not be called");
 	}
 
 	@Override
-	public IMappedProperty newProperty(IType type, String name, IMappedProperty proxy) {
+	public IMappedProperty newProperty(IFieldType type, IMappedProperty proxy) {
 		throw new MappingException(_allreadyMapped.getType().getType(), "this should not be called");
 	}
 

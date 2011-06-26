@@ -69,11 +69,11 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 				IMappedProperty property;
 				IMappedProperty allreadyParsedProxy = mapping.registeredMapping(fieldType);
 				if (allreadyParsedProxy==null) {
-					property = objectMapping.newProperty(fieldType, field.getName());
+					property = objectMapping.newProperty(fieldType);
 					mapping.registerMapping(fieldType, property);
 					parser.parse(mapping, property);
 				} else {
-					property = objectMapping.newProperty(fieldType, field.getName(), allreadyParsedProxy);
+					property = objectMapping.newProperty(fieldType, allreadyParsedProxy);
 				}
 				
 				postProcessProperty(objectMapping,property);
