@@ -28,10 +28,18 @@ public class RecursiveBean {
 	@Id
 	Reference<RecursiveBean> _id;
 
+	@Indexed
 	Loop _loop;
+	
+	NoLoop _noLoop;
 	
 	static class Loop {
 
+//		@Indexed
+		Loop _child;
+	}
+	
+	static class NoLoop {
 		@Indexed
 		Loop _child;
 	}
