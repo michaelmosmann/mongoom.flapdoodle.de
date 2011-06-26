@@ -21,8 +21,9 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 
 public interface IMappedProperty extends IMapProperties {
 
-	String getName();
-
+	@Override
+	IFieldType getType();
+	
 	void setIndex(Indexed indexed);
 
 	void setIndexedInGroup(IndexedInGroup[] other);

@@ -55,8 +55,8 @@ public class FieldType implements IFieldType {
 
 	@Override
 	public String toString() {
-		if (_field.getGenericType()==_field.getType()) return "FieldType("+_field.getType()+")";
-		return "FieldType("+_field.getGenericType()+")";
+		if (_field.getGenericType()==_field.getType()) return "FieldType("+getName()+"="+_field.getType()+")";
+		return "FieldType("+getName()+"="+_field.getGenericType()+")";
 	}
 
 	

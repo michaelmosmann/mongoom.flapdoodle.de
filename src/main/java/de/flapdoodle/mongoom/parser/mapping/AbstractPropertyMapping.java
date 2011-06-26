@@ -27,12 +27,12 @@ import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 
-public abstract class AbstractPropertyMapping implements IMapProperties {
+public abstract class AbstractPropertyMapping<T extends IType> implements IMapProperties {
 
-	private final IType _type;
+	private final T _type;
 	Map<String, IMappedProperty> _properties = Maps.newLinkedHashMap();
 
-	protected AbstractPropertyMapping(IType type) {
+	protected AbstractPropertyMapping(T type) {
 		_type = type;
 	}
 
@@ -41,7 +41,7 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 	}
 
 	@Override
-	public IType getType() {
+	public T getType() {
 		return _type;
 	}
 
@@ -50,7 +50,7 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 		String name=type.getName();
 		if (_properties.containsKey(name))
 			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
-		FieldMapping ret = new FieldMapping(type, name);
+		FieldMapping ret = new FieldMapping(type);
 		_properties.put(name, ret);
 		return ret;
 	}
@@ -60,7 +60,7 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 		String name=type.getName();
 		if (_properties.containsKey(name))
 			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
-		MappedPropertyProxy ret = new MappedPropertyProxy(type, name,proxy);
+		MappedPropertyProxy ret = new MappedPropertyProxy(type,proxy);
 		_properties.put(name, ret);
 		return ret;
 	}

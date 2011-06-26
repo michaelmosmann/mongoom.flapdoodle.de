@@ -30,19 +30,17 @@ import de.flapdoodle.mongoom.parser.IType;
 class MappedPropertyProxy implements IMappedProperty {
 
 	private final IMappedProperty _allreadyMapped;
-	String _name;
 	private Indexed _indexed;
 	private List<IndexedInGroup> _indexedInGroups;
-	private IType _type;
+	private IFieldType _type;
 
-	public MappedPropertyProxy(IType type, String name, IMappedProperty allreadyMapped) {
+	public MappedPropertyProxy(IFieldType type, IMappedProperty allreadyMapped) {
 		_type = type;
-		_name = name;
 		_allreadyMapped=allreadyMapped;
 	}
 
 	@Override
-	public IType getType() {
+	public IFieldType getType() {
 		return _type;
 	}
 
@@ -54,11 +52,6 @@ class MappedPropertyProxy implements IMappedProperty {
 	@Override
 	public IMappedProperty newProperty(IFieldType type, IMappedProperty proxy) {
 		throw new MappingException(_allreadyMapped.getType().getType(), "this should not be called");
-	}
-
-	@Override
-	public String getName() {
-		return _name;
 	}
 
 	@Override
@@ -82,7 +75,7 @@ class MappedPropertyProxy implements IMappedProperty {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Proxy(type=").append(getType()).append(",name=").append(_name).append(",");
+		sb.append("Proxy(type=").append(getType()).append(",");
 		if (_indexed != null)
 			sb.append(",indexed=").append(_indexed);
 		if (_indexedInGroups != null)

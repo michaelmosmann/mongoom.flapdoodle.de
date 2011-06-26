@@ -22,27 +22,17 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IMapping;
-import de.flapdoodle.mongoom.parser.IMapProperties;
-import de.flapdoodle.mongoom.parser.IType;
-import de.flapdoodle.mongoom.parser.types.AbstractTypeParser;
 
-public class FieldMapping extends AbstractPropertyMapping implements IMappedProperty {
+public class FieldMapping extends AbstractPropertyMapping<IFieldType> implements IMappedProperty {
 
-	private final String _name;
 	Indexed _indexed;
 	List<IndexedInGroup> _indexedInGroups;
 
-	public FieldMapping(IType type, String name) {
+	public FieldMapping(IFieldType type) {
 		super(type);
-		_name = name;
 	}
-
-	@Override
-	public String getName() {
-		return _name;
-	};
 
 	@Override
 	public void setIndex(Indexed indexed) {
@@ -60,7 +50,7 @@ public class FieldMapping extends AbstractPropertyMapping implements IMappedProp
 	@Override
 	public String toString() {
 		StringBuilder sb=new StringBuilder();
-		sb.append("Field(type=").append(getType()).append(",name=").append(_name).append(",");
+		sb.append("Field(type=").append(getType()).append(",");
 		if (_indexed!=null) sb.append(",indexed=").append(_indexed);
 		if (_indexedInGroups!=null) sb.append(",indexedinGroup=").append(_indexedInGroups);
 		sb.append(super.toString()).append(")");

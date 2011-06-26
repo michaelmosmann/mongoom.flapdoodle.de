@@ -37,6 +37,7 @@ import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
+import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
@@ -72,8 +73,8 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 
 	@Override
 	protected void postProcessProperty(IEntityMapping mapping, IMappedProperty fieldMapping) {
-		IType fieldType = fieldMapping.getType();
-		String name=fieldMapping.getName();
+		IFieldType fieldType = fieldMapping.getType();
+		String name=fieldType.getName();
 		Id idAnn = fieldType.getAnnotation(Id.class);
 		Version versionAnn = fieldType.getAnnotation(Version.class);
 		if (idAnn!=null) {
