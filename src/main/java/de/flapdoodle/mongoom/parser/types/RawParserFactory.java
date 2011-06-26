@@ -90,7 +90,7 @@ public class RawParserFactory implements ITypeParserFactory {
 		}
 
 		@Override
-		public void parse(IMapProperties mapping, IType clazz) {
+		public void parse(IMapping mapping, IMapProperties propertyMapping) {
 			// TODO Auto-generated method stub
 
 		}

@@ -33,7 +33,8 @@ import de.flapdoodle.mongoom.parser.ITypeParser;
 public abstract class AbstractTypeParser extends AbstractParser implements ITypeParser {
 
 	@Override
-	public void parse(IMapProperties mapping, IType type) {
+	public void parse(IMapping mapping, IMapProperties propertyMapping) {
+		IType type=propertyMapping.getType();
 		Annotations.errorIfAnnotated(new AnnotatedClass(type.getType()), Entity.class, IndexedInGroup.class,
 				IndexedInGroups.class);
 		Annotations.errorIfAnnotated(type, Id.class, Version.class);

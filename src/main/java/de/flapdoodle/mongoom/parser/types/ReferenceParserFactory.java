@@ -37,7 +37,7 @@ public class ReferenceParserFactory implements ITypeParserFactory {
 	static class ReferenceParser implements ITypeParser {
 
 		@Override
-		public void parse(IMapProperties mapping, IType clazz) {
+		public void parse(IMapping mapping, IMapProperties propertyMapping) {
 			
 		}
 		

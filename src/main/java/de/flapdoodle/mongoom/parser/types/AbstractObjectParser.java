@@ -33,6 +33,7 @@ import de.flapdoodle.mongoom.mapping.index.OneOrOther;
 import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
+import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
@@ -47,8 +48,9 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 		_typeParserFactory=typeParserFactory;
 	}
 
-	protected void parseFields(T mapping, IType type) {
+	protected void parseFields(IMapping mapping, T objectMapping) {
 		
+		IType type = objectMapping.getType();
 		Class<?> objectClass=type.getType();
 		
 		
@@ -64,10 +66,17 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 				ITypeParser parser = _typeParserFactory.getParser(fieldType);
 				if (parser==null) error(type,"no parser for "+field);
 				
-				IMappedProperty property = mapping.newProperty(fieldType, field.getName());
-				parser.parse(property, fieldType);
+				IMappedProperty property;
+				IMappedProperty allreadyParsedProxy = mapping.registeredMapping(fieldType);
+				if (allreadyParsedProxy==null) {
+					property = objectMapping.newProperty(fieldType, field.getName());
+					mapping.registerMapping(fieldType, property);
+					parser.parse(mapping, property);
+				} else {
+					property = objectMapping.newProperty(fieldType, field.getName(), allreadyParsedProxy);
+				}
 				
-				postProcessProperty(mapping,property);
+				postProcessProperty(objectMapping,property);
 			}
 		}
 

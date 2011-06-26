@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -25,20 +26,19 @@ import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 
-
 public abstract class AbstractPropertyMapping implements IMapProperties {
-	private final IType _type;
-	Map<String, FieldMapping> _properties=Maps.newLinkedHashMap();
 
-	
+	private final IType _type;
+	Map<String, IMappedProperty> _properties = Maps.newLinkedHashMap();
+
 	protected AbstractPropertyMapping(IType type) {
-		_type=type;
+		_type = type;
 	}
-	
+
 	protected void error(String message) {
 		throw new MappingException(_type.getType(), message);
 	}
-	
+
 	@Override
 	public IType getType() {
 		return _type;
@@ -46,15 +46,27 @@ public abstract class AbstractPropertyMapping implements IMapProperties {
 
 	@Override
 	public IMappedProperty newProperty(IType type, String name) {
-		if (_properties.containsKey(name)) throw new MappingException(_type.getType(),"Property "+name+" allready mapped");
-		FieldMapping ret = new FieldMapping(type,name);
+		if (_properties.containsKey(name))
+			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
+		FieldMapping ret = new FieldMapping(type, name);
+		_properties.put(name, ret);
+		return ret;
+	}
+	
+	@Override
+	public IMappedProperty newProperty(IType type, String name, IMappedProperty proxy) {
+		if (_properties.containsKey(name))
+			throw new MappingException(_type.getType(), "Property " + name + " allready mapped");
+		MappedPropertyProxy ret = new MappedPropertyProxy(type, name,proxy);
 		_properties.put(name, ret);
 		return ret;
 	}
 
 	@Override
 	public String toString() {
-		if (!_properties.isEmpty())	return "properties="+_properties;
+		if (!_properties.isEmpty())
+			return "properties=" + _properties;
 		return "";
 	}
+
 }

@@ -45,7 +45,7 @@ public class SimpleBean {
 	@ColorConverterOptions(red=@IndexedInGroups({@IndexedInGroup(group="colorName",priority=10)}))
 	@Indexed(options=@IndexOption(unique=true))
 	Color _color;
-
+	
 	public String getName() {
 		return _name;
 	}

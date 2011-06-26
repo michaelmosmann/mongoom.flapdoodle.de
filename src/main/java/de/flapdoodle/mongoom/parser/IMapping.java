@@ -22,4 +22,8 @@ public interface IMapping {
 
 	IEntityMapping newEntity(ClassType entityClass);
 
+	IMappedProperty registeredMapping(FieldType fieldType);
+
+	void registerMapping(FieldType fieldType, IMappedProperty mapping);
+
 }

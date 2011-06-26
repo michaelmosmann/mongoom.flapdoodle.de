@@ -67,8 +67,8 @@ public class ObjectParserFactory extends AbstractParser implements ITypeParserFa
 		}
 		
 		@Override
-		public void parse(IMapProperties mapping, IType type) {
-			parseFields(mapping, type);
+		public void parse(IMapping mapping, IMapProperties propertyMapping) {
+			parseFields(mapping, propertyMapping);
 		}
 	}
 }

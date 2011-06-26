@@ -21,4 +21,6 @@ public interface IMapProperties {
 	IType getType();
 
 	IMappedProperty newProperty(IType type, String name);
+
+	IMappedProperty newProperty(IType type, String name,IMappedProperty allreadyMapped);
 }

@@ -16,20 +16,28 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.ClassType;
+import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IType;
 
 
 public class Mapping implements IMapping {
 
-	Map<Class<?>,EntityMapping> _entities=Maps.newHashMap();
+	Map<Class<?>,EntityMapping> _entities=Maps.newLinkedHashMap();
+	Map<Class<?>,IMappedProperty> _allreadyMapped=Maps.newLinkedHashMap();
 	
 	@Override
 	public IEntityMapping newEntity(ClassType entityClass) {
@@ -37,6 +45,16 @@ public class Mapping implements IMapping {
 		EntityMapping ret = new EntityMapping(entityClass);
 		_entities.put(entityClass.getType(), ret);
 		return ret;
+	}
+	
+	@Override
+	public IMappedProperty registeredMapping(FieldType fieldType) {
+		return _allreadyMapped.get((Class<?>) fieldType.getType());
+	}
+	
+	@Override
+	public void registerMapping(FieldType fieldType, IMappedProperty mapping) {
+		_allreadyMapped.put((Class<?>) fieldType.getType(), mapping);
 	}
 	
 	@Override

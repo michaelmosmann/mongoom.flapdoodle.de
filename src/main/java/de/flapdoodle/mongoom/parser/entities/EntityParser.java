@@ -67,7 +67,7 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 
 		entityMapping.setIndexGroups(indexGroupMap);
 		
-		parseFields(entityMapping, type);
+		parseFields(mapping, entityMapping);
 	}
 
 	@Override

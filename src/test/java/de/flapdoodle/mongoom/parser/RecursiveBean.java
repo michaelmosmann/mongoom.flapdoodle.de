@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser.types.collections;
+package de.flapdoodle.mongoom.parser;
 
-import de.flapdoodle.mongoom.parser.IMapping;
-import de.flapdoodle.mongoom.parser.IMapProperties;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.types.Reference;
 
 
-public class SetParser extends AbstractCollectionParser {
+@Entity(value = "Recursive")
+public class RecursiveBean {
 
-	@Override
-	public void parse(IMapping mapping, IMapProperties propertyMapping) {
-		
+	@Id
+	Reference<RecursiveBean> _id;
+
+	Loop _loop;
+	
+	static class Loop {
+
+		@Indexed
+		Loop _child;
 	}
-
 }
