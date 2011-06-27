@@ -17,14 +17,20 @@
 package de.flapdoodle.mongoom.parser.types.extended.color;
 
 import java.awt.Color;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
+import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
+import de.flapdoodle.mongoom.parser.IFieldType;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
-
 
 public class ColorParserFactory implements ITypeParserFactory {
 
@@ -35,15 +41,74 @@ public class ColorParserFactory implements ITypeParserFactory {
 		}
 		return null;
 	}
-	
+
 	static class ColorParser implements ITypeParser {
 
 		@Override
 		public void parse(IMapping mapping, IMapProperties propertyMapping) {
-			// TODO Auto-generated method stub
-			
+			ColorConverterOptions colorAnnotation = propertyMapping.getType().getAnnotation(ColorConverterOptions.class);
+
+			IMappedProperty red = propertyMapping.newProperty(new ColorChannelType(ColorChannel.RED));
+			IMappedProperty green = propertyMapping.newProperty(new ColorChannelType(ColorChannel.GREEN));
+			IMappedProperty blue = propertyMapping.newProperty(new ColorChannelType(ColorChannel.BLUE));
+
+			if (colorAnnotation != null) {
+				if (colorAnnotation.red() != null)
+					red.setIndexedInGroup(colorAnnotation.red().value());
+				if (colorAnnotation.green() != null)
+					green.setIndexedInGroup(colorAnnotation.green().value());
+				if (colorAnnotation.blue() != null)
+					blue.setIndexedInGroup(colorAnnotation.blue().value());
+			}
+		}
+	}
+
+	static enum ColorChannel {
+		RED,
+		GREEN,
+		BLUE;
+	}
+
+	static class ColorChannelType implements IFieldType {
+
+		private final ColorChannel _color;
+
+		public ColorChannelType(ColorChannel color) {
+			_color = color;
+		}
+
+		@Override
+		public Class<?> getType() {
+			return Integer.class;
+		}
+
+		@Override
+		public Type getGenericType() {
+			return Integer.class;
 		}
 		
+		@Override
+		public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			switch (_color) {
+				case BLUE:
+					return "blue";
+				case GREEN:
+					return "green";
+				case RED:
+					return "red";
+			}
+			throw new IllegalArgumentException("should not reach this");
+		}
+
+		@Override
+		public String toString() {
+			return "ColorChannel(" + _color + ")";
+		}
 	}
-	
+
 }
