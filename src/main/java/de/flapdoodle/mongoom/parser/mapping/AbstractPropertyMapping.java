@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.parser.mapping;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -63,6 +64,11 @@ public abstract class AbstractPropertyMapping<T extends IType> implements IMapPr
 		MappedPropertyProxy ret = new MappedPropertyProxy(type,proxy);
 		_properties.put(name, ret);
 		return ret;
+	}
+	
+	
+	protected Collection<IMappedProperty> getProperties() {
+		return _properties.values();
 	}
 
 	@Override

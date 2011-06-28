@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.parser.mapping;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
@@ -55,6 +57,15 @@ public class Mapping implements IMapping {
 	@Override
 	public void registerMapping(FieldType fieldType, IMappedProperty mapping) {
 		_allreadyMapped.put((Class<?>) fieldType.getType(), mapping);
+	}
+	
+	@Override
+	public List<IndexDef> getIndexDefinitions() {
+		List<IndexDef> ret=Lists.newArrayList();
+		for (EntityMapping entity : _entities.values()) {
+			ret.addAll(entity.getIndexDefinitions());
+		}
+		return ret;
 	}
 	
 	@Override

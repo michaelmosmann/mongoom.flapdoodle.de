@@ -16,12 +16,15 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
@@ -56,6 +59,13 @@ public class EntityMapping extends AbstractPropertyMapping implements IEntityMap
 		_indexGroupMap = indexGroupMap;
 		
 	}
+	
+	@Override
+	public List<IndexDef> getIndexDefinitions() {
+		List<IndexDef> ret=Lists.newArrayList();
+		
+		return ret;
+	}	
 
 	@Override
 	public String toString() {

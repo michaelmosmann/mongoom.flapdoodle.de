@@ -16,9 +16,11 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import java.util.List;
 import java.util.Map;
 
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 public interface IEntityMapping extends IMapProperties {
 
@@ -27,5 +29,7 @@ public interface IEntityMapping extends IMapProperties {
 	void setIdProperty(String name);
 	
 	void setIndexGroups(Map<String, EntityIndexDef> indexGroupMap);
+
+	List<IndexDef> getIndexDefinitions();
 
 }
