@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.properties;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+
+import de.flapdoodle.mongoom.parser.IType;
 
 public class ClassType implements IType {
 

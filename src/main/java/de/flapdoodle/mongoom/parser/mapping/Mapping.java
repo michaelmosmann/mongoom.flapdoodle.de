@@ -26,12 +26,12 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.parser.ClassType;
-import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IType;
+import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
 public class Mapping implements IMapping {

@@ -16,6 +16,9 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.FieldType;
+
 
 
 public interface IMapping {

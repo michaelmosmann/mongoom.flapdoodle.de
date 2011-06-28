@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.types;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.parser.IType;
 
 
 public abstract class AbstractParser {

@@ -32,9 +32,6 @@ import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
-import de.flapdoodle.mongoom.parser.AbstractParser;
-import de.flapdoodle.mongoom.parser.ClassType;
-import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
 import de.flapdoodle.mongoom.parser.IFieldType;
@@ -46,7 +43,10 @@ import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.FieldType;
 import de.flapdoodle.mongoom.parser.types.AbstractObjectParser;
+import de.flapdoodle.mongoom.parser.types.AbstractParser;
 
 public class EntityParser extends AbstractObjectParser<IEntityMapping> implements IEntityParser {
 

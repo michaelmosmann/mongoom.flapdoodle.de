@@ -33,14 +33,13 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
-import de.flapdoodle.mongoom.parser.AbstractParser;
-import de.flapdoodle.mongoom.parser.FieldType;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
 public class ObjectParserFactory extends AbstractParser implements ITypeParserFactory {

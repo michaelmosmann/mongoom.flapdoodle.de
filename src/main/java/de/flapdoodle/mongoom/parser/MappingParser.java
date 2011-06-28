@@ -21,6 +21,7 @@ import java.util.Set;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.properties.ClassType;
 
 
 public class MappingParser {

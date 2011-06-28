@@ -20,7 +20,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;

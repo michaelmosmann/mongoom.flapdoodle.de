@@ -22,11 +22,11 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
-import de.flapdoodle.mongoom.parser.ClassType;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
+import de.flapdoodle.mongoom.parser.properties.ClassType;
 
 
 public class EntityMapping extends AbstractPropertyMapping implements IEntityMapping{

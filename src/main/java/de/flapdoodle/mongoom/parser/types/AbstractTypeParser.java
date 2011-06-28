@@ -23,7 +23,6 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.annotations.AnnotatedClass;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
-import de.flapdoodle.mongoom.parser.AbstractParser;
 import de.flapdoodle.mongoom.parser.IMapping;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
