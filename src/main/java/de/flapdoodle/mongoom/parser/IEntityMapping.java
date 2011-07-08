@@ -21,6 +21,7 @@ import java.util.Map;
 
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
+import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 public interface IEntityMapping extends IMapProperties {
 
@@ -30,6 +31,6 @@ public interface IEntityMapping extends IMapProperties {
 	
 	void setIndexGroups(Map<String, EntityIndexDef> indexGroupMap);
 
-	List<IndexDef> getIndexDefinitions();
+	void inspect(IMappingIndexVisitor indexVisitor);
 
 }

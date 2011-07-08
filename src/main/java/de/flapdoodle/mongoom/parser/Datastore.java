@@ -24,16 +24,17 @@ import com.mongodb.Mongo;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
 import de.flapdoodle.mongoom.mapping.IMappingConfig;
+import de.flapdoodle.mongoom.parser.converter.ObjectMapper;
 
 public class Datastore implements IDatastore {
 
-	private Mapper _mapper;
+	private ObjectMapper _objectMapper;
 	private Mongo _mongo;
 	private String _name;
 	private DB _db;
 
-	public Datastore(Mapper mapper, Mongo mongo, String name) {
-		_mapper = mapper;
+	public Datastore(ObjectMapper objectMapper, Mongo mongo, String name) {
+		_objectMapper = objectMapper;
 		_mongo = mongo;
 		_name = name;
 

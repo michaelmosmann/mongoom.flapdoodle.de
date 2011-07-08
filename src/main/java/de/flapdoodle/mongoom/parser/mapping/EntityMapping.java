@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -30,9 +31,10 @@ import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 
-public class EntityMapping extends AbstractPropertyMapping implements IEntityMapping{
+public class EntityMapping extends AbstractPropertyMapping<ClassType> implements IEntityMapping{
 
 	private String _versionProperty;
 	private String _idProperty;
@@ -59,16 +61,18 @@ public class EntityMapping extends AbstractPropertyMapping implements IEntityMap
 		_indexGroupMap = indexGroupMap;
 		
 	}
-	
+
 	@Override
-	public List<IndexDef> getIndexDefinitions() {
-		List<IndexDef> ret=Lists.newArrayList();
-		
-		return ret;
-	}	
+	public void inspect(IMappingIndexVisitor indexVisitor) {
+		indexVisitor.indexGroups(Collections.unmodifiableMap(_indexGroupMap));
+		for (IMappedProperty property : getProperties()) {
+			property.inspect(indexVisitor);
+		}
+	}
 
 	@Override
 	public String toString() {
 		return "Entity("+getType()+",id="+_idProperty+",version="+_versionProperty+",indexes="+_indexGroupMap+",properties="+_properties+")";
 	}
+
 }

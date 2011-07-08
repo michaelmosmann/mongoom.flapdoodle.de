@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.visitors;
 
-import de.flapdoodle.mongoom.mapping.IMappingConfig;
+import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 
 
-public class Mapper {
+public interface IMappingResultVisitor {
 
-	public Mapper(IMappingParserContext mappingParserContext) {
-		
-	}
+	void entity(EntityMapping entity);
+
 }

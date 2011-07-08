@@ -24,6 +24,7 @@ import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
+import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 public class FieldMapping extends AbstractPropertyMapping<IFieldType> implements IMappedProperty {
 
@@ -46,7 +47,15 @@ public class FieldMapping extends AbstractPropertyMapping<IFieldType> implements
 		if (_indexed!=null) error("allready indexed");
 	}
 
-
+	@Override
+	public void inspect(IMappingIndexVisitor indexVisitor) {
+		if (_indexed!=null) indexVisitor.indexed(_indexed);
+		else if (_indexedInGroups!=null) indexVisitor.indexedInGroup(_indexedInGroups);
+		for (IMappedProperty property : getProperties()) {
+			indexVisitor.property(property);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb=new StringBuilder();

@@ -32,6 +32,4 @@ public interface IMappingParserContext {
 
 	void registerMapping(FieldType fieldType, IMappedProperty mapping);
 
-	List<IndexDef> getIndexDefinitions();
-
 }

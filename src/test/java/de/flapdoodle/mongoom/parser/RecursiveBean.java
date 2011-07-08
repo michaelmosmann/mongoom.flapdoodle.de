@@ -35,7 +35,7 @@ public class RecursiveBean {
 	
 	static class Loop {
 
-//		@Indexed
+		@Indexed
 		Loop _child;
 	}
 	

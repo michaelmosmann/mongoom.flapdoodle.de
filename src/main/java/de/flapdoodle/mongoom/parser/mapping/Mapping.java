@@ -31,12 +31,14 @@ import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
+import de.flapdoodle.mongoom.parser.IMappingParserResult;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
 import de.flapdoodle.mongoom.parser.properties.FieldType;
+import de.flapdoodle.mongoom.parser.visitors.IMappingResultVisitor;
 
 
-public class Mapping implements IMappingParserContext {
+public class Mapping implements IMappingParserContext,IMappingParserResult {
 
 	Map<Class<?>,EntityMapping> _entities=Maps.newLinkedHashMap();
 	Map<Class<?>,IMappedProperty> _allreadyMapped=Maps.newLinkedHashMap();
@@ -60,17 +62,14 @@ public class Mapping implements IMappingParserContext {
 	}
 	
 	@Override
-	public List<IndexDef> getIndexDefinitions() {
-		List<IndexDef> ret=Lists.newArrayList();
-		for (EntityMapping entity : _entities.values()) {
-			ret.addAll(entity.getIndexDefinitions());
-		}
-		return ret;
-	}
-	
-	@Override
 	public String toString() {
 		return "Mapping("+_entities.values()+")";
 	}
 
+	@Override
+	public void inspect(IMappingResultVisitor visitor) {
+		for (EntityMapping entity : _entities.values()) {
+			visitor.entity(entity);
+		}
+	}
 }

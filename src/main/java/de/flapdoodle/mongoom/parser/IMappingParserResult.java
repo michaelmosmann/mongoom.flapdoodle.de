@@ -16,18 +16,9 @@
 
 package de.flapdoodle.mongoom.parser;
 
-import de.flapdoodle.mongoom.annotations.index.Indexed;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
+import de.flapdoodle.mongoom.parser.visitors.IMappingResultVisitor;
 
-public interface IMappedProperty extends IMapProperties {
 
-	@Override
-	IFieldType getType();
-	
-	void setIndex(Indexed indexed);
-
-	void setIndexedInGroup(IndexedInGroup[] other);
-
-	void inspect(IMappingIndexVisitor indexVisitor);
+public interface IMappingParserResult {
+	void inspect(IMappingResultVisitor visitor);
 }

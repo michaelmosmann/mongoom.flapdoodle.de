@@ -16,7 +16,7 @@
 
 package de.flapdoodle.mongoom.parser;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -25,15 +25,18 @@ import junit.framework.TestCase;
 import com.google.common.collect.Lists;
 import com.google.inject.internal.Sets;
 
-import de.flapdoodle.mongoom.examples.mapping.Document;
-import de.flapdoodle.mongoom.examples.mapping.complex.ColorDocument;
 import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.mapping.MappingConfig;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterFactory;
+import de.flapdoodle.mongoom.parser.converter.ObjectMapper;
 import de.flapdoodle.mongoom.parser.entities.EntityParserFactory;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.naming.EntityAnnotationNamingFactory;
+import de.flapdoodle.mongoom.parser.naming.FieldAnnotationNamingFactory;
+import de.flapdoodle.mongoom.parser.naming.IEntityNamingFactory;
+import de.flapdoodle.mongoom.parser.naming.IPropertyNamingFactory;
+import de.flapdoodle.mongoom.parser.naming.PrefixFieldNamingFactory;
+import de.flapdoodle.mongoom.parser.naming.PropertyNamingListFactory;
 import de.flapdoodle.mongoom.parser.types.CustomParserFactory;
-import de.flapdoodle.mongoom.parser.types.ObjectParserFactory;
 import de.flapdoodle.mongoom.parser.types.RawParserFactory;
 import de.flapdoodle.mongoom.parser.types.ReferenceParserFactory;
 import de.flapdoodle.mongoom.parser.types.collections.CollectionParserFactory;
@@ -57,8 +60,12 @@ public class TestMappingParser extends TestCase {
 		factories.add(new ColorParserFactory());
 		factories.add(new CollectionParserFactory());
 		
-		Mapping mapping = MappingParser.map(classes,new EntityParserFactory(new CustomParserFactory(factories)));
+		IMappingParserResult mapping = MappingParser.map(classes,new EntityParserFactory(new CustomParserFactory(factories)));
 		
 		System.out.println("Mapping: "+mapping);
+		
+		
+		Collection<? extends IPropertyNamingFactory> propFactories=Lists.newArrayList(new FieldAnnotationNamingFactory(),new PrefixFieldNamingFactory());
+		ObjectMapper mapper=new ObjectMapper(new EntityAnnotationNamingFactory(),new PropertyNamingListFactory(propFactories),mapping);
 	}
 }

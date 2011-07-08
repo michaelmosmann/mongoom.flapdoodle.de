@@ -19,6 +19,7 @@ package de.flapdoodle.mongoom.parser.mapping;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.sun.xml.internal.txw2.IllegalAnnotationException;
 
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
@@ -26,6 +27,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
+import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 class MappedPropertyProxy implements IMappedProperty {
 
@@ -52,6 +54,13 @@ class MappedPropertyProxy implements IMappedProperty {
 	@Override
 	public IMappedProperty newProperty(IFieldType type, IMappedProperty proxy) {
 		throw new MappingException(_allreadyMapped.getType().getType(), "this should not be called");
+	}
+	
+	@Override
+	public void inspect(IMappingIndexVisitor indexVisitor) {
+		if (_indexed!=null) indexVisitor.indexed(_indexed);
+		else if (_indexedInGroups!=null) indexVisitor.indexedInGroup(_indexedInGroups);
+		_allreadyMapped.inspect(indexVisitor);
 	}
 
 	@Override

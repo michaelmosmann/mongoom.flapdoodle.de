@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.visitors;
+
+import java.util.List;
+import java.util.Map;
 
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
+import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 
-public interface IMappedProperty extends IMapProperties {
 
-	@Override
-	IFieldType getType();
+public interface IMappingIndexVisitor {
+
+	void indexed(Indexed indexed);
+
+	void indexedInGroup(List<IndexedInGroup> indexedInGroups);
+
+	void indexGroups(Map<String, EntityIndexDef> unmodifiableMap);
 	
-	void setIndex(Indexed indexed);
+	void property(IMappedProperty property);
 
-	void setIndexedInGroup(IndexedInGroup[] other);
-
-	void inspect(IMappingIndexVisitor indexVisitor);
 }
