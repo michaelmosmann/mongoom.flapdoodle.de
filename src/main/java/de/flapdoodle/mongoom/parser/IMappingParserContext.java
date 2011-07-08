@@ -24,7 +24,7 @@ import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
 
-public interface IMapping {
+public interface IMappingParserContext {
 
 	IEntityMapping newEntity(ClassType entityClass);
 

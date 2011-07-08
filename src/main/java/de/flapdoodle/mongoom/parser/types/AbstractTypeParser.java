@@ -23,7 +23,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.annotations.AnnotatedClass;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -32,7 +32,7 @@ import de.flapdoodle.mongoom.parser.ITypeParser;
 public abstract class AbstractTypeParser extends AbstractParser implements ITypeParser {
 
 	@Override
-	public void parse(IMapping mapping, IMapProperties propertyMapping) {
+	public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
 		IType type=propertyMapping.getType();
 		Annotations.errorIfAnnotated(new AnnotatedClass(type.getType()), Entity.class, IndexedInGroup.class,
 				IndexedInGroups.class);

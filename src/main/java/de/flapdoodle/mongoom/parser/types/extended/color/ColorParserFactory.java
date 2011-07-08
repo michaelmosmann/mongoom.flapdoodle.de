@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -45,7 +45,7 @@ public class ColorParserFactory implements ITypeParserFactory {
 	static class ColorParser implements ITypeParser {
 
 		@Override
-		public void parse(IMapping mapping, IMapProperties propertyMapping) {
+		public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
 			ColorConverterOptions colorAnnotation = propertyMapping.getType().getAnnotation(ColorConverterOptions.class);
 
 			IMappedProperty red = propertyMapping.newProperty(new ColorChannelType(ColorChannel.RED));

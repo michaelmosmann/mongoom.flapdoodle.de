@@ -36,7 +36,7 @@ import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IEntityParser;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -55,7 +55,7 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 	}
 
 	@Override
-	public void parse(IMapping mapping, IType type) {
+	public void parse(IMappingParserContext mappingParserContext, IType type) {
 		Class<?> entityClass = type.getType();
 
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
@@ -64,11 +64,11 @@ public class EntityParser extends AbstractObjectParser<IEntityMapping> implement
 		}
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
-		IEntityMapping entityMapping = mapping.newEntity(ClassType.of(entityClass));
+		IEntityMapping entityMapping = mappingParserContext.newEntity(ClassType.of(entityClass));
 
 		entityMapping.setIndexGroups(indexGroupMap);
 		
-		parseFields(mapping, entityMapping);
+		parseFields(mappingParserContext, entityMapping);
 	}
 
 	@Override

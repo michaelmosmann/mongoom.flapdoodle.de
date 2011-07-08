@@ -34,7 +34,7 @@ import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 import de.flapdoodle.mongoom.mapping.converter.factories.RawConverter;
 import de.flapdoodle.mongoom.mapping.converter.factories.RawConverterFactory;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -90,7 +90,7 @@ public class RawParserFactory implements ITypeParserFactory {
 		}
 
 		@Override
-		public void parse(IMapping mapping, IMapProperties propertyMapping) {
+		public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
 			// TODO Auto-generated method stub
 
 		}

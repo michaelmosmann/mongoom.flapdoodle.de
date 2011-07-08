@@ -32,7 +32,7 @@ import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.mapping.index.OneOrOther;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
@@ -48,7 +48,7 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 		_typeParserFactory=typeParserFactory;
 	}
 
-	protected void parseFields(IMapping mapping, T objectMapping) {
+	protected void parseFields(IMappingParserContext mappingParserContext, T objectMapping) {
 		
 		IType type = objectMapping.getType();
 		Class<?> objectClass=type.getType();
@@ -67,11 +67,11 @@ public abstract class AbstractObjectParser<T extends IMapProperties> extends Abs
 				if (parser==null) error(type,"no parser for "+field);
 				
 				IMappedProperty property;
-				IMappedProperty allreadyParsedProxy = mapping.registeredMapping(fieldType);
+				IMappedProperty allreadyParsedProxy = mappingParserContext.registeredMapping(fieldType);
 				if (allreadyParsedProxy==null) {
 					property = objectMapping.newProperty(fieldType);
-					mapping.registerMapping(fieldType, property);
-					parser.parse(mapping, property);
+					mappingParserContext.registerMapping(fieldType, property);
+					parser.parse(mappingParserContext, property);
 				} else {
 					property = objectMapping.newProperty(fieldType, allreadyParsedProxy);
 				}

@@ -16,7 +16,7 @@
 
 package de.flapdoodle.mongoom.parser.types;
 
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -37,7 +37,7 @@ public class ReferenceParserFactory implements ITypeParserFactory {
 	static class ReferenceParser implements ITypeParser {
 
 		@Override
-		public void parse(IMapping mapping, IMapProperties propertyMapping) {
+		public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
 			
 		}
 		

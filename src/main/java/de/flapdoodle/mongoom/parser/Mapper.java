@@ -21,7 +21,7 @@ import de.flapdoodle.mongoom.mapping.IMappingConfig;
 
 public class Mapper {
 
-	public Mapper(IMapping mapping) {
+	public Mapper(IMappingParserContext mappingParserContext) {
 		
 	}
 }

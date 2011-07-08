@@ -30,13 +30,13 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
 import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
-public class Mapping implements IMapping {
+public class Mapping implements IMappingParserContext {
 
 	Map<Class<?>,EntityMapping> _entities=Maps.newLinkedHashMap();
 	Map<Class<?>,IMappedProperty> _allreadyMapped=Maps.newLinkedHashMap();

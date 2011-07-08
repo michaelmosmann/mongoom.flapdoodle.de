@@ -33,7 +33,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
-import de.flapdoodle.mongoom.parser.IMapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
@@ -66,8 +66,8 @@ public class ObjectParserFactory extends AbstractParser implements ITypeParserFa
 		}
 		
 		@Override
-		public void parse(IMapping mapping, IMapProperties propertyMapping) {
-			parseFields(mapping, propertyMapping);
+		public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
+			parseFields(mappingParserContext, propertyMapping);
 		}
 	}
 }
