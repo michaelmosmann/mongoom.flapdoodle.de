@@ -19,7 +19,6 @@ package de.flapdoodle.mongoom.parser.mapping;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.sun.xml.internal.txw2.IllegalAnnotationException;
 
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
