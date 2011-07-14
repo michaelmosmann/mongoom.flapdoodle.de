@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.visitors.IMappingEntityIndexVisitor;
 import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 
@@ -63,10 +64,10 @@ public class EntityMapping extends AbstractPropertyMapping<ClassType> implements
 	}
 
 	@Override
-	public void inspect(IMappingIndexVisitor indexVisitor) {
+	public void inspect(IMappingEntityIndexVisitor indexVisitor) {
 		indexVisitor.indexGroups(Collections.unmodifiableMap(_indexGroupMap));
 		for (IMappedProperty property : getProperties()) {
-			property.inspect(indexVisitor);
+			property.inspect(indexVisitor.indexVisitor());
 		}
 	}
 

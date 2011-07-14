@@ -50,7 +50,7 @@ public class FieldMapping extends AbstractPropertyMapping<IFieldType> implements
 	@Override
 	public void inspect(IMappingIndexVisitor indexVisitor) {
 		if (_indexed!=null) indexVisitor.indexed(_indexed);
-		else if (_indexedInGroups!=null) indexVisitor.indexedInGroup(_indexedInGroups);
+		else if (_indexedInGroups!=null) indexVisitor.indexedInGroups(_indexedInGroups);
 		for (IMappedProperty property : getProperties()) {
 			indexVisitor.property(property);
 		}

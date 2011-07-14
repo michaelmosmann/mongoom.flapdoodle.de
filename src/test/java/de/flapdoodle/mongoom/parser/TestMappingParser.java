@@ -50,8 +50,8 @@ public class TestMappingParser extends TestCase {
 		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
 		
 		Set<Class<?>> classes = Sets.newLinkedHashSet();
-		classes.add(SimpleBean.class);
 		classes.add(RecursiveBean.class);
+		classes.add(SimpleBean.class);
 		classes.add(BeanWithCollections.class);
 		
 		List<ITypeParserFactory> factories=Lists.newArrayList();

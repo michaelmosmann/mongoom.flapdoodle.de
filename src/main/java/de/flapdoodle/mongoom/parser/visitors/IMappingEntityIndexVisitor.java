@@ -16,19 +16,13 @@
 
 package de.flapdoodle.mongoom.parser.visitors;
 
-import java.util.List;
+import java.util.Map;
 
-import de.flapdoodle.mongoom.annotations.index.Indexed;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.parser.IMappedProperty;
+import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 
+public interface IMappingEntityIndexVisitor {
 
-public interface IMappingIndexVisitor {
+	void indexGroups(Map<String, EntityIndexDef> entityIndexMap);
 
-	void indexed(Indexed indexed);
-
-	void indexedInGroups(List<IndexedInGroup> indexedInGroups);
-
-	void property(IMappedProperty property);
-
+	IMappingIndexVisitor indexVisitor();
 }

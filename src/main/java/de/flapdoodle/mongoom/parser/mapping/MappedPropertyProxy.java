@@ -58,7 +58,7 @@ class MappedPropertyProxy implements IMappedProperty {
 	@Override
 	public void inspect(IMappingIndexVisitor indexVisitor) {
 		if (_indexed!=null) indexVisitor.indexed(_indexed);
-		else if (_indexedInGroups!=null) indexVisitor.indexedInGroup(_indexedInGroups);
+		else if (_indexedInGroups!=null) indexVisitor.indexedInGroups(_indexedInGroups);
 		_allreadyMapped.inspect(indexVisitor);
 	}
 
