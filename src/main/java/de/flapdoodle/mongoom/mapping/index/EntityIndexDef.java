@@ -21,8 +21,8 @@ import com.google.common.collect.Lists;
 
 public class EntityIndexDef extends IndexDef {
 
-	public EntityIndexDef(String name, boolean unique, boolean dropDups) {
-		super(name, Lists.<FieldIndex> newArrayList(), unique, dropDups);
+	public EntityIndexDef(String name, boolean unique, boolean dropDups, boolean sparse) {
+		super(name, Lists.<FieldIndex> newArrayList(), unique, dropDups, sparse);
 	}
 
 	public void addField(FieldIndex field) {

@@ -53,7 +53,7 @@ public class IndexParser {
 					for (FieldIndex fi : def.fields()) {
 						indexFields.add(new FieldIndex(indexContext.getFieldName() + "." + fi.name(), fi.direction(), fi.priority()));
 					}
-					indexContext.addIndexDefinitions(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups()));
+					indexContext.addIndexDefinitions(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups(), def.sparse()));
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class IndexParser {
 			if (name.length() == 0)
 				name = null;
 			indexContext.addIndexDefinitions(new IndexDef(name, Lists.newArrayList(new FieldIndex(indexContext.getFieldName(), indexedAnn.direction(), 0)),
-					options.unique(), options.dropDups()));
+					options.unique(), options.dropDups(), options.sparse()));
 		} else {
 			if (idxInGAnnList != null) {
 				for (IndexedInGroup iig : idxInGAnnList) {
@@ -146,7 +146,7 @@ public class IndexParser {
 			String name = ig.name();
 			if (name.length() == 0)
 				name = null;
-			map.put(ig.group(), new EntityIndexDef(name, options.unique(), options.dropDups()));
+			map.put(ig.group(), new EntityIndexDef(name, options.unique(), options.dropDups(), options.sparse()));
 		}
 		return map;
 	}

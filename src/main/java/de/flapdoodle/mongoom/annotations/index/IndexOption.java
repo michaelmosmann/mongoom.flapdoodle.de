@@ -32,4 +32,6 @@ public @interface IndexOption {
 	boolean unique() default false;
 
 	boolean dropDups() default false;
+	
+	boolean sparse() default false;
 }

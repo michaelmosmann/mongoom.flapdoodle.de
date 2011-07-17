@@ -27,13 +27,15 @@ public class IndexDef {
 	protected final List<FieldIndex> _fields;
 	private final boolean _unique;
 	private final boolean _dropDups;
+	private final boolean _sparse;
 
-	public IndexDef(String name, List<FieldIndex> fields, boolean unique, boolean dropDups) {
+	public IndexDef(String name, List<FieldIndex> fields, boolean unique, boolean dropDups, boolean sparse) {
 		_group = null;
 		_name = name;
 		_fields = fields;
 		_unique = unique;
 		_dropDups = dropDups;
+		_sparse = sparse;
 	}
 
 	public IndexDef(String group, FieldIndex field) {
@@ -42,6 +44,7 @@ public class IndexDef {
 		_fields = Lists.newArrayList(field);
 		_unique = false;
 		_dropDups = false;
+		_sparse = false;
 	}
 
 	public String group() {
@@ -62,6 +65,10 @@ public class IndexDef {
 
 	public boolean dropDups() {
 		return _dropDups;
+	}
+	
+	public boolean sparse() {
+		return _sparse;
 	}
 
 	@Override
