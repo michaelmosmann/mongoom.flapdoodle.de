@@ -19,10 +19,11 @@ package de.flapdoodle.mongoom.parser.visitors;
 import java.util.Map;
 
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 
 public interface IMappingEntityIndexVisitor {
 
 	void indexGroups(Map<String, EntityIndexDef> entityIndexMap);
 
-	IMappingIndexVisitor indexVisitor();
+	void property(IMappedProperty property);
 }

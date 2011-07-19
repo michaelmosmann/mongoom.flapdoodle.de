@@ -31,7 +31,7 @@ import de.flapdoodle.mongoom.mapping.Const;
 @Target( {ElementType.FIELD})
 public @interface Property {
 
-	String value() default Const.IGNORED_FIELDNAME;
+	String value() default "";
 
 	Class<?> concreteClass() default Object.class;
 }

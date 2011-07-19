@@ -78,6 +78,11 @@ public final class Indexes {
 			if (index.dropDups())
 				keyOpts.add("dropDups", true);
 		}
+		if (index.sparse()) {
+			if (keyOpts == null)
+				keyOpts = new BasicDBObjectBuilder();
+			keyOpts.add("sparse", true);
+		}
 
 		try {
 			db.requestStart();

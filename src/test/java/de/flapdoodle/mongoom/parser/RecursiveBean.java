@@ -32,6 +32,9 @@ public class RecursiveBean {
 	
 	NoLoop _noLoop;
 	
+	@Indexed
+	RealNoLoop _realNoLoop;
+	
 	static class Loop {
 
 		Loop _child;
@@ -39,5 +42,9 @@ public class RecursiveBean {
 	
 	static class NoLoop {
 		Loop _child;
+	}
+	
+	static class RealNoLoop {
+		String _name;
 	}
 }

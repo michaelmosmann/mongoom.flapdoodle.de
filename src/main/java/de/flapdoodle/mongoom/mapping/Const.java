@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.mapping;
 
 public class Const {
 
-	public final static String IGNORED_FIELDNAME = ".";
+	public final static String FIELDNAME_SEP = ".";
 	public final static String ID_FIELDNAME = "_id";
 	public static final String VERSION_FIELDNAME = "_version";
 }

@@ -23,6 +23,7 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
+import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.types.Reference;
 
 
@@ -37,6 +38,7 @@ public class BeanWithCollections {
 	List<Album> _albums;
 	
 	public static class Album {
+		@Indexed
 		String _name;
 		int _year;
 	}

@@ -84,6 +84,6 @@ public class IndexDef {
 				? "group:" + _group + ", "
 				: "") + (_name != null
 				? "name:" + _name + ", "
-				: "") + "key: " + sfields + " ,unique:" + _unique + " ,dropDups:" + _dropDups + "}";
+				: "") + "key: " + sfields + " ,unique:" + _unique + " ,dropDups:" + _dropDups + " ,sparse:" + _sparse + "}";
 	}
 }

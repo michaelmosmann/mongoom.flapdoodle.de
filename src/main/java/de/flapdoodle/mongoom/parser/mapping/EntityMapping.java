@@ -67,7 +67,7 @@ public class EntityMapping extends AbstractPropertyMapping<ClassType> implements
 	public void inspect(IMappingEntityIndexVisitor indexVisitor) {
 		indexVisitor.indexGroups(Collections.unmodifiableMap(_indexGroupMap));
 		for (IMappedProperty property : getProperties()) {
-			property.inspect(indexVisitor.indexVisitor());
+			indexVisitor.property(property);
 		}
 	}
 
