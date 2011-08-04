@@ -20,6 +20,7 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.EmbeddedType;
 import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
@@ -28,8 +29,10 @@ public interface IMappingParserContext {
 
 	IEntityMapping newEntity(ClassType entityClass);
 
-	IMappedProperty registeredMapping(FieldType fieldType);
+	IMappedProperty registeredMapping(IType type);
 
-	void registerMapping(FieldType fieldType, IMappedProperty mapping);
+	void registerMapping(IType type, IMappedProperty mapping);
+
+	ITypeParser getParser(IType type);
 
 }

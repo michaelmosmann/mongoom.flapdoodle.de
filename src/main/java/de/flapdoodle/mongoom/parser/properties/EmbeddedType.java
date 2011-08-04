@@ -14,11 +14,35 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.parser;
+package de.flapdoodle.mongoom.parser.properties;
 
-public interface IEntityParserFactory {
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
-	IEntityParser getParser(IType type);
+import de.flapdoodle.mongoom.parser.IType;
 
-	ITypeParserFactory getTypeParserFactory();
+
+public class EmbeddedType implements IType {
+
+	private final Class<?> _type;
+
+	public EmbeddedType(Class<?> type) {
+		_type = type;
+	}
+
+	@Override
+	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+		return null;
+	}
+
+	@Override
+	public Class<?> getType() {
+		return _type;
+	}
+
+	@Override
+	public Type getGenericType() {
+		return null;
+	}
+	
 }

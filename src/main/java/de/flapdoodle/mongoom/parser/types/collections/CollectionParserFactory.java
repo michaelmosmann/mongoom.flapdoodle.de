@@ -26,6 +26,10 @@ import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 
 public class CollectionParserFactory implements ITypeParserFactory {
 
+	
+	public CollectionParserFactory() {
+	}
+	
 	@Override
 	public ITypeParser getParser(IType type) {
 		Class<?> collectionType = type.getType();

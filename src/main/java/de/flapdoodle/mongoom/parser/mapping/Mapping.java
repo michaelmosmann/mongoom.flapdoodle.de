@@ -29,10 +29,13 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
+import de.flapdoodle.mongoom.parser.IEntityParserFactory;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMappingParserResult;
 import de.flapdoodle.mongoom.parser.IType;
+import de.flapdoodle.mongoom.parser.ITypeParser;
+import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
 import de.flapdoodle.mongoom.parser.properties.FieldType;
 import de.flapdoodle.mongoom.parser.visitors.IMappingResultVisitor;
@@ -42,7 +45,12 @@ public class Mapping implements IMappingParserContext,IMappingParserResult {
 
 	Map<Class<?>,EntityMapping> _entities=Maps.newLinkedHashMap();
 	Map<Class<?>,IMappedProperty> _allreadyMapped=Maps.newLinkedHashMap();
+	private final ITypeParserFactory _typeParserFactory;
 	
+	public Mapping(ITypeParserFactory entityParserFactory) {
+		_typeParserFactory = entityParserFactory;
+	}
+
 	@Override
 	public IEntityMapping newEntity(ClassType entityClass) {
 		if (_entities.containsKey(entityClass)) throw new MappingException(entityClass.getType(),"allready mapped");
@@ -52,13 +60,18 @@ public class Mapping implements IMappingParserContext,IMappingParserResult {
 	}
 	
 	@Override
-	public IMappedProperty registeredMapping(FieldType fieldType) {
+	public IMappedProperty registeredMapping(IType fieldType) {
 		return _allreadyMapped.get((Class<?>) fieldType.getType());
 	}
 	
 	@Override
-	public void registerMapping(FieldType fieldType, IMappedProperty mapping) {
+	public void registerMapping(IType fieldType, IMappedProperty mapping) {
 		_allreadyMapped.put((Class<?>) fieldType.getType(), mapping);
+	}
+	
+	@Override
+	public ITypeParser getParser(IType type) {
+		return _typeParserFactory.getParser(type);
 	}
 	
 	@Override

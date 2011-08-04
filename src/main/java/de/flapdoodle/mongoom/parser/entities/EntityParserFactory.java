@@ -40,4 +40,8 @@ public class EntityParserFactory implements IEntityParserFactory {
 		return new EntityParser(_customFactory);
 	}
 
+	@Override
+	public ITypeParserFactory getTypeParserFactory() {
+		return _customFactory;
+	}
 }

@@ -16,17 +16,36 @@
 
 package de.flapdoodle.mongoom.parser.types.collections;
 
-import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.parser.IMappingParserContext;
+import java.lang.reflect.Type;
+import java.util.logging.Logger;
+
+import de.flapdoodle.mongoom.logging.LogConfig;
+import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.parser.IMapProperties;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
+import de.flapdoodle.mongoom.parser.IType;
+import de.flapdoodle.mongoom.parser.ITypeParser;
+import de.flapdoodle.mongoom.parser.ITypeParserFactory;
+import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.EmbeddedType;
 
 
 public class ListParser extends AbstractCollectionParser {
 
+	
+	private static final Logger _logger = LogConfig.getLogger(ListParser.class);
+
 	@Override
 	public void parse(IMappingParserContext mappingParserContext, IMapProperties mapProperties) {
-//		mapProperties.getType();
+		IType propertyType = mapProperties.getType();
+		
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(propertyType.getType(), propertyType.getGenericType(), 0);
+		_logger.severe("ParamType: " + parameterizedClass + " for " + propertyType);
+
+		ITypeParser typeParser=mappingParserContext.getParser(new EmbeddedType((Class<?>) parameterizedClass));
+//		ITypeParser parser = _typeParserFactory.getParser(new EmbeddedType((Class<?>) parameterizedClass));
+//		parser.parse(mappingParserContext, mapProperties);
+//		typeParser.parse(mappingParserContext, mapProperties);
 	}
 
 }

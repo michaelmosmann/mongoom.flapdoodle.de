@@ -27,7 +27,7 @@ import de.flapdoodle.mongoom.parser.properties.ClassType;
 public class MappingParser {
 
 	public static IMappingParserResult map(Set<Class<?>> entityClasses,IEntityParserFactory entityParserFactory) {
-		Mapping ret=new Mapping();
+		Mapping ret=new Mapping(entityParserFactory.getTypeParserFactory());
 		for (Class<?> entityClass : entityClasses) {
 			IEntityParser typeParser=entityParserFactory.getParser(ClassType.of(entityClass));
 			if (typeParser==null) error(entityClass,"No TypeParser found");
