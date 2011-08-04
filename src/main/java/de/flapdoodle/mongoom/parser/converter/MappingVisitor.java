@@ -19,13 +19,14 @@ package de.flapdoodle.mongoom.parser.converter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.converter.index.EntityIndexVisitor;
 import de.flapdoodle.mongoom.parser.converter.index.SimpleEntityIndexVisitor;
 import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
 import de.flapdoodle.mongoom.parser.naming.IEntityNamingFactory;
@@ -35,6 +36,9 @@ import de.flapdoodle.mongoom.parser.visitors.IMappingResultVisitor;
 
 public class MappingVisitor implements IMappingResultVisitor {
 
+	
+	private static final Logger _logger = LogConfig.getLogger(MappingVisitor.class);
+	
 	public ClassType _type;
 
 	private final IEntityNamingFactory _entityNaming;
@@ -49,8 +53,8 @@ public class MappingVisitor implements IMappingResultVisitor {
 
 	@Override
 	public void entity(EntityMapping entity) {
-		System.out.println("Entity: " + entity);
-		System.out.println("EntityName: " + _entityNaming.getEntityName(entity.getType()));
+		_logger.fine("Entity: " + entity);
+		_logger.fine("EntityName: " + _entityNaming.getEntityName(entity.getType()));
 
 		_type = entity.getType();
 

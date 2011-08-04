@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -27,8 +28,8 @@ import com.google.common.collect.Sets;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.exceptions.NotImplementedException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
@@ -39,6 +40,8 @@ import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 public class SimpleEntityIndexVisitor implements IMappingEntityIndexVisitor {
 
+	private static final Logger _logger = LogConfig.getLogger(SimpleEntityIndexVisitor.class);
+	
 	private final MappingVisitor _mappingVisitor;
 	private Map<String, EntityIndexDef> _indexGroups;
 
@@ -64,7 +67,7 @@ public class SimpleEntityIndexVisitor implements IMappingEntityIndexVisitor {
 			throw new MappingException(_mappingVisitor._type.getType(), "IndexGroups allready set");
 		_indexGroups = indexGroups;
 
-		System.out.println("IndexGroups: " + _indexGroups);
+		_logger.fine("IndexGroups: " + _indexGroups);
 	}
 
 	@Override
@@ -151,8 +154,8 @@ public class SimpleEntityIndexVisitor implements IMappingEntityIndexVisitor {
 		@Override
 		public void property(IMappedProperty property) {
 			if (startProperty(property)) {
-				System.out.println("Property: " + property);
-				System.out.println("Property(Class): " + property.getType().getType());
+				_logger.fine("Property: " + property);
+				_logger.fine("Property(Class): " + property.getType().getType());
 				PropertyIndexVisitor indexVisitor = new PropertyIndexVisitor(this,property);
 				_childs.add(indexVisitor);
 				property.inspect(indexVisitor);

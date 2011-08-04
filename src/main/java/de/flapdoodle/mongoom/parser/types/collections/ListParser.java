@@ -25,8 +25,8 @@ import de.flapdoodle.mongoom.parser.mapping.Mapping;
 public class ListParser extends AbstractCollectionParser {
 
 	@Override
-	public void parse(IMappingParserContext mappingParserContext, IMapProperties propertyMapping) {
-		
+	public void parse(IMappingParserContext mappingParserContext, IMapProperties mapProperties) {
+//		mapProperties.getType();
 	}
 
 }

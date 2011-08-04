@@ -16,15 +16,19 @@
 
 package de.flapdoodle.mongoom.parser;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 
 import com.google.common.collect.Lists;
 import com.google.inject.internal.Sets;
 
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.mapping.MappingConfig;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterFactory;
@@ -45,7 +49,30 @@ import de.flapdoodle.mongoom.parser.types.extended.color.ColorParserFactory;
 
 public class TestMappingParser extends TestCase {
 
+//	static final Logger _rootLogger;
+//	static {
+//		Logger rootLogger = Logger.getLogger("de.flapdoodle").getParent();
+//		rootLogger.setLevel(Level.ALL);
+//		System.out.println("Logger: "+rootLogger);
+//		System.out.println("Logger.Filter: "+rootLogger.getFilter());
+//		System.out.println("Logger.Handlers: "+Arrays.asList(rootLogger.getHandlers()));
+//		System.out.println("Logger.Level: "+rootLogger.getLevel());
+//		System.out.println("Logger.Parent: "+rootLogger.getParent());
+//		
+//		rootLogger.getHandlers()[0].setLevel(Level.ALL);
+//		
+////		Logger.getLogger(getClass().getPackage().getName()).setLevel(Level.ALL);
+////		Logger.getLogger("de.flapdoodle.*").setLevel(Level.FINEST);
+////		Logger.getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.ALL);
+//		
+//		rootLogger.fine("Puuuh");
+//		_rootLogger=rootLogger;
+//	}
+	
 	public void testParser() {
+		
+		LogConfig.setLevel(Logger.getLogger("de.flapdoodle"),Level.ALL);
+		
 		IMappingConfig mappingConfig = MappingConfig.getDefaults();
 		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
 		
