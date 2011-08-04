@@ -159,6 +159,7 @@ public class SimpleEntityIndexVisitor implements IMappingEntityIndexVisitor {
 				PropertyIndexVisitor indexVisitor = new PropertyIndexVisitor(this,property);
 				_childs.add(indexVisitor);
 				property.inspect(indexVisitor);
+				_indexDefs.addAll(indexVisitor.getIndex());
 			}
 			if (isRecursive(property)) {
 				if (_indexed != null)
