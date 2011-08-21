@@ -27,7 +27,7 @@ public class FieldType implements IFieldType {
 	
 	private final Field _field;
 
-	private FieldType(Field field) {
+	protected FieldType(Field field) {
 		_field = field;
 	}
 
