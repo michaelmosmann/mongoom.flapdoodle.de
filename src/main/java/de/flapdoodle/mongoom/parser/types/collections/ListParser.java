@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
+import de.flapdoodle.mongoom.parser.properties.ContainerType;
 import de.flapdoodle.mongoom.parser.properties.EmbeddedType;
 
 
@@ -43,6 +44,10 @@ public class ListParser extends AbstractCollectionParser {
 		_logger.severe("ParamType: " + parameterizedClass + " for " + propertyType);
 
 		ITypeParser typeParser=mappingParserContext.getParser(new EmbeddedType((Class<?>) parameterizedClass));
+		
+//		ContainerType.of(propertyType, parameterizedClass);
+
+//		typeParser.parse(mappingParserContext, mapProperties.);
 //		ITypeParser parser = _typeParserFactory.getParser(new EmbeddedType((Class<?>) parameterizedClass));
 //		parser.parse(mappingParserContext, mapProperties);
 //		typeParser.parse(mappingParserContext, mapProperties);
