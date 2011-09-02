@@ -15,7 +15,7 @@ Stable
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
-	  <version>1.1</version>
+	  <version>1.2</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -23,7 +23,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
-	  <version>1.2-SNAPSHOT</version>
+	  <version>1.3-SNAPSHOT</version>
 	</dependency>
 
 ### Setup
@@ -33,7 +33,7 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	mapper.map(Document.class);
 	mapper.map(User.class);
 
-	IDatastore datastore = morphia.createDatastore(mongo, "databaseName");
+	IDatastore datastore = mapper.createDatastore(mongo, "databaseName");
 		
 	datastore.ensureCaps();
 	datastore.ensureIndexes();
