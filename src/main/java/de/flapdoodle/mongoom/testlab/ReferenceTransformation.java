@@ -37,12 +37,12 @@ public class ReferenceTransformation<R> implements ITransformation<Reference<R>,
 	
 	@Override
 	public ObjectId asObject(Reference<R> value) {
-		return value.getId();
+		return value!=null ? value.getId() : null;
 	}
 
 	@Override
 	public Reference<R> asEntity(ObjectId object) {
-		return Reference.getInstance(_type, (ObjectId) object);
+		return object!=null ? Reference.getInstance(_type, (ObjectId) object) : null;
 	}
 
 	@Override

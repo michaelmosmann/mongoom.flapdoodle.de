@@ -42,7 +42,9 @@ public class TestTransformation extends TestCase {
 		IMappingContext mappingContext=new MappingContext();
 		EntityVisitor<Dummy> entityParser = new EntityVisitor<Dummy>();
 		ITransformation<Dummy, DBObject> transformation = entityParser.transformation(mappingContext,Dummy.class);
-//		assertNotNull(transformation);
+		assertNotNull(transformation);
+		DBObject dbObject = transformation.asObject(new Dummy());
+		System.out.println("DBObject:"+dbObject);
 	}
 	
 	@Entity("Dummy")

@@ -41,7 +41,7 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
 		parseProperties(mappingContext, entityContext,entityClass);
 		
-		return null;
+		return new EntityTransformation<EntityBean>(entityContext);
 	}
 
 

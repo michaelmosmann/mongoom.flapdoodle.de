@@ -16,7 +16,10 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.util.Collections;
 import java.util.Map;
+
+import org.omg.CORBA._PolicyStub;
 
 import com.google.common.collect.Maps;
 
@@ -24,52 +27,94 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 
-
-public class EntityContext<EntityBean> implements IEntityContext{
+public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 
 	private final Class<EntityBean> _entityClass;
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
-	
-	private final Map<Property, PropertyContext<EntityBean, ?>> _properties=Maps.newLinkedHashMap();
 
-	public EntityContext(Class<EntityBean> entityClass,Entity entityAnnotation, Views viewsAnnotation, Map<String, EntityIndexDef> indexGroupMap) {
+	private final Map<Property<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+
+	public EntityContext(Class<EntityBean> entityClass, Entity entityAnnotation, Views viewsAnnotation,
+			Map<String, EntityIndexDef> indexGroupMap) {
 		_entityClass = entityClass;
 		_entityAnnotation = entityAnnotation;
 		_viewsAnnotation = viewsAnnotation;
 		_indexGroupMap = indexGroupMap;
-		
+
+	}
+
+	@Override
+	public <S> IPropertyContext<S> contextFor(Property<S> of) {
+		//		EntityPropertyContext ret = new EntityPropertyContext(this,property);
+		//		return ret;
+		return null;
+	}
+
+	@Override
+	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
+		propertyTransformation.put(property, transformation);
 	}
 	
-	@Override
-	public IPropertyContext contextFor(Property property) {
-		PropertyContext ret = new PropertyContext(this);
-		_properties.put(property, ret);
-		return ret;
+	
+	protected Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
+		return Collections.unmodifiableMap(propertyTransformation);
 	}
 
-	static class PropertyContext<EntityBean,T> implements IPropertyContext<T> {
-		
-		private final EntityContext<EntityBean> _entityContext;
-		private final Map<Property, PropertyContext<EntityBean, ?>> _properties=Maps.newLinkedHashMap();
-		private final PropertyContext<EntityBean, ?> _parent;
+	//	@Override
+	//	public IPropertyContext contextFor(Property property) {
+	//		EntityPropertyContext ret = new EntityPropertyContext(this,property);
+	//		return ret;
+	//	}
 
-		public PropertyContext(EntityContext<EntityBean> entityContext) {
-			_entityContext = entityContext;
-			_parent=null;
-		}
-
-		public PropertyContext(EntityContext<EntityBean> entityContext, PropertyContext<EntityBean, ?> propertyContext) {
-			_entityContext = entityContext;
-			_parent = propertyContext;
-		}
-
-		@Override
-		public <S> IPropertyContext<S> contextFor(Property<S> property) {
-			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this);
-			_properties.put(property,ret);
-			return ret;
-		}
-	}
+	//	
+	//	static class EntityPropertyContext<EntityBean,T> implements IPropertyContext<T> {
+	//		
+	//		private final EntityContext<EntityBean> _entityContext;
+	//		private final Property _property;
+	//		
+	//		public EntityPropertyContext(EntityContext<EntityBean> entityContext, Property property) {
+	//			_entityContext = entityContext;
+	//			_property = property;
+	//		}
+	//
+	//		@Override
+	//		public <S> IPropertyContext<S> contextFor(Property<S> property) {
+	//			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this,property);
+	//			return ret;
+	//		}
+	//		
+	//		@Override
+	//		public void setTransformation(ITransformation<T, ?> transformation) {
+	//			_entityContext.setTransformation(_property,transformation);
+	//		}
+	//	}
+	//
+	//	static class PropertyContext<EntityBean,T> implements IPropertyContext<T> {
+	//		
+	//		private final EntityContext<EntityBean> _entityContext;
+	//		private final IPropertyContext<?> _parent;
+	//
+	//		public PropertyContext(EntityContext<EntityBean> entityContext,
+	//				IPropertyContext<?> propertyContext, Property<T> property) {
+	//			_entityContext = entityContext;
+	//			_parent = propertyContext;
+	//		}
+	//
+	//		@Override
+	//		public <S> IPropertyContext<S> contextFor(Property<S> property) {
+	//			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this,property);
+	//			return ret;
+	//		}
+	//		
+	//		@Override
+	//		public void setTransformation(ITransformation<T, ?> transformation) {
+	////			if (_)
+	//		}
+	//	}
+	//
+	//	public void setTransformation(Property property, ITransformation<?, ?> transformation) {
+	//		propertyTransformation.put(property, transformation);
+	//	}
 }

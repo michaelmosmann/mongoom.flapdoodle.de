@@ -34,7 +34,7 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, field);
 			if (transformation==null) error(entityClass,"Could not get Transformation for "+field);
 //			entityContext.addProperty(field.getName(),transformation);
-			
+			rootContext.setTransformation(property,transformation);
 		}
 	}
 }

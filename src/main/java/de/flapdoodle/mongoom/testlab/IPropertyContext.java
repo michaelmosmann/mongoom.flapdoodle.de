@@ -19,6 +19,8 @@ package de.flapdoodle.mongoom.testlab;
 
 public interface IPropertyContext<T> {
 
-	<T> IPropertyContext<T> contextFor(Property<T> of);
+	<S> IPropertyContext<S> contextFor(Property<S> of);
+
+	<S> void setTransformation(Property<S> property, ITransformation<S,?> transformation);
 
 }

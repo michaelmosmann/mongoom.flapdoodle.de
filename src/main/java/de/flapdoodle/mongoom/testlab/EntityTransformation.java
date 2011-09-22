@@ -27,21 +27,23 @@ import com.mongodb.DBObject;
 public class EntityTransformation<Bean> implements ITransformation<Bean, DBObject> {
 
 	
-	private final Map<Property<?>, ITransformation<?, ?>> _propertyTransformations;
+	private final EntityContext<Bean> _entityContext;
 
-	public EntityTransformation(Map<Property<?>, ITransformation<?, ?>> propertyTransformations) {
-		_propertyTransformations = propertyTransformations;
+	public EntityTransformation(EntityContext<Bean> entityContext) {
+		_entityContext = entityContext;
 	}
 	
 	@Override
 	public DBObject asObject(Bean value) {
 		BasicDBObject ret = new BasicDBObject();
-		for (Property p : _propertyTransformations.keySet()) {
-			ITransformation transformation = _propertyTransformations.get(p);
+		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		
+		for (Property p : propertyTransformations.keySet()) {
+			ITransformation transformation = propertyTransformations.get(p);
 			Field field = p.getField();
 			Object fieldValue=getFieldValue(field,value);
 			Object dbValue = transformation.asObject(fieldValue);
-			ret.put(p.getName(), dbValue);
+			if (dbValue!=null) ret.put(p.getName(), dbValue);
 		}
 		return ret;
 	}
