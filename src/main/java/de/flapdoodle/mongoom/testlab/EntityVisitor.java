@@ -29,7 +29,7 @@ import de.flapdoodle.mongoom.mapping.index.IndexParser;
 public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean,DBObject> implements IEntityVisitor<EntityBean>{
 
 	@Override
-	public ITransformation<EntityBean, DBObject> transformation(Class<EntityBean> entityClass) {
+	public ITransformation<EntityBean, DBObject> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
 		if (entityAnnotation == null) {
 			error(entityClass, "Missing " + Entity.class + " Annotation");
@@ -38,9 +38,8 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
-		
-		
-		parseProperties(new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap),entityClass);
+		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
+		parseProperties(mappingContext, entityContext,entityClass);
 		
 		return null;
 	}

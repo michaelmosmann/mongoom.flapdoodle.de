@@ -20,5 +20,5 @@ import com.mongodb.DBObject;
 
 
 public interface IEntityVisitor<EntityType> {
-	ITransformation<EntityType, DBObject> transformation(Class<EntityType> entityType);
+	ITransformation<EntityType, DBObject> transformation(IMappingContext mappingContext, Class<EntityType> entityType);
 }

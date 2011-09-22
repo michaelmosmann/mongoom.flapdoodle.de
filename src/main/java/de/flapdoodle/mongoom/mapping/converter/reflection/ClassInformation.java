@@ -20,10 +20,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.annotations.MappedSuperclass;
@@ -51,6 +54,14 @@ public class ClassInformation {
 
 	public static List<Field> getFields(Class<?> entityClass) {
 		return getFields(entityClass, null);
+	}
+	
+	public static Map<String, Field> getFieldMap(List<Field> fields) {
+		LinkedHashMap<String, Field> ret = Maps.newLinkedHashMap();
+		for (Field f : fields) {
+			ret.put(f.getName(), f);
+		}
+		return ret;
 	}
 
 	public static List<Field> getFields(Class<?> entityClass, Set<String> filter) {

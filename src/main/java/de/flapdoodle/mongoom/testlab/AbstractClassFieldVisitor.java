@@ -16,10 +16,19 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+
 public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVisitor {
 
-	protected void parseProperties(IEntityContext<?> entityContext, Class<Type> entityClass) {
-//		error(entityClass,"Not implemented");
-
+	protected void parseProperties(IMappingContext mappingContext, IEntityContext<?> entityContext, Class<Type> entityClass) {
+		List<Field> fields = ClassInformation.getFields(entityClass);
+		
+		for (Field field : fields) {
+			ITypeVisitor typeVisitor=mappingContext.getVisitor(entityClass,field);
+			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);
+		}
 	}
 }

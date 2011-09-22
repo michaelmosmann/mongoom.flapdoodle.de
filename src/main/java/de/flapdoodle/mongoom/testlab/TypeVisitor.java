@@ -16,12 +16,14 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.lang.reflect.Field;
+
 public class TypeVisitor<Type, Mapped> extends AbstractClassFieldVisitor<Type, Mapped> implements
 		ITypeVisitor<Type, Mapped> {
 
 	@Override
-	public ITransformation<Type, Mapped> transformation(IEntityContext<?> entityContext, Class<Type> type) {
-		parseProperties(entityContext,type);
+	public ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IEntityContext<?> entityContext, Field field) {
+		parseProperties(mappingContext, entityContext,(Class<Type>) field.getType());
 		return null;
 	}
 

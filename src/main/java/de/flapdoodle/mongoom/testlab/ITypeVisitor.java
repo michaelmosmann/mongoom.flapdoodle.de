@@ -16,9 +16,11 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.lang.reflect.Field;
+
 import com.mongodb.DBObject;
 
 
 public interface ITypeVisitor<Type,Mapped> {
-	ITransformation<Type, Mapped> transformation(IEntityContext<?> entityContext, Class<Type> type);
+	ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IEntityContext<?> entityContext, Field field);
 }
