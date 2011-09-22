@@ -18,6 +18,8 @@ package de.flapdoodle.mongoom.testlab;
 
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
@@ -29,6 +31,8 @@ public class EntityContext<EntityBean> implements IEntityContext{
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
+	
+	private final Map<Property, PropertyContext<EntityBean, ?>> _properties=Maps.newLinkedHashMap();
 
 	public EntityContext(Class<EntityBean> entityClass,Entity entityAnnotation, Views viewsAnnotation, Map<String, EntityIndexDef> indexGroupMap) {
 		_entityClass = entityClass;
@@ -37,5 +41,35 @@ public class EntityContext<EntityBean> implements IEntityContext{
 		_indexGroupMap = indexGroupMap;
 		
 	}
+	
+	@Override
+	public IPropertyContext contextFor(Property property) {
+		PropertyContext ret = new PropertyContext(this);
+		_properties.put(property, ret);
+		return ret;
+	}
 
+	static class PropertyContext<EntityBean,T> implements IPropertyContext<T> {
+		
+		private final EntityContext<EntityBean> _entityContext;
+		private final Map<Property, PropertyContext<EntityBean, ?>> _properties=Maps.newLinkedHashMap();
+		private final PropertyContext<EntityBean, ?> _parent;
+
+		public PropertyContext(EntityContext<EntityBean> entityContext) {
+			_entityContext = entityContext;
+			_parent=null;
+		}
+
+		public PropertyContext(EntityContext<EntityBean> entityContext, PropertyContext<EntityBean, ?> propertyContext) {
+			_entityContext = entityContext;
+			_parent = propertyContext;
+		}
+
+		@Override
+		public <S> IPropertyContext<S> contextFor(Property<S> property) {
+			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this);
+			_properties.put(property,ret);
+			return ret;
+		}
+	}
 }

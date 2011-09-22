@@ -17,6 +17,6 @@
 package de.flapdoodle.mongoom.testlab;
 
 
-public interface IEntityContext<EntityType> {
+public interface IEntityContext<EntityType> extends IPropertyContext<EntityType> {
 
 }

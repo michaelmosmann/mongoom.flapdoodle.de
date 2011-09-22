@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.types;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 
-import com.google.common.collect.Maps;
+import org.bson.types.ObjectId;
 
-import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
+import de.flapdoodle.mongoom.testlab.IEntityContext;
+import de.flapdoodle.mongoom.testlab.IMappingContext;
+import de.flapdoodle.mongoom.testlab.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeVisitor;
+import de.flapdoodle.mongoom.testlab.ReferenceTransformation;
 import de.flapdoodle.mongoom.types.Reference;
 
 
-public class MappingContext implements IMappingContext {
-	
-	Map<Class<?>, ITypeVisitor> typeVisitors=Maps.newLinkedHashMap();
-	{
-		typeVisitors.put(Reference.class, new ReferenceVisitor());
-	}
+public class ReferenceVisitor<T> implements ITypeVisitor<Reference<T>, ObjectId>{
 	
 	@Override
-	public <Type> ITypeVisitor<Type, ?> getVisitor(Class<?> containerType, Field field) {
-		return typeVisitors.get(field.getType());
+	public ITransformation<Reference<T>, ObjectId> transformation(IMappingContext mappingContext,
+			IPropertyContext<?> propertyContext, Field field) {
+		return new ReferenceTransformation<T>((Class<T>) field.getType());
 	}
+
 }

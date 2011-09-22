@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 public class Property<T> {
@@ -23,13 +24,15 @@ public class Property<T> {
 	private final String _name;
 	private final Class<T> _type;
 	private final Type _genericType;
+	private Field _field;
 	
 	// MetaInfos (Index?)
 
-	public Property(String name, Class<T> type, Type genericType) {
-		_name = name;
-		_type = type;
-		_genericType = genericType;
+	public Property(Field field) {
+		_name = field.getName();
+		_type = (Class<T>) field.getType();
+		_genericType = field.getGenericType();
+		_field=field;
 	}
 
 	public String getName() {
@@ -43,4 +46,14 @@ public class Property<T> {
 	public Type getGenericType() {
 		return _genericType;
 	}
+	
+	public Field getField() {
+		return _field;
+	}
+	
+	public static Property of(Field field) {
+		return new Property(field);
+	}
+	
+	
 }

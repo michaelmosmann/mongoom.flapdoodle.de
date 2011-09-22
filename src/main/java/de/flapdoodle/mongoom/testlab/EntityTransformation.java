@@ -16,16 +16,45 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.lang.reflect.Field;
+import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 
 public class EntityTransformation<Bean> implements ITransformation<Bean, DBObject> {
 
+	
+	private final Map<Property<?>, ITransformation<?, ?>> _propertyTransformations;
+
+	public EntityTransformation(Map<Property<?>, ITransformation<?, ?>> propertyTransformations) {
+		_propertyTransformations = propertyTransformations;
+	}
+	
 	@Override
 	public DBObject asObject(Bean value) {
-		
+		BasicDBObject ret = new BasicDBObject();
+		for (Property p : _propertyTransformations.keySet()) {
+			ITransformation transformation = _propertyTransformations.get(p);
+			Field field = p.getField();
+			Object fieldValue=getFieldValue(field,value);
+			Object dbValue = transformation.asObject(fieldValue);
+			ret.put(p.getName(), dbValue);
+		}
+		return ret;
+	}
+
+	private Object getFieldValue(Field field, Bean value) {
+		try {
+			field.setAccessible(true);
+			return field.get(value);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
