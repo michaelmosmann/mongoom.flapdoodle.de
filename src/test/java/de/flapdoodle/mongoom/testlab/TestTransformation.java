@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +49,9 @@ public class TestTransformation extends TestCase {
 		ITransformation<Dummy, DBObject> transformation = entityParser.transformation(mappingContext, Dummy.class);
 		assertNotNull(transformation);
 		Dummy dummy = new Dummy();
-		dummy.setTags(Sets.newHashSet("Bla","Blu"));
+		HashSet<String> tags = Sets.newLinkedHashSet();
+		tags.add("Bla");tags.add("Blue");
+		dummy.setTags(tags);
 		dummy.setId(Reference.getInstance(Dummy.class, new ObjectId()));
 		DBObject dbObject = transformation.asObject(dummy);
 		System.out.println("DBObject:" + dbObject);

@@ -23,6 +23,7 @@ import java.util.Set;
 import org.bson.types.ObjectId;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mongodb.BasicDBList;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
@@ -51,8 +52,12 @@ public class SetTransformation<Bean, Mapped> implements ITransformation<Set<Bean
 
 	@Override
 	public Set<Bean> asEntity(List<Mapped> object) {
-		// TODO Auto-generated method stub
-		return null;
+		if (object == null) return null;
+		Set<Bean> ret = Sets.newLinkedHashSet();
+		for (Mapped v : object) {
+			ret.add(_transformation.asEntity(v));
+		}
+		return ret;
 	}
 
 	@Override
