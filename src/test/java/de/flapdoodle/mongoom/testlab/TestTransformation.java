@@ -43,12 +43,23 @@ public class TestTransformation extends TestCase {
 		EntityVisitor<Dummy> entityParser = new EntityVisitor<Dummy>();
 		ITransformation<Dummy, DBObject> transformation = entityParser.transformation(mappingContext,Dummy.class);
 		assertNotNull(transformation);
-		DBObject dbObject = transformation.asObject(new Dummy());
+		Dummy dummy = new Dummy();
+		dummy.setId(Reference.getInstance(Dummy.class, new ObjectId()));
+		DBObject dbObject = transformation.asObject(dummy);
 		System.out.println("DBObject:"+dbObject);
 	}
 	
 	@Entity("Dummy")
 	static class Dummy {
 		Reference<Dummy> _id;
+		
+		
+		public Reference<Dummy> getId() {
+			return _id;
+		}
+		
+		public void setId(Reference<Dummy> id) {
+			_id = id;
+		}
 	}
 }
