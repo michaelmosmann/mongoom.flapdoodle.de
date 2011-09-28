@@ -51,6 +51,11 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 		//		return ret;
 		return null;
 	}
+	
+	
+	public Class<EntityBean> getEntityClass() {
+		return _entityClass;
+	}
 
 	@Override
 	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {

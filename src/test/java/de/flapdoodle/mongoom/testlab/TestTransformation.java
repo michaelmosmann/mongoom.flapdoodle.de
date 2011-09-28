@@ -47,6 +47,9 @@ public class TestTransformation extends TestCase {
 		dummy.setId(Reference.getInstance(Dummy.class, new ObjectId()));
 		DBObject dbObject = transformation.asObject(dummy);
 		System.out.println("DBObject:"+dbObject);
+		Dummy read = transformation.asEntity(dbObject);
+		System.out.println("DBObject:"+read);
+		assertEquals("Eq",dummy, read);
 	}
 	
 	@Entity("Dummy")
@@ -61,5 +64,39 @@ public class TestTransformation extends TestCase {
 		public void setId(Reference<Dummy> id) {
 			_id = id;
 		}
+		
+		@Override
+		public String toString() {
+			return "Dummy: "+_id;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + ((_id == null)
+					? 0
+					: _id.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Dummy other = (Dummy) obj;
+			if (_id == null) {
+				if (other._id != null)
+					return false;
+			} else if (!_id.equals(other._id))
+				return false;
+			return true;
+		}
+		
+		
 	}
 }

@@ -17,9 +17,13 @@
 package de.flapdoodle.mongoom.testlab.types;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 
 import org.bson.types.ObjectId;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.converter.factories.ReferenceConverter;
+import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.IMappingContext;
 import de.flapdoodle.mongoom.testlab.IPropertyContext;
@@ -34,7 +38,9 @@ public class ReferenceVisitor<T> implements ITypeVisitor<Reference<T>, ObjectId>
 	@Override
 	public ITransformation<Reference<T>, ObjectId> transformation(IMappingContext mappingContext,
 			IPropertyContext<?> propertyContext, Field field) {
-		return new ReferenceTransformation<T>((Class<T>) field.getType());
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(field.getDeclaringClass(), field.getGenericType(), 0);
+		if (parameterizedClass instanceof Class) return new ReferenceTransformation((Class<T>) parameterizedClass);
+		throw new MappingException(field.getDeclaringClass(), "Type is not a Class: " + parameterizedClass);
 	}
 
 }

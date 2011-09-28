@@ -23,6 +23,8 @@ import java.util.Set;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
+
 
 public class EntityTransformation<Bean> implements ITransformation<Bean, DBObject> {
 
@@ -53,16 +55,46 @@ public class EntityTransformation<Bean> implements ITransformation<Bean, DBObjec
 			field.setAccessible(true);
 			return field.get(value);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			throw new MappingException(_entityContext.getEntityClass(),e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			throw new MappingException(_entityContext.getEntityClass(),e);
 		}
-		return null;
 	}
 
 	@Override
 	public Bean asEntity(DBObject object) {
-		return null;
+		Bean ret = newInstance();
+		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		
+		for (Property p : propertyTransformations.keySet()) {
+			ITransformation transformation = propertyTransformations.get(p);
+			Field field = p.getField();
+			Object fieldValue=transformation.asEntity(object.get(p.getName()));
+			if (fieldValue!=null) setFieldValue(ret, field, fieldValue);
+		}
+		
+		return ret;
+	}
+
+	private void setFieldValue(Bean bean, Field field, Object fieldValue) {
+		try {
+			field.setAccessible(true);
+			field.set(bean, fieldValue);
+		} catch (IllegalArgumentException e) {
+			throw new MappingException(_entityContext.getEntityClass(),e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(_entityContext.getEntityClass(),e);
+		}
+	}
+
+	private Bean newInstance() {
+		try {
+			return _entityContext.getEntityClass().newInstance();
+		} catch (InstantiationException e) {
+			throw new MappingException(_entityContext.getEntityClass(),e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(_entityContext.getEntityClass(),e);
+		}
 	}
 
 	@Override
