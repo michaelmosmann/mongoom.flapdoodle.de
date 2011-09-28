@@ -22,7 +22,7 @@ public class TypeVisitor<Type, Mapped> extends AbstractClassFieldVisitor<Type, M
 		ITypeVisitor<Type, Mapped> {
 
 	@Override
-	public ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> entityContext, Field field) {
+	public ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> entityContext, ITypeInfo field) {
 		parseProperties(mappingContext, entityContext,(Class<Type>) field.getType());
 		return null;
 	}

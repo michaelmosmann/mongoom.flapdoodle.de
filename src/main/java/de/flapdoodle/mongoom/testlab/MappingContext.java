@@ -18,10 +18,13 @@ package de.flapdoodle.mongoom.testlab;
 
 import java.lang.reflect.Field;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
+import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
 
 
@@ -30,10 +33,12 @@ public class MappingContext implements IMappingContext {
 	Map<Class<?>, ITypeVisitor> typeVisitors=Maps.newLinkedHashMap();
 	{
 		typeVisitors.put(Reference.class, new ReferenceVisitor());
+		typeVisitors.put(Set.class, new SetVisitor());
+		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
 	}
 	
 	@Override
-	public <Type> ITypeVisitor<Type, ?> getVisitor(Class<?> containerType, Field field) {
-		return typeVisitors.get(field.getType());
+	public <Type> ITypeVisitor<Type, ?> getVisitor(Class<?> containerType, ITypeInfo type) {
+		return typeVisitors.get(type.getType());
 	}
 }

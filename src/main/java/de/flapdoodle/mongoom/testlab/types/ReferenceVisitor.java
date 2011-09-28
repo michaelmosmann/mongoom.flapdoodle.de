@@ -28,8 +28,8 @@ import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.IMappingContext;
 import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
-import de.flapdoodle.mongoom.testlab.ReferenceTransformation;
 import de.flapdoodle.mongoom.types.Reference;
 
 
@@ -37,9 +37,9 @@ public class ReferenceVisitor<T> implements ITypeVisitor<Reference<T>, ObjectId>
 	
 	@Override
 	public ITransformation<Reference<T>, ObjectId> transformation(IMappingContext mappingContext,
-			IPropertyContext<?> propertyContext, Field field) {
-		Type parameterizedClass = TypeExtractor.getParameterizedClass(field.getDeclaringClass(), field.getGenericType(), 0);
-		if (parameterizedClass instanceof Class) return new ReferenceTransformation((Class<T>) parameterizedClass);
+			IPropertyContext<?> propertyContext, ITypeInfo field) {
+		Class<?> parameterizedClass = TypeExtractor.getTypeclass(field.getDeclaringClass(), field.getGenericType());
+		if (parameterizedClass !=null) return new ReferenceTransformation<T>((Class<T>) parameterizedClass);
 		throw new MappingException(field.getDeclaringClass(), "Type is not a Class: " + parameterizedClass);
 	}
 

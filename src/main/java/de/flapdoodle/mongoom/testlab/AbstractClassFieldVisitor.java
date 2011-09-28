@@ -29,9 +29,9 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 		for (Field field : fields) {
 			Property property = Property.of(field);
 			IPropertyContext propertyContext = rootContext.contextFor(property);
-			ITypeVisitor typeVisitor=mappingContext.getVisitor(entityClass,field);
+			ITypeVisitor typeVisitor=mappingContext.getVisitor(entityClass,TypeInfo.of(field));
 			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);
-			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, field);
+			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(field));
 			if (transformation==null) error(entityClass,"Could not get Transformation for "+field);
 //			entityContext.addProperty(field.getName(),transformation);
 			rootContext.setTransformation(property,transformation);

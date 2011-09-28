@@ -85,6 +85,10 @@ public class TypeExtractor {
 		return resolvedTypes;
 	}
 
+	public static Class<?> getTypeclass(Class<?> declaringClass, Type genericType) {
+		Type result = getParameterizedClass(declaringClass, genericType, 0);
+		return (Class<?>) (result instanceof Class ? result : null);
+	}
 	public static Type getParameterizedClass(Class<?> declaringClass, Type genericType, final int index) {
 		if (genericType instanceof ParameterizedType) {
 			ParameterizedType ptype = (ParameterizedType) genericType;

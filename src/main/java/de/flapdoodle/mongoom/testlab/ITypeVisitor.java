@@ -22,5 +22,5 @@ import com.mongodb.DBObject;
 
 
 public interface ITypeVisitor<Type,Mapped> {
-	ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> propertyContext, Field field);
+	ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> propertyContext, ITypeInfo field);
 }
