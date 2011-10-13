@@ -25,6 +25,8 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 	
 	@Override
 	public DBObject asObject(Bean value) {
+		if (value==null) return null;
+		
 		BasicDBObject ret = new BasicDBObject();
 		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
 		
@@ -51,6 +53,8 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 
 	@Override
 	public Bean asEntity(DBObject object) {
+		if (object==null) return null;
+		
 		Bean ret = newInstance();
 		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
 		

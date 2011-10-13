@@ -16,10 +16,13 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.lang.reflect.Field;
 
 
 public interface IMappingContext {
 
 	<Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type);
+
+	ITransformation<?, ?> transformation(ITypeInfo field);
+	
+	void setTransformation(ITypeInfo field,ITransformation<?, ?> transformation);
 }

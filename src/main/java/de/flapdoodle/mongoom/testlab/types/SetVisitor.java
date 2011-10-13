@@ -31,7 +31,7 @@ import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
-import de.flapdoodle.mongoom.testlab.TypeInfo;
+import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.types.Reference;
 
 

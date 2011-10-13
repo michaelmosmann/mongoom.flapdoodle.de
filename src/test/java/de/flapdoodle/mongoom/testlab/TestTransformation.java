@@ -18,14 +18,13 @@ package de.flapdoodle.mongoom.testlab;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.bson.types.ObjectId;
 
 import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.testlab.LoopDummy.Loop;
 import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
@@ -37,7 +36,7 @@ public class TestTransformation extends TestCase {
 	public void testReference() {
 		Dummy dummy = new Dummy();
 
-		ReferenceTransformation<Dummy> trans = new ReferenceTransformation<TestTransformation.Dummy>(Dummy.class);
+		ReferenceTransformation<Dummy> trans = new ReferenceTransformation<Dummy>(Dummy.class);
 		Reference<Dummy> reference = trans.asEntity(new ObjectId());
 		assertNotNull(reference);
 		ObjectId objectId = trans.asObject(reference);
@@ -56,6 +55,19 @@ public class TestTransformation extends TestCase {
 		System.out.println("DBObject:" + read);
 		assertEquals("Eq", dummy, read);
 	}
+	
+	public void testLoop() {
+		IMappingContext mappingContext = new MappingContext();
+		EntityVisitor<LoopDummy> entityVisitor = new EntityVisitor<LoopDummy>();
+		ITransformation<LoopDummy, DBObject> transformation = entityVisitor.transformation(mappingContext, LoopDummy.class);
+		assertNotNull(transformation);
+		LoopDummy dummy = newLoopDummy();
+		DBObject dbObject = transformation.asObject(dummy);
+		System.out.println("DBObject:" + dbObject);
+		LoopDummy read = transformation.asEntity(dbObject);
+		System.out.println("DBObject:" + read);
+		assertEquals("Eq", dummy, read);
+	}
 
 	private Dummy newDummy() {
 		Dummy dummy = new Dummy();
@@ -70,151 +82,13 @@ public class TestTransformation extends TestCase {
 		dummy.setId(Reference.getInstance(Dummy.class, new ObjectId()));
 		return dummy;
 	}
-
-	@Entity("Dummy")
-	static class Dummy {
-
-		Reference<Dummy> _id;
-
-		Set<String> _tags;
-
-		Foo<Integer> _foo;
-
-		public Reference<Dummy> getId() {
-			return _id;
-		}
-
-		public void setId(Reference<Dummy> id) {
-			_id = id;
-		}
-
-		public Set<String> getTags() {
-			return _tags;
-		}
-
-		public void setTags(Set<String> tags) {
-			_tags = tags;
-		}
-
-		public Foo<Integer> getFoo() {
-			return _foo;
-		}
-
-		public void setFoo(Foo<Integer> foo) {
-			_foo = foo;
-		}
-
-		@Override
-		public String toString() {
-			return "Dummy: " + _id + " (tags:" + _tags + ", foo: " + _foo + ")";
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((_foo == null)
-					? 0
-					: _foo.hashCode());
-			result = prime * result + ((_id == null)
-					? 0
-					: _id.hashCode());
-			result = prime * result + ((_tags == null)
-					? 0
-					: _tags.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Dummy other = (Dummy) obj;
-			if (_foo == null) {
-				if (other._foo != null)
-					return false;
-			} else if (!_foo.equals(other._foo))
-				return false;
-			if (_id == null) {
-				if (other._id != null)
-					return false;
-			} else if (!_id.equals(other._id))
-				return false;
-			if (_tags == null) {
-				if (other._tags != null)
-					return false;
-			} else if (!_tags.equals(other._tags))
-				return false;
-			return true;
-		}
-
-	}
-
-	public static class Foo<T> {
-
-		String _name;
-
-		T _value;
-
-		public String getName() {
-			return _name;
-		}
-
-		public void setName(String name) {
-			_name = name;
-		}
-
-		public T getValue() {
-			return _value;
-		}
-
-		public void setValue(T value) {
-			_value = value;
-		}
-
-		@Override
-		public String toString() {
-			return "Foo (name: " + _name + ",value: " + _value + ")";
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((_name == null)
-					? 0
-					: _name.hashCode());
-			result = prime * result + ((_value == null)
-					? 0
-					: _value.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Foo other = (Foo) obj;
-			if (_name == null) {
-				if (other._name != null)
-					return false;
-			} else if (!_name.equals(other._name))
-				return false;
-			if (_value == null) {
-				if (other._value != null)
-					return false;
-			} else if (!_value.equals(other._value))
-				return false;
-			return true;
-		}
-
+	
+	private LoopDummy newLoopDummy() {
+		LoopDummy result=new LoopDummy();
+		Loop loop = new Loop();
+		loop.setName("Loop");
+		loop.setLoop(new Loop());
+		result.setStart(loop);
+		return result;
 	}
 }

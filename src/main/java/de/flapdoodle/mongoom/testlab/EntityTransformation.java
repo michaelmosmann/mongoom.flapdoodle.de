@@ -37,6 +37,8 @@ public class EntityTransformation<Bean> implements ITransformation<Bean, DBObjec
 	
 	@Override
 	public DBObject asObject(Bean value) {
+		if (value==null) return null;
+		
 		BasicDBObject ret = new BasicDBObject();
 		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
 		
@@ -63,6 +65,8 @@ public class EntityTransformation<Bean> implements ITransformation<Bean, DBObjec
 
 	@Override
 	public Bean asEntity(DBObject object) {
+		if (object==null) return null;
+		
 		Bean ret = newInstance();
 		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
 		

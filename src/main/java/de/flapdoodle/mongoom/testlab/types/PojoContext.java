@@ -1,5 +1,6 @@
 package de.flapdoodle.mongoom.testlab.types;
 
+import java.util.Collections;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -7,32 +8,24 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.Property;
+import de.flapdoodle.mongoom.testlab.PropertyContext;
 
-class PojoContext<T> implements IPropertyContext<T> {
+class PojoContext<T> extends PropertyContext<T> {
 
-	private final Map<Property<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
 	private final Class<T> _beanClass;
 
-	public PojoContext(Class<T> entityClass) {
+	public PojoContext(IPropertyContext<?> parentContext, Class<T> entityClass) {
+		super(parentContext);
 		_beanClass = entityClass;
 	}
-	
+
 	@Override
 	public <S> IPropertyContext<S> contextFor(Property<S> of) {
 		return null;
 	}
 
-	@Override
-	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
-		propertyTransformation.put(property, transformation);
-	}
-
-	public Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
-		return propertyTransformation;
-	}
-
 	public Class<T> getBeanClass() {
 		return _beanClass;
 	}
-	
+
 }

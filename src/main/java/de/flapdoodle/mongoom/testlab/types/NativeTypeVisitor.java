@@ -61,6 +61,8 @@ public class NativeTypeVisitor<T> extends AbstractVisitor implements ITypeVisito
 
 		@Override
 		public N asEntity(N object) {
+			if (object==null) return null;
+			
 			if (!_type.isInstance(object)) throw new MappingException(_type,"could not convert "+_type+" from "+object);
 			return object;
 		}

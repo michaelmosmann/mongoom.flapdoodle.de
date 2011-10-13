@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,12 +47,9 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 
 	@Override
 	public <S> IPropertyContext<S> contextFor(Property<S> of) {
-		//		EntityPropertyContext ret = new EntityPropertyContext(this,property);
-		//		return ret;
-		return null;
+		return new PropertyContext<S>(this);
 	}
-	
-	
+
 	public Class<EntityBean> getEntityClass() {
 		return _entityClass;
 	}
@@ -61,65 +58,8 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
 		propertyTransformation.put(property, transformation);
 	}
-	
-	
+
 	protected Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
 		return Collections.unmodifiableMap(propertyTransformation);
 	}
-
-	//	@Override
-	//	public IPropertyContext contextFor(Property property) {
-	//		EntityPropertyContext ret = new EntityPropertyContext(this,property);
-	//		return ret;
-	//	}
-
-	//	
-	//	static class EntityPropertyContext<EntityBean,T> implements IPropertyContext<T> {
-	//		
-	//		private final EntityContext<EntityBean> _entityContext;
-	//		private final Property _property;
-	//		
-	//		public EntityPropertyContext(EntityContext<EntityBean> entityContext, Property property) {
-	//			_entityContext = entityContext;
-	//			_property = property;
-	//		}
-	//
-	//		@Override
-	//		public <S> IPropertyContext<S> contextFor(Property<S> property) {
-	//			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this,property);
-	//			return ret;
-	//		}
-	//		
-	//		@Override
-	//		public void setTransformation(ITransformation<T, ?> transformation) {
-	//			_entityContext.setTransformation(_property,transformation);
-	//		}
-	//	}
-	//
-	//	static class PropertyContext<EntityBean,T> implements IPropertyContext<T> {
-	//		
-	//		private final EntityContext<EntityBean> _entityContext;
-	//		private final IPropertyContext<?> _parent;
-	//
-	//		public PropertyContext(EntityContext<EntityBean> entityContext,
-	//				IPropertyContext<?> propertyContext, Property<T> property) {
-	//			_entityContext = entityContext;
-	//			_parent = propertyContext;
-	//		}
-	//
-	//		@Override
-	//		public <S> IPropertyContext<S> contextFor(Property<S> property) {
-	//			PropertyContext<EntityBean, S> ret = new PropertyContext<EntityBean, S>(_entityContext,this,property);
-	//			return ret;
-	//		}
-	//		
-	//		@Override
-	//		public void setTransformation(ITransformation<T, ?> transformation) {
-	////			if (_)
-	//		}
-	//	}
-	//
-	//	public void setTransformation(Property property, ITransformation<?, ?> transformation) {
-	//		propertyTransformation.put(property, transformation);
-	//	}
 }

@@ -16,6 +16,8 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import com.mongodb.DBObject;
+
 
 public interface IPropertyContext<T> {
 
