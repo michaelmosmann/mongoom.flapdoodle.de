@@ -23,15 +23,16 @@ import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 
 public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVisitor {
 
-	protected void parseProperties(IMappingContext mappingContext, IPropertyContext<?> rootContext, Class<Type> entityClass) {
+	protected void parseProperties(IMappingContext mappingContext, IPropertyContext<?> rootContext, ITypeInfo typeInfo) {
+		Class<Type> entityClass = (Class<Type>) typeInfo.getType();
 		List<Field> fields = ClassInformation.getFields(entityClass);
 		
 		for (Field field : fields) {
 			Property property = Property.of(field);
 			IPropertyContext propertyContext = rootContext.contextFor(property);
-			ITypeVisitor typeVisitor=mappingContext.getVisitor(entityClass,TypeInfo.of(field));
+			ITypeVisitor typeVisitor=mappingContext.getVisitor(typeInfo,TypeInfo.of(typeInfo,field));
 			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);
-			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(field));
+			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(typeInfo,field));
 			if (transformation==null) error(entityClass,"Could not get Transformation for "+field);
 //			entityContext.addProperty(field.getName(),transformation);
 			rootContext.setTransformation(property,transformation);

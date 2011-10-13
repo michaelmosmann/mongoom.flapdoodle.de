@@ -39,7 +39,7 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
 		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
-		parseProperties(mappingContext, entityContext,entityClass);
+		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
 		
 		return new EntityTransformation<EntityBean>(entityContext);
 	}

@@ -59,7 +59,7 @@ public class TypeExtractor {
 		}
 	}
 
-	public static <T> Map<Type, Type> getTypeArgumentMap(Class<? extends T> childClass) {
+	public static <T> Map<Type, Type> getTypeArgumentMap(Type childClass) {
 		Map<Type, Type> resolvedTypes = new HashMap<Type, Type>();
 		Type type = childClass;
 		Class<?> baseClass = Object.class;
@@ -92,7 +92,7 @@ public class TypeExtractor {
 	public static Type getParameterizedClass(Class<?> declaringClass, Type genericType, final int index) {
 		if (genericType instanceof ParameterizedType) {
 			ParameterizedType ptype = (ParameterizedType) genericType;
-			if ((ptype.getActualTypeArguments() != null) && (ptype.getActualTypeArguments().length <= index)) {
+			if ((ptype.getActualTypeArguments() == null) || (ptype.getActualTypeArguments().length <= index)) {
 				return null;
 			}
 			Type paramType = ptype.getActualTypeArguments()[index];

@@ -16,13 +16,15 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
+import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
@@ -30,15 +32,24 @@ import de.flapdoodle.mongoom.types.Reference;
 
 public class MappingContext implements IMappingContext {
 	
+	private static final Logger _logger = LogConfig.getLogger(MappingContext.class);
+	
 	Map<Class<?>, ITypeVisitor> typeVisitors=Maps.newLinkedHashMap();
 	{
 		typeVisitors.put(Reference.class, new ReferenceVisitor());
 		typeVisitors.put(Set.class, new SetVisitor());
 		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
+		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 	}
+	ITypeVisitor _defaultVisitor=new PojoVisitor();
 	
 	@Override
-	public <Type> ITypeVisitor<Type, ?> getVisitor(Class<?> containerType, ITypeInfo type) {
-		return typeVisitors.get(type.getType());
+	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
+		_logger.severe("getVisitor: "+containerType+" -> "+type);
+		ITypeVisitor result = typeVisitors.get(type.getType());
+		if (result==null) {
+			result=_defaultVisitor;
+		}
+		return result;
 	}
 }

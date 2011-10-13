@@ -21,5 +21,5 @@ import java.lang.reflect.Field;
 
 public interface IMappingContext {
 
-	<Type> ITypeVisitor<Type, ?> getVisitor(Class<?> containerType, ITypeInfo type);
+	<Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type);
 }

@@ -68,7 +68,7 @@ public class ClassInformation {
 		List<Field> ret = Lists.newArrayList();
 
 		Class<?> superclass = entityClass.getSuperclass();
-		if (superclass.getAnnotation(MappedSuperclass.class) != null) {
+		if ((superclass!=null) && (superclass.getAnnotation(MappedSuperclass.class) != null)) {
 			ret.addAll(getFields(superclass, filter));
 		}
 

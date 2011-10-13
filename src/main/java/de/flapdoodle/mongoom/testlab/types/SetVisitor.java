@@ -41,7 +41,7 @@ public class SetVisitor<T,M> extends AbstractVisitor implements ITypeVisitor<Set
 			IPropertyContext<?> propertyContext, ITypeInfo field) {
 		Type parameterizedClass = TypeExtractor.getParameterizedClass(field.getDeclaringClass(), field.getGenericType(),0);
 		if (parameterizedClass!=null) {
-			ITypeVisitor typeVisitor=mappingContext.getVisitor(field.getDeclaringClass(),TypeInfo.of(field.getDeclaringClass(),parameterizedClass));
+			ITypeVisitor typeVisitor=mappingContext.getVisitor(TypeInfo.ofClass(field),TypeInfo.of(field.getDeclaringClass(),parameterizedClass));
 			if (typeVisitor==null) error(field.getDeclaringClass(),"Could not get TypeVisitor for "+parameterizedClass);
 			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(field.getDeclaringClass(),parameterizedClass));
 			if (transformation==null) error(field.getDeclaringClass(),"Could not get Transformation for "+field);			
