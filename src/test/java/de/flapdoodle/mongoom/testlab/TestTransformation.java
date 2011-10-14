@@ -24,7 +24,6 @@ import org.bson.types.ObjectId;
 import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.testlab.LoopDummy.Loop;
 import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;

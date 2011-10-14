@@ -16,28 +16,38 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import de.flapdoodle.mongoom.annotations.Entity;
+public class Loop {
 
-@Entity("LoopDummy")
-public class LoopDummy {
+	String _name;
 
-	Loop _start;
+	Loop _loop;
 
-	public Loop getStart() {
-		return _start;
+	public String getName() {
+		return _name;
 	}
 
-	public void setStart(Loop start) {
-		_start = start;
+	public void setName(String name) {
+		_name = name;
+	}
+
+	public Loop getLoop() {
+		return _loop;
+	}
+
+	public void setLoop(Loop loop) {
+		_loop = loop;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((_start == null)
+		result = prime * result + ((_loop == null)
 				? 0
-				: _start.hashCode());
+				: _loop.hashCode());
+		result = prime * result + ((_name == null)
+				? 0
+				: _name.hashCode());
 		return result;
 	}
 
@@ -49,11 +59,16 @@ public class LoopDummy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LoopDummy other = (LoopDummy) obj;
-		if (_start == null) {
-			if (other._start != null)
+		Loop other = (Loop) obj;
+		if (_loop == null) {
+			if (other._loop != null)
 				return false;
-		} else if (!_start.equals(other._start))
+		} else if (!_loop.equals(other._loop))
+			return false;
+		if (_name == null) {
+			if (other._name != null)
+				return false;
+		} else if (!_name.equals(other._name))
 			return false;
 		return true;
 	}
