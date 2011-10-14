@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.beans;
 
-public class Foo<T> {
+public class Loop {
 
 	String _name;
 
-	T _value;
+	Loop _loop;
 
 	public String getName() {
 		return _name;
@@ -30,29 +30,24 @@ public class Foo<T> {
 		_name = name;
 	}
 
-	public T getValue() {
-		return _value;
+	public Loop getLoop() {
+		return _loop;
 	}
 
-	public void setValue(T value) {
-		_value = value;
-	}
-
-	@Override
-	public String toString() {
-		return "Foo (name: " + _name + ",value: " + _value + ")";
+	public void setLoop(Loop loop) {
+		_loop = loop;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((_loop == null)
+				? 0
+				: _loop.hashCode());
 		result = prime * result + ((_name == null)
 				? 0
 				: _name.hashCode());
-		result = prime * result + ((_value == null)
-				? 0
-				: _value.hashCode());
 		return result;
 	}
 
@@ -64,18 +59,17 @@ public class Foo<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Foo other = (Foo) obj;
+		Loop other = (Loop) obj;
+		if (_loop == null) {
+			if (other._loop != null)
+				return false;
+		} else if (!_loop.equals(other._loop))
+			return false;
 		if (_name == null) {
 			if (other._name != null)
 				return false;
 		} else if (!_name.equals(other._name))
 			return false;
-		if (_value == null) {
-			if (other._value != null)
-				return false;
-		} else if (!_value.equals(other._value))
-			return false;
 		return true;
 	}
-
 }

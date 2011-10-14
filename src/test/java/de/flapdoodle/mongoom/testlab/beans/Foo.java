@@ -14,30 +14,45 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.beans;
 
-import de.flapdoodle.mongoom.annotations.Entity;
+public class Foo<T> {
 
-@Entity("LoopDummy")
-public class LoopDummy {
+	String _name;
 
-	Loop _start;
+	T _value;
 
-	public Loop getStart() {
-		return _start;
+	public String getName() {
+		return _name;
 	}
 
-	public void setStart(Loop start) {
-		_start = start;
+	public void setName(String name) {
+		_name = name;
+	}
+
+	public T getValue() {
+		return _value;
+	}
+
+	public void setValue(T value) {
+		_value = value;
+	}
+
+	@Override
+	public String toString() {
+		return "Foo (name: " + _name + ",value: " + _value + ")";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((_start == null)
+		result = prime * result + ((_name == null)
 				? 0
-				: _start.hashCode());
+				: _name.hashCode());
+		result = prime * result + ((_value == null)
+				? 0
+				: _value.hashCode());
 		return result;
 	}
 
@@ -49,12 +64,18 @@ public class LoopDummy {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LoopDummy other = (LoopDummy) obj;
-		if (_start == null) {
-			if (other._start != null)
+		Foo other = (Foo) obj;
+		if (_name == null) {
+			if (other._name != null)
 				return false;
-		} else if (!_start.equals(other._start))
+		} else if (!_name.equals(other._name))
+			return false;
+		if (_value == null) {
+			if (other._value != null)
+				return false;
+		} else if (!_value.equals(other._value))
 			return false;
 		return true;
 	}
+
 }

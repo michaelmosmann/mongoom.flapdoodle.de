@@ -24,6 +24,13 @@ import org.bson.types.ObjectId;
 import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.testlab.beans.Dummy;
+import de.flapdoodle.mongoom.testlab.beans.Flip;
+import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
+import de.flapdoodle.mongoom.testlab.beans.Flop;
+import de.flapdoodle.mongoom.testlab.beans.Foo;
+import de.flapdoodle.mongoom.testlab.beans.Loop;
+import de.flapdoodle.mongoom.testlab.beans.LoopDummy;
 import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
@@ -68,6 +75,19 @@ public class TestTransformation extends TestCase {
 		assertEquals("Eq", dummy, read);
 	}
 
+	public void testFlipFlop() {
+		IMappingContext mappingContext = new MappingContext();
+		EntityVisitor<FlipFlopDummy> entityVisitor = new EntityVisitor<FlipFlopDummy>();
+		ITransformation<FlipFlopDummy, DBObject> transformation = entityVisitor.transformation(mappingContext, FlipFlopDummy.class);
+		assertNotNull(transformation);
+		FlipFlopDummy dummy = newFlipFlop();
+		DBObject dbObject = transformation.asObject(dummy);
+		System.out.println("DBObject:" + dbObject);
+		FlipFlopDummy read = transformation.asEntity(dbObject);
+		System.out.println("DBObject:" + read);
+		assertEquals("Eq", dummy, read);
+	}
+	
 	private Dummy newDummy() {
 		Dummy dummy = new Dummy();
 		HashSet<String> tags = Sets.newLinkedHashSet();
@@ -90,4 +110,19 @@ public class TestTransformation extends TestCase {
 		result.setStart(loop);
 		return result;
 	}
+	
+	private FlipFlopDummy newFlipFlop() {
+		FlipFlopDummy result=new FlipFlopDummy();
+		Flip flip=new Flip();
+		flip.setLevel(1);
+		Flop flop=new Flop();
+		flop.setLevel(2);
+		Flip flip2=new Flip();
+		flip2.setLevel(3);
+		flop.setFlip(flip2);
+		flip.setFlop(flop);
+		result.setFlip(flip);
+		return result;
+	}
+	
 }

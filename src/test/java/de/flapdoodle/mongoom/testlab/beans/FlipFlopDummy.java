@@ -14,40 +14,44 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.beans;
 
-public class Loop {
+import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.types.Reference;
 
-	String _name;
+@Entity("FlipFlopDummy")
+public class FlipFlopDummy {
 
-	Loop _loop;
+	Reference<Dummy> _id;
 
-	public String getName() {
-		return _name;
+	Flip _flip;
+
+	public Reference<Dummy> getId() {
+		return _id;
 	}
 
-	public void setName(String name) {
-		_name = name;
+	public void setId(Reference<Dummy> id) {
+		_id = id;
 	}
 
-	public Loop getLoop() {
-		return _loop;
+	public Flip getFlip() {
+		return _flip;
 	}
 
-	public void setLoop(Loop loop) {
-		_loop = loop;
+	public void setFlip(Flip flip) {
+		_flip = flip;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((_loop == null)
+		result = prime * result + ((_flip == null)
 				? 0
-				: _loop.hashCode());
-		result = prime * result + ((_name == null)
+				: _flip.hashCode());
+		result = prime * result + ((_id == null)
 				? 0
-				: _name.hashCode());
+				: _id.hashCode());
 		return result;
 	}
 
@@ -59,17 +63,19 @@ public class Loop {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Loop other = (Loop) obj;
-		if (_loop == null) {
-			if (other._loop != null)
+		FlipFlopDummy other = (FlipFlopDummy) obj;
+		if (_flip == null) {
+			if (other._flip != null)
 				return false;
-		} else if (!_loop.equals(other._loop))
+		} else if (!_flip.equals(other._flip))
 			return false;
-		if (_name == null) {
-			if (other._name != null)
+		if (_id == null) {
+			if (other._id != null)
 				return false;
-		} else if (!_name.equals(other._name))
+		} else if (!_id.equals(other._id))
 			return false;
 		return true;
 	}
+	
+	
 }

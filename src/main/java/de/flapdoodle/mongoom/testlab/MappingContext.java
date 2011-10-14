@@ -40,6 +40,7 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(Set.class, new SetVisitor());
 		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
+		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
 	}
 	ITypeVisitor _defaultVisitor=new PojoVisitor();
 	
