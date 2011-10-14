@@ -23,8 +23,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.sun.org.apache.xml.internal.serializer.ToStream;
-
 import de.flapdoodle.mongoom.annotations.Direction;
 
 @Documented
