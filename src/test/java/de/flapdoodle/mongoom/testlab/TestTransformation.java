@@ -24,6 +24,8 @@ import org.bson.types.ObjectId;
 import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.beans.BadLoopDummy;
 import de.flapdoodle.mongoom.testlab.beans.Dummy;
 import de.flapdoodle.mongoom.testlab.beans.Flip;
 import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
@@ -88,6 +90,23 @@ public class TestTransformation extends TestCase {
 		assertEquals("Eq", dummy, read);
 	}
 	
+	public void testBadLoop() {
+		IMappingContext mappingContext = new MappingContext();
+		EntityVisitor<BadLoopDummy> entityVisitor = new EntityVisitor<BadLoopDummy>();
+		ITransformation<BadLoopDummy, DBObject> transformation = entityVisitor.transformation(mappingContext, BadLoopDummy.class);
+		assertNotNull(transformation);
+		BadLoopDummy dummy = newBadLoop();
+		
+		MappingException ex=null;
+		try {
+			DBObject dbObject = transformation.asObject(dummy);
+		}
+		catch (MappingException mx) {
+			ex=mx;
+		}
+		assertNotNull("Exception",ex);
+	}
+	
 	private Dummy newDummy() {
 		Dummy dummy = new Dummy();
 		HashSet<String> tags = Sets.newLinkedHashSet();
@@ -122,6 +141,16 @@ public class TestTransformation extends TestCase {
 		flop.setFlip(flip2);
 		flip.setFlop(flop);
 		result.setFlip(flip);
+		return result;
+	}
+	
+	private BadLoopDummy newBadLoop() {
+		BadLoopDummy result = new BadLoopDummy();
+		BadLoopDummy.BadLoop loop = new BadLoopDummy.BadLoop();
+		BadLoopDummy.BadLoop loop2 = new BadLoopDummy.BadLoop();
+		loop2.setLoop(loop);
+		loop.setLoop(loop2);
+		result.setLoop(loop);
 		return result;
 	}
 	

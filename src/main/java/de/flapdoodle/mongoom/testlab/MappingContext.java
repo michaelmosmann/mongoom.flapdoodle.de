@@ -21,7 +21,9 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
@@ -29,12 +31,11 @@ import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
 
-
 public class MappingContext implements IMappingContext {
-	
+
 	private static final Logger _logger = LogConfig.getLogger(MappingContext.class);
-	
-	Map<Class<?>, ITypeVisitor> typeVisitors=Maps.newLinkedHashMap();
+
+	Map<Class<?>, ITypeVisitor> typeVisitors = Maps.newLinkedHashMap();
 	{
 		typeVisitors.put(Reference.class, new ReferenceVisitor());
 		typeVisitors.put(Set.class, new SetVisitor());
@@ -42,47 +43,47 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
 	}
-	ITypeVisitor _defaultVisitor=new PojoVisitor();
-	
+	ITypeVisitor _defaultVisitor = new PojoVisitor();
+
 	@Override
 	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
-		_logger.severe("getVisitor: "+containerType+" -> "+type);
+//		_logger.severe("getVisitor: " + containerType + " -> " + type);
 		ITypeVisitor result = typeVisitors.get(type.getType());
-		if (result==null) {
-			result=_defaultVisitor;
+		if (result == null) {
+			result = _defaultVisitor;
 		}
 		return result;
 	}
 
-	Map<TransformationKey, ITransformation<?, ?>> _transformations=Maps.newHashMap();
-	Map<TransformationKey, ProxyTransformation<?, ?>> _lazy=Maps.newHashMap();
-	
+	Map<TransformationKey, ITransformation<?, ?>> _transformations = Maps.newHashMap();
+	Map<TransformationKey, ProxyTransformation<?, ?>> _lazy = Maps.newHashMap();
+
 	@Override
 	public ITransformation<?, ?> transformation(ITypeInfo field) {
 		TransformationKey key = TransformationKey.with(field);
 		ITransformation<?, ?> result = _transformations.get(key);
-		if (result==null) {
+		if (result == null) {
 			result = _lazy.get(key);
-			if (result==null){
-				ProxyTransformation proxy=new ProxyTransformation();
+			if (result == null) {
+				ProxyTransformation proxy = new ProxyTransformation();
 				_lazy.put(key, proxy);
 			}
 		}
 		return result;
 	}
-	
+
 	@Override
 	public void setTransformation(ITypeInfo field, ITransformation<?, ?> transformation) {
 		TransformationKey key = TransformationKey.with(field);
 		_transformations.put(key, transformation);
 		ProxyTransformation proxy = _lazy.remove(key);
-		if (proxy!=null) {
+		if (proxy != null) {
 			proxy.setParent(transformation);
 		}
 	}
-	
+
 	static class TransformationKey {
-		
+
 		private final Class<?> _type;
 		private final java.lang.reflect.Type _genericType;
 
@@ -90,8 +91,6 @@ public class MappingContext implements IMappingContext {
 			_type = type;
 			_genericType = genericType;
 		}
-		
-		
 
 		@Override
 		public int hashCode() {
@@ -105,8 +104,6 @@ public class MappingContext implements IMappingContext {
 					: _type.hashCode());
 			return result;
 		}
-
-
 
 		@Override
 		public boolean equals(Object obj) {
@@ -130,24 +127,55 @@ public class MappingContext implements IMappingContext {
 			return true;
 		}
 
-
-
 		public static TransformationKey with(ITypeInfo typeInfo) {
-			return new TransformationKey(typeInfo.getType(),typeInfo.getGenericType());
+			return new TransformationKey(typeInfo.getType(), typeInfo.getGenericType());
 		}
 	}
-	
+
 	static class ProxyTransformation<Bean, Mapped> implements ITransformation<Bean, Mapped> {
 
-		ITransformation<Bean,Mapped> _parent;
-		
+		ITransformation<Bean, Mapped> _parent;
+		ThreadLocal<Set<Integer>> _loopBeanMap = new ThreadLocal<Set<Integer>>();
+
 		protected void setParent(ITransformation<Bean, Mapped> parent) {
 			_parent = parent;
 		}
-		
+
 		@Override
 		public Mapped asObject(Bean value) {
-			return _parent.asObject(value);
+			boolean remove=false;
+			try {
+				remove=checkLoop(value);
+				return _parent.asObject(value);
+			} finally {
+				clearLoop(remove,value);
+			}
+		}
+
+		private void clearLoop(boolean remove, Bean value) {
+			if (remove) {
+				int hashCode = System.identityHashCode(value);
+				Set<Integer> beanSet = _loopBeanMap.get();
+				if (!beanSet.remove(hashCode))
+				{
+					_loopBeanMap.set(null);
+					throw new MappingException(value.getClass(),"Something went wrong with loop detection");
+				}
+				if (beanSet.isEmpty()) {
+					_loopBeanMap.set(null);
+				}
+			}
+		}
+
+		private boolean checkLoop(Bean value) {
+			int hashCode = System.identityHashCode(value);
+			Set<Integer> beanSet = _loopBeanMap.get();
+			if (beanSet==null) {
+				beanSet=Sets.newHashSet();
+				_loopBeanMap.set(beanSet);
+			}
+			if (!beanSet.add(hashCode)) throw new MappingException(value.getClass(),"Loop detected");
+			return true;
 		}
 
 		@Override
@@ -164,7 +192,7 @@ public class MappingContext implements IMappingContext {
 		public Set<Property<?>> properties() {
 			return _parent.properties();
 		}
-		
+
 	}
-	
+
 }

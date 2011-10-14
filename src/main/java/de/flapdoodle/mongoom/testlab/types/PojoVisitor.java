@@ -36,9 +36,9 @@ public class PojoVisitor<T> extends AbstractClassFieldVisitor<T,DBObject> implem
 	@Override
 	public ITransformation<T, DBObject> transformation(IMappingContext mappingContext,
 			IPropertyContext<?> parentContext, ITypeInfo field) {
-		_logger.severe("Starting: "+field);
 		ITransformation<T, DBObject> result = (ITransformation<T, DBObject>) mappingContext.transformation(field);
 		if (result==null) {
+			_logger.warning("Recursion detected: "+field);
 		
 			PojoContext<T> rootContext=new PojoContext<T>(parentContext, (Class<T>) field.getType());
 			parseProperties(mappingContext, rootContext, field);
