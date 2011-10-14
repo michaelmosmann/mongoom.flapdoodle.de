@@ -16,11 +16,8 @@
 
 package de.flapdoodle.mongoom.mapping.index;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-
-import sun.awt.datatransfer.DataTransferer.IndexOrderComparator;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
