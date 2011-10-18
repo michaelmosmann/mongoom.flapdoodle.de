@@ -24,7 +24,7 @@ public class Property<T> {
 	private final String _name;
 	private final Class<T> _type;
 	private final Type _genericType;
-	private Field _field;
+	private final Field _field;
 	
 	// MetaInfos (Index?)
 
@@ -33,6 +33,13 @@ public class Property<T> {
 		_type = (Class<T>) field.getType();
 		_genericType = field.getGenericType();
 		_field=field;
+	}
+	
+	public Property(String name, Class<T> type) {
+		_name=name;
+		_type=type;
+		_genericType=null;
+		_field=null;
 	}
 
 	public String getName() {
@@ -55,5 +62,8 @@ public class Property<T> {
 		return new Property(field);
 	}
 	
+	public static <T> Property<T> of(String name, Class<T> type) {
+		return new Property(name,type);
+	}
 	
 }
