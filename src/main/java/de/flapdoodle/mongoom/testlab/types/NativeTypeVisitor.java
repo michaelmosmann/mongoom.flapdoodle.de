@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.AbstractVisitor;
 import de.flapdoodle.mongoom.testlab.IMappingContext;
+import de.flapdoodle.mongoom.testlab.IProperty;
 import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
@@ -97,7 +98,7 @@ public class NativeTypeVisitor<T> extends AbstractVisitor implements ITypeVisito
 		}
 
 		@Override
-		public Set<Property<?>> properties() {
+		public Set<IProperty<?>> properties() {
 			return null;
 		}
 		

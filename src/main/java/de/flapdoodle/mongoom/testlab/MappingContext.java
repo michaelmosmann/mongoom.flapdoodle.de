@@ -189,7 +189,7 @@ public class MappingContext implements IMappingContext {
 		}
 
 		@Override
-		public Set<Property<?>> properties() {
+		public Set<IProperty<?>> properties() {
 			return _parent.properties();
 		}
 

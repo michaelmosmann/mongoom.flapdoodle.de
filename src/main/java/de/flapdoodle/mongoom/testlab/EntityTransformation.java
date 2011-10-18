@@ -107,7 +107,7 @@ public class EntityTransformation<Bean> implements ITransformation<Bean, DBObjec
 	}
 
 	@Override
-	public Set<Property<?>> properties() {
+	public Set<IProperty<?>> properties() {
 		return null;
 	}
 

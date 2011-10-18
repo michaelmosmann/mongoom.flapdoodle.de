@@ -23,6 +23,7 @@ import org.bson.types.ObjectId;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.IProperty;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.Property;
 import de.flapdoodle.mongoom.types.Reference;
@@ -53,7 +54,7 @@ public class ReferenceTransformation<R> implements ITransformation<Reference<R>,
 	}
 
 	@Override
-	public Set<Property<?>> properties() {
+	public Set<IProperty<?>> properties() {
 		return Sets.newHashSet();
 	}
 	

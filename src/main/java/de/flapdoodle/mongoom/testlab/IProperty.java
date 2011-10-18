@@ -16,15 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.util.Set;
 
-public interface ITransformation<Bean,Mapped> {
+public interface IProperty<T> {
 
-	Mapped asObject(Bean value);
-
-	Bean asEntity(Mapped object);
-	
-	<Source> ITransformation<Source,?> propertyTransformation(Property<Source> property);
-	
-	Set<IProperty<?>> properties();
 }

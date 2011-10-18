@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.testlab;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
-public class Property<T> {
+public class Property<T> implements IProperty<T> {
 
 	private final String _name;
 	private final Class<T> _type;

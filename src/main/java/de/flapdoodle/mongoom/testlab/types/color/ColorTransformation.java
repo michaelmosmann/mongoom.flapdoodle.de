@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.testlab.IProperty;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.Property;
 
@@ -63,8 +64,8 @@ public class ColorTransformation implements ITransformation<Color, DBObject>{
 	}
 
 	@Override
-	public Set<Property<?>> properties() {
-		HashSet<Property<?>> result = Sets.newHashSet();
+	public Set<IProperty<?>> properties() {
+		HashSet<IProperty<?>> result = Sets.newHashSet();
 		result.add(Property.of("r",Integer.class));
 		result.add(Property.of("g",Integer.class));
 		result.add(Property.of("b",Integer.class));
