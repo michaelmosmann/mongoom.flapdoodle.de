@@ -24,20 +24,26 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.EntityTransformation.VersionUpdater;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
 public class EntityTransformation<Bean> implements IEntityTransformation<Bean, DBObject> {
 
 	
 	private final EntityContext<Bean> _entityContext;
+	private VersionUpdater<Bean> _versionUpdater;
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		_entityContext = entityContext;
+		_versionUpdater=new VersionUpdater(_entityContext.getVersionProperty(),_entityContext.getVersionFactory());
 	}
 	
 	public void newVersion(Bean value)
 	{
-		throw new MappingException(_entityContext.getEntityClass(),"not implemented");
+		_versionUpdater.newVersion(value);
 	};
 	
 	@Override
@@ -116,4 +122,26 @@ public class EntityTransformation<Bean> implements IEntityTransformation<Bean, D
 		return null;
 	}
 
+	static class VersionUpdater<Bean> {
+
+		private final Property _versionProperty;
+		private final IVersionFactory _versionFactory;
+
+		public VersionUpdater(Property<?> versionProperty, IVersionFactory<?> versionFactory) {
+			_versionProperty = versionProperty;
+			_versionFactory = versionFactory;
+		}
+
+		public void newVersion(Bean value) {
+			try {
+				Object oldVersion = _versionProperty.getField().get(value);
+				Object newVersion = _versionFactory.newVersion(oldVersion);
+				_versionProperty.getField().set(value, newVersion);
+			} catch (IllegalArgumentException e) {
+				throw new MappingException(_versionProperty.getType(),e);
+			} catch (IllegalAccessException e) {
+				throw new MappingException(_versionProperty.getType(),e);
+			}
+		}
+	}
 }

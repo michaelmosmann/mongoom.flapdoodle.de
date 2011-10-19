@@ -26,6 +26,8 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 
@@ -35,6 +37,8 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 	private final Map<String, EntityIndexDef> _indexGroupMap;
 
 	private final Map<Property<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private Property<?> _versionProperty;
+	private IVersionFactory<?> _versionFactory;
 
 	public EntityContext(Class<EntityBean> entityClass, Entity entityAnnotation, Views viewsAnnotation,
 			Map<String, EntityIndexDef> indexGroupMap) {
@@ -61,5 +65,19 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 
 	protected Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
 		return Collections.unmodifiableMap(propertyTransformation);
+	}
+
+	@Override
+	public void setVersionFactory(Property<?> props, IVersionFactory<?> versionFactory) {
+		_versionProperty = props;
+		_versionFactory = versionFactory;
+	}
+	
+	public Property<?> getVersionProperty() {
+		return _versionProperty;
+	}
+	
+	public IVersionFactory<?> getVersionFactory() {
+		return _versionFactory;
 	}
 }

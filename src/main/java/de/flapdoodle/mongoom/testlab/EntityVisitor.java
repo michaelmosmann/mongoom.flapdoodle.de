@@ -21,16 +21,20 @@ import java.util.Map;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
+import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
 public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean,DBObject> implements IEntityVisitor<EntityBean>{
 
 	@Override
-	public ITransformation<EntityBean, DBObject> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
+	public IEntityTransformation<EntityBean, DBObject> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
 		if (entityAnnotation == null) {
 			error(entityClass, "Missing " + Entity.class + " Annotation");
@@ -41,6 +45,21 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 
 		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
 		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
+		
+		for (Property<?> props : entityContext.getPropertyTransformation().keySet()) {
+			IAnnotated annotated = props.annotated();
+			if (annotated!=null) {
+				Version version = annotated.getAnnotation(Version.class);
+				if (version!=null) {
+					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass), props.getField()));
+					if (versionFactory==null) {
+						error(entityClass,"Version annotated but no Factory found: "+props);
+					} else {
+						entityContext.setVersionFactory(props,versionFactory);
+					}
+				}
+			}
+		}
 		
 		return new EntityTransformation<EntityBean>(entityContext);
 	}

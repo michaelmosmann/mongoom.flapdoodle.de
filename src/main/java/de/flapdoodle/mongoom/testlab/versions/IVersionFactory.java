@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.versions;
 
-import java.util.Set;
+public interface IVersionFactory<T> {
 
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
-
-public interface ITransformation<Bean,Mapped> {
-
-	Mapped asObject(Bean value);
-
-	Bean asEntity(Mapped object);
-	
-	<Source> ITransformation<Source,?> propertyTransformation(Property<Source> property);
-	
-	Set<IProperty<?>> properties();
+	T newVersion(T oldVersion);
 }

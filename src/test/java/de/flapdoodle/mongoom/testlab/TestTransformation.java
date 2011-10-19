@@ -54,7 +54,7 @@ public class TestTransformation extends TestCase {
 	public void testParser() {
 		IMappingContext mappingContext = new MappingContext();
 		EntityVisitor<Dummy> entityVisitor = new EntityVisitor<Dummy>();
-		ITransformation<Dummy, DBObject> transformation = entityVisitor.transformation(mappingContext, Dummy.class);
+		IEntityTransformation<Dummy, DBObject> transformation = entityVisitor.transformation(mappingContext, Dummy.class);
 		assertNotNull(transformation);
 		Dummy dummy = newDummy();
 		DBObject dbObject = transformation.asObject(dummy);
@@ -62,6 +62,13 @@ public class TestTransformation extends TestCase {
 		Dummy read = transformation.asEntity(dbObject);
 		System.out.println("DBObject:" + read);
 		assertEquals("Eq", dummy, read);
+		
+		transformation.newVersion(read);
+		assertFalse("!Eq", dummy.equals(read));
+		
+		dbObject = transformation.asObject(read);
+		System.out.println("DBObject(new Version):" + dbObject);
+		
 	}
 	
 	public void testLoop() {

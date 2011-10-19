@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.testlab;
 
 import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
 
@@ -29,4 +30,6 @@ public interface IMappingContext {
 	void setTransformation(ITypeInfo field,ITransformation<?, ?> transformation);
 	
 	IPropertyNaming naming();
+	
+	IVersionFactory<?> versionFactory(ITypeInfo field);
 }

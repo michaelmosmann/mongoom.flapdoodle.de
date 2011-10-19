@@ -28,13 +28,17 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.parser.naming.PropertyNamingListFactory;
 import de.flapdoodle.mongoom.testlab.properties.FieldAnnotationNaming;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;
 import de.flapdoodle.mongoom.testlab.properties.PrefixFieldNaming;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
+import de.flapdoodle.mongoom.testlab.versions.StringVersionFactory;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class MappingContext implements IMappingContext {
@@ -49,6 +53,11 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
 	}
+	Map<Class<?>, IVersionFactory<?>> versionFactories = Maps.newLinkedHashMap();
+	{
+		versionFactories.put(String.class, new StringVersionFactory());
+	}
+	
 	ITypeVisitor _defaultVisitor = new PojoVisitor();
 	IPropertyNaming _defaultNaming = new PropertyNamingList(Lists.newArrayList(new FieldAnnotationNaming(),new PrefixFieldNaming()));
 	
@@ -93,6 +102,12 @@ public class MappingContext implements IMappingContext {
 	public IPropertyNaming naming() {
 		return _defaultNaming;
 	}
+	
+	@Override
+	public IVersionFactory<?> versionFactory(ITypeInfo field) {
+		return versionFactories.get(field.getType());
+	}
+	
 
 	static class TransformationKey {
 

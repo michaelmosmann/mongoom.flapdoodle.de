@@ -22,6 +22,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public class PropertyContext<T> implements IPropertyContext<T>{

@@ -18,6 +18,8 @@ package de.flapdoodle.mongoom.testlab;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.testlab.properties.Property;
+
 
 public interface IPropertyContext<T> {
 

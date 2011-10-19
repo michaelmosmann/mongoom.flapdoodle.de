@@ -24,9 +24,9 @@ import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.testlab.IProperty;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.Property;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public class ColorTransformation implements ITransformation<Color, DBObject>{

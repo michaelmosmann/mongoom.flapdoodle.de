@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.properties;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -25,7 +25,7 @@ public class Property<T> implements IProperty<T> {
 	private final Class<T> _type;
 	private final Type _genericType;
 	private final Field _field;
-	
+	private final IAnnotated _annotated;
 	// MetaInfos (Index?)
 
 	public Property(String name, Field field) {
@@ -33,6 +33,7 @@ public class Property<T> implements IProperty<T> {
 		_type = (Class<T>) field.getType();
 		_genericType = field.getGenericType();
 		_field=field;
+		_annotated=new AnnotatedField(_field);
 	}
 	
 	public Property(String name, Class<T> type) {
@@ -40,6 +41,7 @@ public class Property<T> implements IProperty<T> {
 		_type=type;
 		_genericType=null;
 		_field=null;
+		_annotated=new AnnotatedClass(_type);
 	}
 
 	public String getName() {
@@ -56,6 +58,11 @@ public class Property<T> implements IProperty<T> {
 	
 	public Field getField() {
 		return _field;
+	}
+	
+	@Override
+	public IAnnotated annotated() {
+		return _annotated;
 	}
 	
 	public static Property of(String name, Field field) {

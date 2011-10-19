@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 
 public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVisitor {

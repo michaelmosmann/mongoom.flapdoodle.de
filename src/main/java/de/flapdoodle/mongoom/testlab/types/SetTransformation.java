@@ -26,9 +26,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mongodb.BasicDBList;
 
-import de.flapdoodle.mongoom.testlab.IProperty;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.Property;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class SetTransformation<Bean, Mapped> implements ITransformation<Set<Bean>, List<Mapped>> {

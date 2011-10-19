@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.properties;
 
-import java.util.Set;
 
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
-
-public interface ITransformation<Bean,Mapped> {
-
-	Mapped asObject(Bean value);
-
-	Bean asEntity(Mapped object);
-	
-	<Source> ITransformation<Source,?> propertyTransformation(Property<Source> property);
-	
-	Set<IProperty<?>> properties();
+public interface IProperty<T> {
+	IAnnotated annotated(); 
 }

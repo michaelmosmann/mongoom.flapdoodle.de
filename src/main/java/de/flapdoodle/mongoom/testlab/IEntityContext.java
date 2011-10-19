@@ -16,7 +16,12 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
+
 
 public interface IEntityContext<EntityType> extends IPropertyContext<EntityType> {
+
+	void setVersionFactory(Property<?> props, IVersionFactory<?> versionFactory);
 
 }
