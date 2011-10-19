@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.entities;
+package de.flapdoodle.mongoom.testlab;
 
 import com.mongodb.DBObject;
 

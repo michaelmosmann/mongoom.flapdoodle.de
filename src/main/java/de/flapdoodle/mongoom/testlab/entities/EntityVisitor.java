@@ -26,6 +26,8 @@ import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
+import de.flapdoodle.mongoom.testlab.IEntityTransformation;
+import de.flapdoodle.mongoom.testlab.IEntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.Property;

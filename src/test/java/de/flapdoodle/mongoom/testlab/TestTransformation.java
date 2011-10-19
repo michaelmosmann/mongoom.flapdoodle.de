@@ -34,7 +34,6 @@ import de.flapdoodle.mongoom.testlab.beans.Foo;
 import de.flapdoodle.mongoom.testlab.beans.Loop;
 import de.flapdoodle.mongoom.testlab.beans.LoopDummy;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
-import de.flapdoodle.mongoom.testlab.entities.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
 import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;

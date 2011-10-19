@@ -24,6 +24,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;

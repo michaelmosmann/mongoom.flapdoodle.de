@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.entities;
+package de.flapdoodle.mongoom.testlab;
 
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
