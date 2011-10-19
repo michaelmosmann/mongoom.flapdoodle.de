@@ -19,10 +19,12 @@ package de.flapdoodle.mongoom.testlab.beans;
 import java.awt.Color;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Property;
 
 @Entity("ColorBean")
 public class ColorBean {
 
+	@Property("c")
 	Color _color;
 
 	public Color getColor() {

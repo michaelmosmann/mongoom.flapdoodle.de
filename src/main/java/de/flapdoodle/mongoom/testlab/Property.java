@@ -28,8 +28,8 @@ public class Property<T> implements IProperty<T> {
 	
 	// MetaInfos (Index?)
 
-	public Property(Field field) {
-		_name = field.getName();
+	public Property(String name, Field field) {
+		_name = name;
 		_type = (Class<T>) field.getType();
 		_genericType = field.getGenericType();
 		_field=field;
@@ -58,8 +58,8 @@ public class Property<T> implements IProperty<T> {
 		return _field;
 	}
 	
-	public static Property of(Field field) {
-		return new Property(field);
+	public static Property of(String name, Field field) {
+		return new Property(name, field);
 	}
 	
 	public static <T> Property<T> of(String name, Class<T> type) {

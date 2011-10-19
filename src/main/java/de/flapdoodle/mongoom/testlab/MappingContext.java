@@ -20,11 +20,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
+import de.flapdoodle.mongoom.parser.naming.PropertyNamingListFactory;
+import de.flapdoodle.mongoom.testlab.properties.FieldAnnotationNaming;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;
+import de.flapdoodle.mongoom.testlab.properties.PrefixFieldNaming;
+import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
@@ -44,7 +50,8 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
 	}
 	ITypeVisitor _defaultVisitor = new PojoVisitor();
-
+	IPropertyNaming _defaultNaming = new PropertyNamingList(Lists.newArrayList(new FieldAnnotationNaming(),new PrefixFieldNaming()));
+	
 	@Override
 	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
 //		_logger.severe("getVisitor: " + containerType + " -> " + type);
@@ -80,6 +87,11 @@ public class MappingContext implements IMappingContext {
 		if (proxy != null) {
 			proxy.setParent(transformation);
 		}
+	}
+	
+	@Override
+	public IPropertyNaming naming() {
+		return _defaultNaming;
 	}
 
 	static class TransformationKey {

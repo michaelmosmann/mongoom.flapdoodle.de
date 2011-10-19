@@ -117,6 +117,7 @@ public class TestTransformation extends TestCase {
 		foo.setName("fooName");
 		foo.setValue(12);
 		dummy.setFoo(foo);
+		dummy.setMayBeVersion("12121");
 		dummy.setId(Reference.getInstance(Dummy.class, new ObjectId()));
 		return dummy;
 	}

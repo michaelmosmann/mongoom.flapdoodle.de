@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,12 +19,18 @@ package de.flapdoodle.mongoom.testlab.beans;
 import java.util.Set;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("Dummy")
 public class Dummy {
 
+	@Id
 	Reference<Dummy> _id;
+
+	@Version
+	String _mayBeVersion;
 
 	Set<String> _tags;
 
@@ -54,9 +60,17 @@ public class Dummy {
 		_foo = foo;
 	}
 
+	public String getMayBeVersion() {
+		return _mayBeVersion;
+	}
+
+	public void setMayBeVersion(String mayBeVersion) {
+		_mayBeVersion = mayBeVersion;
+	}
+
 	@Override
 	public String toString() {
-		return "Dummy: " + _id + " (tags:" + _tags + ", foo: " + _foo + ")";
+		return "Dummy: " + _id + "(version:" + _mayBeVersion + ") (tags:" + _tags + ", foo: " + _foo + ")";
 	}
 
 	@Override
@@ -69,6 +83,9 @@ public class Dummy {
 		result = prime * result + ((_id == null)
 				? 0
 				: _id.hashCode());
+		result = prime * result + ((_mayBeVersion == null)
+				? 0
+				: _mayBeVersion.hashCode());
 		result = prime * result + ((_tags == null)
 				? 0
 				: _tags.hashCode());
@@ -93,6 +110,11 @@ public class Dummy {
 			if (other._id != null)
 				return false;
 		} else if (!_id.equals(other._id))
+			return false;
+		if (_mayBeVersion == null) {
+			if (other._mayBeVersion != null)
+				return false;
+		} else if (!_mayBeVersion.equals(other._mayBeVersion))
 			return false;
 		if (_tags == null) {
 			if (other._tags != null)
