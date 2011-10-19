@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.entities;
 
-import com.mongodb.DBObject;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
-public interface IEntityVisitor<EntityType> {
-	IEntityTransformation<EntityType, DBObject> transformation(IMappingContext mappingContext, Class<EntityType> entityType);
+public interface IEntityContext<EntityType> extends IPropertyContext<EntityType> {
+
+	void setVersionFactory(Property<?> props, IVersionFactory<?> versionFactory);
+
 }

@@ -21,9 +21,9 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.PropertyContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 class PojoContext<T> extends PropertyContext<T> {

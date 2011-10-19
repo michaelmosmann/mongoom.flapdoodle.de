@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.mapping;
 
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +27,9 @@ import com.google.common.collect.Sets;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.parser.naming.PropertyNamingListFactory;
+import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeInfo;
+import de.flapdoodle.mongoom.testlab.ITypeVisitor;
 import de.flapdoodle.mongoom.testlab.properties.FieldAnnotationNaming;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;

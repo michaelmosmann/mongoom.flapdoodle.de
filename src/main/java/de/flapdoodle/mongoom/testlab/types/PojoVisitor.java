@@ -22,11 +22,11 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
-import de.flapdoodle.mongoom.testlab.IMappingContext;
-import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 
 
 public class PojoVisitor<T> extends AbstractClassFieldVisitor<T,DBObject> implements ITypeVisitor<T, DBObject> {

@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.entities;
 
-import java.lang.reflect.Field;
+import com.mongodb.DBObject;
 
-@Deprecated
-//PojoVisitor
-public class TypeVisitor<Type, Mapped> extends AbstractClassFieldVisitor<Type, Mapped> implements
-		ITypeVisitor<Type, Mapped> {
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 
-	@Override
-	public ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> entityContext, ITypeInfo field) {
-		parseProperties(mappingContext, entityContext,field);
-		return null;
-	}
 
+public interface IEntityVisitor<EntityType> {
+	IEntityTransformation<EntityType, DBObject> transformation(IMappingContext mappingContext, Class<EntityType> entityType);
 }

@@ -20,6 +20,8 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 

@@ -1,4 +1,6 @@
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.entities;
+
+import de.flapdoodle.mongoom.testlab.ITransformation;
 
 
 public interface IEntityTransformation<Bean, Mapped> extends ITransformation<Bean, Mapped> {

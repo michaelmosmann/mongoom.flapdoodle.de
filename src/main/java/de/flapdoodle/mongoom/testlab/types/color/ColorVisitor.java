@@ -20,11 +20,11 @@ import java.awt.Color;
 
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.testlab.IMappingContext;
-import de.flapdoodle.mongoom.testlab.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 
 
 public class ColorVisitor implements ITypeVisitor<Color, DBObject>{

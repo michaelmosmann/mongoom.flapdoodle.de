@@ -20,6 +20,9 @@ import java.lang.reflect.Field;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+
 
 public interface ITypeVisitor<Type,Mapped> {
 	ITransformation<Type, Mapped> transformation(IMappingContext mappingContext, IPropertyContext<?> propertyContext, ITypeInfo field);

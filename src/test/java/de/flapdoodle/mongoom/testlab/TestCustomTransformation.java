@@ -25,6 +25,9 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
 import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
+import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
 import de.flapdoodle.mongoom.testlab.types.color.ColorVisitor;
 
 
