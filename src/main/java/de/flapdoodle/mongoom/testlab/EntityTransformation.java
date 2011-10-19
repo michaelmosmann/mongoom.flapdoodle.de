@@ -26,7 +26,7 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 
 
-public class EntityTransformation<Bean> implements ITransformation<Bean, DBObject> {
+public class EntityTransformation<Bean> implements IEntityTransformation<Bean, DBObject> {
 
 	
 	private final EntityContext<Bean> _entityContext;
@@ -34,6 +34,11 @@ public class EntityTransformation<Bean> implements ITransformation<Bean, DBObjec
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		_entityContext = entityContext;
 	}
+	
+	public void newVersion(Bean value)
+	{
+		throw new MappingException(_entityContext.getEntityClass(),"not implemented");
+	};
 	
 	@Override
 	public DBObject asObject(Bean value) {
