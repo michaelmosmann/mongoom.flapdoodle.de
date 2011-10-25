@@ -17,11 +17,7 @@
 package de.flapdoodle.mongoom.testlab.types;
 
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
@@ -48,65 +44,5 @@ public class NativeTypeVisitor<T> extends AbstractVisitor implements ITypeVisito
 			ITypeInfo field) {
 		if (_type.isAssignableFrom(field.getType())) return new NoopTransformation<T>((Class<T>) field.getType());
 		throw new MappingException(field.getDeclaringClass(), "Type does not match: " + _type+"!="+field.getType());
-	}
-
-	public static class NoopTransformation<N> implements ITransformation<N,N> {
-
-		static final Map<Class<?>,Class<?>> _objectTypeMap;
-		static {
-			Map<Class<?>,Class<?>> map=Maps.newHashMap();
-			map.put(boolean.class,Boolean.class);
-			map.put(byte.class,Byte.class);
-			map.put(char.class,Character.class);
-			map.put(short.class,Short.class);
-			map.put(int.class,Integer.class);
-			map.put(long.class,Long.class);
-			map.put(float.class,Float.class);
-			map.put(double.class,Double.class);
-			map.put(void.class,Void.class);
-			_objectTypeMap=Collections.unmodifiableMap(map);
-		}
-		
-		private final Class<N> _type;
-		private final Class<?> _objectType;
-		
-		public NoopTransformation(Class<N> type) {
-			_type = type;
-			if (_type.isPrimitive()) {
-				_objectType=_objectTypeMap.get(type);
-			} else {
-				_objectType=null;
-			}
-		}
-
-		@Override
-		public N asObject(N value) {
-			return value;
-		}
-
-		@Override
-		public N asEntity(N object) {
-			if (object==null) return null;
-			
-			if (!isInstance(object)) throw new MappingException(_type,"could not convert "+_type+" from "+object+"("+object.getClass()+")");
-			return object;
-		}
-
-		@Override
-		public <Source> ITransformation<Source, ?> propertyTransformation(Property<Source> property) {
-			return null;
-		}
-
-		@Override
-		public Set<IProperty<?>> properties() {
-			return null;
-		}
-		
-		private boolean isInstance(N object) {
-			if (_objectType!=null) {
-				return _objectType.isInstance(object);
-			}
-			return _type.isInstance(object);
-		}
 	}
 }

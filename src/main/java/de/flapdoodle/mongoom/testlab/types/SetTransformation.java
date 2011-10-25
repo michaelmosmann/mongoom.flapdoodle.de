@@ -29,6 +29,7 @@ import com.mongodb.BasicDBList;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class SetTransformation<Bean, Mapped> implements ITransformation<Set<Bean>, List<Mapped>> {
@@ -62,15 +63,13 @@ public class SetTransformation<Bean, Mapped> implements ITransformation<Set<Bean
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(Property<Source> property) {
-		// TODO Auto-generated method stub
-		return null;
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		return _transformation.propertyTransformation(property);
 	}
 
 	@Override
-	public Set<IProperty<?>> properties() {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<PropertyName<?>> properties() {
+		return _transformation.properties();
 	}
 
 }

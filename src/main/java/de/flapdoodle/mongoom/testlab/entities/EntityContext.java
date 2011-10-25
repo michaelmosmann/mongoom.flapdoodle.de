@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
@@ -40,7 +41,9 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
 
-	private final Map<Property<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private final Map<PropertyName<?>, Property<?>> propertyMap= Maps.newLinkedHashMap();
+	
 	private Property<?> _versionProperty;
 	private IVersionFactory<?> _versionFactory;
 
@@ -64,11 +67,17 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 
 	@Override
 	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
-		propertyTransformation.put(property, transformation);
+		PropertyName<S> propertyName = PropertyName.of(property.getName(),property.getType());
+		propertyTransformation.put(propertyName, transformation);
+		propertyMap.put(propertyName, property);
 	}
 
-	protected Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
+	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
 		return Collections.unmodifiableMap(propertyTransformation);
+	}
+
+	protected Property<?> getProperty(PropertyName name) {
+		return propertyMap.get(name);
 	}
 
 	@Override

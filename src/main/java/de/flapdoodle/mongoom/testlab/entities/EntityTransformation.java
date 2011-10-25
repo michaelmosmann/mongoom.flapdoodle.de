@@ -29,6 +29,7 @@ import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
@@ -53,11 +54,12 @@ public class EntityTransformation<Bean> implements IEntityTransformation<Bean, D
 		if (value==null) return null;
 		
 		BasicDBObject ret = new BasicDBObject();
-		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
 		
-		for (Property p : propertyTransformations.keySet()) {
+		for (PropertyName p : propertyTransformations.keySet()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Field field = p.getField();
+			Property prop=_entityContext.getProperty(p);
+			Field field = prop.getField();
 			Object fieldValue=getFieldValue(field,value);
 			Object dbValue = transformation.asObject(fieldValue);
 			if (dbValue!=null) ret.put(p.getName(), dbValue);
@@ -81,11 +83,12 @@ public class EntityTransformation<Bean> implements IEntityTransformation<Bean, D
 		if (object==null) return null;
 		
 		Bean ret = newInstance();
-		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
 		
-		for (Property p : propertyTransformations.keySet()) {
+		for (PropertyName p : propertyTransformations.keySet()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Field field = p.getField();
+			Property prop=_entityContext.getProperty(p);
+			Field field = prop.getField();
 			Object fieldValue=transformation.asEntity(object.get(p.getName()));
 			if (fieldValue!=null) setFieldValue(ret, field, fieldValue);
 		}
@@ -115,12 +118,12 @@ public class EntityTransformation<Bean> implements IEntityTransformation<Bean, D
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(Property<Source> property) {
-		return null;
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformation().get(property);
 	}
 
 	@Override
-	public Set<IProperty<?>> properties() {
+	public Set<PropertyName<?>> properties() {
 		return null;
 	}
 

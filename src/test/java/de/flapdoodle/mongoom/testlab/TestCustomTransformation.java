@@ -28,6 +28,8 @@ import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
+import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.types.color.ColorVisitor;
 
 
@@ -45,6 +47,19 @@ public class TestCustomTransformation extends TestCase {
 		ColorBean read = transformation.asEntity(dbObject);
 		System.out.println("DBObject:" + read);
 		assertEquals("Eq", dummy, read);
+
+		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(PropertyName.of("c", Color.class));
+		Color sourceColor = new Color(1,2,3,4);
+		DBObject colorAsObject = colorTrans.asObject(sourceColor);
+		System.out.println("DBObject.Color:" + colorAsObject);
+		Color color = colorTrans.asEntity(colorAsObject);
+		assertEquals("Eq", sourceColor, color);
+		
+		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) colorTrans.propertyTransformation(PropertyName.of("r",Integer.class));
+		Integer value=12;
+		Object object = rtrans.asObject(value);
+		Integer propertyValue = rtrans.asEntity(object);
+		assertEquals("Eq", value, propertyValue);
 	}
 	
 	static class ColorMappingContext extends MappingContext {

@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
 
 public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject> {
@@ -107,12 +108,12 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(Property<Source> property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
 		return null;
 	}
 
 	@Override
-	public Set<IProperty<?>> properties() {
+	public Set<PropertyName<?>> properties() {
 		return null;
 	}
 	

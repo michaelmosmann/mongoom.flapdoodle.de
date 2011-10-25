@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.testlab.IEntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
@@ -50,16 +51,17 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
 		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
 		
-		for (Property<?> props : entityContext.getPropertyTransformation().keySet()) {
-			IAnnotated annotated = props.annotated();
+		for (PropertyName<?> props : entityContext.getPropertyTransformation().keySet()) {
+			Property<?> prop = entityContext.getProperty(props);
+			IAnnotated annotated = prop.annotated();
 			if (annotated!=null) {
 				Version version = annotated.getAnnotation(Version.class);
 				if (version!=null) {
-					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass), props.getField()));
+					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass), prop.getField()));
 					if (versionFactory==null) {
 						error(entityClass,"Version annotated but no Factory found: "+props);
 					} else {
-						entityContext.setVersionFactory(props,versionFactory);
+						entityContext.setVersionFactory(prop,versionFactory);
 					}
 				}
 			}

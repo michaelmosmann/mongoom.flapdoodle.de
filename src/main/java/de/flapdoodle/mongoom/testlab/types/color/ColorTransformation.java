@@ -17,24 +17,37 @@
 package de.flapdoodle.mongoom.testlab.types.color;
 
 import java.awt.Color;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.inject.internal.Maps;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
+import de.flapdoodle.mongoom.testlab.types.NoopTransformation;
 
+public class ColorTransformation implements ITransformation<Color, DBObject> {
 
-public class ColorTransformation implements ITransformation<Color, DBObject>{
+	Map<PropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
+	{
+		for (String name : Lists.newArrayList("r", "g", "b", "a"))
+			_propertyTransMap.put(PropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
+	}
 
 	@Override
 	public DBObject asObject(Color value) {
-		if (value==null) return null;
-		
+		if (value == null)
+			return null;
+
 		BasicDBObject result = new BasicDBObject();
 		result.put("r", value.getRed());
 		result.put("g", value.getGreen());
@@ -45,10 +58,12 @@ public class ColorTransformation implements ITransformation<Color, DBObject>{
 
 	@Override
 	public Color asEntity(DBObject object) {
-		if (object==null) return null;
-		return new Color(getValue(object, "r", 0),getValue(object, "g", 0),getValue(object, "b", 0),getValue(object, "a", 0));
+		if (object == null)
+			return null;
+		return new Color(getValue(object, "r", 0), getValue(object, "g", 0), getValue(object, "b", 0), getValue(object,
+				"a", 0));
 	}
-	
+
 	private int getValue(DBObject object, String key, int defaultValue) {
 		Object value = object.get(key);
 		if (value instanceof Integer) {
@@ -58,18 +73,14 @@ public class ColorTransformation implements ITransformation<Color, DBObject>{
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(Property<Source> property) {
-		// TODO Auto-generated method stub
-		return null;
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		return (ITransformation<Source, ?>) _propertyTransMap.get(property);
 	}
 
 	@Override
-	public Set<IProperty<?>> properties() {
-		HashSet<IProperty<?>> result = Sets.newHashSet();
-		result.add(Property.of("r",Integer.class));
-		result.add(Property.of("g",Integer.class));
-		result.add(Property.of("b",Integer.class));
-		result.add(Property.of("a",Integer.class));
+	public Set<PropertyName<?>> properties() {
+		HashSet<PropertyName<?>> result = Sets.newHashSet();
+		result.addAll(_propertyTransMap.keySet());
 		return result;
 	}
 

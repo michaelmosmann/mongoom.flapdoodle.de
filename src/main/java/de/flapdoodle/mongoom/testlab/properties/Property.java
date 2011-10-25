@@ -69,8 +69,8 @@ public class Property<T> implements IProperty<T> {
 		return new Property(name, field);
 	}
 	
-	public static <T> Property<T> of(String name, Class<T> type) {
-		return new Property(name,type);
-	}
+//	public static <T> Property<T> of(String name, Class<T> type) {
+//		return new Property(name,type);
+//	}
 	
 }
