@@ -16,11 +16,9 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import com.mongodb.DBObject;
-
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 
 
 public interface IEntityVisitor<EntityType> {
-	IEntityTransformation<EntityType, DBObject> transformation(IMappingContext mappingContext, Class<EntityType> entityType);
+	IEntityTransformation<EntityType> transformation(IMappingContext mappingContext, Class<EntityType> entityType);
 }

@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
-
-import com.mongodb.DBObject;
+package de.flapdoodle.mongoom.testlab.entities;
 
 
+public class ViewTransformation<Bean> extends AbstractBeanTransformation<Bean, ViewContext<Bean>> {
 
-public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
-	void newVersion(Bean value);
-	<Source> ITransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
-
+	public ViewTransformation(ViewContext<Bean> entityContext) {
+		super(entityContext);
+	}
 }

@@ -16,11 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Set;
-
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
@@ -29,107 +24,26 @@ import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
+public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean, EntityContext<Bean>> implements
+		IEntityTransformation<Bean> {
 
-public class EntityTransformation<Bean> implements IEntityTransformation<Bean, DBObject> {
-
-	
-	private final EntityContext<Bean> _entityContext;
 	private VersionUpdater<Bean> _versionUpdater;
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
-		_entityContext = entityContext;
-		_versionUpdater=new VersionUpdater(_entityContext.getVersionProperty(),_entityContext.getVersionFactory());
+		super(entityContext);
+		_versionUpdater = new VersionUpdater(_entityContext.getVersionProperty(), _entityContext.getVersionFactory());
 	}
-	
-	public void newVersion(Bean value)
-	{
+
+	@Override
+	public void newVersion(Bean value) {
 		_versionUpdater.newVersion(value);
 	};
-	
-	@Override
-	public DBObject asObject(Bean value) {
-		if (value==null) return null;
-		
-		BasicDBObject ret = new BasicDBObject();
-		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
-		
-		for (PropertyName p : propertyTransformations.keySet()) {
-			ITransformation transformation = propertyTransformations.get(p);
-			Property prop=_entityContext.getProperty(p);
-			Field field = prop.getField();
-			Object fieldValue=getFieldValue(field,value);
-			Object dbValue = transformation.asObject(fieldValue);
-			if (dbValue!=null) ret.put(p.getName(), dbValue);
-		}
-		return ret;
-	}
-
-	private Object getFieldValue(Field field, Bean value) {
-		try {
-			field.setAccessible(true);
-			return field.get(value);
-		} catch (IllegalArgumentException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		}
-	}
-
-	@Override
-	public Bean asEntity(DBObject object) {
-		if (object==null) return null;
-		
-		Bean ret = newInstance();
-		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
-		
-		for (PropertyName p : propertyTransformations.keySet()) {
-			ITransformation transformation = propertyTransformations.get(p);
-			Property prop=_entityContext.getProperty(p);
-			Field field = prop.getField();
-			Object fieldValue=transformation.asEntity(object.get(p.getName()));
-			if (fieldValue!=null) setFieldValue(ret, field, fieldValue);
-		}
-		
-		return ret;
-	}
-
-	private void setFieldValue(Bean bean, Field field, Object fieldValue) {
-		try {
-			field.setAccessible(true);
-			field.set(bean, fieldValue);
-		} catch (IllegalArgumentException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		}
-	}
-
-	private Bean newInstance() {
-		try {
-			return _entityContext.getEntityClass().newInstance();
-		} catch (InstantiationException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_entityContext.getEntityClass(),e);
-		}
-	}
-
-	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
-		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformation().get(property);
-	}
-
-	@Override
-	public Set<PropertyName<?>> properties() {
-		return null;
-	}
 
 	static class VersionUpdater<Bean> {
 
-		private final Property _versionProperty;
+		private final Property<?> _versionProperty;
 		private final IVersionFactory _versionFactory;
 
 		public VersionUpdater(Property<?> versionProperty, IVersionFactory<?> versionFactory) {
@@ -143,10 +57,16 @@ public class EntityTransformation<Bean> implements IEntityTransformation<Bean, D
 				Object newVersion = _versionFactory.newVersion(oldVersion);
 				_versionProperty.getField().set(value, newVersion);
 			} catch (IllegalArgumentException e) {
-				throw new MappingException(_versionProperty.getType(),e);
+				throw new MappingException(_versionProperty.getType(), e);
 			} catch (IllegalAccessException e) {
-				throw new MappingException(_versionProperty.getType(),e);
+				throw new MappingException(_versionProperty.getType(), e);
 			}
 		}
 	}
+
+	@Override
+	public <Source> ITransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
+		return getContext().viewTransformation(viewType);
+	}
+
 }

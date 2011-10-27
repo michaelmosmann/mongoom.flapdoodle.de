@@ -20,8 +20,10 @@ import java.awt.Color;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Property;
+import de.flapdoodle.mongoom.annotations.Views;
 
 @Entity("ColorBean")
+@Views(ColorBean.ColorView.class)
 public class ColorBean {
 
 	@Property("c")
@@ -60,5 +62,22 @@ public class ColorBean {
 		} else if (!_color.equals(other._color))
 			return false;
 		return true;
+	}
+
+	public static class ColorView {
+
+		@Property("c.r")
+		int _red;
+
+		@Property("c")
+		Color _color;
+
+		public Color getColor() {
+			return _color;
+		}
+
+		public int getRed() {
+			return _red;
+		}
 	}
 }

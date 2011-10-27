@@ -21,7 +21,9 @@ import java.util.Map;
 
 import org.omg.CORBA._PolicyStub;
 
-import com.google.common.collect.Maps;
+import com.google.inject.internal.Maps;
+import com.mongodb.DBObject;
+
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
@@ -34,22 +36,19 @@ import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
-public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
+public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean> {
 
-	private final Class<EntityBean> _entityClass;
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
-
-	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
-	private final Map<PropertyName<?>, Property<?>> propertyMap= Maps.newLinkedHashMap();
+	private final Map<Class<?>,ITransformation<?, DBObject>> _viewTransformation=Maps.newHashMap();
 	
 	private Property<?> _versionProperty;
 	private IVersionFactory<?> _versionFactory;
 
 	public EntityContext(Class<EntityBean> entityClass, Entity entityAnnotation, Views viewsAnnotation,
 			Map<String, EntityIndexDef> indexGroupMap) {
-		_entityClass = entityClass;
+		super(entityClass);
 		_entityAnnotation = entityAnnotation;
 		_viewsAnnotation = viewsAnnotation;
 		_indexGroupMap = indexGroupMap;
@@ -62,23 +61,23 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 	}
 
 	public Class<EntityBean> getEntityClass() {
-		return _entityClass;
+		return super.getViewClass();
 	}
 
-	@Override
-	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
-		PropertyName<S> propertyName = PropertyName.of(property.getName(),property.getType());
-		propertyTransformation.put(propertyName, transformation);
-		propertyMap.put(propertyName, property);
-	}
+//	@Override
+//	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
+//		PropertyName<S> propertyName = PropertyName.of(property.getName(),property.getType());
+//		propertyTransformation.put(propertyName, transformation);
+//		propertyMap.put(propertyName, property);
+//	}
 
-	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
-		return Collections.unmodifiableMap(propertyTransformation);
-	}
+//	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
+//		return Collections.unmodifiableMap(propertyTransformation);
+//	}
 
-	protected Property<?> getProperty(PropertyName name) {
-		return propertyMap.get(name);
-	}
+//	protected Property<?> getProperty(PropertyName<?> name) {
+//		return propertyMap.get(name);
+//	}
 
 	@Override
 	public void setVersionFactory(Property<?> props, IVersionFactory<?> versionFactory) {
@@ -92,5 +91,13 @@ public class EntityContext<EntityBean> implements IEntityContext<EntityBean> {
 	
 	public IVersionFactory<?> getVersionFactory() {
 		return _versionFactory;
+	}
+	
+	public <Source> ITransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
+		return (ITransformation<Source, DBObject>) _viewTransformation.get(viewType);
+	}
+	
+	protected <Source> void setViewTransformation(Class<Source> viewType,ITransformation<Source, DBObject> transformation) {
+		_viewTransformation.put(viewType, transformation);
 	}
 }

@@ -18,10 +18,10 @@ package de.flapdoodle.mongoom.testlab;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 
 
-public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
-	void newVersion(Bean value);
-	<Source> ITransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
-
+public interface IViewVisitor<ViewType> {
+	ITransformation<ViewType, DBObject> transformation(IMappingContext mappingContext, Class<ViewType> viewType);
 }
+

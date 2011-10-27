@@ -33,5 +33,6 @@ public @interface Property {
 
 	String value() default "";
 
+	@Deprecated
 	Class<?> concreteClass() default Object.class;
 }

@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
+import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
 import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
@@ -38,7 +39,7 @@ public class TestCustomTransformation extends TestCase {
 	public void testFlipFlop() {
 		IMappingContext mappingContext = new ColorMappingContext();
 		EntityVisitor<ColorBean> entityVisitor = new EntityVisitor<ColorBean>();
-		ITransformation<ColorBean, DBObject> transformation = entityVisitor.transformation(mappingContext, ColorBean.class);
+		IEntityTransformation<ColorBean> transformation = entityVisitor.transformation(mappingContext, ColorBean.class);
 		assertNotNull(transformation);
 		ColorBean dummy = new ColorBean();
 		dummy.setColor(new Color(200,100,50,88));
@@ -60,6 +61,12 @@ public class TestCustomTransformation extends TestCase {
 		Object object = rtrans.asObject(value);
 		Integer propertyValue = rtrans.asEntity(object);
 		assertEquals("Eq", value, propertyValue);
+		
+		ITransformation<ColorView, DBObject> viewTransformation = transformation.viewTransformation(ColorBean.ColorView.class);
+		dbObject = transformation.asObject(dummy);
+		ColorView colorView = viewTransformation.asEntity(dbObject);
+		assertEquals("Eq.Red", dummy.getColor().getRed(),colorView.getRed());
+		assertEquals("Eq.Color", dummy.getColor(),colorView.getColor());
 	}
 	
 	static class ColorMappingContext extends MappingContext {

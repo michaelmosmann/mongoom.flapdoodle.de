@@ -26,57 +26,46 @@ import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
-import de.flapdoodle.mongoom.testlab.IEntityTransformation;
-import de.flapdoodle.mongoom.testlab.IEntityVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.IViewVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
-import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
-
-public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean,DBObject> implements IEntityVisitor<EntityBean>{
+public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, DBObject> implements
+		IViewVisitor<ViewBean> {
 
 	@Override
-	public IEntityTransformation<EntityBean> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
-		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
-		if (entityAnnotation == null) {
-			error(entityClass, "Missing " + Entity.class + " Annotation");
+	public ITransformation<ViewBean, DBObject> transformation(IMappingContext mappingContext, Class<ViewBean> viewClass) {
+		Entity entityAnnotation = viewClass.getAnnotation(Entity.class);
+		if (entityAnnotation != null) {
+			error(viewClass, "Has " + Entity.class + " Annotation");
 		}
-		Views viewsAnnotation = entityClass.getAnnotation(Views.class);
-		
-		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
+		Views viewsAnnotation = viewClass.getAnnotation(Views.class);
+		if (viewsAnnotation != null) {
+			error(viewClass, "Has " + Views.class + " Annotation");
+		}
+		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(viewClass);
+		if ((indexGroupMap != null) && (!indexGroupMap.isEmpty())) {
+			error(viewClass, "Has Index Annotations");
+		}
 
-		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
-		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
-		
+		ViewContext<ViewBean> entityContext = new ViewContext<ViewBean>(viewClass);
+		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(viewClass));
+
 		for (PropertyName<?> props : entityContext.getPropertyTransformation().keySet()) {
 			Property<?> prop = entityContext.getProperty(props);
 			IAnnotated annotated = prop.annotated();
-			if (annotated!=null) {
+			if (annotated != null) {
 				Version version = annotated.getAnnotation(Version.class);
-				if (version!=null) {
-					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass), prop.getField()));
-					if (versionFactory==null) {
-						error(entityClass,"Version annotated but no Factory found: "+props);
-					} else {
-						entityContext.setVersionFactory(prop,versionFactory);
-					}
+				if (version != null) {
+					error(viewClass, "Version annotated: " + props);
 				}
 			}
 		}
-		
-		if (viewsAnnotation!=null) {
-			for (Class<?> viewType : viewsAnnotation.value()) {
-				ITransformation transformation = new ViewVisitor().transformation(mappingContext, viewType);
-				entityContext.setViewTransformation(viewType, transformation);
-			}
-		}
-		
-		return new EntityTransformation<EntityBean>(entityContext);
+
+		return new ViewTransformation<ViewBean>(entityContext);
 	}
-
-
 }
