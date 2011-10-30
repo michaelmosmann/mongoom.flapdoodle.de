@@ -16,14 +16,10 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
-import java.util.Collections;
 import java.util.Map;
 
-import org.omg.CORBA._PolicyStub;
-
-import com.google.inject.internal.Maps;
+import com.google.common.collect.Maps;
 import com.mongodb.DBObject;
-
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
@@ -33,7 +29,6 @@ import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean> {
