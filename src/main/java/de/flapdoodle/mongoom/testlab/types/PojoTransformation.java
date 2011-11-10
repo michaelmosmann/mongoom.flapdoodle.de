@@ -109,7 +109,12 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 
 	@Override
 	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
-		return null;
+		throw new MappingException("not implemented");
+	}
+	
+	@Override
+	public ITransformation<?, ?> propertyTransformation(String property) {
+		throw new MappingException("not implemented");
 	}
 
 	@Override

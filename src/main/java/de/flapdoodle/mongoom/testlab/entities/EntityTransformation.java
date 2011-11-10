@@ -23,6 +23,7 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
@@ -121,7 +122,7 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 	}
 
 	@Override
-	public <Source> ITransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
+	public <Source> IViewTransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
 		return getContext().viewTransformation(viewType);
 	}
 

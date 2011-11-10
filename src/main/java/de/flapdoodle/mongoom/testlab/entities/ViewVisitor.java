@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.IViewVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
@@ -38,7 +39,7 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 		IViewVisitor<ViewBean> {
 
 	@Override
-	public ITransformation<ViewBean, DBObject> transformation(IMappingContext mappingContext, Class<ViewBean> viewClass) {
+	public IViewTransformation<ViewBean, DBObject> transformation(IMappingContext mappingContext, Class<ViewBean> viewClass) {
 		Entity entityAnnotation = viewClass.getAnnotation(Entity.class);
 		if (entityAnnotation != null) {
 			error(viewClass, "Has " + Entity.class + " Annotation");
@@ -55,8 +56,8 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 		ViewContext<ViewBean> entityContext = new ViewContext<ViewBean>(viewClass);
 		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(viewClass));
 
-		for (PropertyName<?> props : entityContext.getPropertyTransformation().keySet()) {
-			Property<?> prop = entityContext.getProperty(props);
+		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
+			Property<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
 			if (annotated != null) {
 				Version version = annotated.getAnnotation(Version.class);

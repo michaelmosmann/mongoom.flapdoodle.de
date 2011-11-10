@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
@@ -37,7 +38,7 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
-	private final Map<Class<?>, ITransformation<?, DBObject>> _viewTransformation = Maps.newHashMap();
+	private final Map<Class<?>, IViewTransformation<?, DBObject>> _viewTransformation = Maps.newHashMap();
 
 	private Property<?> _versionProperty;
 	private IVersionFactory<?> _versionFactory;
@@ -95,11 +96,11 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 		return _versionFactory;
 	}
 
-	public <Source> ITransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
-		return (ITransformation<Source, DBObject>) _viewTransformation.get(viewType);
+	public <Source> IViewTransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
+		return (IViewTransformation<Source, DBObject>) _viewTransformation.get(viewType);
 	}
 
-	protected <Source> void setViewTransformation(Class<Source> viewType, ITransformation<Source, DBObject> transformation) {
+	protected <Source> void setViewTransformation(Class<Source> viewType, IViewTransformation<Source, DBObject> transformation) {
 		_viewTransformation.put(viewType, transformation);
 	}
 

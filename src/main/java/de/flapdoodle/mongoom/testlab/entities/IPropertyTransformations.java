@@ -16,18 +16,18 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
-import java.util.Set;
+import java.util.Collection;
 
-import com.mongodb.DBObject;
-
-import de.flapdoodle.mongoom.testlab.IViewTransformation;
+import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
 
-public class ViewTransformation<Bean> extends AbstractBeanTransformation<Bean, ViewContext<Bean>> implements IViewTransformation<Bean, DBObject> {
-
-	public ViewTransformation(ViewContext<Bean> entityContext) {
-		super(entityContext);
-	}
+public interface IPropertyTransformations {
+	<Source> ITransformation<Source, ?> get(PropertyName<Source> property);
+	ITransformation<?, ?> get(String property);
 	
+	<Source> Property<Source> getProperty(PropertyName<Source> p);
+	
+	Collection<PropertyName<?>> propertyNames();
 }

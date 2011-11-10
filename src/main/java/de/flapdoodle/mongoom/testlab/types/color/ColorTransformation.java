@@ -34,9 +34,12 @@ import de.flapdoodle.mongoom.testlab.types.NoopTransformation;
 public class ColorTransformation implements ITransformation<Color, DBObject> {
 
 	Map<PropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
+	Map<String, ITransformation<Integer, Integer>> _propertyMap = Maps.newHashMap();
 	{
-		for (String name : Lists.newArrayList("r", "g", "b", "a"))
+		for (String name : Lists.newArrayList("r", "g", "b", "a")) {
 			_propertyTransMap.put(PropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
+			_propertyMap.put(name, new NoopTransformation<Integer>(Integer.class));
+		}
 	}
 
 	@Override
@@ -71,6 +74,11 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 	@Override
 	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
 		return (ITransformation<Source, ?>) _propertyTransMap.get(property);
+	}
+	
+	@Override
+	public ITransformation<?, ?> propertyTransformation(String property) {
+		return _propertyMap.get(property);
 	}
 
 	@Override

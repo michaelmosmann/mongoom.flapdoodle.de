@@ -48,6 +48,9 @@ public class TestDatastore extends AbstractMongoOMTest {
 		List<Book> books = datastore.find(Book.class);
 		assertEquals("Size",2,books.size());
 //		System.out.println("Books: "+books);
+		
+		books=datastore.with(Book.class).field("name").eq("Blu").result().asList();
+		assertEquals("Size",1,books.size());
 	}
 	
 	

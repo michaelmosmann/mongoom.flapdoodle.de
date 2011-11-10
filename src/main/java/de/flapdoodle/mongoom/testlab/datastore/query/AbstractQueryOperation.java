@@ -14,20 +14,33 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.entities;
+package de.flapdoodle.mongoom.testlab.datastore.query;
 
-import java.util.Set;
+import de.flapdoodle.mongoom.mapping.ITypeConverter;
 
-import com.mongodb.DBObject;
+public abstract class AbstractQueryOperation<T, Q extends AbstractQuery<T, ?>> {
 
-import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+	private final Q _query;
+	private final String _field;
+	private final ITypeConverter<?> _converter;
 
+	boolean _not = false;
 
-public class ViewTransformation<Bean> extends AbstractBeanTransformation<Bean, ViewContext<Bean>> implements IViewTransformation<Bean, DBObject> {
-
-	public ViewTransformation(ViewContext<Bean> entityContext) {
-		super(entityContext);
+	protected AbstractQueryOperation(Q query, String field, ITypeConverter<?> converter) {
+		_query = query;
+		_field = field;
+		_converter = converter;
 	}
-	
+
+	protected Q getQuery() {
+		return _query;
+	}
+
+	protected String getField() {
+		return _field;
+	}
+
+	protected ITypeConverter<?> getConverter() {
+		return _converter;
+	}
 }

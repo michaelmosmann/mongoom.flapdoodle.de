@@ -29,8 +29,9 @@ import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<BeanType> {
 
 	private final Class<BeanType> _viewClass;
-	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
-	private final Map<PropertyName<?>, Property<?>> propertyMap = Maps.newLinkedHashMap();
+//	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+//	private final Map<PropertyName<?>, Property<?>> propertyMap = Maps.newLinkedHashMap();
+	private final PropertyTransformationMap propertyTransformationMap = new PropertyTransformationMap();
 
 	public AbstractBeanContext(Class<BeanType> viewClass) {
 		_viewClass = viewClass;
@@ -42,17 +43,24 @@ public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<
 
 	@Override
 	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
-		PropertyName<S> propertyName = PropertyName.of(property.getName(), property.getType());
-		propertyTransformation.put(propertyName, transformation);
-		propertyMap.put(propertyName, property);
+//		PropertyName<S> propertyName = PropertyName.of(property.getName(), property.getType());
+//		propertyTransformation.put(propertyName, transformation);
+//		propertyMap.put(propertyName, property);
+		
+		propertyTransformationMap.setTransformation(property, transformation);
+	}
+	
+	
+	public IPropertyTransformations getPropertyTransformations() {
+		return propertyTransformationMap.readOnly();
 	}
 
-	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
-		return Collections.unmodifiableMap(propertyTransformation);
-	}
-
-	protected Property<?> getProperty(PropertyName<?> name) {
-		return propertyMap.get(name);
-	}
+//	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
+//		return Collections.unmodifiableMap(propertyTransformation);
+//	}
+//
+//	protected Property<?> getProperty(PropertyName<?> name) {
+//		return propertyMap.get(name);
+//	}
 
 }

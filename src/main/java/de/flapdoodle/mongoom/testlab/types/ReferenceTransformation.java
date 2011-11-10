@@ -55,6 +55,11 @@ public class ReferenceTransformation<R> implements ITransformation<Reference<R>,
 	}
 
 	@Override
+	public ITransformation<?, ?> propertyTransformation(String property) {
+		throw new MappingException(_type,"Reference has no Properties");
+	}
+	
+	@Override
 	public Set<PropertyName<?>> properties() {
 		return Sets.newHashSet();
 	}

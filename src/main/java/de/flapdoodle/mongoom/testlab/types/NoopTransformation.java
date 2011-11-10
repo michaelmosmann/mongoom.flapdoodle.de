@@ -72,6 +72,11 @@ public class NoopTransformation<N> implements ITransformation<N,N> {
 	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
 		return null;
 	}
+	
+	@Override
+	public ITransformation<?, ?> propertyTransformation(String property) {
+		return null;
+	}
 
 	@Override
 	public Set<PropertyName<?>> properties() {

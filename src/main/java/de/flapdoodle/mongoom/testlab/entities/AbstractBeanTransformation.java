@@ -49,11 +49,11 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 			return null;
 
 		BasicDBObject ret = new BasicDBObject();
-		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (PropertyName p : propertyTransformations.keySet()) {
+		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Property prop = _entityContext.getProperty(p);
+			Property prop = propertyTransformations.getProperty(p);
 			Field field = prop.getField();
 			Object fieldValue = getFieldValue(field, value);
 			Object dbValue = transformation.asObject(fieldValue);
@@ -80,11 +80,11 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 			return null;
 
 		Bean ret = newInstance();
-		Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformations = _entityContext.getPropertyTransformation();
+		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (PropertyName p : propertyTransformations.keySet()) {
+		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Property prop = _entityContext.getProperty(p);
+			Property prop = propertyTransformations.getProperty(p);
 			Field field = prop.getField();
 			Object fieldValue = transformation.asEntity(getValue(object, p));
 			if (fieldValue != null)
@@ -133,9 +133,14 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 
 	@Override
 	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
-		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformation().get(property);
+		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformations().get(property);
 	}
 
+	@Override
+	public ITransformation<?, ?> propertyTransformation(String property) {
+		return (ITransformation<?, ?>) _entityContext.getPropertyTransformations().get(property);
+	}
+	
 	@Override
 	public Set<PropertyName<?>> properties() {
 		return null;

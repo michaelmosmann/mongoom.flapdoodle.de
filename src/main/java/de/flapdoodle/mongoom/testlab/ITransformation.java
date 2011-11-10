@@ -29,6 +29,7 @@ public interface ITransformation<Bean,Mapped> {
 	Bean asEntity(Mapped object);
 	
 	<Source> ITransformation<Source,?> propertyTransformation(PropertyName<Source> property);
+	ITransformation<?,?> propertyTransformation(String property);
 	
 	Set<PropertyName<?>> properties();
 }

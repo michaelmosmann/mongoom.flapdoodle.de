@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.IEntityVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.Property;
@@ -54,8 +55,8 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
 		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
 		
-		for (PropertyName<?> props : entityContext.getPropertyTransformation().keySet()) {
-			Property<?> prop = entityContext.getProperty(props);
+		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
+			Property<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
 			if (annotated!=null) {
 				Version version = annotated.getAnnotation(Version.class);
@@ -69,14 +70,14 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 				}
 				Id id=annotated.getAnnotation(Id.class);
 				if (id!=null) {
-					entityContext.setId(prop,entityContext.getPropertyTransformation().get(props));
+					entityContext.setId(prop,entityContext.getPropertyTransformations().get(props));
 				}
 			}
 		}
 		
 		if (viewsAnnotation!=null) {
 			for (Class<?> viewType : viewsAnnotation.value()) {
-				ITransformation transformation = new ViewVisitor().transformation(mappingContext, viewType);
+				IViewTransformation transformation = new ViewVisitor().transformation(mappingContext, viewType);
 				entityContext.setViewTransformation(viewType, transformation);
 			}
 		}

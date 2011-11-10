@@ -38,8 +38,8 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
+import de.flapdoodle.mongoom.testlab.datastore.query.Query;
 import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
 public class Datastore implements IDatastore {
@@ -192,8 +192,9 @@ public class Datastore implements IDatastore {
 
 	@Override
 	public <T> IEntityQuery<T> with(Class<T> entityClass) {
-		// TODO Auto-generated method stub
-		return null;
+		IEntityTransformation<T> converter = _transformations.transformation(entityClass);
+		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
+		return new Query<T>(converter, dbCollection);	
 	}
 
 }

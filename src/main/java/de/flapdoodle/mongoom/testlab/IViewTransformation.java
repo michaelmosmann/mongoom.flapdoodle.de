@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.entities;
+package de.flapdoodle.mongoom.testlab;
 
 import java.util.Set;
 
-import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+public interface IViewTransformation<Bean,Mapped> extends ITransformation<Bean, Mapped>{
 
 
-public class ViewTransformation<Bean> extends AbstractBeanTransformation<Bean, ViewContext<Bean>> implements IViewTransformation<Bean, DBObject> {
-
-	public ViewTransformation(ViewContext<Bean> entityContext) {
-		super(entityContext);
-	}
-	
 }

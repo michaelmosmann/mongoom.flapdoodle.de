@@ -25,7 +25,7 @@ public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObj
 	Object getVersion(Bean value);
 	Object getId(Bean value);
 	void setId(Bean value, Object id);
-	<Source> ITransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
+	<Source> IViewTransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
 	String getCollectionName();
 
 }

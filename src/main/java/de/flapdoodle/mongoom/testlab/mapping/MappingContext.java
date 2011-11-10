@@ -220,6 +220,11 @@ public class MappingContext implements IMappingContext {
 		}
 
 		@Override
+		public ITransformation<?, ?> propertyTransformation(String property) {
+			return _parent.propertyTransformation(property);
+		}
+		
+		@Override
 		public Set<PropertyName<?>> properties() {
 			return _parent.properties();
 		}
