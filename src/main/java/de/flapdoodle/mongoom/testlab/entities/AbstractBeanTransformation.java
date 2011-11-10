@@ -63,7 +63,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 		return ret;
 	}
 
-	private Object getFieldValue(Field field, Bean value) {
+	protected Object getFieldValue(Field field, Bean value) {
 		try {
 			field.setAccessible(true);
 			return field.get(value);
@@ -110,7 +110,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 		return object.get(path.get(0));
 	}
 
-	private void setFieldValue(Bean bean, Field field, Object fieldValue) {
+	protected void setFieldValue(Bean bean, Field field, Object fieldValue) {
 		try {
 			field.setAccessible(true);
 			field.set(bean, fieldValue);

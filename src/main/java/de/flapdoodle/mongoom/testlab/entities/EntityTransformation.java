@@ -16,6 +16,8 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
+import java.lang.reflect.Field;
+
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
@@ -30,16 +32,44 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		IEntityTransformation<Bean> {
 
 	private VersionUpdater<Bean> _versionUpdater;
+	private String _collectionName;
+	private ITransformation _idTransformation;
+	private Property<?> _idProperty;
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		super(entityContext);
+		_collectionName=entityContext.getEntityAnnotation().value();
 		_versionUpdater = new VersionUpdater(_entityContext.getVersionProperty(), _entityContext.getVersionFactory());
+		_idProperty = entityContext.getIdProperty();
+		if (_idProperty==null) throw new MappingException(entityContext.getEntityClass(),"Id not set");
+		_idTransformation=entityContext.getIdTransformation();
+		if (_idTransformation==null) throw new MappingException(entityContext.getEntityClass(),"Id Transformation not set");
 	}
 
 	@Override
 	public void newVersion(Bean value) {
 		_versionUpdater.newVersion(value);
 	};
+
+	@Override
+	public Object getId(Bean bean) {
+		Field field = _idProperty.getField();
+		Object fieldValue = getFieldValue(field, bean);
+		Object dbValue = _idTransformation.asObject(fieldValue);
+		return dbValue;
+	};
+	
+	@Override
+	public void setId(Bean bean, Object id) {
+		Field field = _idProperty.getField();
+		Object fieldValue = _idTransformation.asEntity(id);
+		setFieldValue(bean, field, fieldValue);
+	};
+	
+	@Override
+	public String getCollectionName() {
+		return _collectionName;
+	}
 
 	static class VersionUpdater<Bean> {
 
@@ -52,14 +82,16 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		}
 
 		public void newVersion(Bean value) {
-			try {
-				Object oldVersion = _versionProperty.getField().get(value);
-				Object newVersion = _versionFactory.newVersion(oldVersion);
-				_versionProperty.getField().set(value, newVersion);
-			} catch (IllegalArgumentException e) {
-				throw new MappingException(_versionProperty.getType(), e);
-			} catch (IllegalAccessException e) {
-				throw new MappingException(_versionProperty.getType(), e);
+			if (_versionProperty!=null) {
+				try {
+					Object oldVersion = _versionProperty.getField().get(value);
+					Object newVersion = _versionFactory.newVersion(oldVersion);
+					_versionProperty.getField().set(value, newVersion);
+				} catch (IllegalArgumentException e) {
+					throw new MappingException(_versionProperty.getType(), e);
+				} catch (IllegalAccessException e) {
+					throw new MappingException(_versionProperty.getType(), e);
+				}
 			}
 		}
 	}

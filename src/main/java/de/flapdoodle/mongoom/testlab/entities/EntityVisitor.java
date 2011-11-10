@@ -19,8 +19,10 @@ package de.flapdoodle.mongoom.testlab.entities;
 import java.util.Map;
 
 import com.mongodb.DBObject;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Annotated;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
@@ -64,6 +66,10 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 					} else {
 						entityContext.setVersionFactory(prop,versionFactory);
 					}
+				}
+				Id id=annotated.getAnnotation(Id.class);
+				if (id!=null) {
+					entityContext.setId(prop,entityContext.getPropertyTransformation().get(props));
 				}
 			}
 		}

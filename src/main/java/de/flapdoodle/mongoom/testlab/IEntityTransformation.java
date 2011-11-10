@@ -22,6 +22,9 @@ import com.mongodb.DBObject;
 
 public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
 	void newVersion(Bean value);
+	Object getId(Bean value);
+	void setId(Bean value, Object id);
 	<Source> ITransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
+	String getCollectionName();
 
 }

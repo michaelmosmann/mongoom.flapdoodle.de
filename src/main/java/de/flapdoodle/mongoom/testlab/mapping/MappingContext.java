@@ -226,4 +226,13 @@ public class MappingContext implements IMappingContext {
 
 	}
 
+	public static IMappingContextFactory<MappingContext> factory() {
+		return new IMappingContextFactory<MappingContext>() {
+			
+			@Override
+			public MappingContext newContext() {
+				return new MappingContext();
+			}
+		};
+	}
 }
