@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
 
+import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
@@ -20,6 +22,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
+import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
@@ -43,14 +46,12 @@ public class Datastore implements IDatastore {
 	
 	@Override
 	public void ensureCaps() {
-		// TODO Auto-generated method stub
-
+		throw new MappingException("Not implemented");
 	}
 
 	@Override
 	public void ensureIndexes() {
-		// TODO Auto-generated method stub
-
+		throw new MappingException("Not implemented");
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class Datastore implements IDatastore {
 		IEntityTransformation<T> converter = _transformations.transformation((Class<T>) entity.getClass());
 		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
 		Object idValue = converter.getId(entity);
-		
+		Object versionValue = converter.getVersion(entity);
 		
 //		if (idValue == null)
 //			throw new MappingException(entity.getClass(), "Key is NULL");
@@ -80,6 +81,7 @@ public class Datastore implements IDatastore {
 
 		BasicDBObject key = new BasicDBObject();
 		key.put(Const.ID_FIELDNAME, idValue);
+		if (versionValue!=null) key.put(Const.VERSION_FIELDNAME, versionValue);
 		
 		boolean reReadId = true;
 		boolean mustHaveObjectId = false;
@@ -161,8 +163,15 @@ public class Datastore implements IDatastore {
 
 	@Override
 	public <T> List<T> find(Class<T> entityClass) {
-		// TODO Auto-generated method stub
-		return null;
+		IEntityTransformation<T> converter = _transformations.transformation(entityClass);
+		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
+		DBCursor dbcursor = dbCollection.find();
+
+		List<T> ret = Lists.newArrayList();
+		while (dbcursor.hasNext()) {
+			ret.add(converter.asEntity(dbcursor.next()));
+		}
+		return ret;
 	}
 
 	@Override

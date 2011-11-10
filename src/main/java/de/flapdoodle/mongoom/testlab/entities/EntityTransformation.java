@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,17 +38,23 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		super(entityContext);
-		_collectionName=entityContext.getEntityAnnotation().value();
+		_collectionName = entityContext.getEntityAnnotation().value();
 		_versionUpdater = new VersionUpdater(_entityContext.getVersionProperty(), _entityContext.getVersionFactory());
 		_idProperty = entityContext.getIdProperty();
-		if (_idProperty==null) throw new MappingException(entityContext.getEntityClass(),"Id not set");
-		_idTransformation=entityContext.getIdTransformation();
-		if (_idTransformation==null) throw new MappingException(entityContext.getEntityClass(),"Id Transformation not set");
+		if (_idProperty == null)
+			throw new MappingException(entityContext.getEntityClass(), "Id not set");
+		_idTransformation = entityContext.getIdTransformation();
+		if (_idTransformation == null)
+			throw new MappingException(entityContext.getEntityClass(), "Id Transformation not set");
 	}
 
 	@Override
 	public void newVersion(Bean value) {
 		_versionUpdater.newVersion(value);
+	};
+
+	public Object getVersion(Bean value) {
+		return _versionUpdater.getVersion(value);
 	};
 
 	@Override
@@ -58,14 +64,14 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		Object dbValue = _idTransformation.asObject(fieldValue);
 		return dbValue;
 	};
-	
+
 	@Override
 	public void setId(Bean bean, Object id) {
 		Field field = _idProperty.getField();
 		Object fieldValue = _idTransformation.asEntity(id);
 		setFieldValue(bean, field, fieldValue);
 	};
-	
+
 	@Override
 	public String getCollectionName() {
 		return _collectionName;
@@ -82,17 +88,35 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		}
 
 		public void newVersion(Bean value) {
-			if (_versionProperty!=null) {
+			if (_versionProperty != null) {
 				try {
-					Object oldVersion = _versionProperty.getField().get(value);
+					Field field = _versionProperty.getField();
+					field.setAccessible(true);
+					Object oldVersion = field.get(value);
 					Object newVersion = _versionFactory.newVersion(oldVersion);
-					_versionProperty.getField().set(value, newVersion);
+					field.set(value, newVersion);
 				} catch (IllegalArgumentException e) {
 					throw new MappingException(_versionProperty.getType(), e);
 				} catch (IllegalAccessException e) {
 					throw new MappingException(_versionProperty.getType(), e);
 				}
 			}
+		}
+		
+		public Object getVersion(Bean value) {
+			if (_versionProperty != null) {
+				try {
+					Field field = _versionProperty.getField();
+					field.setAccessible(true);
+					Object oldVersion = field.get(value);
+					return oldVersion;
+				} catch (IllegalArgumentException e) {
+					throw new MappingException(_versionProperty.getType(), e);
+				} catch (IllegalAccessException e) {
+					throw new MappingException(_versionProperty.getType(), e);
+				}
+			}
+			return null;
 		}
 	}
 

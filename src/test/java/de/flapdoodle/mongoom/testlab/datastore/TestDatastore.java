@@ -23,6 +23,15 @@ public class TestDatastore extends AbstractMongoOMTest {
 		Book book = new Book();
 		book.setName("Bla");
 		datastore.save(book);
+		book.setName("Blu");
+		datastore.update(book);
+		book=new Book();
+		book.setName("2. Buch");
+		datastore.save(book);
+		
+		List<Book> books = datastore.find(Book.class);
+		assertEquals("Size",2,books.size());
+//		System.out.println("Books: "+books);
 	}
 	
 	
