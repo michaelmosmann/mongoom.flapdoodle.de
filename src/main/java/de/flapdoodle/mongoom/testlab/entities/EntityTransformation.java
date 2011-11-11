@@ -24,6 +24,8 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
+import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
@@ -78,6 +80,22 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		return _collectionName;
 	}
 
+	@Override
+	public ICollection collection() {
+		return new ICollection() {
+			
+			@Override
+			public String name() {
+				return _collectionName;
+			}
+			
+			@Override
+			public ICollectionCap cap() {
+				return ICollectionCap.Annotated.with(getContext().getEntityAnnotation().cap());
+			}
+		};
+	}
+	
 	static class VersionUpdater<Bean> {
 
 		private final Property<?> _versionProperty;

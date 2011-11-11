@@ -14,23 +14,35 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
+package de.flapdoodle.mongoom.testlab.datastore.collections;
 
-import com.mongodb.DBObject;
-
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.annotations.CappedAt;
 
 
-
-public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
-	void newVersion(Bean value);
-	Object getVersion(Bean value);
-	Object getId(Bean value);
-	void setId(Bean value, Object id);
-	<Source> IViewTransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
+public interface ICollectionCap {
+	long count();
+	long size();
 	
-	@Deprecated
-	String getCollectionName();
+	public static class Annotated implements ICollectionCap {
 
-	ICollection collection();
+		private final CappedAt _annotation;
+
+		private Annotated(CappedAt annotation) {
+			_annotation = annotation;
+		}
+		
+		@Override
+		public long count() {
+			return _annotation.count();
+		}
+
+		@Override
+		public long size() {
+			return _annotation.size();
+		}
+		
+		public static ICollectionCap with(CappedAt annotation) {
+			return new Annotated(annotation);
+		}
+	}
 }

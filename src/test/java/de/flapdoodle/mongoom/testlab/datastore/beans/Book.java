@@ -16,12 +16,13 @@
 
 package de.flapdoodle.mongoom.testlab.datastore.beans;
 
+import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity("Book")
+@Entity(value="Book",cap=@CappedAt(count=9))
 public class Book {
 
 	@Id

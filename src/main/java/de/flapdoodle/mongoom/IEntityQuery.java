@@ -21,7 +21,11 @@ import java.util.List;
 
 public interface IEntityQuery<T> extends IQuery<T> {
 
+	/**
+	 * change to String field, Class<T> type
+	 */
 	@Override
+	@Deprecated
 	IQueryOperation<T, IEntityQuery<T>> field(String string);
 
 	@Override

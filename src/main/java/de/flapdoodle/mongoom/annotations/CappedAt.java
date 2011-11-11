@@ -22,8 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CappedAt {
 
-	/** size to cap at (defaults to 1MB) */
-	long value() default 1024 * 1024;
+	/** size to cap at in bytes (defaults to unlimited) */
+	long size() default 0;
 
 	/** count of items to cap at (defaults to unlimited) */
 	long count() default 0;

@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
-
-import com.mongodb.DBObject;
-
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
+package de.flapdoodle.mongoom.testlab.datastore.collections;
 
 
-
-public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
-	void newVersion(Bean value);
-	Object getVersion(Bean value);
-	Object getId(Bean value);
-	void setId(Bean value, Object id);
-	<Source> IViewTransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
-	
-	@Deprecated
-	String getCollectionName();
-
-	ICollection collection();
+public interface ICollection {
+	String name();
+	ICollectionCap cap();
 }

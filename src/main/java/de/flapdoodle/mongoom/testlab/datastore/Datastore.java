@@ -16,7 +16,9 @@
 
 package de.flapdoodle.mongoom.testlab.datastore;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +34,7 @@ import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
+import de.flapdoodle.mongoom.datastore.Caps;
 import de.flapdoodle.mongoom.datastore.Errors;
 import de.flapdoodle.mongoom.datastore.Operation;
 import de.flapdoodle.mongoom.exceptions.MappingException;
@@ -62,7 +65,11 @@ public class Datastore implements IDatastore {
 	
 	@Override
 	public void ensureCaps() {
-		throw new MappingException("Not implemented");
+		Collection<IEntityTransformation<?>> entities = _transformations.transformations();
+		for (IEntityTransformation<?> entity : entities) {
+			_logger.info("Ensure Caps for " + entity.collection().name());
+			Caps.ensureCaps(_db, entity.collection());
+		}
 	}
 
 	@Override

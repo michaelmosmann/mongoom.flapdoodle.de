@@ -36,6 +36,8 @@ public class TestDatastore extends AbstractMongoOMTest {
 		classes.add(Book.class);
 		Transformations transformations = new Transformations(MappingContext.factory(),classes);
 		IDatastore datastore=new Datastore(getMongo(), getDatabaseName(), transformations);
+		datastore.ensureCaps();
+		
 		Book book = new Book();
 		book.setName("Bla");
 		datastore.save(book);
@@ -51,6 +53,17 @@ public class TestDatastore extends AbstractMongoOMTest {
 		
 		books=datastore.with(Book.class).field("name").eq("Blu").result().asList();
 		assertEquals("Size",1,books.size());
+
+		for (int i=0;i<10;i++) {
+			book=new Book();
+			book.setName(i+". Buch");
+			datastore.save(book);
+		}
+
+		books=datastore.with(Book.class).result().order("name", false).asList();
+		System.out.println("Books: "+books);
+		assertEquals("Size",9,books.size());
+		assertEquals("9. Buch","9. Buch",books.get(0).getName());
 	}
 	
 	

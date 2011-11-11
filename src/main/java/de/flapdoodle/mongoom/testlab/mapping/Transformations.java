@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -50,5 +51,9 @@ public class Transformations {
 
 	public <T> IEntityTransformation<T> transformation(Class<T> type) {
 		return (IEntityTransformation<T>) _transformations.get(type);
+	}
+	
+	public Collection<IEntityTransformation<?>> transformations() {
+		return _transformations.values();
 	}
 }

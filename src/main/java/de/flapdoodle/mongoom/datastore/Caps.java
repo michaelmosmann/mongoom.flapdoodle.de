@@ -23,6 +23,9 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
+import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
 
 public final class Caps {
 
@@ -30,32 +33,49 @@ public final class Caps {
 
 	}
 
+	@Deprecated
 	public static void ensureCaps(DB db, Class<?> entity) {
 		Entity annotation = entity.getAnnotation(Entity.class);
+		String collName = annotation.value();
 		CappedAt cap = annotation.cap();
-		if ((cap != null) && (cap.count() > 0)) {
+		if (cap!=null) {
+			ensureCaps(db, collName, ICollectionCap.Annotated.with(cap));
+		}
+	}
+	
+	public static void ensureCaps(DB db, ICollection collection) {
+		ensureCaps(db, collection.name(),collection.cap());
+	}
+	
+	public static void ensureCaps(DB db, String collectionName, ICollectionCap capCollection) {
+		
+		if (capCollection != null) {
+			long count = capCollection.count();
+			long size = capCollection.size();
+			
+			if ((size==0) && (count==0)) throw new ObjectMapperException("Size and Count == 0");
+			
 			try {
 				db.requestStart();
-				String collName = annotation.value();
 				BasicDBObjectBuilder dbCapOpts = BasicDBObjectBuilder.start("capped", true);
-				if (cap.value() > 0)
-					dbCapOpts.add("size", cap.value());
-				if (cap.count() > 0)
-					dbCapOpts.add("max", cap.count());
-				DBCollection dbColl = db.getCollection(collName);
+				if (size > 0)
+					dbCapOpts.add("size", size);
+				if (count > 0)
+					dbCapOpts.add("max", count);
+				DBCollection dbColl = db.getCollection(collectionName);
 
-				if (db.getCollectionNames().contains(collName)) {
-					DBObject dbResult = db.command(BasicDBObjectBuilder.start("collstats", collName).get());
+				if (db.getCollectionNames().contains(collectionName)) {
+					DBObject dbResult = db.command(BasicDBObjectBuilder.start("collstats", collectionName).get());
 					if (dbResult.containsField("capped")) {
 						// TODO: check the cap options.
 						DatastoreImpl._logger.warning("DBCollection already exists is cap'd already; doing nothing. " + dbResult);
 					} else {
-						DatastoreImpl._logger.warning("DBCollection already exists with same name(" + collName
+						DatastoreImpl._logger.warning("DBCollection already exists with same name(" + collectionName
 								+ ") and is not cap'd; not creating cap'd version!");
 					}
 				} else {
-					db.createCollection(collName, dbCapOpts.get());
-					DatastoreImpl._logger.info("Created cap'd DBCollection (" + collName + ") with opts " + cap);
+					db.createCollection(collectionName, dbCapOpts.get());
+					DatastoreImpl._logger.info("Created cap'd DBCollection (" + collectionName + ") with opts " + capCollection);
 				}
 			} finally {
 				Errors.checkError(db, Operation.Insert);
