@@ -20,9 +20,10 @@ import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity(value="Book",cap=@CappedAt(count=9))
+@Entity(value="Book",cap=@CappedAt(count=9),onWrite=Book.BookOnWrite.class)
 public class Book {
 
 	@Id
@@ -32,6 +33,8 @@ public class Book {
 	String _version;
 	
 	String _name;
+	
+	int _nameLen;
 
 	public String getName() {
 		return _name;
@@ -43,6 +46,15 @@ public class Book {
 	
 	@Override
 	public String toString() {
-		return "Book {name:"+_name+",[_id:"+_id+",_version:"+_version+"]}";
+		return "Book {name:'"+_name+"',len:"+_nameLen+",[_id:"+_id+",_version:"+_version+"]}";
+	}
+	
+	public static class BookOnWrite implements IEntityWriteCallback<Book> {
+
+		@Override
+		public void onWrite(Book entity) {
+			if (entity._name!=null) entity._nameLen=entity._name.length();
+		}
+		
 	}
 }

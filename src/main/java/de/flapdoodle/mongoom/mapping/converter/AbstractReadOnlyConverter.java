@@ -35,6 +35,7 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
 import de.flapdoodle.mongoom.mapping.MappingContext;
+import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.NoopReadCallback;
@@ -72,10 +73,10 @@ public abstract class AbstractReadOnlyConverter<T> {
 			IEntityReadCallback<T> onRead = null;
 			IEntityWriteCallback<T> onWrite = null;
 			if (onReadType != null) {
-				onRead = getCallback(entityClass, onReadType,IEntityReadCallback.class);
+				onRead = Callbacks.newInstance(entityClass, onReadType,IEntityReadCallback.class);
 			}
 			if (onWriteType != null) {
-				onWrite = getCallback(entityClass, onWriteType,IEntityWriteCallback.class);
+				onWrite = Callbacks.newInstance(entityClass, onWriteType,IEntityWriteCallback.class);
 			}
 	
 			_onRead = onRead;
@@ -118,31 +119,31 @@ public abstract class AbstractReadOnlyConverter<T> {
 		}
 	}
 
-	private static <C> C getCallback(Class<?> entityClass, Class<?> callbackType,Class<C> interfaze) {
-		Type genericInterface = TypeExtractor.getGenericInterface(callbackType, interfaze);
-		if (genericInterface == null) {
-			throw new MappingException(entityClass, callbackType.getName() + " does not implement "
-					+ IEntityReadCallback.class.getName());
-		}
-		Type parameterType = TypeExtractor.getParameterizedClass(callbackType, genericInterface, 0);
-		if (parameterType == null) {
-			throw new MappingException(entityClass, callbackType.getName() + ": could not get TypeInformation");
-		}
-		Class<?> callbackEntityType = TypeExtractor.getClass(parameterType);
-		if (callbackEntityType == null) {
-			throw new MappingException(entityClass, callbackType.getName() + ": could not get Class for " + parameterType);
-		}
-		if (callbackEntityType.isAssignableFrom(entityClass)) {
-			try {
-				return (C) callbackType.newInstance();
-			} catch (InstantiationException e) {
-				throw new MappingException(entityClass, e);
-			} catch (IllegalAccessException e) {
-				throw new MappingException(entityClass, e);
-			}
-		}
-		return null;
-	}
+//	private static <C> C getCallback(Class<?> entityClass, Class<?> callbackType,Class<C> interfaze) {
+//		Type genericInterface = TypeExtractor.getGenericInterface(callbackType, interfaze);
+//		if (genericInterface == null) {
+//			throw new MappingException(entityClass, callbackType.getName() + " does not implement "
+//					+ IEntityReadCallback.class.getName());
+//		}
+//		Type parameterType = TypeExtractor.getParameterizedClass(callbackType, genericInterface, 0);
+//		if (parameterType == null) {
+//			throw new MappingException(entityClass, callbackType.getName() + ": could not get TypeInformation");
+//		}
+//		Class<?> callbackEntityType = TypeExtractor.getClass(parameterType);
+//		if (callbackEntityType == null) {
+//			throw new MappingException(entityClass, callbackType.getName() + ": could not get Class for " + parameterType);
+//		}
+//		if (callbackEntityType.isAssignableFrom(entityClass)) {
+//			try {
+//				return (C) callbackType.newInstance();
+//			} catch (InstantiationException e) {
+//				throw new MappingException(entityClass, e);
+//			} catch (IllegalAccessException e) {
+//				throw new MappingException(entityClass, e);
+//			}
+//		}
+//		return null;
+//	}
 
 	protected Class<T> getEntityClass() {
 		return _entityClass;

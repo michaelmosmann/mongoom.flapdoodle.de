@@ -21,6 +21,10 @@ import java.lang.reflect.Field;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.NoopReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.NoopWriteCallback;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
@@ -38,6 +42,8 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 	private String _collectionName;
 	private ITransformation _idTransformation;
 	private Property<?> _idProperty;
+	private IEntityReadCallback<Bean> _readCallback;
+	private IEntityWriteCallback<Bean> _writeCallback;
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		super(entityContext);
@@ -49,6 +55,11 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		_idTransformation = entityContext.getIdTransformation();
 		if (_idTransformation == null)
 			throw new MappingException(entityContext.getEntityClass(), "Id Transformation not set");
+		
+		_readCallback = entityContext.getReadCallback();
+		_writeCallback = entityContext.getWriteCallback();
+		if (_writeCallback==null) _writeCallback=(IEntityWriteCallback<Bean>) new NoopWriteCallback();
+		if (_readCallback==null) _readCallback=(IEntityReadCallback<Bean>) new NoopReadCallback();
 	}
 
 	@Override
@@ -58,6 +69,18 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 
 	public Object getVersion(Bean value) {
 		return _versionUpdater.getVersion(value);
+	};
+	
+	@Override
+	public Bean asEntity(DBObject object) {
+		Bean ret = super.asEntity(object);
+		_readCallback.onRead(ret);
+		return ret;
+	}
+	
+	public DBObject asObject(Bean value) {
+		_writeCallback.onWrite(value);
+		return super.asObject(value);
 	};
 
 	@Override

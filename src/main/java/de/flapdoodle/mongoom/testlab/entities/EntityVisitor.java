@@ -24,6 +24,9 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
+import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
@@ -37,8 +40,8 @@ import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
-
-public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean,DBObject> implements IEntityVisitor<EntityBean>{
+public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean, DBObject> implements
+		IEntityVisitor<EntityBean> {
 
 	@Override
 	public IEntityTransformation<EntityBean> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
@@ -47,41 +50,47 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 			error(entityClass, "Missing " + Entity.class + " Annotation");
 		}
 		Views viewsAnnotation = entityClass.getAnnotation(Views.class);
-		
+
 		Map<String, EntityIndexDef> indexGroupMap = IndexParser.getIndexGroupMap(entityClass);
 
-		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass,entityAnnotation,viewsAnnotation,indexGroupMap);
-		parseProperties(mappingContext, entityContext,TypeInfo.ofClass(entityClass));
-		
+		EntityContext<EntityBean> entityContext = new EntityContext<EntityBean>(entityClass, entityAnnotation,
+				viewsAnnotation, indexGroupMap);
+		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(entityClass));
+
 		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
 			Property<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
-			if (annotated!=null) {
+			if (annotated != null) {
 				Version version = annotated.getAnnotation(Version.class);
-				if (version!=null) {
-					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass), prop.getField()));
-					if (versionFactory==null) {
-						error(entityClass,"Version annotated but no Factory found: "+props);
+				if (version != null) {
+					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass),
+							prop.getField()));
+					if (versionFactory == null) {
+						error(entityClass, "Version annotated but no Factory found: " + props);
 					} else {
-						entityContext.setVersionFactory(prop,versionFactory);
+						entityContext.setVersionFactory(prop, versionFactory);
 					}
 				}
-				Id id=annotated.getAnnotation(Id.class);
-				if (id!=null) {
-					entityContext.setId(prop,entityContext.getPropertyTransformations().get(props));
+				Id id = annotated.getAnnotation(Id.class);
+				if (id != null) {
+					entityContext.setId(prop, entityContext.getPropertyTransformations().get(props));
 				}
 			}
 		}
-		
-		if (viewsAnnotation!=null) {
+
+		if (viewsAnnotation != null) {
 			for (Class<?> viewType : viewsAnnotation.value()) {
 				IViewTransformation transformation = new ViewVisitor().transformation(mappingContext, viewType);
 				entityContext.setViewTransformation(viewType, transformation);
 			}
 		}
-		
+
+		entityContext.setReadCallback(Callbacks.newInstance(entityClass, entityAnnotation.onRead(),
+				IEntityReadCallback.class));
+		entityContext.setWriteCallback(Callbacks.newInstance(entityClass, entityAnnotation.onWrite(),
+				IEntityWriteCallback.class));
+
 		return new EntityTransformation<EntityBean>(entityContext);
 	}
-
 
 }

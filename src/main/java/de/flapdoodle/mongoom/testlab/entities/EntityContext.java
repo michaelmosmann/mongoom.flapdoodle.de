@@ -24,6 +24,8 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
@@ -44,6 +46,9 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	private IVersionFactory<?> _versionFactory;
 	private Property<?> _idProperty;
 	private ITransformation<?, ?> _idTransformation;
+
+	private IEntityWriteCallback<EntityBean> _writeCallback;
+	private IEntityReadCallback<EntityBean> _readCallback;
 
 	public EntityContext(Class<EntityBean> entityClass, Entity entityAnnotation, Views viewsAnnotation,
 			Map<String, EntityIndexDef> indexGroupMap) {
@@ -100,7 +105,8 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 		return (IViewTransformation<Source, DBObject>) _viewTransformation.get(viewType);
 	}
 
-	protected <Source> void setViewTransformation(Class<Source> viewType, IViewTransformation<Source, DBObject> transformation) {
+	protected <Source> void setViewTransformation(Class<Source> viewType,
+			IViewTransformation<Source, DBObject> transformation) {
 		_viewTransformation.put(viewType, transformation);
 	}
 
@@ -117,5 +123,21 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 
 	public ITransformation<?, ?> getIdTransformation() {
 		return _idTransformation;
+	}
+
+	public void setWriteCallback(IEntityWriteCallback<EntityBean> writeCallback) {
+		_writeCallback = writeCallback;
+	}
+
+	public void setReadCallback(IEntityReadCallback<EntityBean> readCallback) {
+		_readCallback = readCallback;
+	}
+
+	public IEntityWriteCallback<EntityBean> getWriteCallback() {
+		return _writeCallback;
+	}
+
+	public IEntityReadCallback<EntityBean> getReadCallback() {
+		return _readCallback;
 	}
 }

@@ -23,6 +23,8 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
+import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
+import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
