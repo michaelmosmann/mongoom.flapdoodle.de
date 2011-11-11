@@ -17,10 +17,16 @@
 package de.flapdoodle.mongoom.testlab.beans;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
+import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("LoopDummy")
 public class LoopDummy {
 
+	@Id
+	Reference<LoopDummy> _id;
+	
 	Loop _start;
 
 	public Loop getStart() {
@@ -35,6 +41,9 @@ public class LoopDummy {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((_id == null)
+				? 0
+				: _id.hashCode());
 		result = prime * result + ((_start == null)
 				? 0
 				: _start.hashCode());
@@ -50,6 +59,11 @@ public class LoopDummy {
 		if (getClass() != obj.getClass())
 			return false;
 		LoopDummy other = (LoopDummy) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
 		if (_start == null) {
 			if (other._start != null)
 				return false;
@@ -57,4 +71,5 @@ public class LoopDummy {
 			return false;
 		return true;
 	}
+
 }

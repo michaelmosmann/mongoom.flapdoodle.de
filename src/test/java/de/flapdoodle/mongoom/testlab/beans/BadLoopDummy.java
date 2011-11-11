@@ -17,10 +17,15 @@
 package de.flapdoodle.mongoom.testlab.beans;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
+import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("BadLoopDummy")
 public class BadLoopDummy {
 
+	@Id
+	Reference<BadLoopDummy> _id;
+	
 	BadLoop _loop;
 
 	public BadLoop getLoop() {

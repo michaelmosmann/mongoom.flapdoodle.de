@@ -19,13 +19,19 @@ package de.flapdoodle.mongoom.testlab.beans;
 import java.awt.Color;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Views;
+import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
+import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("ColorBean")
 @Views(ColorBean.ColorView.class)
 public class ColorBean {
 
+	@Id
+	Reference<ColorBean> _id;
+	
 	@Property("c")
 	Color _color;
 
@@ -37,6 +43,7 @@ public class ColorBean {
 		_color = color;
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -44,6 +51,9 @@ public class ColorBean {
 		result = prime * result + ((_color == null)
 				? 0
 				: _color.hashCode());
+		result = prime * result + ((_id == null)
+				? 0
+				: _id.hashCode());
 		return result;
 	}
 
@@ -61,8 +71,14 @@ public class ColorBean {
 				return false;
 		} else if (!_color.equals(other._color))
 			return false;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
 		return true;
 	}
+
 
 	public static class ColorView {
 

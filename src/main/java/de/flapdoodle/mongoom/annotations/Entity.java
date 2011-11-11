@@ -36,7 +36,7 @@ public @interface Entity {
 
 	String value();
 
-	CappedAt cap() default @CappedAt;
+	CappedAt cap() default @CappedAt(size=Long.MAX_VALUE,count=Long.MAX_VALUE);
 	
 	Class<? extends IEntityReadCallback<?>> onRead() default NoopReadCallback.class;
 	Class<? extends IEntityWriteCallback<?>> onWrite() default NoopWriteCallback.class;

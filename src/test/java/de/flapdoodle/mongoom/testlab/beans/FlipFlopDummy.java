@@ -17,11 +17,13 @@
 package de.flapdoodle.mongoom.testlab.beans;
 
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("FlipFlopDummy")
 public class FlipFlopDummy {
 
+	@Id
 	Reference<Dummy> _id;
 
 	Flip _flip;

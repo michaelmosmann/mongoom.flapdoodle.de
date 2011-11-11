@@ -54,32 +54,33 @@ public final class Caps {
 			long size = capCollection.size();
 			
 			if ((size==0) && (count==0)) throw new ObjectMapperException("Size and Count == 0");
-			
-			try {
-				db.requestStart();
-				BasicDBObjectBuilder dbCapOpts = BasicDBObjectBuilder.start("capped", true);
-				if (size > 0)
-					dbCapOpts.add("size", size);
-				if (count > 0)
-					dbCapOpts.add("max", count);
-				DBCollection dbColl = db.getCollection(collectionName);
-
-				if (db.getCollectionNames().contains(collectionName)) {
-					DBObject dbResult = db.command(BasicDBObjectBuilder.start("collstats", collectionName).get());
-					if (dbResult.containsField("capped")) {
-						// TODO: check the cap options.
-						DatastoreImpl._logger.warning("DBCollection already exists is cap'd already; doing nothing. " + dbResult);
+			if ((size<Long.MAX_VALUE) && (count<Long.MAX_VALUE)) {
+				try {
+					db.requestStart();
+					BasicDBObjectBuilder dbCapOpts = BasicDBObjectBuilder.start("capped", true);
+					if (size > 0)
+						dbCapOpts.add("size", size);
+					if (count > 0)
+						dbCapOpts.add("max", count);
+					DBCollection dbColl = db.getCollection(collectionName);
+	
+					if (db.getCollectionNames().contains(collectionName)) {
+						DBObject dbResult = db.command(BasicDBObjectBuilder.start("collstats", collectionName).get());
+						if (dbResult.containsField("capped")) {
+							// TODO: check the cap options.
+							DatastoreImpl._logger.warning("DBCollection already exists is cap'd already; doing nothing. " + dbResult);
+						} else {
+							DatastoreImpl._logger.warning("DBCollection already exists with same name(" + collectionName
+									+ ") and is not cap'd; not creating cap'd version!");
+						}
 					} else {
-						DatastoreImpl._logger.warning("DBCollection already exists with same name(" + collectionName
-								+ ") and is not cap'd; not creating cap'd version!");
+						db.createCollection(collectionName, dbCapOpts.get());
+						DatastoreImpl._logger.info("Created cap'd DBCollection (" + collectionName + ") with opts " + capCollection);
 					}
-				} else {
-					db.createCollection(collectionName, dbCapOpts.get());
-					DatastoreImpl._logger.info("Created cap'd DBCollection (" + collectionName + ") with opts " + capCollection);
+				} finally {
+					Errors.checkError(db, Operation.Insert);
+					db.requestDone();
 				}
-			} finally {
-				Errors.checkError(db, Operation.Insert);
-				db.requestDone();
 			}
 		}
 	}
