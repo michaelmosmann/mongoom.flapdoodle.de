@@ -19,7 +19,6 @@ package de.flapdoodle.mongoom.testlab.entities;
 import java.util.Map;
 
 import com.mongodb.DBObject;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Annotated;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
@@ -30,7 +29,6 @@ import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.IEntityVisitor;
-import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;

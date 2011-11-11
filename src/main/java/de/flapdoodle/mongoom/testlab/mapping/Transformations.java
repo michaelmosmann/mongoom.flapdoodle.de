@@ -19,12 +19,10 @@ package de.flapdoodle.mongoom.testlab.mapping;
 import java.util.List;
 import java.util.Map;
 
-import com.google.inject.internal.Maps;
-import com.mongodb.DBObject;
+import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
-import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 
 public class Transformations {
