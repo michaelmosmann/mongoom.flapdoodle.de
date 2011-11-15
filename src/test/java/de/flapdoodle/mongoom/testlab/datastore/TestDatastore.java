@@ -37,6 +37,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 		Transformations transformations = new Transformations(MappingContext.factory(),classes);
 		IDatastore datastore=new Datastore(getMongo(), getDatabaseName(), transformations);
 		datastore.ensureCaps();
+		datastore.ensureIndexes();
 		
 		Book book = new Book();
 		book.setName("Bla");

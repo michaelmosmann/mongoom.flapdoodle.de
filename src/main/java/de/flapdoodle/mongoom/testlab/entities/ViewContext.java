@@ -18,6 +18,7 @@ package de.flapdoodle.mongoom.testlab.entities;
 
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
@@ -28,7 +29,7 @@ public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> impleme
 	}
 
 	@Override
-	public <S> IPropertyContext<S> contextFor(Property<S> of) {
+	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
 		return new PropertyContext<S>(this);
 	}
 

@@ -36,12 +36,16 @@ import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
 import de.flapdoodle.mongoom.datastore.Caps;
 import de.flapdoodle.mongoom.datastore.Errors;
+import de.flapdoodle.mongoom.datastore.Indexes;
 import de.flapdoodle.mongoom.datastore.Operation;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
+import de.flapdoodle.mongoom.mapping.IEntityConverter;
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
+import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
 import de.flapdoodle.mongoom.testlab.datastore.query.Query;
 import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
@@ -74,7 +78,16 @@ public class Datastore implements IDatastore {
 
 	@Override
 	public void ensureIndexes() {
-		throw new MappingException("Not implemented");
+		Collection<IEntityTransformation<?>> entities = _transformations.transformations();
+		for (IEntityTransformation<?> entity : entities) {
+			_logger.info("Ensure Index for " + entity.collection().name());
+			IIndex index = entity.indexes();
+			if (index != null) {
+				for (IndexDef def : index.list()) {
+					Indexes.ensureIndex(_db, def, entity.collection().name());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -94,7 +107,7 @@ public class Datastore implements IDatastore {
 
 	private <T> void store(Operation operation, T entity) {
 		IEntityTransformation<T> converter = _transformations.transformation((Class<T>) entity.getClass());
-		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
+		DBCollection dbCollection = _db.getCollection(converter.collection().name());
 		Object idValue = converter.getId(entity);
 		Object versionValue = converter.getVersion(entity);
 		
@@ -187,7 +200,7 @@ public class Datastore implements IDatastore {
 	@Override
 	public <T> List<T> find(Class<T> entityClass) {
 		IEntityTransformation<T> converter = _transformations.transformation(entityClass);
-		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
+		DBCollection dbCollection = _db.getCollection(converter.collection().name());
 		DBCursor dbcursor = dbCollection.find();
 
 		List<T> ret = Lists.newArrayList();
@@ -200,7 +213,7 @@ public class Datastore implements IDatastore {
 	@Override
 	public <T> IEntityQuery<T> with(Class<T> entityClass) {
 		IEntityTransformation<T> converter = _transformations.transformation(entityClass);
-		DBCollection dbCollection = _db.getCollection(converter.getCollectionName());
+		DBCollection dbCollection = _db.getCollection(converter.collection().name());
 		return new Query<T>(converter, dbCollection);	
 	}
 

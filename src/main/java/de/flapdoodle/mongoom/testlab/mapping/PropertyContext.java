@@ -23,12 +23,13 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public class PropertyContext<T> implements IPropertyContext<T>{
 
-	private final Map<Property<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private final Map<IProperty<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
 	private final IPropertyContext<?> _parentContext;
 
 	public PropertyContext(IPropertyContext<?> parentContext) {
@@ -36,16 +37,16 @@ public class PropertyContext<T> implements IPropertyContext<T>{
 	}
 
 	@Override
-	public <S> IPropertyContext<S> contextFor(Property<S> of) {
+	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
 		throw new MappingException("should never happen");
 	}
 
 	@Override
-	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
+	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
 		propertyTransformation.put(property, transformation);
 	}
 	
-	public Map<Property<?>, ITransformation<?, ?>> getPropertyTransformation() {
+	public Map<IProperty<?>, ITransformation<?, ?>> getPropertyTransformation() {
 		return Collections.unmodifiableMap(propertyTransformation);
 	}
 

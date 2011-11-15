@@ -27,6 +27,7 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
@@ -46,9 +47,10 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 		if (value==null) return null;
 		
 		BasicDBObject ret = new BasicDBObject();
-		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
+		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
 		
-		for (Property p : propertyTransformations.keySet()) {
+		for (IProperty<?> prop : propertyTransformations.keySet()) {
+			IPropertyField<?> p=(IPropertyField<?>) prop;
 			ITransformation transformation = propertyTransformations.get(p);
 			Field field = p.getField();
 			Object fieldValue=getFieldValue(field,value);
@@ -74,9 +76,10 @@ public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject
 		if (object==null) return null;
 		
 		Bean ret = newInstance();
-		Map<Property<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
+		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
 		
-		for (Property p : propertyTransformations.keySet()) {
+		for (IProperty prop : propertyTransformations.keySet()) {
+			IPropertyField<?> p=(IPropertyField<?>) prop;
 			ITransformation transformation = propertyTransformations.get(p);
 			Field field = p.getField();
 			Object fieldValue=transformation.asEntity(object.get(p.getName()));

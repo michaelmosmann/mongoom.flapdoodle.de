@@ -27,6 +27,8 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
@@ -53,7 +55,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 
 		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Property prop = propertyTransformations.getProperty(p);
+			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
 			Object fieldValue = getFieldValue(field, value);
 			Object dbValue = transformation.asObject(fieldValue);
@@ -84,7 +86,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 
 		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
-			Property prop = propertyTransformations.getProperty(p);
+			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
 			Object fieldValue = transformation.asEntity(getValue(object, p));
 			if (fieldValue != null)

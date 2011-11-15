@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
@@ -42,7 +43,7 @@ public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<
 	}
 
 	@Override
-	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
+	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
 //		PropertyName<S> propertyName = PropertyName.of(property.getName(), property.getType());
 //		propertyTransformation.put(propertyName, transformation);
 //		propertyMap.put(propertyName, property);

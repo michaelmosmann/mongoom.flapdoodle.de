@@ -22,6 +22,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 
@@ -30,9 +31,9 @@ public class PropertyTransformationMap {
 	
 	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
 	private final Map<String, ITransformation<?, ?>> propertynameTransformation = Maps.newLinkedHashMap();
-	private final Map<PropertyName<?>, Property<?>> propertyMap = Maps.newLinkedHashMap();
+	private final Map<PropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
 	
-	public <S> void setTransformation(Property<S> property, ITransformation<S, ?> transformation) {
+	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
 		PropertyName<S> propertyName = PropertyName.of(property.getName(), property.getType());
 		propertyTransformation.put(propertyName, transformation);
 		propertynameTransformation.put(property.getName(), transformation);
@@ -53,8 +54,8 @@ public class PropertyTransformationMap {
 			}
 
 			@Override
-			public <Source> Property<Source> getProperty(PropertyName<Source> p) {
-				return (Property<Source>) propertyMap.get(p);
+			public <Source> IProperty<Source> getProperty(PropertyName<Source> p) {
+				return (IProperty<Source>) propertyMap.get(p);
 			}
 
 			@Override

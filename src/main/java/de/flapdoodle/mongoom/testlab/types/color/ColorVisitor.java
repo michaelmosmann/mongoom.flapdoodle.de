@@ -20,11 +20,15 @@ import java.awt.Color;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
@@ -32,6 +36,13 @@ public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
 	@Override
 	public ITransformation<Color, DBObject> transformation(IMappingContext mappingContext,
 			IPropertyContext<?> propertyContext, ITypeInfo field) {
+		if (field instanceof IAnnotated) {
+			ColorConverterOptions options=((IAnnotated) field).getAnnotation(ColorConverterOptions.class);
+			if (options!=null) {
+				IPropertyContext<Integer> rContext = propertyContext.contextFor(Property.of("r", Integer.class));
+				// TODO set Index Options on context
+			}
+		}
 		return new ColorTransformation();
 	}
 

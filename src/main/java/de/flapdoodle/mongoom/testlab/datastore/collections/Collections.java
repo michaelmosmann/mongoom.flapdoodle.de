@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab;
-
-import java.util.List;
-
-import com.mongodb.DBObject;
-
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
-import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
+package de.flapdoodle.mongoom.testlab.datastore.collections;
 
 
-
-public interface IEntityTransformation<Bean> extends ITransformation<Bean, DBObject> {
-	void newVersion(Bean value);
-	Object getVersion(Bean value);
-	Object getId(Bean value);
-	void setId(Bean value, Object id);
-	<Source> IViewTransformation<Source,DBObject> viewTransformation(Class<Source> viewType);
+public class Collections {
+	private Collections() {
+		throw new IllegalAccessError("singleton");
+	}
 	
-	ICollection collection();
-	IIndex indexes();
+	public static ICollection newCollection(final String name, final ICollectionCap cap) {
+		return new ICollection() {
+			
+			@Override
+			public String name() {
+				return name;
+			}
+			
+			@Override
+			public ICollectionCap cap() {
+				return cap;
+			}
+		};
+	}
 }

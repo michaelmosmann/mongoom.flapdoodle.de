@@ -33,6 +33,7 @@ import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.IViewVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
@@ -59,7 +60,7 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(viewClass));
 
 		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
-			Property<?> prop = entityContext.getPropertyTransformations().getProperty(props);
+			IProperty<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
 			if (annotated != null) {
 				Version version = annotated.getAnnotation(Version.class);

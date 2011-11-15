@@ -19,58 +19,67 @@ package de.flapdoodle.mongoom.testlab.properties;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
-public class Property<T> implements IProperty<T> {
+public class Property {
 
-	private final String _name;
-	private final Class<T> _type;
-	private final Type _genericType;
-	private final Field _field;
-	private final IAnnotated _annotated;
-	// MetaInfos (Index?)
-
-	public Property(String name, Field field) {
-		_name = name;
-		_type = (Class<T>) field.getType();
-		_genericType = field.getGenericType();
-		_field=field;
-		_annotated=new AnnotatedField(_field);
+	private Property() {
+		throw new IllegalAccessError("singleton");
 	}
 	
-	public Property(String name, Class<T> type) {
-		_name=name;
-		_type=type;
-		_genericType=null;
-		_field=null;
-		_annotated=new AnnotatedClass(_type);
+	public static IPropertyField<?> of(String name, Field field) {
+		return new PropertyWithField(name, field);
 	}
 
-	public String getName() {
-		return _name;
+	public static <T> IProperty<T> of(String name, Class<T> type) {
+		return new PropertyWithClass<T>(name, type);
 	}
 
-	public Class<T> getType() {
-		return _type;
-	}
+	static class PropertyWithClass<T> implements IProperty<T> {
+		
+		private final String _name;
+		private final Class<T> _type;
+		private final IAnnotated _annotated;
+		
+		protected PropertyWithClass(String name, Class<T> type,IAnnotated annotated) {
+			_name=name;
+			_type=type;
+			_annotated=annotated;
+		}
+		public PropertyWithClass(String name, Class<T> type) {
+			this(name,type,new AnnotatedClass(type));
+		}
 
-	public Type getGenericType() {
-		return _genericType;
+		public String getName() {
+			return _name;
+		}
+
+		public Class<T> getType() {
+			return _type;
+		}
+		
+		@Override
+		public IAnnotated annotated() {
+			return _annotated;
+		}
+		
+
 	}
 	
-	public Field getField() {
-		return _field;
+	static class PropertyWithField<T> extends PropertyWithClass<T> implements IPropertyField<T> {
+		
+		private final Type _genericType;
+		private final Field _field;
+		// MetaInfos (Index?)
+
+		public PropertyWithField(String name, Field field) {
+			super(name,(Class<T>) field.getType(),new AnnotatedField(field));
+			_genericType = field.getGenericType();
+			_field=field;
+		}
+
+		@Override
+		public Field getField() {
+			return _field;
+		}
 	}
-	
-	@Override
-	public IAnnotated annotated() {
-		return _annotated;
-	}
-	
-	public static Property of(String name, Field field) {
-		return new Property(name, field);
-	}
-	
-//	public static <T> Property<T> of(String name, Class<T> type) {
-//		return new Property(name,type);
-//	}
 	
 }

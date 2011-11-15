@@ -35,6 +35,8 @@ import de.flapdoodle.mongoom.testlab.IEntityVisitor;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
@@ -58,22 +60,27 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(entityClass));
 
 		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
-			Property<?> prop = entityContext.getPropertyTransformations().getProperty(props);
+			IProperty<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
 			if (annotated != null) {
 				Version version = annotated.getAnnotation(Version.class);
 				if (version != null) {
+					if (!(prop instanceof IPropertyField)) error(entityClass, "Property is not PropertyField: "+prop);
+					IPropertyField<?> propertyField=(IPropertyField<?>) prop;
+					
 					IVersionFactory<?> versionFactory = mappingContext.versionFactory(TypeInfo.of(TypeInfo.ofClass(entityClass),
-							prop.getField()));
+							propertyField.getField()));
 					if (versionFactory == null) {
 						error(entityClass, "Version annotated but no Factory found: " + props);
 					} else {
-						entityContext.setVersionFactory(prop, versionFactory);
+						entityContext.setVersionFactory(propertyField, versionFactory);
 					}
 				}
 				Id id = annotated.getAnnotation(Id.class);
 				if (id != null) {
-					entityContext.setId(prop, entityContext.getPropertyTransformations().get(props));
+					if (!(prop instanceof IPropertyField)) error(entityClass, "Property is not PropertyField: "+prop);
+					IPropertyField<?> propertyField=(IPropertyField<?>) prop;
+					entityContext.setId(propertyField, entityContext.getPropertyTransformations().get(props));
 				}
 			}
 		}

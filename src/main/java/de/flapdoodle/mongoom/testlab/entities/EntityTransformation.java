@@ -28,10 +28,13 @@ import de.flapdoodle.mongoom.mapping.callbacks.NoopWriteCallback;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
+import de.flapdoodle.mongoom.testlab.datastore.collections.Collections;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
+import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
 import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
@@ -39,15 +42,17 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		IEntityTransformation<Bean> {
 
 	private VersionUpdater<Bean> _versionUpdater;
-	private String _collectionName;
+//	private String _collectionName;
 	private ITransformation _idTransformation;
-	private Property<?> _idProperty;
+	private IPropertyField<?> _idProperty;
 	private IEntityReadCallback<Bean> _readCallback;
 	private IEntityWriteCallback<Bean> _writeCallback;
+	private ICollection _collection;
+	private IIndex _index;
 
 	public EntityTransformation(EntityContext<Bean> entityContext) {
 		super(entityContext);
-		_collectionName = entityContext.getEntityAnnotation().value();
+//		_collectionName = entityContext.getEntityAnnotation().value();
 		_versionUpdater = new VersionUpdater(_entityContext.getVersionProperty(), _entityContext.getVersionFactory());
 		_idProperty = entityContext.getIdProperty();
 		if (_idProperty == null)
@@ -60,6 +65,9 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 		_writeCallback = entityContext.getWriteCallback();
 		if (_writeCallback==null) _writeCallback=(IEntityWriteCallback<Bean>) new NoopWriteCallback();
 		if (_readCallback==null) _readCallback=(IEntityReadCallback<Bean>) new NoopReadCallback();
+		
+		_collection = Collections.newCollection(entityContext.getEntityAnnotation().value(), ICollectionCap.Annotated.with(getContext().getEntityAnnotation().cap()));
+		_index = entityContext.index();
 	}
 
 	@Override
@@ -99,32 +107,21 @@ public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean,
 	};
 
 	@Override
-	public String getCollectionName() {
-		return _collectionName;
-	}
-
-	@Override
 	public ICollection collection() {
-		return new ICollection() {
-			
-			@Override
-			public String name() {
-				return _collectionName;
-			}
-			
-			@Override
-			public ICollectionCap cap() {
-				return ICollectionCap.Annotated.with(getContext().getEntityAnnotation().cap());
-			}
-		};
+		return _collection;
+	}
+	
+	@Override
+	public IIndex indexes() {
+		return _index;
 	}
 	
 	static class VersionUpdater<Bean> {
 
-		private final Property<?> _versionProperty;
+		private final IPropertyField<?> _versionProperty;
 		private final IVersionFactory _versionFactory;
 
-		public VersionUpdater(Property<?> versionProperty, IVersionFactory<?> versionFactory) {
+		public VersionUpdater(IPropertyField<?> versionProperty, IVersionFactory<?> versionFactory) {
 			_versionProperty = versionProperty;
 			_versionFactory = versionFactory;
 		}

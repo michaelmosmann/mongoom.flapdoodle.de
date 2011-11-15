@@ -30,8 +30,11 @@ import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
+import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
@@ -42,9 +45,9 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	private final Map<String, EntityIndexDef> _indexGroupMap;
 	private final Map<Class<?>, IViewTransformation<?, DBObject>> _viewTransformation = Maps.newHashMap();
 
-	private Property<?> _versionProperty;
+	private IPropertyField<?> _versionProperty;
 	private IVersionFactory<?> _versionFactory;
-	private Property<?> _idProperty;
+	private IPropertyField<?> _idProperty;
 	private ITransformation<?, ?> _idTransformation;
 
 	private IEntityWriteCallback<EntityBean> _writeCallback;
@@ -60,7 +63,7 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	}
 
 	@Override
-	public <S> IPropertyContext<S> contextFor(Property<S> of) {
+	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
 		return new PropertyContext<S>(this);
 	}
 
@@ -88,12 +91,12 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	//	}
 
 	@Override
-	public void setVersionFactory(Property<?> props, IVersionFactory<?> versionFactory) {
+	public void setVersionFactory(IPropertyField<?> props, IVersionFactory<?> versionFactory) {
 		_versionProperty = props;
 		_versionFactory = versionFactory;
 	}
 
-	public Property<?> getVersionProperty() {
+	public IPropertyField<?> getVersionProperty() {
 		return _versionProperty;
 	}
 
@@ -110,14 +113,14 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 		_viewTransformation.put(viewType, transformation);
 	}
 
-	public void setId(Property<?> prop, ITransformation<?, ?> transformation) {
+	public void setId(IPropertyField<?> prop, ITransformation<?, ?> transformation) {
 		if (_idProperty != null)
 			throw new MappingException(getEntityClass(), "Id allready set");
 		_idProperty = prop;
 		_idTransformation = transformation;
 	}
 
-	public Property<?> getIdProperty() {
+	public IPropertyField<?> getIdProperty() {
 		return _idProperty;
 	}
 
@@ -139,5 +142,9 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 
 	public IEntityReadCallback<EntityBean> getReadCallback() {
 		return _readCallback;
+	}
+
+	public IIndex index() {
+		return null;
 	}
 }

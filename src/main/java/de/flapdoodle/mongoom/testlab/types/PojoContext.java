@@ -21,9 +21,11 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 class PojoContext<T> extends PropertyContext<T> {
@@ -36,8 +38,8 @@ class PojoContext<T> extends PropertyContext<T> {
 	}
 
 	@Override
-	public <S> IPropertyContext<S> contextFor(Property<S> of) {
-		return null;
+	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
+		return new PropertyContext<S>(this);
 	}
 
 	public Class<T> getBeanClass() {

@@ -22,6 +22,7 @@ import java.util.List;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 
@@ -34,7 +35,7 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 		for (Field field : fields) {
 			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
 			
-			Property property = Property.of(mappingContext.naming().name(field),field);
+			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
 			IPropertyContext propertyContext = rootContext.contextFor(property);
 			ITypeVisitor typeVisitor=mappingContext.getVisitor(typeInfo,fieldInfo);
 			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);

@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab.typeinfo;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -23,8 +24,9 @@ import java.util.Map;
 
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
+import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 
-class FieldOfClassInfo implements ITypeInfo {
+class FieldOfClassInfo implements ITypeInfo, IAnnotated {
 		
 		private final Field _field;
 		private final ITypeInfo _clazz;
@@ -57,6 +59,11 @@ class FieldOfClassInfo implements ITypeInfo {
 		@Override
 		public Type getGenericType() {
 			return _field.getGenericType();
+		}
+		
+		@Override
+		public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+			return _field.getAnnotation(annotationClass);
 		}
 		
 		@Override

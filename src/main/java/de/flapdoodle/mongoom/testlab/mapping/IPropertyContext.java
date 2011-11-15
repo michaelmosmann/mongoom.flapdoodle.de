@@ -19,13 +19,14 @@ package de.flapdoodle.mongoom.testlab.mapping;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public interface IPropertyContext<T> {
 
-	<S> IPropertyContext<S> contextFor(Property<S> of);
+	<S> IPropertyContext<S> contextFor(IProperty<S> of);
 
-	<S> void setTransformation(Property<S> property, ITransformation<S,?> transformation);
+	<S> void setTransformation(IProperty<S> property, ITransformation<S,?> transformation);
 
 }

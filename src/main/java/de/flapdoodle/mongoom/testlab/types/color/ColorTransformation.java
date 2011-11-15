@@ -27,7 +27,9 @@ import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.properties.PropertyName;
 import de.flapdoodle.mongoom.testlab.types.NoopTransformation;
 
@@ -41,6 +43,7 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 			_propertyMap.put(name, new NoopTransformation<Integer>(Integer.class));
 		}
 	}
+
 
 	@Override
 	public DBObject asObject(Color value) {
