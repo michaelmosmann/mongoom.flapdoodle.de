@@ -36,7 +36,7 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.datastore.iterator.TypedIterator;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public class QueryResult<T> implements IQueryResult<T> {
 

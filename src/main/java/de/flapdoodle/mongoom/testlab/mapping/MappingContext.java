@@ -35,7 +35,7 @@ import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;
 import de.flapdoodle.mongoom.testlab.properties.PrefixFieldNaming;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
@@ -215,7 +215,7 @@ public class MappingContext implements IMappingContext {
 		}
 
 		@Override
-		public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
 			return _parent.propertyTransformation(property);
 		}
 
@@ -225,7 +225,7 @@ public class MappingContext implements IMappingContext {
 		}
 		
 		@Override
-		public Set<PropertyName<?>> properties() {
+		public Set<TypedPropertyName<?>> properties() {
 			return _parent.properties();
 		}
 

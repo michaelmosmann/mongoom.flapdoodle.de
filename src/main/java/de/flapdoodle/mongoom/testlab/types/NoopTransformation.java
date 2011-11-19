@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public class NoopTransformation<N> implements ITransformation<N,N> {
 
@@ -69,7 +69,7 @@ public class NoopTransformation<N> implements ITransformation<N,N> {
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
 		return null;
 	}
 	
@@ -79,7 +79,7 @@ public class NoopTransformation<N> implements ITransformation<N,N> {
 	}
 
 	@Override
-	public Set<PropertyName<?>> properties() {
+	public Set<TypedPropertyName<?>> properties() {
 		return null;
 	}
 	

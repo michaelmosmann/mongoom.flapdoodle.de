@@ -20,7 +20,7 @@ import java.util.Set;
 
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public interface ITransformation<Bean,Mapped> {
 
@@ -28,8 +28,8 @@ public interface ITransformation<Bean,Mapped> {
 
 	Bean asEntity(Mapped object);
 	
-	<Source> ITransformation<Source,?> propertyTransformation(PropertyName<Source> property);
+	<Source> ITransformation<Source,?> propertyTransformation(TypedPropertyName<Source> property);
 	ITransformation<?,?> propertyTransformation(String property);
 	
-	Set<PropertyName<?>> properties();
+	Set<TypedPropertyName<?>> properties();
 }

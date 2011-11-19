@@ -30,7 +30,7 @@ import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanContext<Bean>> implements
 		ITransformation<Bean, DBObject> {
@@ -53,7 +53,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 		BasicDBObject ret = new BasicDBObject();
 		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (PropertyName p : propertyTransformations.propertyNames()) {
+		for (TypedPropertyName p : propertyTransformations.typedPropertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
 			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
@@ -84,7 +84,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 		Bean ret = newInstance();
 		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (PropertyName p : propertyTransformations.propertyNames()) {
+		for (TypedPropertyName p : propertyTransformations.typedPropertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
 			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
@@ -96,7 +96,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 		return ret;
 	}
 
-	private Object getValue(DBObject object, PropertyName p) {
+	private Object getValue(DBObject object, TypedPropertyName p) {
 		String[] path = p.getName().split("\\.");
 		return getValue(object, Arrays.asList(path));
 	}
@@ -134,7 +134,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
 		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformations().get(property);
 	}
 
@@ -144,7 +144,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 	}
 	
 	@Override
-	public Set<PropertyName<?>> properties() {
+	public Set<TypedPropertyName<?>> properties() {
 		return null;
 	}
 

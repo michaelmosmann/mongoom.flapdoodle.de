@@ -20,6 +20,7 @@ import java.awt.Color;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
@@ -40,6 +41,10 @@ public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
 			ColorConverterOptions options=((IAnnotated) field).getAnnotation(ColorConverterOptions.class);
 			if (options!=null) {
 				IPropertyContext<Integer> rContext = propertyContext.contextFor(Property.of("r", Integer.class));
+				for (IndexedInGroup ig : options.red()) {
+					rContext.propertyIndex().addIndexedInGroup(ig);
+				}
+//				rContext.addIndex(options.red());
 				// TODO set Index Options on context
 			}
 		}

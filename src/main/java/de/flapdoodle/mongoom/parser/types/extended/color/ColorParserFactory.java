@@ -54,11 +54,11 @@ public class ColorParserFactory implements ITypeParserFactory {
 
 			if (colorAnnotation != null) {
 				if (colorAnnotation.red() != null)
-					red.setIndexedInGroup(colorAnnotation.red().value());
+					red.setIndexedInGroup(colorAnnotation.red());
 				if (colorAnnotation.green() != null)
-					green.setIndexedInGroup(colorAnnotation.green().value());
+					green.setIndexedInGroup(colorAnnotation.green());
 				if (colorAnnotation.blue() != null)
-					blue.setIndexedInGroup(colorAnnotation.blue().value());
+					blue.setIndexedInGroup(colorAnnotation.blue());
 			}
 		}
 	}

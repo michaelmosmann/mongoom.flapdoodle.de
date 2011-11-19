@@ -19,7 +19,11 @@ package de.flapdoodle.mongoom.testlab;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
@@ -37,6 +41,22 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 			
 			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
 			IPropertyContext propertyContext = rootContext.contextFor(property);
+			
+			IPropertyIndex propertyIndex = propertyContext.propertyIndex();
+			
+			Indexed indexed = property.getField().getAnnotation(Indexed.class);
+			if (indexed!=null) propertyIndex.setIndexed(indexed);
+			IndexedInGroup indexedInGroup = property.getField().getAnnotation(IndexedInGroup.class);
+			if (indexedInGroup!=null) {
+				propertyIndex.addIndexedInGroup(indexedInGroup);
+			}
+			IndexedInGroups indexedInGroups = property.getField().getAnnotation(IndexedInGroups.class);
+			if ((indexedInGroups!=null) && (indexedInGroups.value().length>0)) {
+				for (IndexedInGroup ig : indexedInGroups.value()) {
+					propertyIndex.addIndexedInGroup(ig);
+				}
+			}
+			
 			ITypeVisitor typeVisitor=mappingContext.getVisitor(typeInfo,fieldInfo);
 			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);
 			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, fieldInfo);

@@ -38,7 +38,7 @@ import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
@@ -59,7 +59,7 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 				viewsAnnotation, indexGroupMap);
 		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(entityClass));
 
-		for (PropertyName<?> props : entityContext.getPropertyTransformations().propertyNames()) {
+		for (TypedPropertyName<?> props : entityContext.getPropertyTransformations().typedPropertyNames()) {
 			IProperty<?> prop = entityContext.getPropertyTransformations().getProperty(props);
 			IAnnotated annotated = prop.annotated();
 			if (annotated != null) {

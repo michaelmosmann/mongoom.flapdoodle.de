@@ -16,9 +16,8 @@
 
 package de.flapdoodle.mongoom.testlab.properties;
 
+public interface IPropertyName {
 
-
-public class Properties {
-
+	String getName();
 
 }

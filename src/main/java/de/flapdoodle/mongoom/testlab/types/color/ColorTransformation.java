@@ -30,16 +30,16 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.types.NoopTransformation;
 
 public class ColorTransformation implements ITransformation<Color, DBObject> {
 
-	Map<PropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
+	Map<TypedPropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
 	Map<String, ITransformation<Integer, Integer>> _propertyMap = Maps.newHashMap();
 	{
 		for (String name : Lists.newArrayList("r", "g", "b", "a")) {
-			_propertyTransMap.put(PropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
+			_propertyTransMap.put(TypedPropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
 			_propertyMap.put(name, new NoopTransformation<Integer>(Integer.class));
 		}
 	}
@@ -75,7 +75,7 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
 		return (ITransformation<Source, ?>) _propertyTransMap.get(property);
 	}
 	
@@ -85,8 +85,8 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 	}
 
 	@Override
-	public Set<PropertyName<?>> properties() {
-		HashSet<PropertyName<?>> result = Sets.newHashSet();
+	public Set<TypedPropertyName<?>> properties() {
+		HashSet<TypedPropertyName<?>> result = Sets.newHashSet();
 		result.addAll(_propertyTransMap.keySet());
 		return result;
 	}

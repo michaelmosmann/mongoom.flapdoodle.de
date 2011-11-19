@@ -21,7 +21,7 @@ import java.util.Set;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public class ViewTransformation<Bean> extends AbstractBeanTransformation<Bean, ViewContext<Bean>> implements IViewTransformation<Bean, DBObject> {

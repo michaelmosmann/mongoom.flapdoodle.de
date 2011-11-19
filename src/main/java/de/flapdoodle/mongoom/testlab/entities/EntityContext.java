@@ -16,26 +16,35 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Views;
+import de.flapdoodle.mongoom.annotations.index.IndexOption;
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
+import de.flapdoodle.mongoom.mapping.index.FieldIndex;
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
+import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean> {
@@ -43,6 +52,8 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
 	private final Map<String, EntityIndexDef> _indexGroupMap;
+	private final Map<String, IndexDef> _indexDef;
+	
 	private final Map<Class<?>, IViewTransformation<?, DBObject>> _viewTransformation = Maps.newHashMap();
 
 	private IPropertyField<?> _versionProperty;
@@ -59,12 +70,12 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 		_entityAnnotation = entityAnnotation;
 		_viewsAnnotation = viewsAnnotation;
 		_indexGroupMap = indexGroupMap;
-
+		_indexDef = Maps.newLinkedHashMap();
 	}
 
 	@Override
 	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
-		return new PropertyContext<S>(this);
+		return new PropertyContext<S>(this,of);
 	}
 
 	public Class<EntityBean> getEntityClass() {
@@ -103,7 +114,7 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	public IVersionFactory<?> getVersionFactory() {
 		return _versionFactory;
 	}
-
+	
 	public <Source> IViewTransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
 		return (IViewTransformation<Source, DBObject>) _viewTransformation.get(viewType);
 	}
@@ -145,6 +156,39 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	}
 
 	public IIndex index() {
-		return null;
+		return new Index();
+	}
+
+	@Override
+	public IPropertyIndex propertyIndex() {
+		throw new MappingException(getViewClass(),"should not be called");
+	}
+	
+	@Override
+	public void addIndexedInGroup(IPropertyName name, IndexedInGroup ig) {
+		EntityIndexDef entityIndexDef = _indexGroupMap.get(ig.group());
+		if (entityIndexDef==null) {
+			throw new MappingException(getEntityClass(),"IndexGroup not found:"+ig);		
+		}
+		entityIndexDef.addField(new FieldIndex(name.getName(), ig.direction(), ig.priority()));
+	}
+	
+	@Override
+	public void setIndexed(IPropertyName name, Indexed ig) {
+		IndexOption options = ig.options();
+		String propName = name.getName();
+		_indexDef.put(propName,new IndexDef(propName, Lists.newArrayList(new FieldIndex(propName, ig.direction(), 0)), options.unique(), options.dropDups(), options.sparse()));
+	}
+	
+	class Index implements IIndex {
+
+		@Override
+		public List<IndexDef> list() {
+			ArrayList<IndexDef> ret = Lists.newArrayList();
+			ret.addAll(_indexDef.values());
+			ret.addAll(_indexGroupMap.values());
+			return ret;
+		}
+		
 	}
 }

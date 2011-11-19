@@ -16,12 +16,12 @@
 
 package de.flapdoodle.mongoom.testlab.properties;
 
-public final class PropertyName<T> {
+public final class TypedPropertyName<T> {
 
 	String _name;
 	Class<T> _type;
 
-	public PropertyName(String name, Class<T> type) {
+	public TypedPropertyName(String name, Class<T> type) {
 		_name = name;
 		_type = type;
 	}
@@ -34,8 +34,8 @@ public final class PropertyName<T> {
 		return _type;
 	}
 
-	public static <T> PropertyName<T> of(String name, Class<T> type) {
-		return new PropertyName<T>(name, type);
+	public static <T> TypedPropertyName<T> of(String name, Class<T> type) {
+		return new TypedPropertyName<T>(name, type);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public final class PropertyName<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PropertyName other = (PropertyName) obj;
+		TypedPropertyName other = (TypedPropertyName) obj;
 		if (_name == null) {
 			if (other._name != null)
 				return false;

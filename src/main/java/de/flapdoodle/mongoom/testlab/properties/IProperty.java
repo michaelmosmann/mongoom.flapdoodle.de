@@ -17,10 +17,8 @@
 package de.flapdoodle.mongoom.testlab.properties;
 
 
-public interface IProperty<T> {
+public interface IProperty<T> extends IPropertyName {
 	IAnnotated annotated();
-
-	String getName();
 
 	Class<T> getType(); 
 }

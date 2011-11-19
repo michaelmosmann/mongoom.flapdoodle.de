@@ -37,7 +37,7 @@ import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> implements IEntityQuery<T> {
 
@@ -69,7 +69,7 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	public <V> IQueryResult<V> withView(Class<V> view) {
 		IViewTransformation<V,DBObject> viewConverter = getConverter().viewTransformation(view);
 		BasicDBList viewProps=new BasicDBList();
-		for (PropertyName pn : viewConverter.properties()) {
+		for (TypedPropertyName pn : viewConverter.properties()) {
 			viewProps.add(pn.getName());
 		}
 		return new QueryResult<V>(getConverter(), viewConverter, _dbCollection, asDBObject(), viewProps);

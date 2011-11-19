@@ -24,17 +24,17 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public class PropertyTransformationMap {
 	
-	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private final Map<TypedPropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
 	private final Map<String, ITransformation<?, ?>> propertynameTransformation = Maps.newLinkedHashMap();
-	private final Map<PropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
+	private final Map<TypedPropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
 	
 	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
-		PropertyName<S> propertyName = PropertyName.of(property.getName(), property.getType());
+		TypedPropertyName<S> propertyName = TypedPropertyName.of(property.getName(), property.getType());
 		propertyTransformation.put(propertyName, transformation);
 		propertynameTransformation.put(property.getName(), transformation);
 		propertyMap.put(propertyName, property);
@@ -44,7 +44,7 @@ public class PropertyTransformationMap {
 		return new IPropertyTransformations() {
 
 			@Override
-			public <Source> ITransformation<Source, ?> get(PropertyName<Source> property) {
+			public <Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property) {
 				return (ITransformation<Source, ?>) propertyTransformation.get(property);
 			}
 			
@@ -54,12 +54,12 @@ public class PropertyTransformationMap {
 			}
 
 			@Override
-			public <Source> IProperty<Source> getProperty(PropertyName<Source> p) {
+			public <Source> IProperty<Source> getProperty(TypedPropertyName<Source> p) {
 				return (IProperty<Source>) propertyMap.get(p);
 			}
 
 			@Override
-			public Collection<PropertyName<?>> propertyNames() {
+			public Collection<TypedPropertyName<?>> typedPropertyNames() {
 				return propertyMap.keySet();
 			}
 			

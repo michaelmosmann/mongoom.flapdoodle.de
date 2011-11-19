@@ -30,7 +30,7 @@ import de.flapdoodle.mongoom.testlab.IContainerTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class SetTransformation<Bean, Mapped> implements IContainerTransformation<Bean, Mapped, Set<Bean>, List<Mapped>> {
@@ -64,7 +64,7 @@ public class SetTransformation<Bean, Mapped> implements IContainerTransformation
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
 		return _transformation.propertyTransformation(property);
 	}
 
@@ -74,7 +74,7 @@ public class SetTransformation<Bean, Mapped> implements IContainerTransformation
 	}
 	
 	@Override
-	public Set<PropertyName<?>> properties() {
+	public Set<TypedPropertyName<?>> properties() {
 		return _transformation.properties();
 	}
 

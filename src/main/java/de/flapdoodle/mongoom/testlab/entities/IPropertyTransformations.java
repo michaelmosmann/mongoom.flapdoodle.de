@@ -21,14 +21,14 @@ import java.util.Collection;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.PropertyName;
+import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public interface IPropertyTransformations {
-	<Source> ITransformation<Source, ?> get(PropertyName<Source> property);
+	<Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property);
 	ITransformation<?, ?> get(String property);
 	
-	<Source> IProperty<Source> getProperty(PropertyName<Source> p);
+	<Source> IProperty<Source> getProperty(TypedPropertyName<Source> p);
 	
-	Collection<PropertyName<?>> propertyNames();
+	Collection<TypedPropertyName<?>> typedPropertyNames();
 }

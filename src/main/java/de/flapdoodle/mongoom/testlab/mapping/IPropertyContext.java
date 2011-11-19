@@ -16,11 +16,12 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
-import com.mongodb.DBObject;
-
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyName;
 
 
 public interface IPropertyContext<T> {
@@ -29,4 +30,9 @@ public interface IPropertyContext<T> {
 
 	<S> void setTransformation(IProperty<S> property, ITransformation<S,?> transformation);
 
+	IPropertyIndex propertyIndex();
+
+	void addIndexedInGroup(IPropertyName name, IndexedInGroup ig);
+
+	void setIndexed(IPropertyName name, Indexed ig);
 }

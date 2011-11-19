@@ -16,10 +16,14 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.mapping.PropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyName;
 
 
 public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> implements IPropertyContext<ViewBean> {
@@ -30,9 +34,24 @@ public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> impleme
 
 	@Override
 	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
-		return new PropertyContext<S>(this);
+		return new PropertyContext<S>(this,of);
 	}
 
+	@Override
+	public IPropertyIndex propertyIndex() {
+		throw new MappingException(getViewClass(),"not allowed");
+	}
+
+	@Override
+	public void addIndexedInGroup(IPropertyName name, IndexedInGroup ig) {
+		throw new MappingException(getViewClass(),"not allowed");		
+	}
+
+	@Override
+	public void setIndexed(IPropertyName name, Indexed ig) {
+		throw new MappingException(getViewClass(),"not allowed");		
+	}
+	
 //	protected Map<PropertyName<?>, ITransformation<?, ?>> getPropertyTransformation() {
 //		return Collections.unmodifiableMap(propertyTransformation);
 //	}

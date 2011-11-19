@@ -16,14 +16,21 @@
 
 package de.flapdoodle.mongoom.testlab.datastore.beans;
 
+import java.awt.Color;
+
 import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Version;
+import de.flapdoodle.mongoom.annotations.index.IndexGroup;
+import de.flapdoodle.mongoom.annotations.index.IndexOption;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
+import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value="Book",cap=@CappedAt(count=9),onWrite=Book.BookOnWrite.class)
+@IndexGroup(group="all")
 public class Book {
 
 	@Id
@@ -32,9 +39,13 @@ public class Book {
 	@Version
 	String _version;
 	
+	@IndexedInGroup(group="all",priority=1)
 	String _name;
 	
 	int _nameLen;
+	
+	@ColorConverterOptions(green=@IndexedInGroup(group="all",priority=0))
+	Color _color;
 
 	public String getName() {
 		return _name;

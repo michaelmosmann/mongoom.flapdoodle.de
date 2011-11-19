@@ -17,9 +17,7 @@
 package de.flapdoodle.mongoom.testlab;
 
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 

@@ -24,6 +24,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 
 
@@ -32,7 +33,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {ElementType.FIELD})
 public @interface ColorConverterOptions {
-	IndexedInGroups red() default @IndexedInGroups({}); 
-	IndexedInGroups green() default @IndexedInGroups({}); 
-	IndexedInGroups blue() default @IndexedInGroups({}); 
+	IndexedInGroup[] red() default {}; 
+	IndexedInGroup[] green() default {}; 
+	IndexedInGroup[] blue() default {}; 
 }

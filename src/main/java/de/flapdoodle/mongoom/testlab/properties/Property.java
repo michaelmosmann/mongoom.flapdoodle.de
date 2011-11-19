@@ -19,6 +19,8 @@ package de.flapdoodle.mongoom.testlab.properties;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
+import de.flapdoodle.mongoom.mapping.Const;
+
 public class Property {
 
 	private Property() {
@@ -82,4 +84,15 @@ public class Property {
 		}
 	}
 	
+	public static IPropertyName append(final IPropertyName parent,final IPropertyName current) {
+		if (parent==null) return current;
+		
+		return new IPropertyName() {
+			
+			@Override
+			public String getName() {
+				return parent.getName()+Const.FIELDNAME_SEP+current.getName();
+			}
+		};
+	}
 }
