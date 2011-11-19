@@ -40,15 +40,21 @@ public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
 		if (field instanceof IAnnotated) {
 			ColorConverterOptions options=((IAnnotated) field).getAnnotation(ColorConverterOptions.class);
 			if (options!=null) {
-				IPropertyContext<Integer> rContext = propertyContext.contextFor(Property.of("r", Integer.class));
-				for (IndexedInGroup ig : options.red()) {
-					rContext.propertyIndex().addIndexedInGroup(ig);
-				}
-//				rContext.addIndex(options.red());
-				// TODO set Index Options on context
+				addIndex(propertyContext, "r", options.red());
+				addIndex(propertyContext, "g", options.green());
+				addIndex(propertyContext, "b", options.blue());
 			}
 		}
 		return new ColorTransformation();
+	}
+
+	private void addIndex(IPropertyContext<?> propertyContext, String channelName, IndexedInGroup[] channelIndex) {
+		if (channelIndex!=null) {
+			IPropertyContext<Integer> rContext = propertyContext.contextFor(Property.of(channelName, Integer.class));
+			for (IndexedInGroup ig : channelIndex) {
+				rContext.propertyIndex().addIndexedInGroup(ig);
+			}
+		}
 	}
 
 }

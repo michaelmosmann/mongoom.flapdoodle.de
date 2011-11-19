@@ -88,7 +88,7 @@ public final class Indexes {
 			db.requestStart();
 			DBCollection dbColl = db.getCollection(collectionName);
 			DBObject indexKeys = keys.get();
-			DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
+//			DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
 			if (keyOpts == null) {
 				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
 				dbColl.ensureIndex(indexKeys);

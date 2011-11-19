@@ -48,7 +48,7 @@ public class PropertyContext<T> implements IPropertyContext<T>{
 
 	@Override
 	public <S> IPropertyContext<S> contextFor(IProperty<S> of) {
-		throw new MappingException("should never happen");
+		return new PropertyContext<S>(this,of);
 	}
 
 	@Override

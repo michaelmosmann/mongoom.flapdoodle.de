@@ -28,10 +28,8 @@ import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
 import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
-import de.flapdoodle.mongoom.testlab.types.color.ColorVisitor;
 
 
 public class TestCustomTransformation extends TestCase {
@@ -67,15 +65,5 @@ public class TestCustomTransformation extends TestCase {
 		ColorView colorView = viewTransformation.asEntity(dbObject);
 		assertEquals("Eq.Red", dummy.getColor().getRed(),colorView.getRed());
 		assertEquals("Eq.Color", dummy.getColor(),colorView.getColor());
-	}
-	
-	static class ColorMappingContext extends MappingContext {
-		@Override
-		public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
-			if (type.getType()==Color.class) {
-				return (ITypeVisitor<Type, ?>) new ColorVisitor();
-			}
-			return super.getVisitor(containerType, type);
-		}
 	}
 }
