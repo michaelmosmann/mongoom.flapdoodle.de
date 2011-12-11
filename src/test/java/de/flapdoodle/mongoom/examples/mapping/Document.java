@@ -34,7 +34,7 @@ import de.flapdoodle.mongoom.mapping.properties.IEntityProperty;
 import de.flapdoodle.mongoom.mapping.properties.PropertyFactory;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity(value = "Document", cap = @CappedAt(count = 12))
+@Entity(value = "Document", cap = @CappedAt(size=10000,count = 12))
 @IndexGroups(@IndexGroup(group = "multikey", options = @IndexOption(unique = true)))
 @Views(DocumentView.class)
 public class Document {

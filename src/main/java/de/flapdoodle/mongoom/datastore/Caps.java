@@ -53,13 +53,12 @@ public final class Caps {
 			long count = capCollection.count();
 			long size = capCollection.size();
 			
-			if ((size==0) && (count==0)) throw new ObjectMapperException("Size and Count == 0");
+			if (size==0) throw new ObjectMapperException("Size == 0");
 			if ((size<Long.MAX_VALUE) && (count<Long.MAX_VALUE)) {
 				try {
 					db.requestStart();
 					BasicDBObjectBuilder dbCapOpts = BasicDBObjectBuilder.start("capped", true);
-					if (size > 0)
-						dbCapOpts.add("size", size);
+					dbCapOpts.add("size", size);
 					if (count > 0)
 						dbCapOpts.add("max", count);
 					DBCollection dbColl = db.getCollection(collectionName);

@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Property;
 
-@Entity(value = "Log", cap = @CappedAt(count = 10))
+@Entity(value = "Log", cap = @CappedAt(size=10000,count = 10))
 public class Log {
 
 	@Id

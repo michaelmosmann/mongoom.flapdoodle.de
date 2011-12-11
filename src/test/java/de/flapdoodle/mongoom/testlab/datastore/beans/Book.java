@@ -29,7 +29,7 @@ import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
-@Entity(value="Book",cap=@CappedAt(count=9),onWrite=Book.BookOnWrite.class)
+@Entity(value="Book",cap=@CappedAt(size=10000,count=9),onWrite=Book.BookOnWrite.class)
 @IndexGroup(group="all")
 public class Book {
 

@@ -27,6 +27,7 @@ import de.flapdoodle.embedmongo.MongodExecutable;
 import de.flapdoodle.embedmongo.MongodProcess;
 import de.flapdoodle.embedmongo.config.MongodConfig;
 import de.flapdoodle.embedmongo.distribution.Version;
+import de.flapdoodle.embedmongo.runtime.Network;
 import de.flapdoodle.mongoom.logging.LogConfig;
 
 public abstract class AbstractMongoOMTest extends TestCase {
@@ -42,7 +43,7 @@ public abstract class AbstractMongoOMTest extends TestCase {
 	protected void setUp() throws Exception {
 
 		MongoDBRuntime runtime = MongoDBRuntime.getDefaultInstance();
-		_mongodExe = runtime.prepare(new MongodConfig(Version.V1_8_0, 12345));
+		_mongodExe = runtime.prepare(new MongodConfig(Version.V2_0_1, 12345,Network.localhostIsIPv6()));
 		_mongod=_mongodExe.start();
 		
 		super.setUp();

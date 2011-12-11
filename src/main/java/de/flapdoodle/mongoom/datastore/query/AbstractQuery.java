@@ -51,12 +51,12 @@ public abstract class AbstractQuery<T, C extends IConverter<?>> {
 	protected ITypeConverter<?> getConverter(String... field) {
 		C entityConverter = getConverter();
 		
-		ITypeConverter<?> converter = (ITypeConverter<?>) entityConverter;
+		IConverter<?> converter = (IConverter<?>) entityConverter;
 		for (String f : field) {
 			converter = converter.converter(f);
 			if (converter==null) throw new MappingException("No Converter for " + Arrays.asList(field));
 		}
-		return converter;
+		return (ITypeConverter<?>) converter;
 	}
 
 
