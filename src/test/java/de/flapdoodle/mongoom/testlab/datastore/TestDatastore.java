@@ -108,6 +108,9 @@ public class TestDatastore extends AbstractMongoOMTest {
 		
 		list=datastore.with(ColorsBean.class).field("l","r").eq(100).result().asList();
 		assertEquals("Size",2,list.size());
+		
+		list=datastore.with(ColorsBean.class).field("l","r").eq(200).result().asList();
+		assertEquals("Size",1,list.size());
 	}
 
 }
