@@ -35,8 +35,8 @@ public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, IConverte
 	}
 
 	@Override
-	public IQueryOperation<T, ISubQuery<T, Q>> field(String field) {
-		ITypeConverter<?> converter = getConverter().converter(field);
+	public IQueryOperation<T, ISubQuery<T, Q>> field(String... field) {
+		ITypeConverter<?> converter = getConverter(field);
 		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), field, converter);
 	}
 

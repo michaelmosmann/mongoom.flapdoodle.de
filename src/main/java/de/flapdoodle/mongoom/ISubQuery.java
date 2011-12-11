@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom;
 public interface ISubQuery<T, Q extends IQuery<T>> extends IQuery<T> {
 
 	@Override
-	IQueryOperation<T, ISubQuery<T, Q>> field(String string);
+	IQueryOperation<T, ISubQuery<T, Q>> field(String... string);
 
 	@Override
 	IQueryOperation<T, ISubQuery<T, Q>> id();

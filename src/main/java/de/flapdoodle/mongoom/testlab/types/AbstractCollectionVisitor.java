@@ -1,0 +1,33 @@
+package de.flapdoodle.mongoom.testlab.types;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Set;
+
+import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
+import de.flapdoodle.mongoom.testlab.AbstractVisitor;
+import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeInfo;
+import de.flapdoodle.mongoom.testlab.ITypeVisitor;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
+import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
+
+
+public abstract class AbstractCollectionVisitor<C,M> extends AbstractVisitor {
+
+	protected abstract ITransformation<C, List<M>> transformation(Type parameterizedClass, ITransformation transformation);
+
+	public ITransformation<C, List<M>> transformation(IMappingContext mappingContext, IPropertyContext<?> propertyContext, ITypeInfo field) {
+		Type parameterizedClass = TypeExtractor.getParameterizedClass(field.getDeclaringClass(), field.getGenericType(),0);
+		if (parameterizedClass!=null) {
+			ITypeVisitor typeVisitor=mappingContext.getVisitor(TypeInfo.ofClass(field),TypeInfo.of(field,parameterizedClass));
+			if (typeVisitor==null) error(field.getDeclaringClass(),"Could not get TypeVisitor for "+parameterizedClass);
+			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(field,parameterizedClass));
+			if (transformation==null) error(field.getDeclaringClass(),"Could not get Transformation for "+field);			
+			return transformation(parameterizedClass, transformation);
+		}
+		throw new MappingException(field.getDeclaringClass(), "Type is not a Class: " + parameterizedClass);
+	}
+}

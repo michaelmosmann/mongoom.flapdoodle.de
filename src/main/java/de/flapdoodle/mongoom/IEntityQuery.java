@@ -26,7 +26,7 @@ public interface IEntityQuery<T> extends IQuery<T> {
 	 */
 	@Override
 	@Deprecated
-	IQueryOperation<T, IEntityQuery<T>> field(String string);
+	IQueryOperation<T, IEntityQuery<T>> field(String... string);
 
 	@Override
 	IQueryOperation<T, IEntityQuery<T>> id();

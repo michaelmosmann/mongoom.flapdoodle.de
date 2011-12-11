@@ -37,15 +37,17 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 
 	private final Q _query;
 	private final String _field;
+	private final String[] _fields;
 	private final ITransformation _converter;
 	private final IDBObjectFactory _queryBuilder;
 
 	boolean _not = false;
 
-	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String field, ITransformation converter) {
+	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String[] fields, ITransformation converter) {
 		_query = query;
 		_queryBuilder = queryBuilder;
-		_field = field;
+		_field = asName(fields);
+		_fields = fields;
 		_converter = converter;
 	}
 
@@ -211,5 +213,18 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 			}
 		}
 		return _converter;
+	}
+
+	private static String asName(String[] field) {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (String s : field) {
+			if (first)
+				first = false;
+			else
+				sb.append(".");
+			sb.append(s);
+		}
+		return sb.toString();
 	}
 }

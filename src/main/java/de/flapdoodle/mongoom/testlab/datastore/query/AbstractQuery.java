@@ -16,10 +16,14 @@
 
 package de.flapdoodle.mongoom.testlab.datastore.query;
 
+import java.util.Arrays;
+
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.IConverter;
+import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 
 public abstract class AbstractQuery<T, C extends ITransformation> {
@@ -43,5 +47,17 @@ public abstract class AbstractQuery<T, C extends ITransformation> {
 	public DBObject asDBObject() {
 		return getQueryBuilder().get();
 	}
+	
+	protected ITransformation getConverter(String... field) {
+		C entityConverter = getConverter();
+		
+		ITransformation converter = entityConverter;
+		for (String f : field) {
+			converter = converter.propertyTransformation(f);
+			if (converter==null) throw new MappingException("No Converter for " + Arrays.asList(field));
+		}
+		return converter;
+	}
+
 
 }

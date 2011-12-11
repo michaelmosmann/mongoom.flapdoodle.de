@@ -17,7 +17,6 @@
 package de.flapdoodle.mongoom.testlab;
 
 import java.awt.Color;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -25,16 +24,14 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
-import de.flapdoodle.mongoom.testlab.beans.FlipFlopDummy;
 import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public class TestCustomTransformation extends TestCase {
 
-	public void testFlipFlop() {
+	public void testColor() {
 		IMappingContext mappingContext = new ColorMappingContext();
 		EntityVisitor<ColorBean> entityVisitor = new EntityVisitor<ColorBean>();
 		IEntityTransformation<ColorBean> transformation = entityVisitor.transformation(mappingContext, ColorBean.class);

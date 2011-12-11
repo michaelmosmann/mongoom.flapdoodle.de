@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom;
 
 public interface IQuery<T> {
 
-	IQueryOperation<T, ? extends IQuery<T>> field(String string);
+	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
 
 	IQueryOperation<T, ? extends IQuery<T>> id();
 

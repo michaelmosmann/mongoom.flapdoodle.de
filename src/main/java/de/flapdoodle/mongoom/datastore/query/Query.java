@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.datastore.query;
 
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 import com.mongodb.DBCollection;
@@ -26,6 +27,7 @@ import de.flapdoodle.mongoom.IQueryResult;
 import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
@@ -43,10 +45,11 @@ public class Query<T> extends AbstractQuery<T, IEntityConverter<T>> implements I
 	}
 
 	@Override
-	public IQueryOperation<T, IEntityQuery<T>> field(String field) {
-		ITypeConverter<?> converter = getConverter().converter(field);
+	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
+		ITypeConverter<?> converter = getConverter(field);
 		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), field, converter);
 	}
+
 
 	@Override
 	public IQueryOperation<T, IEntityQuery<T>> id() {

@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ import de.flapdoodle.mongoom.testlab.properties.PrefixFieldNaming;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
+import de.flapdoodle.mongoom.testlab.types.ListVisitor;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
@@ -53,6 +55,7 @@ public class MappingContext implements IMappingContext {
 	{
 		typeVisitors.put(Reference.class, new ReferenceVisitor());
 		typeVisitors.put(Set.class, new SetVisitor());
+		typeVisitors.put(List.class, new ListVisitor());
 		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));

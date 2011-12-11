@@ -16,70 +16,19 @@
 
 package de.flapdoodle.mongoom.testlab.types;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import org.bson.types.ObjectId;
-
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.mongodb.BasicDBList;
 
-import de.flapdoodle.mongoom.testlab.IContainerTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
-import de.flapdoodle.mongoom.types.Reference;
 
-public class SetTransformation<Bean, Mapped> implements IContainerTransformation<Bean, Mapped, Set<Bean>, List<Mapped>> {
-
-	private final Class<Bean> _collectionType;
-	private final ITransformation<Bean, Mapped> _transformation;
+public class SetTransformation<Bean, Mapped> extends AbstractCollectionTransformation<Bean, Mapped, Set<Bean>> {
 
 	public SetTransformation(Class<Bean> collectionType, ITransformation<Bean, Mapped> transformation) {
-		_collectionType = collectionType;
-		_transformation = transformation;
+		super(collectionType,transformation);
 	}
 
-	@Override
-	public List<Mapped> asObject(Set<Bean> value) {
-		if (value == null) return null;
-		ArrayList<Mapped> ret = Lists.newArrayList();
-		for (Bean b : value) {
-			ret.add(_transformation.asObject(b));
-		}
-		return ret;
-	}
-
-	@Override
-	public Set<Bean> asEntity(List<Mapped> object) {
-		if (object == null) return null;
-		Set<Bean> ret = Sets.newLinkedHashSet();
-		for (Mapped v : object) {
-			ret.add(_transformation.asEntity(v));
-		}
-		return ret;
-	}
-
-	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return _transformation.propertyTransformation(property);
-	}
-
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		return _transformation.propertyTransformation(property);
-	}
-	
-	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return _transformation.properties();
-	}
-
-	@Override
-	public ITransformation<Bean, Mapped> containerConverter() {
-		return _transformation;
+	protected Set<Bean> newContainer() {
+		return Sets.newLinkedHashSet();
 	}
 }

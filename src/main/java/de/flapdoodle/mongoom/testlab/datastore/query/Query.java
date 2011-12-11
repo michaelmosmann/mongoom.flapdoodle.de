@@ -50,8 +50,8 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	}
 
 	@Override
-	public IQueryOperation<T, IEntityQuery<T>> field(String field) {
-		ITransformation converter = getConverter().propertyTransformation(field);
+	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
+		ITransformation converter = getConverter(field);
 		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), field, converter);
 	}
 

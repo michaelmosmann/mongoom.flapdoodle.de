@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
+import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 
 
 public class TypeInfo {
@@ -41,14 +42,16 @@ public class TypeInfo {
 	}
 
 	public static ITypeInfo ofClass(ITypeInfo info) {
-		return new ClassInfo(info.getDeclaringClass(),info.getType());
+		return new ClassInfo(info.getDeclaringClass(),info.getType(),null);
 	}
 
 	public static ITypeInfo ofClass(Class<?> clazz) {
-		return new ClassInfo(null,clazz);
+		return new ClassInfo(null,clazz,null);
 	}
 	
-	public static ITypeInfo of(Class<?> declaringClass, Type parameterizedClass) {
-		return new ClassInfo(declaringClass, parameterizedClass);
+	public static ITypeInfo of(ITypeInfo field, Type parameterizedClass) {
+		IAnnotated ia=null;
+		if (field instanceof IAnnotated) ia=(IAnnotated) field;
+		return new ClassInfo(field.getDeclaringClass(), parameterizedClass,ia);
 	}
 }

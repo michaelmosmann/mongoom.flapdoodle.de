@@ -22,7 +22,6 @@ import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Views;
-import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("ColorBean")
@@ -34,7 +33,7 @@ public class ColorBean {
 	
 	@Property("c")
 	Color _color;
-
+	
 	public Color getColor() {
 		return _color;
 	}

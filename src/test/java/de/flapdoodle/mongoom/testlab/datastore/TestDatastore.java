@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.testlab.datastore;
 
+import java.awt.Color;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -24,6 +25,7 @@ import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
+import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
@@ -34,7 +36,7 @@ import junit.framework.TestCase;
 
 public class TestDatastore extends AbstractMongoOMTest {
 
-	public void testDatastore() {
+	public void testBooks() {
 		List<Class<?>> classes=Lists.newArrayList();
 		classes.add(Book.class);
 		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
@@ -76,5 +78,36 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("9. Buch","9. Buch",books.get(0).getName());
 	}
 	
-	
+
+	public void testColors() {
+		List<Class<?>> classes=Lists.newArrayList();
+		classes.add(ColorsBean.class);
+		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
+			@Override
+			public IMappingContext newContext() {
+				return new ColorMappingContext();
+			}
+		};
+		Transformations transformations = new Transformations(factory,classes);
+		IDatastore datastore=new Datastore(getMongo(), getDatabaseName(), transformations);
+		datastore.ensureCaps();
+		datastore.ensureIndexes();
+		
+		ColorsBean colors = new ColorsBean();
+		colors.setColors(Lists.newArrayList(new Color(103,53,23,43),new Color(206,106,56,86)));
+		datastore.save(colors);
+		colors.setColors(Lists.newArrayList(new Color(100,50,25,44),new Color(200,100,50,88)));
+		datastore.update(colors);
+		colors=new ColorsBean();
+		colors.setColors(Lists.newArrayList(new Color(100,50,25,44)));
+		datastore.save(colors);
+		
+		List<ColorsBean> list= datastore.find(ColorsBean.class);
+		assertEquals("Size",2,list.size());
+//		System.out.println("Books: "+books);
+		
+		list=datastore.with(ColorsBean.class).field("l","r").eq(100).result().asList();
+		assertEquals("Size",2,list.size());
+	}
+
 }

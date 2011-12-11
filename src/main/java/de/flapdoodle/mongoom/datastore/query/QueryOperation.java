@@ -1,12 +1,12 @@
 /**
  * Copyright (C) 2010 Michael Mosmann <michael@mosmann.de>
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *         http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,15 +35,17 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 
 	private final Q _query;
 	private final String _field;
+	private final String[] _fields;
 	private final ITypeConverter _converter;
 	private final IDBObjectFactory _queryBuilder;
 
 	boolean _not = false;
 
-	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String field, ITypeConverter<?> converter) {
+	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String[] fields, ITypeConverter<?> converter) {
 		_query = query;
 		_queryBuilder = queryBuilder;
-		_field = field;
+		_field = asName(fields);
+		_fields = fields;
 		_converter = converter;
 	}
 
@@ -202,12 +204,26 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	}
 
 	private ITypeConverter getConverter(boolean listAllowed) {
-		if (_converter==null) throw new MappingException("No Converter for " + _field);
+		if (_converter == null)
+			throw new MappingException("No Converter for " + _field);
 		if (listAllowed) {
 			if (_converter instanceof IContainerConverter) {
 				return ((IContainerConverter) _converter).containerConverter();
 			}
 		}
 		return _converter;
+	}
+
+	private static String asName(String[] field) {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (String s : field) {
+			if (first)
+				first = false;
+			else
+				sb.append(".");
+			sb.append(s);
+		}
+		return sb.toString();
 	}
 }
