@@ -18,21 +18,28 @@ package de.flapdoodle.mongoom.examples.callbacks;
 
 import java.util.List;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 
-public class TestCallbacks extends AbstractMongoOMTest {
+public class TestCallbacks extends AbstractDatastoreTest {
 
+	
+	public TestCallbacks() {
+		super(Stats.class);
+	}
+	
 	public void testReadWrite() {
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Stats.class);
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Stats.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
 
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-
+		IDatastore datastore = getDatastore();
+		
 		Stats doc = new Stats();
 		doc.setA(2);
 		doc.setB(3);
