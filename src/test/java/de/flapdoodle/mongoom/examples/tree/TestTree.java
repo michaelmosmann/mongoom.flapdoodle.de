@@ -18,23 +18,33 @@ package de.flapdoodle.mongoom.examples.tree;
 
 import java.util.List;
 
+import junit.framework.Test;
+
 import com.google.common.collect.Lists;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 
-public class TestTree extends AbstractMongoOMTest {
+public class TestTree extends AbstractDatastoreTest {
 
+	
+	public TestTree() {
+		super(Tree.class);
+	}
+	
 	public void testTree() {
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Tree.class);
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Tree.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
 
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-
+		IDatastore datastore=getDatastore();
+		
 		Tree tree = new Tree();
 		tree.setRoot(buildTree(3, 0));
 
