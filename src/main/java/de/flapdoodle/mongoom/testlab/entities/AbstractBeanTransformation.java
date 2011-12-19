@@ -16,7 +16,9 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
@@ -126,10 +129,24 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 
 	private Bean newInstance() {
 		try {
-			return _entityContext.getViewClass().newInstance();
+			Class<Bean> viewClass = _entityContext.getViewClass();
+			Constructor<Bean> defaultConstrutor = ClassInformation.getConstructor(viewClass);
+//			Constructor<?>[] constructors = viewClass.getConstructors();
+//			for (Constructor c : constructors) {
+//				System.out.println("Const: "+c);
+//			}
+//			Constructor<Bean> defaultConstrutor = viewClass.getConstructor();
+//			return viewClass.newInstance();
+			return defaultConstrutor.newInstance();
 		} catch (InstantiationException e) {
 			throw new MappingException(_entityContext.getViewClass(), e);
 		} catch (IllegalAccessException e) {
+			throw new MappingException(_entityContext.getViewClass(), e);
+		} catch (SecurityException e) {
+			throw new MappingException(_entityContext.getViewClass(), e);
+		} catch (IllegalArgumentException e) {
+			throw new MappingException(_entityContext.getViewClass(), e);
+		} catch (InvocationTargetException e) {
 			throw new MappingException(_entityContext.getViewClass(), e);
 		}
 	}

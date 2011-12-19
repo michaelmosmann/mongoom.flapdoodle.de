@@ -40,6 +40,7 @@ import de.flapdoodle.mongoom.testlab.properties.PrefixFieldNaming;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
+import de.flapdoodle.mongoom.testlab.types.EnumVisitor;
 import de.flapdoodle.mongoom.testlab.types.ListVisitor;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
 import de.flapdoodle.mongoom.testlab.types.ObjectIdVisitor;
@@ -54,6 +55,10 @@ public class MappingContext implements IMappingContext {
 
 	private static final Logger _logger = LogConfig.getLogger(MappingContext.class);
 
+	Map<Class<?>, ITypeVisitor> hasSubtypeVisitors = Maps.newLinkedHashMap();
+	{
+		hasSubtypeVisitors.put(Enum.class, new EnumVisitor());
+	}
 	Map<Class<?>, ITypeVisitor> typeVisitors = Maps.newLinkedHashMap();
 	{
 		typeVisitors.put(ObjectId.class, new ObjectIdVisitor());
@@ -63,6 +68,8 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
+		typeVisitors.put(Long.class, new NativeTypeVisitor<Long>(Long.class));
+		typeVisitors.put(long.class, new NativeTypeVisitor<Long>(long.class));
 	}
 	Map<Class<?>, IVersionFactory<?>> versionFactories = Maps.newLinkedHashMap();
 	{
@@ -77,6 +84,11 @@ public class MappingContext implements IMappingContext {
 //		_logger.severe("getVisitor: " + containerType + " -> " + type);
 		ITypeVisitor result = typeVisitors.get(type.getType());
 		if (result == null) {
+			for (Class<?> superType : hasSubtypeVisitors.keySet()) {
+				if (superType.isAssignableFrom(type.getType())) {
+					return hasSubtypeVisitors.get(superType);
+				}
+			}
 			result = _defaultVisitor;
 		}
 		return result;

@@ -21,6 +21,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
@@ -34,18 +35,24 @@ import de.flapdoodle.mongoom.live.beans.User;
 import de.flapdoodle.mongoom.live.beans.Author.Status;
 import de.flapdoodle.mongoom.live.beans.views.UsernameEmailView;
 
-public class MappingTest extends AbstractMongoOMTest {
+public class MappingTest extends AbstractDatastoreTest {
 
+	
+	public MappingTest() {
+		super(Document.class,User.class,Log.class);
+	}
+	
 	public void testMapping() {
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Document.class);
-		mongoom.map(User.class);
-		mongoom.map(Log.class);
-
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Document.class);
+//		mongoom.map(User.class);
+//		mongoom.map(Log.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
+		IDatastore datastore = getDatastore();
 
 		Document d = new Document();
 		d.setName("Doc1");
@@ -79,15 +86,15 @@ public class MappingTest extends AbstractMongoOMTest {
 		documents = datastore.with(Document.class).field("name").eq("Doc1").result().asList();
 		assertEquals("Size", 1, documents.size());
 
-		documents = datastore.with(Document.class).field("meta.year").eq(2010).result().asList();
+		documents = datastore.with(Document.class).field("meta","year").eq(2010).result().asList();
 		assertEquals("Size", 1, documents.size());
 
 		MetaInfo mq = new MetaInfo();
 		mq.setCategory(Lists.newArrayList("fun", "sport"));
 		mq.setYear(2010);
-		IEntityQuery<Document> query = datastore.with(Document.class).or().field("meta").eq(mq).field("meta.category").eq(
+		IEntityQuery<Document> query = datastore.with(Document.class).or().field("meta").eq(mq).field("meta","category").eq(
 				"fun").field("name").in("Doc1", "Doc2", "Doc3").parent().or().field("name").eq("DocX").parent().or().field(
-				"meta.year").not().type(Date.class).parent().or().field("meta.tags").elemMatch().field("tag").eq("sommer").parent().parent();
+				"meta","year").not().type(Date.class).parent().or().field("meta","tags").elemMatch().field("tag").eq("sommer").parent().parent();
 
 		//		query.field("meta.tags").elemMatch().field("tag").eq("sommer");
 		documents = query.result().asList();
@@ -95,7 +102,7 @@ public class MappingTest extends AbstractMongoOMTest {
 
 		System.out.println("Documents: " + documents);
 
-		documents = datastore.with(Document.class).or().field("meta.tags").elemMatch().field("tag").eq("sommer").parent().parent().result().asList();
+		documents = datastore.with(Document.class).or().field("meta","tags").elemMatch().field("tag").eq("sommer").parent().parent().result().asList();
 		System.out.println("Documents: " + documents);
 		assertEquals("Size", 1, documents.size());
 
