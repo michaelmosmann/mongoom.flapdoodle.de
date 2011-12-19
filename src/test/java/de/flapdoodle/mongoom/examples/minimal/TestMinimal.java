@@ -18,20 +18,27 @@ package de.flapdoodle.mongoom.examples.minimal;
 
 import java.util.List;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 
-public class TestMinimal extends AbstractMongoOMTest {
+public class TestMinimal extends AbstractDatastoreTest {
 
+	
+	public TestMinimal() {
+		super(Document.class);
+	}
+	
 	public void testDocument() {
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Document.class);
-
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Document.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
+		IDatastore datastore = getDatastore();
 
 		Document doc = new Document();
 		datastore.save(doc);

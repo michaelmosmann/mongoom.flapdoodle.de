@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.bson.types.ObjectId;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -40,6 +42,7 @@ import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.properties.PropertyNamingList;
 import de.flapdoodle.mongoom.testlab.types.ListVisitor;
 import de.flapdoodle.mongoom.testlab.types.NativeTypeVisitor;
+import de.flapdoodle.mongoom.testlab.types.ObjectIdVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
@@ -53,6 +56,7 @@ public class MappingContext implements IMappingContext {
 
 	Map<Class<?>, ITypeVisitor> typeVisitors = Maps.newLinkedHashMap();
 	{
+		typeVisitors.put(ObjectId.class, new ObjectIdVisitor());
 		typeVisitors.put(Reference.class, new ReferenceVisitor());
 		typeVisitors.put(Set.class, new SetVisitor());
 		typeVisitors.put(List.class, new ListVisitor());

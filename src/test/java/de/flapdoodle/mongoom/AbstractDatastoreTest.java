@@ -15,6 +15,7 @@
  */
 package de.flapdoodle.mongoom;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -37,8 +38,11 @@ public abstract class AbstractDatastoreTest extends AbstractMongoOMTest {
 	private final List<Class<?>> classes;
 	private IDatastore datastore;
 
-	public AbstractDatastoreTest(Class<?>... classes) {
-		this.classes = Lists.newArrayList(classes);
+	public AbstractDatastoreTest(Class<?> clazz, Class<?>... classes) {
+		ArrayList<Class<?>> all = Lists.newArrayList();
+		all.add(clazz);
+		if (classes!=null) all.addAll(Lists.newArrayList(classes));
+		this.classes = all;
 	}
 	
 	@Override
