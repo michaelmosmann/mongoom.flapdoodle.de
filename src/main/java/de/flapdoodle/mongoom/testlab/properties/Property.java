@@ -16,8 +16,11 @@
 
 package de.flapdoodle.mongoom.testlab.properties;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.Const;
 
@@ -94,5 +97,10 @@ public class Property {
 				return parent.getName()+Const.FIELDNAME_SEP+current.getName();
 			}
 		};
+	}
+	
+	public static List<String> split(String propertyName) {
+		String[] path = propertyName.split("\\"+Const.FIELDNAME_SEP);
+		return Arrays.asList(path);
 	}
 }

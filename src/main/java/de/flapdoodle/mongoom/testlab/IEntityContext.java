@@ -16,12 +16,13 @@
 
 package de.flapdoodle.mongoom.testlab;
 
+import de.flapdoodle.mongoom.testlab.entities.IBeanContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
-public interface IEntityContext<EntityType> extends IPropertyContext<EntityType> {
+public interface IEntityContext<EntityType> extends IPropertyContext<EntityType> , IBeanContext<EntityType>{
 
 	void setVersionFactory(IPropertyField<?> props, IVersionFactory<?> versionFactory);
 

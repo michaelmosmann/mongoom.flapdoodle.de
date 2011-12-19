@@ -32,7 +32,7 @@ import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
-public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanContext<Bean>> implements
+public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Bean>> implements
 		ITransformation<Bean, DBObject> {
 
 	protected final C _entityContext;
@@ -97,8 +97,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 	}
 
 	private Object getValue(DBObject object, TypedPropertyName p) {
-		String[] path = p.getName().split("\\.");
-		return getValue(object, Arrays.asList(path));
+		return getValue(object, Property.split(p.getName()));
 	}
 
 	private Object getValue(DBObject object, List<String> path) {
@@ -107,7 +106,9 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 			if (property instanceof DBObject)
 				return getValue((DBObject) property, path.subList(1, path.size()));
 			else
-				throw new MappingException(_entityContext.getViewClass(), "Property not found");
+				// property is null?
+				return null;
+//				throw new MappingException(_entityContext.getViewClass(), "Property "+path+" not found "+object);
 		}
 		return object.get(path.get(0));
 	}
@@ -145,7 +146,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends AbstractBeanCon
 	
 	@Override
 	public Set<TypedPropertyName<?>> properties() {
-		return null;
+		return _entityContext.getPropertyTransformations().typedPropertyNames();
 	}
 
 }

@@ -26,103 +26,105 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.entities.AbstractBeanTransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
-public class PojoTransformation<Bean>  implements ITransformation<Bean, DBObject> {
+public class PojoTransformation<Bean> extends AbstractBeanTransformation<Bean, PojoContext<Bean>> implements ITransformation<Bean, DBObject> {
 
 	
 	private final PojoContext<Bean> _pojoContext;
 
 	public PojoTransformation(PojoContext<Bean> context) {
+		super(context);
 		_pojoContext = context;
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public DBObject asObject(Bean value) {
-		if (value==null) return null;
-		
-		BasicDBObject ret = new BasicDBObject();
-		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
-		
-		for (IProperty<?> prop : propertyTransformations.keySet()) {
-			IPropertyField<?> p=(IPropertyField<?>) prop;
-			ITransformation transformation = propertyTransformations.get(p);
-			Field field = p.getField();
-			Object fieldValue=getFieldValue(field,value);
-			Object dbValue = transformation.asObject(fieldValue);
-			if (dbValue!=null) ret.put(p.getName(), dbValue);
-		}
-		return ret;
-	}
+//	@Override
+//	public DBObject asObject(Bean value) {
+//		if (value==null) return null;
+//		
+//		BasicDBObject ret = new BasicDBObject();
+//		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
+//		
+//		for (IProperty<?> prop : propertyTransformations.keySet()) {
+//			IPropertyField<?> p=(IPropertyField<?>) prop;
+//			ITransformation transformation = propertyTransformations.get(p);
+//			Field field = p.getField();
+//			Object fieldValue=getFieldValue(field,value);
+//			Object dbValue = transformation.asObject(fieldValue);
+//			if (dbValue!=null) ret.put(p.getName(), dbValue);
+//		}
+//		return ret;
+//	}
 
-	private Object getFieldValue(Field field, Bean value) {
-		try {
-			field.setAccessible(true);
-			return field.get(value);
-		} catch (IllegalArgumentException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		}
-	}
+//	private Object getFieldValue(Field field, Bean value) {
+//		try {
+//			field.setAccessible(true);
+//			return field.get(value);
+//		} catch (IllegalArgumentException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		} catch (IllegalAccessException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		}
+//	}
+//
+//	@Override
+//	public Bean asEntity(DBObject object) {
+//		if (object==null) return null;
+//		
+//		Bean ret = newInstance();
+//		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
+//		
+//		for (IProperty prop : propertyTransformations.keySet()) {
+//			IPropertyField<?> p=(IPropertyField<?>) prop;
+//			ITransformation transformation = propertyTransformations.get(p);
+//			Field field = p.getField();
+//			Object fieldValue=transformation.asEntity(object.get(p.getName()));
+//			if (fieldValue!=null) setFieldValue(ret, field, fieldValue);
+//		}
+//		
+//		return ret;
+//	}
+//
+//	private void setFieldValue(Bean bean, Field field, Object fieldValue) {
+//		try {
+//			field.setAccessible(true);
+//			field.set(bean, fieldValue);
+//		} catch (IllegalArgumentException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		} catch (IllegalAccessException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		}
+//	}
 
-	@Override
-	public Bean asEntity(DBObject object) {
-		if (object==null) return null;
-		
-		Bean ret = newInstance();
-		Map<IProperty<?>, ITransformation<?, ?>> propertyTransformations = _pojoContext.getPropertyTransformation();
-		
-		for (IProperty prop : propertyTransformations.keySet()) {
-			IPropertyField<?> p=(IPropertyField<?>) prop;
-			ITransformation transformation = propertyTransformations.get(p);
-			Field field = p.getField();
-			Object fieldValue=transformation.asEntity(object.get(p.getName()));
-			if (fieldValue!=null) setFieldValue(ret, field, fieldValue);
-		}
-		
-		return ret;
-	}
+//	private Bean newInstance() {
+//		try {
+//			return _pojoContext.getBeanClass().newInstance();
+//		} catch (InstantiationException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		} catch (IllegalAccessException e) {
+//			throw new MappingException(_pojoContext.getBeanClass(),e);
+//		}
+//	}
 
-	private void setFieldValue(Bean bean, Field field, Object fieldValue) {
-		try {
-			field.setAccessible(true);
-			field.set(bean, fieldValue);
-		} catch (IllegalArgumentException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		}
-	}
+//	@Override
+//	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
+//		throw new MappingException("not implemented");
+//	}
+//	
+//	@Override
+//	public ITransformation<?, ?> propertyTransformation(String property) {
+//		throw new MappingException("not implemented");
+//	}
 
-	private Bean newInstance() {
-		try {
-			return _pojoContext.getBeanClass().newInstance();
-		} catch (InstantiationException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_pojoContext.getBeanClass(),e);
-		}
-	}
-
-	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		throw new MappingException("not implemented");
-	}
-	
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		throw new MappingException("not implemented");
-	}
-
-	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return null;
-	}
+//	@Override
+//	public Set<TypedPropertyName<?>> properties() {
+//		return null;
+//	}
 	
 }

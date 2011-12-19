@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.testlab.entities;
 
 import java.util.Collection;
+import java.util.Set;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
@@ -30,5 +31,5 @@ public interface IPropertyTransformations {
 	
 	<Source> IProperty<Source> getProperty(TypedPropertyName<Source> p);
 	
-	Collection<TypedPropertyName<?>> typedPropertyNames();
+	Set<TypedPropertyName<?>> typedPropertyNames();
 }

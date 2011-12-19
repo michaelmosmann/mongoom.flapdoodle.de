@@ -47,7 +47,7 @@ import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyName;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
-public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean> {
+public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean>, IBeanContext<EntityBean> {
 
 	private final Entity _entityAnnotation;
 	private final Views _viewsAnnotation;
@@ -116,11 +116,14 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	}
 	
 	public <Source> IViewTransformation<Source, DBObject> viewTransformation(Class<Source> viewType) {
-		return (IViewTransformation<Source, DBObject>) _viewTransformation.get(viewType);
+		IViewTransformation<?, DBObject> ret = _viewTransformation.get(viewType);
+		if (ret==null) throw new MappingException(getEntityClass(),"ViewTransformation for "+viewType);
+		return (IViewTransformation<Source, DBObject>) ret;
 	}
 
 	protected <Source> void setViewTransformation(Class<Source> viewType,
 			IViewTransformation<Source, DBObject> transformation) {
+		if (transformation.properties()==null) throw new MappingException(getEntityClass(),"View has no properties: "+viewType);
 		_viewTransformation.put(viewType, transformation);
 	}
 

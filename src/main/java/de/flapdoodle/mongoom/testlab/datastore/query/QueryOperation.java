@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab.datastore.query;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -24,12 +23,9 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
-import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.BSONType;
-import de.flapdoodle.mongoom.mapping.IContainerConverter;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.testlab.IContainerTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 
@@ -208,7 +204,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	private ITransformation getConverter(boolean listAllowed) {
 		if (_converter==null) throw new MappingException("No Converter for " + _field);
 		if (listAllowed) {
-			if (_converter instanceof IContainerConverter) {
+			if (_converter instanceof IContainerTransformation) {
 				return ((IContainerTransformation) _converter).containerConverter();
 			}
 		}

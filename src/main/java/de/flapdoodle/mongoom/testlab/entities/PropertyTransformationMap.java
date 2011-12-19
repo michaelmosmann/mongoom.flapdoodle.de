@@ -18,6 +18,7 @@ package de.flapdoodle.mongoom.testlab.entities;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -59,7 +60,7 @@ public class PropertyTransformationMap {
 			}
 
 			@Override
-			public Collection<TypedPropertyName<?>> typedPropertyNames() {
+			public Set<TypedPropertyName<?>> typedPropertyNames() {
 				return propertyMap.keySet();
 			}
 			

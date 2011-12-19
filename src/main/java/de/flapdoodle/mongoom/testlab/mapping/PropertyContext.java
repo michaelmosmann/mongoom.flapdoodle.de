@@ -26,14 +26,18 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
+import de.flapdoodle.mongoom.testlab.entities.IBeanContext;
+import de.flapdoodle.mongoom.testlab.entities.IPropertyTransformations;
+import de.flapdoodle.mongoom.testlab.entities.PropertyTransformationMap;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyName;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
-public class PropertyContext<T> implements IPropertyContext<T>{
+public class PropertyContext<T> implements IPropertyContext<T>, IBeanContext<T> {
 
-	private final Map<IProperty<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+//	private final Map<IProperty<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+	private final PropertyTransformationMap propertyTransformationMap = new PropertyTransformationMap();
 	private final IPropertyContext<?> _parentContext;
 	private final IProperty<T> _property;
 
@@ -53,12 +57,22 @@ public class PropertyContext<T> implements IPropertyContext<T>{
 
 	@Override
 	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
-		propertyTransformation.put(property, transformation);
+		propertyTransformationMap.setTransformation(property, transformation);
+	}
+
+	@Override
+	public IPropertyTransformations getPropertyTransformations() {
+		return propertyTransformationMap.readOnly();
 	}
 	
-	public Map<IProperty<?>, ITransformation<?, ?>> getPropertyTransformation() {
-		return Collections.unmodifiableMap(propertyTransformation);
+	@Override
+	public Class<T> getViewClass() {
+		return _property.getType();
 	}
+	
+//	public Map<IProperty<?>, ITransformation<?, ?>> getPropertyTransformation() {
+//		return propertyTransformationMap.readOnly(). Collections.unmodifiableMap(propertyTransformation);
+//	}
 
 	@Override
 	public IPropertyIndex propertyIndex() {

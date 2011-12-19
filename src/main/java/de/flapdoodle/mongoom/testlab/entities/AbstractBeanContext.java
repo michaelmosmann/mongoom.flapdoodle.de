@@ -27,7 +27,7 @@ import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
-public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<BeanType> {
+public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<BeanType>, IBeanContext<BeanType> {
 
 	private final Class<BeanType> _viewClass;
 //	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
@@ -51,7 +51,7 @@ public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<
 		propertyTransformationMap.setTransformation(property, transformation);
 	}
 	
-	
+	@Override
 	public IPropertyTransformations getPropertyTransformations() {
 		return propertyTransformationMap.readOnly();
 	}
