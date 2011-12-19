@@ -34,7 +34,8 @@ class PojoContext<T> extends PropertyContext<T> {
 		return new PropertyContext<S>(this,of);
 	}
 
-	public Class<T> getBeanClass() {
+	@Override
+	public Class<T> getViewClass() {
 		return _beanClass;
 	}
 
