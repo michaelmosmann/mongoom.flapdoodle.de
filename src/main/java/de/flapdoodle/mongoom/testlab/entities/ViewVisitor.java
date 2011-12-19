@@ -16,30 +16,44 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
+
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
 
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.IViewVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
+import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 
 public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, DBObject> implements
 		IViewVisitor<ViewBean> {
+
+	private final EntityContext<?> entityContext;
+
+	public ViewVisitor(EntityContext<?> entityContext) {
+		this.entityContext = entityContext;
+	}
 
 	@Override
 	public IViewTransformation<ViewBean, DBObject> transformation(IMappingContext mappingContext, Class<ViewBean> viewClass) {
@@ -56,20 +70,49 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 			error(viewClass, "Has Index Annotations");
 		}
 
-		ViewContext<ViewBean> entityContext = new ViewContext<ViewBean>(viewClass);
-		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(viewClass));
-
-		for (TypedPropertyName<?> props : entityContext.getPropertyTransformations().typedPropertyNames()) {
-			IProperty<?> prop = entityContext.getPropertyTransformations().getProperty(props);
-			IAnnotated annotated = prop.annotated();
-			if (annotated != null) {
-				Version version = annotated.getAnnotation(Version.class);
-				if (version != null) {
-					error(viewClass, "Version annotated: " + props);
-				}
-			}
+		ViewContext<ViewBean> viewContext = new ViewContext<ViewBean>(viewClass);
+//		parseProperties(mappingContext, entityContext, TypeInfo.ofClass(viewClass));
+		Class<ViewBean> entityClass = viewClass;
+		List<Field> fields = ClassInformation.getFields(entityClass);
+		
+		ITypeInfo typeInfo = TypeInfo.ofClass(viewClass);
+		for (Field field : fields) {
+			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
+			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
+			List<String> parts=Property.split(property.getName());
+			ITransformation transformation=getTransformation(this.entityContext,parts);
+			viewContext.setTransformation(Property.of(property.getName(), field), transformation);
 		}
 
-		return new ViewTransformation<ViewBean>(entityContext);
+//		for (TypedPropertyName<?> props : entityContext.getPropertyTransformations().typedPropertyNames()) {
+//			IProperty<?> prop = entityContext.getPropertyTransformations().getProperty(props);
+//			IAnnotated annotated = prop.annotated();
+//			if (annotated != null) {
+//				Version version = annotated.getAnnotation(Version.class);
+//				if (version != null) {
+//					error(viewClass, "Version annotated: " + props);
+//				}
+//			}
+//		}
+
+		return new ViewTransformation<ViewBean>(viewContext);
+	}
+
+	private static ITransformation<?, ?> getTransformation(EntityContext<?> entityContext, List<String> parts) {
+		String first=parts.get(0);
+		List<String> left = parts.subList(1, parts.size());
+		ITransformation<?, ?> ret = entityContext.getPropertyTransformations().get(first);
+		ret=getTransformation(ret,left);
+		return ret;
+	}
+
+	private static ITransformation<?, ?> getTransformation(ITransformation<?, ?> ret, List<String> parts) {
+		if (!parts.isEmpty()) {
+			String first=parts.get(0);
+			List<String> left = parts.subList(1, parts.size());
+			ret=ret.propertyTransformation(first);
+			getTransformation(ret, left);
+		}
+		return ret;
 	}
 }

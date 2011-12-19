@@ -25,6 +25,7 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.mapping.Mapper;
@@ -102,7 +103,7 @@ public class ViewConverter<T> extends AbstractReadOnlyConverter<T> implements IV
 	public DBObject viewKeys() {
 		DBObjectFactory factory = DBObjectFactory.start();
 		for (MappedAttribute a : _attributes) {
-			factory.set(a.getName(), 1);
+			factory.set(a.getName(), Const.VIEW_INCLUDED);
 		}
 		return factory.get();
 	}

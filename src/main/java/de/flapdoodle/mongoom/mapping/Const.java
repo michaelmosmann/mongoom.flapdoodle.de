@@ -21,4 +21,5 @@ public class Const {
 	public final static String FIELDNAME_SEP = ".";
 	public final static String ID_FIELDNAME = "_id";
 	public static final String VERSION_FIELDNAME = "_version";
+	public static final int VIEW_INCLUDED = 1;
 }

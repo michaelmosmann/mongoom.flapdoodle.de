@@ -68,9 +68,9 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	@Override
 	public <V> IQueryResult<V> withView(Class<V> view) {
 		IViewTransformation<V,DBObject> viewConverter = getConverter().viewTransformation(view);
-		BasicDBList viewProps=new BasicDBList();
+		BasicDBObject viewProps=new BasicDBObject();
 		for (TypedPropertyName pn : viewConverter.properties()) {
-			viewProps.add(pn.getName());
+			viewProps.put(pn.getName(),Const.VIEW_INCLUDED);
 		}
 		return new QueryResult<V>(getConverter(), viewConverter, _dbCollection, asDBObject(), viewProps);
 	}

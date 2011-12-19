@@ -34,14 +34,14 @@ public class TestMapping extends AbstractDatastoreTest {
 	}
 	
 	public void testDocument() {
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Document.class);
-
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-//		IDatastore datastore = getDatastore();
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Document.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
+		IDatastore datastore = getDatastore();
 
 		Document doc = new Document();
 		doc.setCreated(new Date());

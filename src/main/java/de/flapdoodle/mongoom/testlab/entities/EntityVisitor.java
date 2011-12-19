@@ -87,7 +87,7 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 
 		if (viewsAnnotation != null) {
 			for (Class<?> viewType : viewsAnnotation.value()) {
-				IViewTransformation transformation = new ViewVisitor().transformation(mappingContext, viewType);
+				IViewTransformation transformation = new ViewVisitor(entityContext).transformation(mappingContext, viewType);
 				entityContext.setViewTransformation(viewType, transformation);
 			}
 		}
