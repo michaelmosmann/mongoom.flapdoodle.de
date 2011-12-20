@@ -53,7 +53,7 @@ class FieldOfClassInfo implements ITypeInfo, IAnnotated {
 		
 		@Override
 		public Class<?> getDeclaringClass() {
-			return _field.getDeclaringClass();
+			return _clazz.getType();
 		}
 		
 		@Override

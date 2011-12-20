@@ -16,43 +16,51 @@
 
 package de.flapdoodle.mongoom.live.mapping.fields;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 
-public class TestBook extends AbstractMongoOMTest {
+public class TestBook extends AbstractDatastoreTest {
 
-	private IDatastore _datastore;
+//	private IDatastore _datastore;
+	
+	
+	public TestBook() {
+		super(Book.class);
+	}
 
 	public void testQuery() {
-		_datastore.insert(Book.getInstance("Das Leben", "sommer", "sonne", "sachbuch"));
-		_datastore.insert(Book.getInstance("Die Arbeit", "sachbuch"));
-		_datastore.insert(Book.getInstance("Das Hobby", "sachbuch", "sonne"));
-		_datastore.insert(Book.getInstance("Dei Freizeit", "sommer"));
+		IDatastore datastore = getDatastore();
+		
+		datastore.insert(Book.getInstance("Das Leben", "sommer", "sonne", "sachbuch"));
+		datastore.insert(Book.getInstance("Die Arbeit", "sachbuch"));
+		datastore.insert(Book.getInstance("Das Hobby", "sachbuch", "sonne"));
+		datastore.insert(Book.getInstance("Dei Freizeit", "sommer"));
 
-		assertEquals("sommer", 2, _datastore.with(Book.class).field("category").eq("sommer").result().countAll());
+		assertEquals("sommer", 2, datastore.with(Book.class).field("category").eq("sommer").result().countAll());
 
-		Book book = _datastore.with(Book.class).field("name").eq("Das Leben").result().get();
+		Book book = datastore.with(Book.class).field("name").eq("Das Leben").result().get();
 		assertNotNull("Book", book);
 		//		book.setCategory(Lists.newArrayList("blau","wal"));
-		_datastore.update(book);
+		datastore.update(book);
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(Book.class);
-
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-
-		_datastore = datastore;
-	}
+//	@Override
+//	protected void setUp() throws Exception {
+//		super.setUp();
+//
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(Book.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
+//
+//		_datastore = datastore;
+//	}
 
 //	@Override
 //	protected boolean cleanUpAfterTest() {
