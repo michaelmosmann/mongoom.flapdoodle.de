@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.live.mapping.id;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
@@ -24,17 +25,23 @@ import de.flapdoodle.mongoom.exceptions.UpdateFailedException;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 import de.flapdoodle.mongoom.live.beans.id.BadUser;
 
-public class TestBadUser extends AbstractMongoOMTest {
+public class TestBadUser extends AbstractDatastoreTest {
 
-	private IDatastore _datastore;
+//	private IDatastore _datastore;
+	
+	public TestBadUser() {
+		super(BadUser.class);
+	}
 
 	public void testInsert() {
-		_datastore.insert(BadUser.get("klaus", "Klaus"));
-		_datastore.insert(BadUser.get("peter", "Peter"));
+		IDatastore datastore = getDatastore();
+		
+		datastore.insert(BadUser.get("klaus", "Klaus"));
+		datastore.insert(BadUser.get("peter", "Peter"));
 
 		boolean exception = false;
 		try {
-			_datastore.insert(BadUser.get("klaus", "Klaus2"));
+			datastore.insert(BadUser.get("klaus", "Klaus2"));
 		} catch (ObjectMapperException mx) {
 			exception = true;
 		}
@@ -43,15 +50,17 @@ public class TestBadUser extends AbstractMongoOMTest {
 	}
 
 	public void testVersion() {
-		_datastore.insert(BadUser.get("klaus", "Klaus"));
-		BadUser klaus = _datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
-		BadUser klaus2 = _datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
+		IDatastore datastore = getDatastore();
+		
+		datastore.insert(BadUser.get("klaus", "Klaus"));
+		BadUser klaus = datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
+		BadUser klaus2 = datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
 
-		_datastore.update(klaus);
+		datastore.update(klaus);
 
 		boolean updateFailed = false;
 		try {
-			_datastore.update(klaus2);
+			datastore.update(klaus2);
 		} catch (UpdateFailedException ux) {
 			updateFailed = true;
 		}
@@ -59,20 +68,20 @@ public class TestBadUser extends AbstractMongoOMTest {
 		assertTrue("Update Failed", updateFailed);
 	}
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-
-		ObjectMapper mongoom = new ObjectMapper();
-		mongoom.map(BadUser.class);
-
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-
-		_datastore = datastore;
-	}
+//	@Override
+//	protected void setUp() throws Exception {
+//		super.setUp();
+//
+//		ObjectMapper mongoom = new ObjectMapper();
+//		mongoom.map(BadUser.class);
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
+//
+//		_datastore = datastore;
+//	}
 
 //	@Override
 //	protected boolean cleanUpAfterTest() {

@@ -22,6 +22,7 @@ import java.util.List;
 
 import com.google.inject.internal.Lists;
 
+import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.ObjectMapper;
@@ -31,21 +32,42 @@ import de.flapdoodle.mongoom.examples.mapping.Meta;
 import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.mapping.MappingConfig;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterFactory;
+import de.flapdoodle.mongoom.testlab.ColorMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
+import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
 
 
-public class TestMapColor extends AbstractMongoOMTest {
+public class TestMapColor extends AbstractDatastoreTest {
+	
+	public TestMapColor() {
+		super(ColorDocument.class);
+	}
+	
+	@Override
+	protected IMappingContextFactory<?> newMappingContextFactory() {
+		return new IMappingContextFactory<IMappingContext>() {
+			@Override
+			public IMappingContext newContext() {
+				return new ColorMappingContext();
+			}
+		};
+	}
+	
 	public void testDocument() {
-		IMappingConfig mappingConfig = MappingConfig.getDefaults();
-		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
-		ObjectMapper mongoom = new ObjectMapper(mappingConfig);
-		mongoom.map(ColorDocument.class);
 		
+//		IMappingConfig mappingConfig = MappingConfig.getDefaults();
+//		mappingConfig.getConverterFactories().add(new ColorConverterFactory());
+//		ObjectMapper mongoom = new ObjectMapper(mappingConfig);
+//		mongoom.map(ColorDocument.class);
+//		
+//
+//		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
+//
+//		datastore.ensureCaps();
+//		datastore.ensureIndexes();
 
-		IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-
-		datastore.ensureCaps();
-		datastore.ensureIndexes();
-
+		IDatastore datastore=getDatastore();
+		
 		ColorDocument doc = new ColorDocument();
 		doc.setName("Red");
 		Color color = new Color(255,0,0);
@@ -55,7 +77,7 @@ public class TestMapColor extends AbstractMongoOMTest {
 		List<ColorDocument> list = datastore.with(ColorDocument.class).result().asList();
 		assertEquals("One", 1, list.size());
 
-		List<ColorDocument> views = datastore.with(ColorDocument.class).field("color.r").eq(255).result().asList();
+		List<ColorDocument> views = datastore.with(ColorDocument.class).field("color","r").eq(255).result().asList();
 		ColorDocument view = views.get(0);
 		int red = view.getColor().getRed();
 		assertEquals("Keywords", 255, red);
