@@ -16,11 +16,15 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
+import org.bson.types.Code;
+import org.bson.types.CodeWScope;
 import org.bson.types.ObjectId;
 
 import com.google.common.collect.Lists;
@@ -47,6 +51,10 @@ import de.flapdoodle.mongoom.testlab.types.ObjectIdVisitor;
 import de.flapdoodle.mongoom.testlab.types.PojoVisitor;
 import de.flapdoodle.mongoom.testlab.types.ReferenceVisitor;
 import de.flapdoodle.mongoom.testlab.types.SetVisitor;
+import de.flapdoodle.mongoom.testlab.types.truncations.ByteVisitor;
+import de.flapdoodle.mongoom.testlab.types.truncations.CharVisitor;
+import de.flapdoodle.mongoom.testlab.types.truncations.FloatVisitor;
+import de.flapdoodle.mongoom.testlab.types.truncations.ShortVisitor;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 import de.flapdoodle.mongoom.testlab.versions.StringVersionFactory;
 import de.flapdoodle.mongoom.types.Reference;
@@ -66,10 +74,31 @@ public class MappingContext implements IMappingContext {
 		typeVisitors.put(Set.class, new SetVisitor());
 		typeVisitors.put(List.class, new ListVisitor());
 		typeVisitors.put(String.class, new NativeTypeVisitor<String>(String.class));
+		typeVisitors.put(Boolean.class, new NativeTypeVisitor<Boolean>(Boolean.class));
+		typeVisitors.put(boolean.class, new NativeTypeVisitor<Boolean>(boolean.class));
+		typeVisitors.put(Float.class, new FloatVisitor());
+		typeVisitors.put(float.class, new FloatVisitor());
+		typeVisitors.put(Double.class, new NativeTypeVisitor<Double>(Double.class));
+		typeVisitors.put(double.class, new NativeTypeVisitor<Double>(double.class));
+		typeVisitors.put(Byte.class, new ByteVisitor());
+		typeVisitors.put(byte.class, new ByteVisitor());
+		typeVisitors.put(Short.class, new ShortVisitor());
+		typeVisitors.put(short.class, new ShortVisitor());
 		typeVisitors.put(Integer.class, new NativeTypeVisitor<Integer>(Integer.class));
 		typeVisitors.put(int.class, new NativeTypeVisitor<Integer>(int.class));
 		typeVisitors.put(Long.class, new NativeTypeVisitor<Long>(Long.class));
 		typeVisitors.put(long.class, new NativeTypeVisitor<Long>(long.class));
+		typeVisitors.put(Character.class, new CharVisitor());
+		typeVisitors.put(char.class, new CharVisitor());
+		typeVisitors.put(byte[].class, new NativeTypeVisitor<byte[]>(byte[].class));
+		
+		typeVisitors.put(Date.class, new NativeTypeVisitor<Date>(Date.class));
+		typeVisitors.put(Pattern.class, new NativeTypeVisitor<Pattern>(Pattern.class));
+		
+		
+		typeVisitors.put(Code.class, new NativeTypeVisitor<Code>(Code.class));
+		typeVisitors.put(CodeWScope.class, new NativeTypeVisitor<CodeWScope>(CodeWScope.class));
+
 	}
 	Map<Class<?>, IVersionFactory<?>> versionFactories = Maps.newLinkedHashMap();
 	{

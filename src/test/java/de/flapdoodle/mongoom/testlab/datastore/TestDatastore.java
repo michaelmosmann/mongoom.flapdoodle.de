@@ -26,6 +26,7 @@ import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
 import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;
+import de.flapdoodle.mongoom.testlab.datastore.beans.NativeTypes;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
@@ -113,4 +114,30 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",1,list.size());
 	}
 
+	public void testNativeTypes() {
+		List<Class<?>> classes=Lists.newArrayList();
+		classes.add(NativeTypes.class);
+		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
+			@Override
+			public IMappingContext newContext() {
+				return new ColorMappingContext();
+			}
+		};
+		Transformations transformations = new Transformations(factory,classes);
+		IDatastore datastore=new Datastore(getMongo(), getDatabaseName(), transformations);
+		datastore.ensureCaps();
+		datastore.ensureIndexes();
+		
+		NativeTypes nt = NativeTypes.withValues();
+		NativeTypes nt2 = NativeTypes.withValues();
+		assertEquals("Eq",nt, nt2);
+		
+		datastore.save(nt);
+		List<NativeTypes> nts = datastore.find(NativeTypes.class);
+		assertEquals("Size",1,nts.size());
+		
+		NativeTypes read=datastore.with(NativeTypes.class).id().eq(nt.getId()).result().get();
+		assertEquals("Eq",read, nt);
+	}
+	
 }
