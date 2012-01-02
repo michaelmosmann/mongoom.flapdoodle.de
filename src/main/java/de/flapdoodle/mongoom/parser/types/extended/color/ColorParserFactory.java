@@ -20,17 +20,14 @@ import java.awt.Color;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.parser.IFieldType;
+import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
-import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class ColorParserFactory implements ITypeParserFactory {
 

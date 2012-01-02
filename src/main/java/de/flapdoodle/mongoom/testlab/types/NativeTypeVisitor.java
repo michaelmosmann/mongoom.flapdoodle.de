@@ -16,10 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab.types;
 
-import java.lang.reflect.Field;
-
-import com.google.common.collect.Sets;
-
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.AbstractVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
@@ -27,8 +23,6 @@ import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 
 
 public class NativeTypeVisitor<T> extends AbstractVisitor implements ITypeVisitor<T,T> {

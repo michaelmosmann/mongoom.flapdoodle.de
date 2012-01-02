@@ -36,14 +36,6 @@ import de.flapdoodle.mongoom.mapping.converter.EmbeddedObjectConverter;
 import de.flapdoodle.mongoom.mapping.converter.EntityConverter;
 import de.flapdoodle.mongoom.mapping.converter.ITypeConverterFactory;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
-import de.flapdoodle.mongoom.mapping.converter.factories.EnumConverterFactory;
-import de.flapdoodle.mongoom.mapping.converter.factories.CollectionConverterFactory;
-import de.flapdoodle.mongoom.mapping.converter.factories.RawConverterFactory;
-import de.flapdoodle.mongoom.mapping.converter.factories.ReferenceConverterFactory;
-import de.flapdoodle.mongoom.mapping.naming.EntityAnnotationNamingFactory;
-import de.flapdoodle.mongoom.mapping.naming.FieldAnnotationNamingFactory;
-import de.flapdoodle.mongoom.mapping.naming.PrefixFieldNamingFactory;
-import de.flapdoodle.mongoom.mapping.versions.StringVersionFactory;
 
 public class Mapper {
 

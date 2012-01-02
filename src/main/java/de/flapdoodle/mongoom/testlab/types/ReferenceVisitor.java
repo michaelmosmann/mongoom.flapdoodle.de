@@ -16,15 +16,10 @@
 
 package de.flapdoodle.mongoom.testlab.types;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-
 import org.bson.types.ObjectId;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.converter.factories.ReferenceConverter;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
-import de.flapdoodle.mongoom.testlab.IEntityContext;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;

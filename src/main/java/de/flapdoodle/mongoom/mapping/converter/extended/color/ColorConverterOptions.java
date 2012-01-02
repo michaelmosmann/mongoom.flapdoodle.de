@@ -23,9 +23,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 
 
 @Documented

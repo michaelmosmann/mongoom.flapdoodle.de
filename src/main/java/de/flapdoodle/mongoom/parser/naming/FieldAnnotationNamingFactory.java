@@ -16,8 +16,6 @@
 
 package de.flapdoodle.mongoom.parser.naming;
 
-import java.lang.reflect.Field;
-
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Version;

@@ -20,16 +20,10 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
-
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Entity;
-import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.Views;
-import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
-import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
@@ -39,11 +33,8 @@ import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
 import de.flapdoodle.mongoom.testlab.IViewVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 
 public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, DBObject> implements

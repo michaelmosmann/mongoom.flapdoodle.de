@@ -24,8 +24,6 @@ import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.types.Reference;
 

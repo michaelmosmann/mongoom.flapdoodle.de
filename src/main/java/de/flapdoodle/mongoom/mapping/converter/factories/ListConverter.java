@@ -16,15 +16,12 @@
 
 package de.flapdoodle.mongoom.mapping.converter.factories;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.mongoom.mapping.IContainerConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
-import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 
 public class ListConverter extends AbstractCollectionConverter<List> {
 

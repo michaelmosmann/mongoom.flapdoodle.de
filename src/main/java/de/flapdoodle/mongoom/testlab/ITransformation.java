@@ -18,8 +18,6 @@ package de.flapdoodle.mongoom.testlab;
 
 import java.util.Set;
 
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public interface ITransformation<Bean,Mapped> {

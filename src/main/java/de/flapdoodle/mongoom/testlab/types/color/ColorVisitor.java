@@ -28,7 +28,6 @@ import de.flapdoodle.mongoom.testlab.ITypeVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 
 

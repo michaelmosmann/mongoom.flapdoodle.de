@@ -16,8 +16,6 @@
 
 package de.flapdoodle.mongoom.mapping.converter;
 
-import java.lang.reflect.Type;
-
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;

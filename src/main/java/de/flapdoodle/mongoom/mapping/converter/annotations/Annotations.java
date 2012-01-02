@@ -18,9 +18,6 @@ package de.flapdoodle.mongoom.mapping.converter.annotations;
 
 import java.lang.reflect.Field;
 
-import de.flapdoodle.mongoom.annotations.Entity;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 
 

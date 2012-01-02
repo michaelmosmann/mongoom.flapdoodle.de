@@ -18,7 +18,6 @@ package de.flapdoodle.mongoom.testlab.types;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Set;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;

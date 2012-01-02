@@ -32,11 +32,9 @@ import de.flapdoodle.mongoom.IQueryResult;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.iterator.TypedIterator;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.exceptions.QueryException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.IReadConverter;
-import de.flapdoodle.mongoom.mapping.IViewConverter;
 
 public class QueryResult<T> implements IQueryResult<T> {
 

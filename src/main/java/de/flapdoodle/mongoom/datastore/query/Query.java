@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.datastore.query;
 
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import com.mongodb.DBCollection;
@@ -27,7 +26,6 @@ import de.flapdoodle.mongoom.IQueryResult;
 import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityConverter;

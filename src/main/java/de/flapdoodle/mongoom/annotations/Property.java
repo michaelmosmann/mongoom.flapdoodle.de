@@ -23,8 +23,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import de.flapdoodle.mongoom.mapping.Const;
-
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)

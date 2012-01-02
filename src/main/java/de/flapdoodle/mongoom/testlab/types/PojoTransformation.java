@@ -16,21 +16,10 @@
 
 package de.flapdoodle.mongoom.testlab.types;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.entities.AbstractBeanTransformation;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public class PojoTransformation<Bean> extends AbstractBeanTransformation<Bean, PojoContext<Bean>> implements ITransformation<Bean, DBObject> {

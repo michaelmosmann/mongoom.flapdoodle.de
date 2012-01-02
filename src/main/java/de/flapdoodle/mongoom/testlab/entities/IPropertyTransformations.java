@@ -16,12 +16,10 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
-import java.util.Collection;
 import java.util.Set;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 

@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -24,8 +23,8 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IFieldType;
-import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMapProperties;
+import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IType;
 
 public abstract class AbstractPropertyMapping<T extends IType> implements IMapProperties {

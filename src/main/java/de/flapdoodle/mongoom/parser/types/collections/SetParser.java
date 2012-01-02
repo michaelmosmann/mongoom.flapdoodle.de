@@ -16,9 +16,8 @@
 
 package de.flapdoodle.mongoom.parser.types.collections;
 
-import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 
 
 public class SetParser extends AbstractCollectionParser {

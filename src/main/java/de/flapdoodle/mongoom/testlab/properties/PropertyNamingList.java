@@ -22,8 +22,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import de.flapdoodle.mongoom.parser.IFieldType;
-
 
 public class PropertyNamingList implements IPropertyNaming {
 

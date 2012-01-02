@@ -19,7 +19,6 @@ package de.flapdoodle.mongoom.testlab.datastore.query;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 import com.google.common.base.Function;
@@ -36,7 +35,6 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.datastore.iterator.TypedIterator;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public class QueryResult<T> implements IQueryResult<T> {
 

@@ -17,8 +17,6 @@
 package de.flapdoodle.mongoom.mapping.converter;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -32,15 +30,12 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.ConverterType;
 import de.flapdoodle.mongoom.annotations.Id;
-import de.flapdoodle.mongoom.annotations.OnRead;
-import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.mapping.IVersionFactory;

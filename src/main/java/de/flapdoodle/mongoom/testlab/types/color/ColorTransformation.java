@@ -27,9 +27,7 @@ import com.google.common.collect.Sets;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.types.NoopTransformation;
 

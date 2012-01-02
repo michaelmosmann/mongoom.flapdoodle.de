@@ -22,9 +22,9 @@ import java.util.Set;
 import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.datastore.DatastoreImpl;
-import de.flapdoodle.mongoom.mapping.MappingConfig;
 import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.mapping.Mapper;
+import de.flapdoodle.mongoom.mapping.MappingConfig;
 
 public class ObjectMapper {
 

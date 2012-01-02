@@ -27,7 +27,6 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.annotations.MappedSuperclass;
 import de.flapdoodle.mongoom.exceptions.MappingException;

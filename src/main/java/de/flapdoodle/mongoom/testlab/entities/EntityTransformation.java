@@ -32,10 +32,7 @@ import de.flapdoodle.mongoom.testlab.datastore.collections.Collections;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
 import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
-import de.flapdoodle.mongoom.testlab.entities.EntityTransformation.VersionUpdater;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean, EntityContext<Bean>> implements

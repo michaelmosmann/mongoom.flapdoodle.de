@@ -16,8 +16,6 @@
 
 package de.flapdoodle.mongoom;
 
-import java.util.Iterator;
-import java.util.List;
 
 public interface IEntityQuery<T> extends IQuery<T> {
 

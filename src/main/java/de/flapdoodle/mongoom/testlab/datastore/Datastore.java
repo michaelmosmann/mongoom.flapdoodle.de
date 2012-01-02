@@ -18,7 +18,6 @@ package de.flapdoodle.mongoom.testlab.datastore;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +41,6 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;

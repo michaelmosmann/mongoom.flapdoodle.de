@@ -16,12 +16,7 @@
 
 package de.flapdoodle.mongoom.parser;
 
-import java.util.List;
-
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
-import de.flapdoodle.mongoom.parser.properties.EmbeddedType;
-import de.flapdoodle.mongoom.parser.properties.FieldType;
 
 
 

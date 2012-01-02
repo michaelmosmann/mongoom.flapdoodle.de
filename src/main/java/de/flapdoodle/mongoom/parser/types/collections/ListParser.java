@@ -25,9 +25,6 @@ import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
-import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.properties.ClassType;
-import de.flapdoodle.mongoom.parser.properties.ContainerType;
 import de.flapdoodle.mongoom.parser.properties.EmbeddedType;
 
 

@@ -22,8 +22,6 @@ import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.mapping.IConverter;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 
 public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, ITransformation> implements ISubQuery<T, Q> {

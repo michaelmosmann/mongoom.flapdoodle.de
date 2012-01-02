@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab.properties;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Arrays;

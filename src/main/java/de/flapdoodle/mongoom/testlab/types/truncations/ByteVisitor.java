@@ -4,13 +4,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.testlab.AbstractVisitor;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.ITypeInfo;
-import de.flapdoodle.mongoom.testlab.ITypeVisitor;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 

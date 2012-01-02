@@ -21,11 +21,8 @@ import java.util.Iterator;
 import com.mongodb.DBCursor;
 
 import de.flapdoodle.mongoom.datastore.query.QueryResult;
-import de.flapdoodle.mongoom.datastore.query.Query;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.IReadConverter;
-import de.flapdoodle.mongoom.mapping.IViewConverter;
 
 public class TypedIterator<T> implements Iterator<T> {
 

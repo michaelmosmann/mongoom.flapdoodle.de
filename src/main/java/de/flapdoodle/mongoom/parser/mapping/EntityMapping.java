@@ -17,22 +17,13 @@
 package de.flapdoodle.mongoom.parser.mapping;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
-import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
 import de.flapdoodle.mongoom.parser.visitors.IMappingEntityIndexVisitor;
-import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 
 public class EntityMapping extends AbstractPropertyMapping<ClassType> implements IEntityMapping{

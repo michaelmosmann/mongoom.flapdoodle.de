@@ -16,14 +16,8 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
-import java.util.Collections;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.testlab.entities.IBeanContext;

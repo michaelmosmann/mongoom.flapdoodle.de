@@ -23,7 +23,6 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.IConverter;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
 
 public abstract class AbstractQuery<T, C extends IConverter<?>> {

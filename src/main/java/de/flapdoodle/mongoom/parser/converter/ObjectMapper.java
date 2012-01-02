@@ -20,9 +20,7 @@ package de.flapdoodle.mongoom.parser.converter;
 
 import java.util.logging.Logger;
 
-import de.flapdoodle.mongoom.datastore.Indexes;
 import de.flapdoodle.mongoom.logging.LogConfig;
-import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.parser.IMappingParserResult;
 import de.flapdoodle.mongoom.parser.naming.IEntityNamingFactory;
 import de.flapdoodle.mongoom.parser.naming.IPropertyNamingFactory;

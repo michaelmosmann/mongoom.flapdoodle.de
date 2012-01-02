@@ -18,11 +18,8 @@ package de.flapdoodle.mongoom.testlab.types;
 
 import java.util.Set;
 
-import org.bson.types.ObjectId;
-
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
-import de.flapdoodle.mongoom.types.Reference;
 
 
 public class EnumTransformation<E extends Enum<E>> implements ITransformation<E,String> {

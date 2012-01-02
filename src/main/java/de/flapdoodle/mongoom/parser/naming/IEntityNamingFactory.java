@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.parser.naming;
 
-import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
 
 

@@ -16,10 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.lang.reflect.Field;
-
-import com.mongodb.DBObject;
-
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 

@@ -19,9 +19,7 @@ package de.flapdoodle.mongoom.testlab.entities;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
@@ -30,7 +28,6 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;

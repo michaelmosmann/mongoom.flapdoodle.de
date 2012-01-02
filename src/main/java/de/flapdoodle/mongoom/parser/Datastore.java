@@ -23,7 +23,6 @@ import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
-import de.flapdoodle.mongoom.mapping.IMappingConfig;
 import de.flapdoodle.mongoom.parser.converter.ObjectMapper;
 
 public class Datastore implements IDatastore {

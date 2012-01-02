@@ -6,7 +6,6 @@ import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
-import de.flapdoodle.mongoom.testlab.types.truncations.ShortVisitor.ShortTransformation;
 
 
 public class FloatVisitor extends AbstractSmallerTypeVisitor<Float,Double>  {

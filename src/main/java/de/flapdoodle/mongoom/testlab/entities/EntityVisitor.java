@@ -37,7 +37,6 @@ import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.properties.IAnnotated;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.properties.Property;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;

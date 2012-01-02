@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.parser;
 
-import java.util.List;
 import java.util.Set;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;

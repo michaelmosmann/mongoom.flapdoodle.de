@@ -16,13 +16,10 @@
 
 package de.flapdoodle.mongoom.mapping.index;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITypeConverter;
-import de.flapdoodle.mongoom.mapping.converter.MappedAttribute;
 import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class IndexContext<T> {

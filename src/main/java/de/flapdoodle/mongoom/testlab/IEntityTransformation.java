@@ -16,11 +16,8 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.util.List;
-
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
 import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
 

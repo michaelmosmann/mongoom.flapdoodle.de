@@ -25,7 +25,6 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
-import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.visitors.IMappingIndexVisitor;
 
 class MappedPropertyProxy implements IMappedProperty {

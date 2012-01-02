@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.testlab;
 
-import java.util.Set;
 
 
 public interface IViewTransformation<Bean,Mapped> extends ITransformation<Bean, Mapped>{

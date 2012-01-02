@@ -16,16 +16,9 @@
 
 package de.flapdoodle.mongoom.testlab.entities;
 
-import java.util.Collections;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.mapping.IPropertyContext;
 import de.flapdoodle.mongoom.testlab.properties.IProperty;
-import de.flapdoodle.mongoom.testlab.properties.Property;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 public abstract class AbstractBeanContext<BeanType> implements IPropertyContext<BeanType>, IBeanContext<BeanType> {
 

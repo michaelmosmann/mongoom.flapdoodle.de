@@ -19,9 +19,7 @@ package de.flapdoodle.mongoom.mapping.converter.extended.color;
 import java.awt.Color;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
-import com.google.common.collect.Maps;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 

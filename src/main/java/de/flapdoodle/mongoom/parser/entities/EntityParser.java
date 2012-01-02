@@ -17,19 +17,15 @@
 package de.flapdoodle.mongoom.parser.entities;
 
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
-import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
-import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.converter.annotations.Annotations;
-import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
@@ -37,16 +33,10 @@ import de.flapdoodle.mongoom.parser.IEntityParser;
 import de.flapdoodle.mongoom.parser.IFieldType;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
-import de.flapdoodle.mongoom.parser.IMapProperties;
 import de.flapdoodle.mongoom.parser.IType;
-import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.mapping.EntityMapping;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
-import de.flapdoodle.mongoom.parser.properties.FieldType;
 import de.flapdoodle.mongoom.parser.types.AbstractObjectParser;
-import de.flapdoodle.mongoom.parser.types.AbstractParser;
 
 public class EntityParser extends AbstractObjectParser<IEntityMapping> implements IEntityParser {
 

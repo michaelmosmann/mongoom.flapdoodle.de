@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.mapping.converter;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
 

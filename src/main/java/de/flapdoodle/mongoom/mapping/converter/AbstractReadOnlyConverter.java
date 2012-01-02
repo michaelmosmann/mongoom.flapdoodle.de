@@ -20,8 +20,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.logging.Logger;
 
 import com.mongodb.DBObject;
@@ -38,9 +36,6 @@ import de.flapdoodle.mongoom.mapping.MappingContext;
 import de.flapdoodle.mongoom.mapping.callbacks.Callbacks;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
-import de.flapdoodle.mongoom.mapping.callbacks.NoopReadCallback;
-import de.flapdoodle.mongoom.mapping.callbacks.NoopWriteCallback;
-import de.flapdoodle.mongoom.mapping.converter.generics.TypeExtractor;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 
 public abstract class AbstractReadOnlyConverter<T> {

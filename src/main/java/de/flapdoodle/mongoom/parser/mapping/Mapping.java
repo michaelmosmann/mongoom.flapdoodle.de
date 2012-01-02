@@ -16,20 +16,12 @@
 
 package de.flapdoodle.mongoom.parser.mapping;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import de.flapdoodle.mongoom.annotations.index.Indexed;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.parser.IEntityMapping;
-import de.flapdoodle.mongoom.parser.IEntityParserFactory;
 import de.flapdoodle.mongoom.parser.IMappedProperty;
 import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMappingParserResult;
@@ -37,7 +29,6 @@ import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
 import de.flapdoodle.mongoom.parser.properties.ClassType;
-import de.flapdoodle.mongoom.parser.properties.FieldType;
 import de.flapdoodle.mongoom.parser.visitors.IMappingResultVisitor;
 
 

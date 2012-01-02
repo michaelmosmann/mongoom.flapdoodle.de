@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.parser.types;
 
-import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -28,18 +27,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.logging.LogConfig;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
-import de.flapdoodle.mongoom.mapping.Mapper;
-import de.flapdoodle.mongoom.mapping.MappingContext;
-import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
-import de.flapdoodle.mongoom.mapping.converter.factories.RawConverter;
-import de.flapdoodle.mongoom.mapping.converter.factories.RawConverterFactory;
-import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IMapProperties;
+import de.flapdoodle.mongoom.parser.IMappingParserContext;
 import de.flapdoodle.mongoom.parser.IType;
 import de.flapdoodle.mongoom.parser.ITypeParser;
 import de.flapdoodle.mongoom.parser.ITypeParserFactory;
-import de.flapdoodle.mongoom.parser.mapping.Mapping;
 
 public class RawParserFactory implements ITypeParserFactory {
 

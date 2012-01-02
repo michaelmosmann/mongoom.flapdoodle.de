@@ -18,7 +18,6 @@ package de.flapdoodle.mongoom.testlab.datastore.query;
 
 import java.util.logging.Logger;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -31,9 +30,6 @@ import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.mapping.IEntityConverter;
-import de.flapdoodle.mongoom.mapping.ITypeConverter;
-import de.flapdoodle.mongoom.mapping.IViewConverter;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
