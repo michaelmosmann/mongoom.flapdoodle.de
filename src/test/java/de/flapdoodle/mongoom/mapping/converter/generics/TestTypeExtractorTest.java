@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.TestCase;
+
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 import de.flapdoodle.mongoom.types.Reference;
 

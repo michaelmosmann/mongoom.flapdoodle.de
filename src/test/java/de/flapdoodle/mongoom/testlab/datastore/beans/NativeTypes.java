@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import org.bson.types.Code;
-import org.bson.types.CodeWScope;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;

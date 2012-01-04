@@ -17,9 +17,7 @@
 package de.flapdoodle.mongoom.live.mapping.fields;
 
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
-import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
-import de.flapdoodle.mongoom.ObjectMapper;
 import de.flapdoodle.mongoom.live.beans.fields.Book;
 
 public class TestBook extends AbstractDatastoreTest {

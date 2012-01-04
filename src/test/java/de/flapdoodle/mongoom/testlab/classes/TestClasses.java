@@ -21,9 +21,9 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
-
 import junit.framework.TestCase;
+
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 
 
 public class TestClasses extends TestCase {

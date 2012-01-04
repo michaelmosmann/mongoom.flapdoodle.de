@@ -19,7 +19,6 @@ package de.flapdoodle.mongoom.live.beans;
 import java.util.List;
 
 import de.flapdoodle.mongoom.annotations.Direction;
-import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 
 public class MetaInfo {

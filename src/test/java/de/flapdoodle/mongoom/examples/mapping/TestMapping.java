@@ -22,9 +22,7 @@ import java.util.List;
 import com.google.inject.internal.Lists;
 
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
-import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
-import de.flapdoodle.mongoom.ObjectMapper;
 
 public class TestMapping extends AbstractDatastoreTest {
 

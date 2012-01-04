@@ -17,21 +17,10 @@
 package de.flapdoodle.mongoom.examples.mapping.complex;
 
 import java.awt.Color;
-import java.util.Date;
 import java.util.List;
 
-import com.google.inject.internal.Lists;
-
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
-import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
-import de.flapdoodle.mongoom.ObjectMapper;
-import de.flapdoodle.mongoom.examples.mapping.Document;
-import de.flapdoodle.mongoom.examples.mapping.DocumentView;
-import de.flapdoodle.mongoom.examples.mapping.Meta;
-import de.flapdoodle.mongoom.mapping.IMappingConfig;
-import de.flapdoodle.mongoom.mapping.MappingConfig;
-import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterFactory;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;

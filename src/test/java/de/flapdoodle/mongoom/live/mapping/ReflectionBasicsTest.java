@@ -19,8 +19,9 @@ package de.flapdoodle.mongoom.live.mapping;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import de.flapdoodle.mongoom.live.beans.User;
 import junit.framework.TestCase;
+
+import de.flapdoodle.mongoom.live.beans.User;
 
 public class ReflectionBasicsTest extends TestCase {
 

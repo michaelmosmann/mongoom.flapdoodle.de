@@ -29,10 +29,7 @@ import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;
 import de.flapdoodle.mongoom.testlab.datastore.beans.NativeTypes;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
-import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.Transformations;
-
-import junit.framework.TestCase;
 
 
 public class TestDatastore extends AbstractMongoOMTest {

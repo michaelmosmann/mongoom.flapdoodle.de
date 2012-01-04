@@ -16,7 +16,6 @@
 
 package de.flapdoodle.mongoom.live.beans;
 
-import com.google.common.collect.Sets;
 
 public class Author {
 

@@ -18,8 +18,6 @@ package de.flapdoodle.mongoom.examples.callbacks;
 
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
-import de.flapdoodle.mongoom.annotations.OnRead;
-import de.flapdoodle.mongoom.annotations.OnWrite;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;

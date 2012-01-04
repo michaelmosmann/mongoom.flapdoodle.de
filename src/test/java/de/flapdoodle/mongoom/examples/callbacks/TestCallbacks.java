@@ -19,9 +19,7 @@ package de.flapdoodle.mongoom.examples.callbacks;
 import java.util.List;
 
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
-import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
-import de.flapdoodle.mongoom.ObjectMapper;
 
 public class TestCallbacks extends AbstractDatastoreTest {
 

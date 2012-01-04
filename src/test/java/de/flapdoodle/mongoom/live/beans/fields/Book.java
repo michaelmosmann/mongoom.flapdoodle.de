@@ -16,10 +16,8 @@
 
 package de.flapdoodle.mongoom.live.beans.fields;
 
-import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.annotations.Entity;

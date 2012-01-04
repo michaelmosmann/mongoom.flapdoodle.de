@@ -17,7 +17,8 @@
 package de.flapdoodle.mongoom.testlab;
 
 import java.util.HashSet;
-import java.util.List;
+
+import junit.framework.TestCase;
 
 import org.bson.types.ObjectId;
 
@@ -37,10 +38,7 @@ import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
 import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;
-import de.flapdoodle.mongoom.testlab.types.SetVisitor;
 import de.flapdoodle.mongoom.types.Reference;
-
-import junit.framework.TestCase;
 
 public class TestTransformation extends TestCase {
 

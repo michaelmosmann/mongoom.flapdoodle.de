@@ -18,14 +18,10 @@ package de.flapdoodle.mongoom.examples.tree;
 
 import java.util.List;
 
-import junit.framework.Test;
-
 import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
-import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
-import de.flapdoodle.mongoom.ObjectMapper;
 
 public class TestTree extends AbstractDatastoreTest {
 
