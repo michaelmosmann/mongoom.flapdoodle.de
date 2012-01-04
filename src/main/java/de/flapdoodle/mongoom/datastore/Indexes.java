@@ -19,6 +19,7 @@ package de.flapdoodle.mongoom.datastore;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObjectBuilder;
@@ -27,10 +28,13 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.Direction;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 public final class Indexes {
+
+	static final Logger _logger=LogConfig.getLogger(Indexes.class);
 
 	private Indexes() {
 
@@ -90,11 +94,11 @@ public final class Indexes {
 			DBObject indexKeys = keys.get();
 //			DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
 			if (keyOpts == null) {
-				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
+				_logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys);
 				dbColl.ensureIndex(indexKeys);
 			} else {
 				DBObject options = keyOpts.get();
-				DatastoreImpl._logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys
+				_logger.info("Ensuring index for " + dbColl.getName() + "." + index + " with keys " + indexKeys
 						+ " and opts " + options);
 				dbColl.ensureIndex(indexKeys, options);
 			}

@@ -16,6 +16,8 @@
 
 package de.flapdoodle.mongoom.datastore;
 
+import java.util.logging.Logger;
+
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -24,11 +26,14 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
 import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
 
 public final class Caps {
 
+	static final Logger _logger=LogConfig.getLogger(Caps.class);
+	
 	private Caps() {
 
 	}
@@ -67,14 +72,14 @@ public final class Caps {
 						DBObject dbResult = db.command(BasicDBObjectBuilder.start("collstats", collectionName).get());
 						if (dbResult.containsField("capped")) {
 							// TODO: check the cap options.
-							DatastoreImpl._logger.warning("DBCollection already exists is cap'd already; doing nothing. " + dbResult);
+							_logger.warning("DBCollection already exists is cap'd already; doing nothing. " + dbResult);
 						} else {
-							DatastoreImpl._logger.warning("DBCollection already exists with same name(" + collectionName
+							_logger.warning("DBCollection already exists with same name(" + collectionName
 									+ ") and is not cap'd; not creating cap'd version!");
 						}
 					} else {
 						db.createCollection(collectionName, dbCapOpts.get());
-						DatastoreImpl._logger.info("Created cap'd DBCollection (" + collectionName + ") with opts " + capCollection);
+						_logger.info("Created cap'd DBCollection (" + collectionName + ") with opts " + capCollection);
 					}
 				} finally {
 					Errors.checkError(db, Operation.Insert);

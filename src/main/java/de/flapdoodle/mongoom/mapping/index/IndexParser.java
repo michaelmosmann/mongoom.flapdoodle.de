@@ -34,68 +34,6 @@ import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 public class IndexParser {
 
-	public static <T> void processFieldIndexes(IndexContext<T> indexContext) {
-		List<IndexDef> subIndexes = indexContext.getFieldConverter().getIndexes();
-		if (subIndexes != null) {
-			for (IndexDef def : subIndexes) {
-				if (def.group() != null) {
-					EntityIndexDef gdef = indexContext.getIndexGroup(def.group());
-					if (gdef == null)
-						throw new MappingException(indexContext.getEntityClass(), "Field " + indexContext.getField() + ", IndexGroup " + def.group()
-								+ " not defined (in FieldType)");
-					FieldIndex field = def.fields().get(0);
-					gdef.addField(new FieldIndex(indexContext.getFieldName() + "." + field.name(), field.direction(), field.priority()));
-				} else {
-					List<FieldIndex> indexFields = Lists.newArrayList();
-					for (FieldIndex fi : def.fields()) {
-						indexFields.add(new FieldIndex(indexContext.getFieldName() + "." + fi.name(), fi.direction(), fi.priority()));
-					}
-					indexContext.addIndexDefinitions(new IndexDef(def.name(), indexFields, def.unique(), def.dropDups(), def.sparse()));
-				}
-			}
-		}
-	}
-
-	public static <T> void extractIndex(IndexContext<T> indexContext) {
-		IAnnotated field = indexContext.getField();
-		Class<T> entityClass = indexContext.getEntityClass();
-		
-		Indexed indexedAnn=null;
-		IndexedInGroup[] idxInGAnnList = null;
-		OneOrOther<Indexed, IndexedInGroup[]> indexOrIndexGroups = getIndexDef(entityClass, field);
-		if (indexOrIndexGroups.getOne()!=null) indexedAnn=indexOrIndexGroups.getOne();
-		else idxInGAnnList=indexOrIndexGroups.getOther();
-	
-		if (indexedAnn != null) {
-			List<IndexDef> subIndexes = indexContext.getFieldConverter().getIndexes();
-			if ((subIndexes != null) && (!subIndexes.isEmpty()))
-				throw new MappingException(entityClass, "Field " + field + " is indexed, but type has index too");
-	
-			IndexOption options = indexedAnn.options();
-			String name = indexedAnn.name();
-			if (name.length() == 0)
-				name = null;
-			indexContext.addIndexDefinitions(new IndexDef(name, Lists.newArrayList(new FieldIndex(indexContext.getFieldName(), indexedAnn.direction(), 0)),
-					options.unique(), options.dropDups(), options.sparse()));
-		} else {
-			if (idxInGAnnList != null) {
-				for (IndexedInGroup iig : idxInGAnnList) {
-					String groupName = iig.group();
-					if (indexContext.isEntity()) {
-						EntityIndexDef def = indexContext.getIndexGroup(groupName);
-						if (def == null)
-							throw new MappingException(entityClass, "Field " + field + ", IndexGroup " + groupName + " not defined");
-						def.addField(new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority()));
-					} else {
-						indexContext.addIndexDefinitions(new IndexDef(groupName, new FieldIndex(indexContext.getFieldName(), iig.direction(), iig.priority())));
-					}
-				}
-			} else {
-				processFieldIndexes(indexContext);
-			}
-		}
-	}
-	
 	public static OneOrOther<Indexed, IndexedInGroup[]> getIndexDef(Class<?> entityClass, IAnnotated field) {
 		Indexed indexedAnn = field.getAnnotation(Indexed.class);
 		IndexedInGroup indexedInGroupAnn = field.getAnnotation(IndexedInGroup.class);

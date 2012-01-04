@@ -16,14 +16,19 @@
 
 package de.flapdoodle.mongoom.datastore;
 
+import java.util.logging.Logger;
+
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
 
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.exceptions.UpdateFailedException;
+import de.flapdoodle.mongoom.logging.LogConfig;
 
 public final class Errors {
-
+	
+	static final Logger _logger=LogConfig.getLogger(Errors.class);
+	
 	private Errors() {
 
 	}
@@ -31,7 +36,7 @@ public final class Errors {
 	public static void checkError(DB db, Operation operation) {
 		CommandResult lastError = db.getLastError();
 		if (lastError.get("err") != null) {
-			DatastoreImpl._logger.severe(lastError.get("err").toString());
+			_logger.severe(lastError.get("err").toString());
 			// throw lastError.getException();
 			throw new ObjectMapperException(lastError.get("err").toString());
 		}
