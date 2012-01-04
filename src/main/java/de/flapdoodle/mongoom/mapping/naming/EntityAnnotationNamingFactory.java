@@ -17,7 +17,6 @@
 package de.flapdoodle.mongoom.mapping.naming;
 
 import de.flapdoodle.mongoom.annotations.Entity;
-import de.flapdoodle.mongoom.mapping.IEntityNamingFactory;
 
 public class EntityAnnotationNamingFactory implements IEntityNamingFactory {
 

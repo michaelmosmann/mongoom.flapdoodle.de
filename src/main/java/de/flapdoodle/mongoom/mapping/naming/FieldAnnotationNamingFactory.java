@@ -23,7 +23,6 @@ import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.mapping.IFieldNamingFactory;
 
 public class FieldAnnotationNamingFactory implements IFieldNamingFactory {
 

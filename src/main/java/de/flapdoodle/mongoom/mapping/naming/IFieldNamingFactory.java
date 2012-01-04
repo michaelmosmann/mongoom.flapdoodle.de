@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping;
+package de.flapdoodle.mongoom.mapping.naming;
 
-import com.mongodb.DBObject;
+import java.lang.reflect.Field;
 
-public interface IReadConverter<T> {
+public interface IFieldNamingFactory {
 
-	T convertFrom(DBObject dboject);
+	String getFieldName(Field field);
 }

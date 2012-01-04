@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping;
+package de.flapdoodle.mongoom.mapping.naming;
 
-import java.lang.reflect.Field;
+public interface IEntityNamingFactory {
 
-public interface IFieldNamingFactory {
-
-	String getFieldName(Field field);
+	String getEntityName(Class<?> entityClass);
 }
