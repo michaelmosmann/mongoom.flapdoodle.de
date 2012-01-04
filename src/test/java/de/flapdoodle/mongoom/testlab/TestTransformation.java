@@ -26,6 +26,12 @@ import com.google.common.collect.Sets;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.mapping.IEntityTransformation;
+import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.context.IMappingContext;
+import de.flapdoodle.mongoom.mapping.context.MappingContext;
+import de.flapdoodle.mongoom.mapping.entities.EntityVisitor;
+import de.flapdoodle.mongoom.mapping.types.ReferenceTransformation;
 import de.flapdoodle.mongoom.testlab.beans.BadLoopDummy;
 import de.flapdoodle.mongoom.testlab.beans.Dummy;
 import de.flapdoodle.mongoom.testlab.beans.Flip;
@@ -34,10 +40,6 @@ import de.flapdoodle.mongoom.testlab.beans.Flop;
 import de.flapdoodle.mongoom.testlab.beans.Foo;
 import de.flapdoodle.mongoom.testlab.beans.Loop;
 import de.flapdoodle.mongoom.testlab.beans.LoopDummy;
-import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
-import de.flapdoodle.mongoom.testlab.types.ReferenceTransformation;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class TestTransformation extends TestCase {

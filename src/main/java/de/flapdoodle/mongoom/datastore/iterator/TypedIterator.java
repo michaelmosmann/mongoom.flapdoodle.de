@@ -23,7 +23,7 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.datastore.query.QueryResult;
 import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.mapping.ITransformation;
 
 public class TypedIterator<T> implements Iterator<T> {
 

@@ -22,11 +22,13 @@ import junit.framework.TestCase;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.mapping.IEntityTransformation;
+import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.context.IMappingContext;
+import de.flapdoodle.mongoom.mapping.entities.EntityVisitor;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
-import de.flapdoodle.mongoom.testlab.entities.EntityVisitor;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 
 
 public class TestCustomTransformation extends TestCase {

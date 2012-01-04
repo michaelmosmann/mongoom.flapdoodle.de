@@ -23,10 +23,10 @@ import java.util.logging.LogManager;
 import com.google.inject.internal.Lists;
 
 import de.flapdoodle.mongoom.datastore.Datastore;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
-import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.Transformations;
+import de.flapdoodle.mongoom.mapping.context.IMappingContext;
+import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
+import de.flapdoodle.mongoom.mapping.context.MappingContext;
+import de.flapdoodle.mongoom.mapping.context.Transformations;
 
 
 public abstract class AbstractDatastoreTest extends AbstractMongoOMTest {

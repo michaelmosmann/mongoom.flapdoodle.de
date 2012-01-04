@@ -24,13 +24,13 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.datastore.Datastore;
+import de.flapdoodle.mongoom.mapping.context.IMappingContext;
+import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
+import de.flapdoodle.mongoom.mapping.context.Transformations;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
 import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;
 import de.flapdoodle.mongoom.testlab.datastore.beans.NativeTypes;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
-import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
 
 public class TestDatastore extends AbstractMongoOMTest {

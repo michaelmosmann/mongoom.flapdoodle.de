@@ -18,8 +18,10 @@ package de.flapdoodle.mongoom.testlab;
 
 import java.awt.Color;
 
-import de.flapdoodle.mongoom.testlab.mapping.MappingContext;
-import de.flapdoodle.mongoom.testlab.types.color.ColorVisitor;
+import de.flapdoodle.mongoom.mapping.ITypeInfo;
+import de.flapdoodle.mongoom.mapping.ITypeVisitor;
+import de.flapdoodle.mongoom.mapping.context.MappingContext;
+import de.flapdoodle.mongoom.mapping.types.color.ColorVisitor;
 
 public class ColorMappingContext extends MappingContext {
 	@Override

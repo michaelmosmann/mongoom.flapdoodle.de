@@ -30,10 +30,10 @@ import de.flapdoodle.mongoom.datastore.factories.DBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
-import de.flapdoodle.mongoom.testlab.IEntityTransformation;
-import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.IEntityTransformation;
+import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.IViewTransformation;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> implements IEntityQuery<T> {
 

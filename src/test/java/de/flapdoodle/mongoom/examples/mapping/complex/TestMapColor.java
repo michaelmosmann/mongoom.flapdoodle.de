@@ -21,9 +21,9 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.IDatastore;
+import de.flapdoodle.mongoom.mapping.context.IMappingContext;
+import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
-import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
 
 
 public class TestMapColor extends AbstractDatastoreTest {

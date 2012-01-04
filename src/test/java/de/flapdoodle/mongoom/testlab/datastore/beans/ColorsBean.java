@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
+import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity("ColorBean")

@@ -26,7 +26,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.examples.mapping.Document;
-import de.flapdoodle.mongoom.mapping.converter.extended.color.ColorConverterOptions;
+import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value = "ColorDocument")

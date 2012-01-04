@@ -26,8 +26,8 @@ import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.BSONType;
-import de.flapdoodle.mongoom.testlab.IContainerTransformation;
-import de.flapdoodle.mongoom.testlab.ITransformation;
+import de.flapdoodle.mongoom.mapping.IContainerTransformation;
+import de.flapdoodle.mongoom.mapping.ITransformation;
 
 public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T, Q> {
 

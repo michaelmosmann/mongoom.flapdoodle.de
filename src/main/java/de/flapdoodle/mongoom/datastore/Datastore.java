@@ -39,9 +39,9 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
+import de.flapdoodle.mongoom.mapping.IEntityTransformation;
+import de.flapdoodle.mongoom.mapping.context.Transformations;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
-import de.flapdoodle.mongoom.testlab.IEntityTransformation;
-import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
 public class Datastore implements IDatastore {
 
