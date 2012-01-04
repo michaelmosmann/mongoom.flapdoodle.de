@@ -33,6 +33,8 @@ import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
+import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
+import de.flapdoodle.mongoom.mapping.versions.StringVersionFactory;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
@@ -52,8 +54,6 @@ import de.flapdoodle.mongoom.testlab.types.truncations.ByteVisitor;
 import de.flapdoodle.mongoom.testlab.types.truncations.CharVisitor;
 import de.flapdoodle.mongoom.testlab.types.truncations.FloatVisitor;
 import de.flapdoodle.mongoom.testlab.types.truncations.ShortVisitor;
-import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
-import de.flapdoodle.mongoom.testlab.versions.StringVersionFactory;
 import de.flapdoodle.mongoom.types.Reference;
 
 public class MappingContext implements IMappingContext {

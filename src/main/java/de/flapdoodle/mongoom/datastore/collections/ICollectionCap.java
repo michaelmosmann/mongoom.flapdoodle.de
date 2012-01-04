@@ -14,10 +14,35 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.collections;
+package de.flapdoodle.mongoom.datastore.collections;
+
+import de.flapdoodle.mongoom.annotations.CappedAt;
 
 
-public interface ICollection {
-	String name();
-	ICollectionCap cap();
+public interface ICollectionCap {
+	long count();
+	long size();
+	
+	public static class Annotated implements ICollectionCap {
+
+		private final CappedAt _annotation;
+
+		private Annotated(CappedAt annotation) {
+			_annotation = annotation;
+		}
+		
+		@Override
+		public long count() {
+			return _annotation.count();
+		}
+
+		@Override
+		public long size() {
+			return _annotation.size();
+		}
+		
+		public static ICollectionCap with(CappedAt annotation) {
+			return new Annotated(annotation);
+		}
+	}
 }

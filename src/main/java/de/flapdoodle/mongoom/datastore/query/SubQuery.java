@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.query;
+package de.flapdoodle.mongoom.datastore.query;
 
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;

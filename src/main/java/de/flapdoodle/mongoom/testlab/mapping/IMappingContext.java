@@ -16,11 +16,11 @@
 
 package de.flapdoodle.mongoom.testlab.mapping;
 
+import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.ITypeInfo;
 import de.flapdoodle.mongoom.testlab.ITypeVisitor;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyNaming;
-import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 
 

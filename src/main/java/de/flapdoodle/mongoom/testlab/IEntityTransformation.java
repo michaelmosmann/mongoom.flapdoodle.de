@@ -18,8 +18,8 @@ package de.flapdoodle.mongoom.testlab;
 
 import com.mongodb.DBObject;
 
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
-import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
+import de.flapdoodle.mongoom.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.datastore.index.IIndex;
 
 
 

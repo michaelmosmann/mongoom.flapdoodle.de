@@ -25,10 +25,10 @@ import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.datastore.collections.ICollectionCap;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
 
 public final class Caps {
 

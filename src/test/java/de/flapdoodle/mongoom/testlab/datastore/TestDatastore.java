@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
+import de.flapdoodle.mongoom.datastore.Datastore;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
 import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;

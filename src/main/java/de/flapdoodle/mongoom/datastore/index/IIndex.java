@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.index;
+package de.flapdoodle.mongoom.datastore.index;
 
-import de.flapdoodle.mongoom.annotations.index.Indexed;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import java.util.List;
+
+import de.flapdoodle.mongoom.mapping.index.IndexDef;
 
 
-public interface IPropertyIndex {
+public interface IIndex {
 
-	void addIndexedInGroup(IndexedInGroup ig);
-
-	void setIndexed(Indexed ig);
+	List<IndexDef> list();
 
 }

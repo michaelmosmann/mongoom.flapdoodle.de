@@ -20,20 +20,20 @@ import java.lang.reflect.Field;
 
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.datastore.collections.Collections;
+import de.flapdoodle.mongoom.datastore.collections.ICollection;
+import de.flapdoodle.mongoom.datastore.collections.ICollectionCap;
+import de.flapdoodle.mongoom.datastore.index.IIndex;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.NoopReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.NoopWriteCallback;
+import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.ITransformation;
 import de.flapdoodle.mongoom.testlab.IViewTransformation;
-import de.flapdoodle.mongoom.testlab.datastore.collections.Collections;
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollection;
-import de.flapdoodle.mongoom.testlab.datastore.collections.ICollectionCap;
-import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
-import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityTransformation<Bean> extends AbstractBeanTransformation<Bean, EntityContext<Bean>> implements
 		IEntityTransformation<Bean> {

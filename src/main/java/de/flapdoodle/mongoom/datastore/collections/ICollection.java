@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.index;
-
-import java.util.List;
-
-import de.flapdoodle.mongoom.mapping.index.IndexDef;
+package de.flapdoodle.mongoom.datastore.collections;
 
 
-public interface IIndex {
-
-	List<IndexDef> list();
-
+public interface ICollection {
+	String name();
+	ICollectionCap cap();
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.query;
+package de.flapdoodle.mongoom.datastore.query;
 
 import java.util.List;
 import java.util.regex.Pattern;

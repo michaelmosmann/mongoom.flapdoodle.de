@@ -22,7 +22,7 @@ import java.util.logging.LogManager;
 
 import com.google.inject.internal.Lists;
 
-import de.flapdoodle.mongoom.testlab.datastore.Datastore;
+import de.flapdoodle.mongoom.datastore.Datastore;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContext;
 import de.flapdoodle.mongoom.testlab.mapping.IMappingContextFactory;
 import de.flapdoodle.mongoom.testlab.mapping.MappingContext;

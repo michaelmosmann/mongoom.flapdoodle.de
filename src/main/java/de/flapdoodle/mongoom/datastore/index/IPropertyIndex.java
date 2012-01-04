@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.collections;
+package de.flapdoodle.mongoom.datastore.index;
+
+import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 
 
-public class Collections {
-	private Collections() {
-		throw new IllegalAccessError("singleton");
-	}
-	
-	public static ICollection newCollection(final String name, final ICollectionCap cap) {
-		return new ICollection() {
-			
-			@Override
-			public String name() {
-				return name;
-			}
-			
-			@Override
-			public ICollectionCap cap() {
-				return cap;
-			}
-		};
-	}
+public interface IPropertyIndex {
+
+	void addIndexedInGroup(IndexedInGroup ig);
+
+	void setIndexed(Indexed ig);
+
 }

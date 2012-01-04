@@ -29,6 +29,7 @@ import de.flapdoodle.mongoom.mapping.callbacks.IEntityReadCallback;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
+import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 import de.flapdoodle.mongoom.testlab.AbstractClassFieldVisitor;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
 import de.flapdoodle.mongoom.testlab.IEntityVisitor;
@@ -39,7 +40,6 @@ import de.flapdoodle.mongoom.testlab.properties.IProperty;
 import de.flapdoodle.mongoom.testlab.properties.IPropertyField;
 import de.flapdoodle.mongoom.testlab.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.typeinfo.TypeInfo;
-import de.flapdoodle.mongoom.testlab.versions.IVersionFactory;
 
 public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityBean, DBObject> implements
 		IEntityVisitor<EntityBean> {

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore.iterator;
+package de.flapdoodle.mongoom.datastore.iterator;
 
 import java.util.Iterator;
 
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+import de.flapdoodle.mongoom.datastore.query.QueryResult;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.testlab.ITransformation;
-import de.flapdoodle.mongoom.testlab.datastore.query.QueryResult;
 
 public class TypedIterator<T> implements Iterator<T> {
 

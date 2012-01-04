@@ -18,8 +18,6 @@ package de.flapdoodle.mongoom.mapping.versions;
 
 import java.util.UUID;
 
-import de.flapdoodle.mongoom.mapping.IVersionFactory;
-
 public class StringVersionFactory implements IVersionFactory<String> {
 
 	static int MAX_LOOPS = 3;

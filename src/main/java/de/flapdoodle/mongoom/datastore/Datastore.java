@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.datastore;
+package de.flapdoodle.mongoom.datastore;
 
 import java.util.Collection;
 import java.util.List;
@@ -33,18 +33,14 @@ import com.mongodb.Mongo;
 
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.IEntityQuery;
-import de.flapdoodle.mongoom.datastore.Caps;
-import de.flapdoodle.mongoom.datastore.Errors;
-import de.flapdoodle.mongoom.datastore.Indexes;
-import de.flapdoodle.mongoom.datastore.Operation;
+import de.flapdoodle.mongoom.datastore.index.IIndex;
+import de.flapdoodle.mongoom.datastore.query.Query;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.exceptions.ObjectMapperException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.testlab.IEntityTransformation;
-import de.flapdoodle.mongoom.testlab.datastore.index.IIndex;
-import de.flapdoodle.mongoom.testlab.datastore.query.Query;
 import de.flapdoodle.mongoom.testlab.mapping.Transformations;
 
 public class Datastore implements IDatastore {

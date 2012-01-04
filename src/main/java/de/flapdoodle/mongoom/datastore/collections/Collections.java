@@ -14,9 +14,26 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.versions;
+package de.flapdoodle.mongoom.datastore.collections;
 
-public interface IVersionFactory<T> {
 
-	T newVersion(T oldVersion);
+public class Collections {
+	private Collections() {
+		throw new IllegalAccessError("singleton");
+	}
+	
+	public static ICollection newCollection(final String name, final ICollectionCap cap) {
+		return new ICollection() {
+			
+			@Override
+			public String name() {
+				return name;
+			}
+			
+			@Override
+			public ICollectionCap cap() {
+				return cap;
+			}
+		};
+	}
 }

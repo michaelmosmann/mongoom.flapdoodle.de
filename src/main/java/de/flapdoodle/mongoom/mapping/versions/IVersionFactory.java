@@ -14,23 +14,9 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.versions;
+package de.flapdoodle.mongoom.mapping.versions;
 
-import java.util.UUID;
+public interface IVersionFactory<T> {
 
-public class StringVersionFactory implements IVersionFactory<String> {
-
-	static int MAX_LOOPS = 3;
-
-	@Override
-	public String newVersion(String oldVersion) {
-		for (int i = 0; i < MAX_LOOPS; i++) {
-			String newVersion = UUID.randomUUID().toString();
-			if (newVersion != null) {
-				if (!newVersion.equals(oldVersion))
-					return newVersion;
-			}
-		}
-		return null;
-	}
+	T newVersion(T oldVersion);
 }
