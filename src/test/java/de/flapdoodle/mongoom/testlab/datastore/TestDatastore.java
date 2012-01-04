@@ -19,6 +19,8 @@ package de.flapdoodle.mongoom.testlab.datastore;
 import java.awt.Color;
 import java.util.List;
 
+import org.bson.types.Code;
+
 import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
@@ -126,16 +128,20 @@ public class TestDatastore extends AbstractMongoOMTest {
 		datastore.ensureCaps();
 		datastore.ensureIndexes();
 		
+		Code a=new Code("{/**/}");
+		Code b=new Code("{/**/}");
+		assertEquals("Code EQ",a, b);
+		
 		NativeTypes nt = NativeTypes.withValues();
 		NativeTypes nt2 = NativeTypes.withValues();
-		assertEquals("Eq",nt, nt2);
+		assertEquals("Instance EQ",nt, nt2);
 		
 		datastore.save(nt);
 		List<NativeTypes> nts = datastore.find(NativeTypes.class);
 		assertEquals("Size",1,nts.size());
 		
 		NativeTypes read=datastore.with(NativeTypes.class).id().eq(nt.getId()).result().get();
-		assertEquals("Eq",read, nt);
+		assertEquals("Read EQ",read, nt);
 	}
 	
 }
