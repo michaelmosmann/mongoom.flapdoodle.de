@@ -142,6 +142,5 @@ public class TestDatastore extends AbstractMongoOMTest {
 		
 		NativeTypes read=datastore.with(NativeTypes.class).id().eq(nt.getId()).result().get();
 		assertEquals("Read EQ",read, nt);
-	}
-	
+	}	
 }

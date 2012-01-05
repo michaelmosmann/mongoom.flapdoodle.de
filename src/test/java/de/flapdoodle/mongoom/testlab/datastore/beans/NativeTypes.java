@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.testlab.datastore.beans;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -91,7 +92,7 @@ public class NativeTypes {
 		ret._sval=4321;
 		ret._svalue=8642;
 		ret._val="BluBla";
-		ret._dtvalue=new Date();
+		ret._dtvalue=new Date(0);
 		ret._bavalue=new byte[] {0x01,0x02,0x04,0x08};
 		ret._pvalue=Pattern.compile("a?a");
 		ret._covalue=new Code("{/**/}");
