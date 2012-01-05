@@ -51,8 +51,9 @@ public abstract class AbstractQuery<T, C extends ITransformation> {
 		
 		ITransformation converter = entityConverter;
 		for (String f : field) {
+			ITransformation lastConverter=converter;
 			converter = converter.propertyTransformation(f);
-			if (converter==null) throw new MappingException("No Converter for " + Arrays.asList(field));
+			if (converter==null) throw new MappingException("No Converter for " + Arrays.asList(field)+" in "+lastConverter);
 		}
 		return converter;
 	}

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.types.color;
+package de.flapdoodle.mongoom.mapping.types.date;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -25,14 +25,15 @@ import java.lang.annotation.Target;
 
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 
-
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target( {ElementType.FIELD})
-public @interface ColorConverterOptions {
-	IndexedInGroup[] red() default {}; 
-	IndexedInGroup[] green() default {}; 
-	IndexedInGroup[] blue() default {}; 
-	IndexedInGroup[] alpha() default {}; 
+public @interface DateMappingOptions {
+	IndexedInGroup[] year() default {};
+	IndexedInGroup[] month() default {};
+	IndexedInGroup[] day() default {};
+	IndexedInGroup[] hour() default {};
+	IndexedInGroup[] minute() default {};
+	IndexedInGroup[] second() default {};
 }

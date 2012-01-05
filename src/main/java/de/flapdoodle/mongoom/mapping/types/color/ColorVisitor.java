@@ -41,6 +41,7 @@ public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
 				addIndex(propertyContext, "r", options.red());
 				addIndex(propertyContext, "g", options.green());
 				addIndex(propertyContext, "b", options.blue());
+				addIndex(propertyContext, "a", options.alpha());
 			}
 		}
 		return new ColorTransformation();

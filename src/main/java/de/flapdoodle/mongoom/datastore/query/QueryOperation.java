@@ -27,6 +27,7 @@ import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.BSONType;
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
+import de.flapdoodle.mongoom.mapping.IQueryTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 
 public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T, Q> {
@@ -59,10 +60,17 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	public <V> Q eq(V value) {
 		if (_not)
 			throw new MappingException("use ne instead of not.eq");
-		_queryBuilder.set(_field, getConverter(true).asObject(value));
+		_queryBuilder.set(_field, asObject(getConverter(true),value));
 		return _query;
 	}
 
+	private static <V> Object asObject(ITransformation converter,V value) {
+		if (converter instanceof IQueryTransformation) {
+			((IQueryTransformation) converter).asQueryObject(value);
+		}
+		return converter.asObject(value);
+	}
+	
 	@Override
 	public Q match(Pattern pattern) {
 		// check if dest type is String
@@ -182,7 +190,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	private <V> Q opList(String op, boolean listAllowed, V... value) {
 		List values = Lists.newArrayList();
 		for (V v : value) {
-			values.add(getConverter(listAllowed).asObject(v));
+			values.add(asObject(getConverter(listAllowed),v));
 		}
 		IDBObjectFactory factory = _queryBuilder.get(_field);
 		if (_not)
@@ -196,7 +204,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 		IDBObjectFactory factory = _queryBuilder.get(_field);
 		if (_not)
 			factory = factory.get("$not");
-		factory.set(op, getConverter(listAllowed).asObject(value));
+		factory.set(op, asObject(getConverter(listAllowed),value));
 		//		_queryBuilder.set(_field, op, _converter.convertTo(value));
 		return _query;
 	}

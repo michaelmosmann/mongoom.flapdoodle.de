@@ -17,6 +17,8 @@
 package de.flapdoodle.mongoom.testlab.datastore;
 
 import java.awt.Color;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.Code;
@@ -30,6 +32,8 @@ import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.Transformations;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
+import de.flapdoodle.mongoom.testlab.DateMappingContext;
+import de.flapdoodle.mongoom.testlab.datastore.beans.Article;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Book;
 import de.flapdoodle.mongoom.testlab.datastore.beans.ColorsBean;
 import de.flapdoodle.mongoom.testlab.datastore.beans.NativeTypes;
@@ -143,4 +147,52 @@ public class TestDatastore extends AbstractMongoOMTest {
 		NativeTypes read=datastore.with(NativeTypes.class).id().eq(nt.getId()).result().get();
 		assertEquals("Read EQ",read, nt);
 	}	
+	
+	public void testArticles() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2011);
+		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 4);
+		cal.set(Calendar.HOUR, 15);
+		cal.set(Calendar.MINUTE, 30);
+		cal.set(Calendar.SECOND, 45);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date date=cal.getTime();
+		
+		List<Class<?>> classes=Lists.newArrayList();
+		classes.add(Article.class);
+		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
+			@Override
+			public IMappingContext newContext() {
+				return new DateMappingContext();
+			}
+		};
+		Transformations transformations = new Transformations(factory,classes);
+		IDatastore datastore=new Datastore(getMongo(), getDatabaseName(), transformations);
+		datastore.ensureCaps();
+		datastore.ensureIndexes();
+		
+		Article article = new Article();
+		article.setName("Bla");
+		datastore.save(article);
+		article.setName("Blu");
+		datastore.update(article);
+		article=new Article();
+		article.setName("2. Buch");
+		article.setCreated(date);
+		datastore.save(article);
+		
+		List<Article> articles = datastore.find(Article.class);
+		assertEquals("Size",2,articles.size());
+//		System.out.println("Books: "+books);
+		
+		articles=datastore.with(Article.class).field("d","y").eq(2011).result().asList();
+		assertEquals("Size",1,articles.size());
+		articles=datastore.with(Article.class).field("d","y").eq(2010).result().asList();
+		assertEquals("Size",0,articles.size());
+		articles=datastore.with(Article.class).field("d","y").gt(2010).result().asList();
+		assertEquals("Size",1,articles.size());
+
+	}
+
 }

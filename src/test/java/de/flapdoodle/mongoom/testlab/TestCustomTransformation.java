@@ -17,6 +17,8 @@
 package de.flapdoodle.mongoom.testlab;
 
 import java.awt.Color;
+import java.util.Calendar;
+import java.util.Date;
 
 import junit.framework.TestCase;
 
@@ -29,6 +31,7 @@ import de.flapdoodle.mongoom.mapping.entities.EntityVisitor;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
+import de.flapdoodle.mongoom.testlab.beans.DateBean;
 
 
 public class TestCustomTransformation extends TestCase {
@@ -43,7 +46,7 @@ public class TestCustomTransformation extends TestCase {
 		DBObject dbObject = transformation.asObject(dummy);
 		System.out.println("DBObject:" + dbObject);
 		ColorBean read = transformation.asEntity(dbObject);
-		System.out.println("DBObject:" + read);
+		System.out.println("ColorBean:" + read);
 		assertEquals("Eq", dummy, read);
 
 		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(TypedPropertyName.of("c", Color.class));
@@ -64,5 +67,42 @@ public class TestCustomTransformation extends TestCase {
 		ColorView colorView = viewTransformation.asEntity(dbObject);
 		assertEquals("Eq.Red", dummy.getColor().getRed(),colorView.getRed());
 		assertEquals("Eq.Color", dummy.getColor(),colorView.getColor());
+	}
+	
+	public void testDate() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, 2011);
+		cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+		cal.set(Calendar.DAY_OF_MONTH, 4);
+		cal.set(Calendar.HOUR, 15);
+		cal.set(Calendar.MINUTE, 30);
+		cal.set(Calendar.SECOND, 45);
+		cal.set(Calendar.MILLISECOND, 0);
+		Date date=cal.getTime();
+		
+		IMappingContext mappingContext = new DateMappingContext();
+		EntityVisitor<DateBean> entityVisitor = new EntityVisitor<DateBean>();
+		IEntityTransformation<DateBean> transformation = entityVisitor.transformation(mappingContext, DateBean.class);
+		assertNotNull(transformation);
+		DateBean dummy = new DateBean();
+		dummy.setDate(date);
+		DBObject dbObject = transformation.asObject(dummy);
+		System.out.println("DBObject:" + dbObject);
+		DateBean read = transformation.asEntity(dbObject);
+		System.out.println("DateBean:" + read);
+		assertEquals("Eq", dummy, read);
+		
+		ITransformation<Date, DBObject> dateTrans = (ITransformation<Date, DBObject>) transformation.propertyTransformation(TypedPropertyName.of("d", Date.class));
+		DBObject dateAsObject = dateTrans.asObject(date);
+		System.out.println("DBObject.Date:" + dateAsObject);
+		Date readDate = dateTrans.asEntity(dateAsObject);
+		assertEquals("Eq", date, readDate);
+		
+		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) dateTrans.propertyTransformation(TypedPropertyName.of("y",Integer.class));
+		Integer value=1973;
+		Object object = rtrans.asObject(value);
+		Integer propertyValue = rtrans.asEntity(object);
+		assertEquals("Eq", value, propertyValue);
+
 	}
 }
