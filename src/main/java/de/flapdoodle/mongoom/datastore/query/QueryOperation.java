@@ -36,8 +36,9 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	private final Q _query;
 	private final String _field;
 //	private final String[] _fields;
-	private final MappedNameTransformation _converter;
+//	private final MappedNameTransformation _converter;
 	private final IDBObjectFactory _queryBuilder;
+	private ITransformation _transformation;
 
 	boolean _not = false;
 
@@ -47,7 +48,8 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 //		_field = asName(fields);
 //		_fields = fields;
 		_field=converter.name().getMapped();
-		_converter = converter;
+//		_converter = converter;
+		_transformation=converter.transformation();
 	}
 
 	//	@Override
@@ -66,8 +68,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 		return _query;
 	}
 
-	private static <V> Object asObject(MappedNameTransformation mappedTransformation,V value) {
-		ITransformation converter=mappedTransformation.transformation();
+	private static <V> Object asObject(ITransformation converter,V value) {
 		if (converter instanceof IQueryTransformation) {
 			((IQueryTransformation) converter).asQueryObject(value);
 		}
@@ -183,8 +184,8 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 
 	@Override
 	public SubQuery<T, Q> elemMatch() {
-		if (_converter instanceof IContainerTransformation) {
-			return new SubQuery<T, Q>(_query, ((IContainerTransformation) _converter).containerConverter(), _queryBuilder.get(
+		if (_transformation instanceof IContainerTransformation) {
+			return new SubQuery<T, Q>(_query, ((IContainerTransformation) _transformation).containerConverter(), _queryBuilder.get(
 					_field).get("$elemMatch"));
 		}
 		throw new MappingException("Field " + _field + " is not an List");
@@ -212,14 +213,14 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 		return _query;
 	}
 
-	private MappedNameTransformation getConverter(boolean listAllowed) {
-		if (_converter==null) throw new MappingException("No Converter for " + _field);
+	private ITransformation getConverter(boolean listAllowed) {
+		if (_transformation==null) throw new MappingException("No Converter for " + _field);
 		if (listAllowed) {
-			if (_converter.transformation() instanceof IContainerTransformation) {
-				return new MappedNameTransformation(_converter.name(), ((IContainerTransformation) _converter.transformation()).containerConverter());
+			if (_transformation instanceof IContainerTransformation) {
+				return ((IContainerTransformation) _transformation).containerConverter();
 			}
 		}
-		return _converter;
+		return _transformation;
 	}
 
 	private static String asName(String[] field) {

@@ -77,12 +77,12 @@ public class PropertyContext<T> implements IPropertyContext<T>, IBeanContext<T> 
 	
 	@Override
 	public void addIndexedInGroup(IPropertyMappedName name, IndexedInGroup ig) {
-		_parentContext.addIndexedInGroup(Property.append(_property.name(), name), ig);
+		_parentContext.addIndexedInGroup(_property!=null ? Property.append(_property.name() , name) : name, ig);
 	}
 	
 	@Override
 	public void setIndexed(IPropertyMappedName name, Indexed ig) {
-		_parentContext.setIndexed(Property.append(_property.name(), name), ig);
+		_parentContext.setIndexed(_property!=null ? Property.append(_property.name(), name) : name, ig);
 	}
 	
 	class Index implements IPropertyIndex {
