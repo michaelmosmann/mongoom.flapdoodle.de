@@ -26,6 +26,7 @@ import de.flapdoodle.mongoom.datastore.Datastore;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.MappingContext;
+import de.flapdoodle.mongoom.mapping.context.MappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.Transformations;
 
 
@@ -74,13 +75,7 @@ public abstract class AbstractDatastoreTest extends AbstractMongoOMTest {
 //		}
 //	}
 	protected IMappingContextFactory<?> newMappingContextFactory() {
-		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
-			@Override
-			public IMappingContext newContext() {
-				return new MappingContext();
-			}
-		};
-		return factory;
+		return new MappingContextFactory();
 	}
 	
 	public IDatastore getDatastore() {

@@ -29,12 +29,14 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 ### Setup
 
 	Mongo mongo = new Mongo( "localhost" , 27017 );
-	ObjectMapper mapper = new ObjectMapper();
-	mapper.map(Document.class);
-	mapper.map(User.class);
 
-	IDatastore datastore = mapper.createDatastore(mongo, "databaseName");
-		
+	ArrayList<Class<?>> classes = Lists.newArrayList();
+	classes.add(Document.class);
+	classes.add(User.class);
+
+	IMappingContextFactory<?> factory = new MappingContextFactory();
+	Transformations transformations = new Transformations(factory,classes);
+	IDatastore datastore=new Datastore(mongo, "databaseName", transformations);
 	datastore.ensureCaps();
 	datastore.ensureIndexes();
 
@@ -105,11 +107,15 @@ View for ReadOnly Access
 	
 And how to use it:
 
-	ObjectMapper mongoom = new ObjectMapper();
-	mongoom.map(Document.class);
+	Mongo mongo = new Mongo( "localhost" , 27017 );
 
-	IDatastore datastore = mongoom.createDatastore(getMongo(), getDatabaseName());
-	
+	ArrayList<Class<?>> classes = Lists.newArrayList();
+	classes.add(Document.class);
+
+	IMappingContextFactory<?> factory = new MappingContextFactory();
+	Transformations transformations = new Transformations(factory,classes);
+	IDatastore datastore=new Datastore(mongo, "databaseName", transformations);
+
 	datastore.ensureCaps();
 	datastore.ensureIndexes();
 
@@ -123,7 +129,7 @@ And how to use it:
 	
 	List<Document> list = datastore.with(Document.class).result().asList();
 	
-	List<DocumentView> views = datastore.with(Document.class).field("metainfo.keywords").eq("One").withView(DocumentView.class).asList();
+	List<DocumentView> views = datastore.with(Document.class).field("metainfo","keywords").eq("One").withView(DocumentView.class).asList();
 	DocumentView view = views.get(0);
 	List<String> keywords = view.getKeywords();
 
