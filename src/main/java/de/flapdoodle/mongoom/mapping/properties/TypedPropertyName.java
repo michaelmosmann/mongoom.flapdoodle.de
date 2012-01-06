@@ -21,7 +21,7 @@ public final class TypedPropertyName<T> {
 	String _name;
 	Class<T> _type;
 
-	public TypedPropertyName(String name, Class<T> type) {
+	private TypedPropertyName(String name, Class<T> type) {
 		_name = name;
 		_type = type;
 	}

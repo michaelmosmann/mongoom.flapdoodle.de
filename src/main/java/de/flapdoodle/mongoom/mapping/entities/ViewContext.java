@@ -23,7 +23,9 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.context.PropertyContext;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> implements IPropertyContext<ViewBean> {
@@ -43,12 +45,12 @@ public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> impleme
 	}
 
 	@Override
-	public void addIndexedInGroup(IPropertyName name, IndexedInGroup ig) {
+	public void addIndexedInGroup(IPropertyMappedName name, IndexedInGroup ig) {
 		throw new MappingException(getViewClass(),"not allowed");		
 	}
 
 	@Override
-	public void setIndexed(IPropertyName name, Indexed ig) {
+	public void setIndexed(IPropertyMappedName name, Indexed ig) {
 		throw new MappingException(getViewClass(),"not allowed");		
 	}
 	

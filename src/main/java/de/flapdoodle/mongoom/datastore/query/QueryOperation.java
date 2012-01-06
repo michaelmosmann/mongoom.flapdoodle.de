@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
+import de.flapdoodle.mongoom.datastore.query.AbstractQuery.MappedNameTransformation;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.BSONType;
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
@@ -34,17 +35,18 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 
 	private final Q _query;
 	private final String _field;
-	private final String[] _fields;
-	private final ITransformation _converter;
+//	private final String[] _fields;
+	private final MappedNameTransformation _converter;
 	private final IDBObjectFactory _queryBuilder;
 
 	boolean _not = false;
 
-	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String[] fields, ITransformation converter) {
+	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String[] fields, MappedNameTransformation converter) {
 		_query = query;
 		_queryBuilder = queryBuilder;
-		_field = asName(fields);
-		_fields = fields;
+//		_field = asName(fields);
+//		_fields = fields;
+		_field=converter.name().getMapped();
 		_converter = converter;
 	}
 
@@ -64,7 +66,8 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 		return _query;
 	}
 
-	private static <V> Object asObject(ITransformation converter,V value) {
+	private static <V> Object asObject(MappedNameTransformation mappedTransformation,V value) {
+		ITransformation converter=mappedTransformation.transformation();
 		if (converter instanceof IQueryTransformation) {
 			((IQueryTransformation) converter).asQueryObject(value);
 		}
@@ -74,7 +77,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	@Override
 	public Q match(Pattern pattern) {
 		// check if dest type is String
-		getConverter(false).asObject("");
+		asObject(getConverter(false),"");
 
 		IDBObjectFactory factory = _queryBuilder.get(_field);
 		if (_not)
@@ -209,11 +212,11 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 		return _query;
 	}
 
-	private ITransformation getConverter(boolean listAllowed) {
+	private MappedNameTransformation getConverter(boolean listAllowed) {
 		if (_converter==null) throw new MappingException("No Converter for " + _field);
 		if (listAllowed) {
-			if (_converter instanceof IContainerTransformation) {
-				return ((IContainerTransformation) _converter).containerConverter();
+			if (_converter.transformation() instanceof IContainerTransformation) {
+				return new MappedNameTransformation(_converter.name(), ((IContainerTransformation) _converter.transformation()).containerConverter());
 			}
 		}
 		return _converter;

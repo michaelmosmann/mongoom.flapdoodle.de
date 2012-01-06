@@ -17,8 +17,10 @@
 package de.flapdoodle.mongoom.mapping.properties;
 
 
-public interface IProperty<T> extends IPropertyName {
+public interface IProperty<T> {
 	IAnnotated annotated();
 
-	Class<T> getType(); 
+	Class<T> getType();
+	
+	PropertyName name();
 }

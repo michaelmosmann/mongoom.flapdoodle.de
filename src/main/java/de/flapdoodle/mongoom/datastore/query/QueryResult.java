@@ -35,6 +35,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.IEntityTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 public class QueryResult<T> implements IQueryResult<T> {
 
@@ -137,9 +138,10 @@ public class QueryResult<T> implements IQueryResult<T> {
 
 	@Override
 	public IQueryResult<T> order(String field, boolean asc) {
-		if (_entityConverter.propertyTransformation(field)==null)
+		PropertyName propertyName = _entityConverter.propertyName(field);
+		if (propertyName==null)
 			throw new MappingException("Field " + field + " not mapped");
-		_sort.put(field, asc
+		_sort.put(propertyName.getMapped(), asc
 				? 1
 				: -1);
 		return this;

@@ -24,12 +24,12 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 public class PrefixFieldNaming implements IPropertyNaming {
 
 	@Override
-	public String name(Field fieldType) {
+	public PropertyName name(Field fieldType) {
 		if (fieldType.getAnnotation(Id.class) != null) {
 			throw new MappingException(fieldType.getType(),
 					"No Fieldname resolved for Id. You should never reach this point. Something went wrong.");
 		}
 		String fieldName = fieldType.getName();
-		return fieldName.replaceFirst("_", "");
+		return PropertyName.with(fieldName.replaceFirst("_", ""),fieldType.getType());
 	}
 }

@@ -22,11 +22,12 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 
-public class EnumTransformation<E extends Enum<E>> implements ITransformation<E,String> {
+public class EnumTransformation<E extends Enum<E>> extends AbstractPrimitiveTransformation<E,String> {
 
 	private final Class<E> _type;
 
 	public EnumTransformation(Class<E> type) {
+		super(type);
 		_type = type;
 	}
 	
@@ -38,19 +39,4 @@ public class EnumTransformation<E extends Enum<E>> implements ITransformation<E,
 	public String asObject(E value) {
 		return value!=null ? value.name() : null;
 	}
-	
-	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return null;
-	}
-
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		return null;
-	}
-
-	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return null;
-	};
 }

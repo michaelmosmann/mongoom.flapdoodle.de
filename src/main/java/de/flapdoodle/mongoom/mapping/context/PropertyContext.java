@@ -24,8 +24,10 @@ import de.flapdoodle.mongoom.mapping.entities.IBeanContext;
 import de.flapdoodle.mongoom.mapping.entities.IPropertyTransformations;
 import de.flapdoodle.mongoom.mapping.entities.PropertyTransformationMap;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class PropertyContext<T> implements IPropertyContext<T>, IBeanContext<T> {
@@ -74,25 +76,25 @@ public class PropertyContext<T> implements IPropertyContext<T>, IBeanContext<T> 
 	}
 	
 	@Override
-	public void addIndexedInGroup(IPropertyName name, IndexedInGroup ig) {
-		_parentContext.addIndexedInGroup(Property.append(_property, name), ig);
+	public void addIndexedInGroup(IPropertyMappedName name, IndexedInGroup ig) {
+		_parentContext.addIndexedInGroup(Property.append(_property.name(), name), ig);
 	}
 	
 	@Override
-	public void setIndexed(IPropertyName name, Indexed ig) {
-		_parentContext.setIndexed(Property.append(_property, name), ig);
+	public void setIndexed(IPropertyMappedName name, Indexed ig) {
+		_parentContext.setIndexed(Property.append(_property.name(), name), ig);
 	}
 	
 	class Index implements IPropertyIndex {
 
 		@Override
 		public void addIndexedInGroup(IndexedInGroup ig) {
-			_parentContext.addIndexedInGroup(_property, ig);
+			_parentContext.addIndexedInGroup(_property.name(), ig);
 		}
 
 		@Override
 		public void setIndexed(Indexed ig) {
-			_parentContext.setIndexed(_property, ig);			
+			_parentContext.setIndexed(_property.name(), ig);			
 		}
 		
 	}

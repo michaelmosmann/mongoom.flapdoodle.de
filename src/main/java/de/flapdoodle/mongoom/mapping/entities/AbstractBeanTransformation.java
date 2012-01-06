@@ -30,6 +30,7 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Bean>> implements
@@ -53,14 +54,14 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 		BasicDBObject ret = new BasicDBObject();
 		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (TypedPropertyName p : propertyTransformations.typedPropertyNames()) {
+		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
 			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
 			Object fieldValue = getFieldValue(field, value);
 			Object dbValue = transformation.asObject(fieldValue);
 			if (dbValue != null)
-				ret.put(p.getName(), dbValue);
+				ret.put(p.getMapped(), dbValue);
 		}
 		return ret;
 	}
@@ -84,7 +85,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 		Bean ret = newInstance();
 		IPropertyTransformations propertyTransformations = _entityContext.getPropertyTransformations();
 
-		for (TypedPropertyName p : propertyTransformations.typedPropertyNames()) {
+		for (PropertyName p : propertyTransformations.propertyNames()) {
 			ITransformation transformation = propertyTransformations.get(p);
 			IPropertyField<?> prop = (IPropertyField<?>) propertyTransformations.getProperty(p);
 			Field field = prop.getField();
@@ -96,8 +97,8 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 		return ret;
 	}
 
-	private Object getValue(DBObject object, TypedPropertyName p) {
-		return getValue(object, Property.split(p.getName()));
+	private Object getValue(DBObject object, PropertyName p) {
+		return getValue(object, Property.split(p.getMapped()));
 	}
 
 	private Object getValue(DBObject object, List<String> path) {
@@ -149,18 +150,38 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformations().get(property);
-	}
-
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		return (ITransformation<?, ?>) _entityContext.getPropertyTransformations().get(property);
+	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+		// TODO Auto-generated method stub
+		return _entityContext.getPropertyTransformations().get(property);
 	}
 	
 	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return _entityContext.getPropertyTransformations().typedPropertyNames();
+	public PropertyName<?> propertyName(String property) {
+		return _entityContext.getPropertyTransformations().get(property);
 	}
+	
+	@Override
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		return _entityContext.getPropertyTransformations().get(property);
+	}
+//	@Override
+//	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
+//		return (ITransformation<Source, ?>) _entityContext.getPropertyTransformations().get(property);
+//	}
+//
+//	@Override
+//	public ITransformation<?, ?> propertyTransformation(String property) {
+//		return (ITransformation<?, ?>) _entityContext.getPropertyTransformations().get(property);
+//	}
+
+	@Override
+	public Set<PropertyName<?>> properties() {
+		return _entityContext.getPropertyTransformations().propertyNames();
+	}
+	
+//	@Override
+//	public Set<TypedPropertyName<?>> properties() {
+//		return _entityContext.getPropertyTransformations().typedPropertyNames();
+//	}
 
 }

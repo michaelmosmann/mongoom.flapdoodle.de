@@ -19,6 +19,7 @@ package de.flapdoodle.mongoom.mapping.entities;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.DBObject;
 
@@ -35,6 +36,8 @@ import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.mapping.typeinfo.TypeInfo;
 
 public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, DBObject> implements
@@ -70,9 +73,9 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 		for (Field field : fields) {
 			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
 			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
-			List<String> parts=Property.split(property.getName());
+			List<String> parts=Property.split(property.name().getMapped());
 			ITransformation transformation=getTransformation(this.entityContext,parts);
-			viewContext.setTransformation(Property.of(property.getName(), field), transformation);
+			viewContext.setTransformation(Property.of(property.name(), field), transformation);
 		}
 
 //		for (TypedPropertyName<?> props : entityContext.getPropertyTransformations().typedPropertyNames()) {
@@ -92,16 +95,30 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 	private static ITransformation<?, ?> getTransformation(EntityContext<?> entityContext, List<String> parts) {
 		String first=parts.get(0);
 		List<String> left = parts.subList(1, parts.size());
-		ITransformation<?, ?> ret = entityContext.getPropertyTransformations().get(first);
+		IPropertyTransformations propertyTransformations = entityContext.getPropertyTransformations();
+		ITransformation<?, ?> ret = propertyTransformations.get(getMappedPropertyName(propertyTransformations, first));
 		ret=getTransformation(ret,left);
 		return ret;
+	}
+
+	private static PropertyName<?> getMappedPropertyName(IPropertyTransformations propertyTransformations, String first) {
+		Set<PropertyName<?>> propertyNames = propertyTransformations.propertyNames();
+		return getMappedPropertyName(first, propertyNames);
+	}
+
+	private static PropertyName<?> getMappedPropertyName(String first, Set<PropertyName<?>> propertyNames) {
+		for (PropertyName<?> p : propertyNames) {
+			if (p.getMapped().equals(first)) return p;
+		}
+		return null;
 	}
 
 	private static ITransformation<?, ?> getTransformation(ITransformation<?, ?> ret, List<String> parts) {
 		if (!parts.isEmpty()) {
 			String first=parts.get(0);
 			List<String> left = parts.subList(1, parts.size());
-			ret=ret.propertyTransformation(first);
+			PropertyName pn=getMappedPropertyName(first, ret.properties());
+			ret=ret.propertyTransformation(pn);
 			getTransformation(ret, left);
 		}
 		return ret;

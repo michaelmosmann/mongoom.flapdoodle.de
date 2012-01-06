@@ -23,44 +23,79 @@ import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 
 public class PropertyTransformationMap {
 	
-	private final Map<TypedPropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
-	private final Map<String, ITransformation<?, ?>> propertynameTransformation = Maps.newLinkedHashMap();
-	private final Map<TypedPropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
+//	private final Map<TypedPropertyName<?>, ITransformation<?, ?>> propertyTransformation = Maps.newLinkedHashMap();
+//	private final Map<String, ITransformation<?, ?>> propertynameTransformation = Maps.newLinkedHashMap();
+//	private final Map<TypedPropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
+	
+	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyNameTransformation = Maps.newLinkedHashMap();
+	private final Map<String, PropertyName<?>> propertyNames = Maps.newLinkedHashMap();
+	private final Map<TypedPropertyName<?>, PropertyName<?>> propertyTypeNames = Maps.newLinkedHashMap();
+	private final Map<PropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
 	
 	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
-		TypedPropertyName<S> propertyName = TypedPropertyName.of(property.getName(), property.getType());
-		propertyTransformation.put(propertyName, transformation);
-		propertynameTransformation.put(property.getName(), transformation);
-		propertyMap.put(propertyName, property);
+		TypedPropertyName<S> propertyName = TypedPropertyName.of(property.name().getName(), property.getType());
+//		propertyTransformation.put(propertyName, transformation);
+//		propertynameTransformation.put(property.name().getName(), transformation);
+//		propertyMap.put(propertyName, property);
+		
+		propertyNameTransformation.put(property.name(), transformation);
+		propertyNames.put(property.name().getName(), property.name());
+		propertyTypeNames.put(propertyName, property.name());
+		propertyMap.put(property.name(), property);
 	}
 	
 	public IPropertyTransformations readOnly() {
 		return new IPropertyTransformations() {
 
 			@Override
-			public <Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property) {
-				return (ITransformation<Source, ?>) propertyTransformation.get(property);
+			public <Source> ITransformation<Source, ?> get(PropertyName<Source> property) {
+				return (ITransformation<Source, ?>) propertyNameTransformation.get(property);
 			}
 			
 			@Override
-			public ITransformation<?, ?> get(String property) {
-				return propertynameTransformation.get(property);
+			public PropertyName get(String property) {
+				return propertyNames.get(property);
 			}
-
+			
 			@Override
-			public <Source> IProperty<Source> getProperty(TypedPropertyName<Source> p) {
+			public <Source> PropertyName get(TypedPropertyName<Source> property) {
+				return propertyTypeNames.get(property);
+			}
+			
+			@Override
+			public <Source> IProperty<Source> getProperty(PropertyName<Source> p) {
 				return (IProperty<Source>) propertyMap.get(p);
 			}
-
+			
 			@Override
-			public Set<TypedPropertyName<?>> typedPropertyNames() {
+			public Set<PropertyName<?>> propertyNames() {
 				return propertyMap.keySet();
 			}
+//			@Override
+//			public <Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property) {
+//				return (ITransformation<Source, ?>) propertyTransformation.get(property);
+//			}
+//			
+//			@Override
+//			public ITransformation<?, ?> get(String property) {
+//				return propertynameTransformation.get(property);
+//			}
+//
+//			@Override
+//			public <Source> IProperty<Source> getProperty(TypedPropertyName<Source> p) {
+//				return (IProperty<Source>) propertyMap.get(p);
+//			}
+//
+//			@Override
+//			public Set<TypedPropertyName<?>> typedPropertyNames() {
+//				return propertyMap.keySet();
+//			}
 			
 			
 			

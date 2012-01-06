@@ -29,30 +29,30 @@ public class Property {
 		throw new IllegalAccessError("singleton");
 	}
 	
-	public static IPropertyField<?> of(String name, Field field) {
+	public static IPropertyField<?> of(PropertyName name, Field field) {
 		return new PropertyWithField(name, field);
 	}
 
-	public static <T> IProperty<T> of(String name, Class<T> type) {
+	public static <T> IProperty<T> of(PropertyName name, Class<T> type) {
 		return new PropertyWithClass<T>(name, type);
 	}
 
 	static class PropertyWithClass<T> implements IProperty<T> {
 		
-		private final String _name;
+		private final PropertyName _name;
 		private final Class<T> _type;
 		private final IAnnotated _annotated;
 		
-		protected PropertyWithClass(String name, Class<T> type,IAnnotated annotated) {
+		protected PropertyWithClass(PropertyName name, Class<T> type,IAnnotated annotated) {
 			_name=name;
 			_type=type;
 			_annotated=annotated;
 		}
-		public PropertyWithClass(String name, Class<T> type) {
+		public PropertyWithClass(PropertyName name, Class<T> type) {
 			this(name,type,new AnnotatedClass(type));
 		}
 
-		public String getName() {
+		public PropertyName name() {
 			return _name;
 		}
 
@@ -74,7 +74,7 @@ public class Property {
 		private final Field _field;
 		// MetaInfos (Index?)
 
-		public PropertyWithField(String name, Field field) {
+		public PropertyWithField(PropertyName name, Field field) {
 			super(name,(Class<T>) field.getType(),new AnnotatedField(field));
 			_genericType = field.getGenericType();
 			_field=field;
@@ -86,14 +86,14 @@ public class Property {
 		}
 	}
 	
-	public static IPropertyName append(final IPropertyName parent,final IPropertyName current) {
+	public static IPropertyMappedName append(final IPropertyMappedName parent,final IPropertyMappedName current) {
 		if (parent==null) return current;
 		
-		return new IPropertyName() {
+		return new IPropertyMappedName() {
 			
 			@Override
-			public String getName() {
-				return parent.getName()+Const.FIELDNAME_SEP+current.getName();
+			public String getMapped() {
+				return parent.getMapped()+Const.FIELDNAME_SEP+current.getMapped();
 			}
 		};
 	}

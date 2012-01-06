@@ -14,32 +14,11 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.types;
-
-import org.bson.types.ObjectId;
-
-import de.flapdoodle.mongoom.types.Reference;
+package de.flapdoodle.mongoom.mapping.properties;
 
 
-public class ReferenceTransformation<R> extends AbstractPrimitiveTransformation<Reference<R>,ObjectId> {
+public interface IPropertyMappedName {
 
-	
-	private final Class<R> _type;
+	String getMapped();
 
-	public ReferenceTransformation(Class<R> type) {
-		super((Class) Reference.class);
-		_type = type;
-	}
-	
-	@Override
-	public ObjectId asObject(Reference<R> value) {
-		return value!=null ? value.getId() : null;
-	}
-
-	@Override
-	public Reference<R> asEntity(ObjectId object) {
-		return object!=null ? Reference.getInstance(_type, (ObjectId) object) : null;
-	}
-
-	
 }

@@ -23,6 +23,10 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
+import de.flapdoodle.mongoom.mapping.properties.Properties;
+import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 public abstract class AbstractQuery<T, C extends ITransformation> {
 
@@ -45,18 +49,44 @@ public abstract class AbstractQuery<T, C extends ITransformation> {
 	public DBObject asDBObject() {
 		return getQueryBuilder().get();
 	}
-	
-	protected ITransformation getConverter(String... field) {
+
+	protected MappedNameTransformation getConverter(String... field) {
 		C entityConverter = getConverter();
-		
+
+		IPropertyMappedName name = null;
 		ITransformation converter = entityConverter;
 		for (String f : field) {
-			ITransformation lastConverter=converter;
-			converter = converter.propertyTransformation(f);
-			if (converter==null) throw new MappingException("No Converter for " + Arrays.asList(field)+" in "+lastConverter);
+			ITransformation lastConverter = converter;
+			PropertyName propertyName = converter.propertyName(f);
+			if (name == null)
+				name = propertyName;
+			else {
+				name = Property.append(name, propertyName);
+			}
+			converter = converter.propertyTransformation(propertyName);
+			if (converter == null)
+				throw new MappingException("No Converter for " + Arrays.asList(field) + " in " + lastConverter);
 		}
-		return converter;
+		return new MappedNameTransformation(name, converter);
 	}
 
+	static class MappedNameTransformation {
+
+		IPropertyMappedName _name;
+		ITransformation _transformation;
+
+		public MappedNameTransformation(IPropertyMappedName name, ITransformation transformation) {
+			_name = name;
+			_transformation = transformation;
+		}
+
+		public ITransformation transformation() {
+			return _transformation;
+		}
+
+		public IPropertyMappedName name() {
+			return _name;
+		}
+	}
 
 }

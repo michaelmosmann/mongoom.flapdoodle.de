@@ -21,7 +21,9 @@ import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public interface IPropertyContext<T> {
@@ -32,7 +34,7 @@ public interface IPropertyContext<T> {
 
 	IPropertyIndex propertyIndex();
 
-	void addIndexedInGroup(IPropertyName name, IndexedInGroup ig);
+	void addIndexedInGroup(IPropertyMappedName name, IndexedInGroup ig);
 
-	void setIndexed(IPropertyName name, Indexed ig);
+	void setIndexed(IPropertyMappedName name, Indexed ig);
 }

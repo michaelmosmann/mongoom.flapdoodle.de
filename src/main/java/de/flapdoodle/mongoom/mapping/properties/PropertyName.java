@@ -14,32 +14,34 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.types;
+package de.flapdoodle.mongoom.mapping.properties;
 
-import org.bson.types.ObjectId;
+public final class PropertyName<T> implements IPropertyMappedName {
 
-import de.flapdoodle.mongoom.types.Reference;
+	private final String _name;
+	private final String _mapped;
+	private final Class<T> _type;
 
-
-public class ReferenceTransformation<R> extends AbstractPrimitiveTransformation<Reference<R>,ObjectId> {
-
-	
-	private final Class<R> _type;
-
-	public ReferenceTransformation(Class<R> type) {
-		super((Class) Reference.class);
+	public PropertyName(String name, String mapped,Class<T> type) {
+		_name = name;
+		_mapped = mapped;
 		_type = type;
 	}
-	
-	@Override
-	public ObjectId asObject(Reference<R> value) {
-		return value!=null ? value.getId() : null;
+
+	public String getName() {
+		return _name;
 	}
 
 	@Override
-	public Reference<R> asEntity(ObjectId object) {
-		return object!=null ? Reference.getInstance(_type, (ObjectId) object) : null;
+	public String getMapped() {
+		return _mapped;
 	}
-
 	
+
+	public static <T> PropertyName<T> with(String name,String mapped,Class<T> type) {
+		return new PropertyName<T>(name, mapped,type);
+	}
+	public static <T> PropertyName<T> with(String name,Class<T> type) {
+		return new PropertyName<T>(name, name,type);
+	}
 }

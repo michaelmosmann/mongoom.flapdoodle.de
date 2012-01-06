@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
@@ -38,16 +39,16 @@ public class ColorVisitor implements ITypeVisitor<Color, DBObject>{
 		if (field instanceof IAnnotated) {
 			ColorConverterOptions options=((IAnnotated) field).getAnnotation(ColorConverterOptions.class);
 			if (options!=null) {
-				addIndex(propertyContext, "r", options.red());
-				addIndex(propertyContext, "g", options.green());
-				addIndex(propertyContext, "b", options.blue());
-				addIndex(propertyContext, "a", options.alpha());
+				addIndex(propertyContext, PropertyName.with("r",Integer.class), options.red());
+				addIndex(propertyContext, PropertyName.with("g",Integer.class), options.green());
+				addIndex(propertyContext, PropertyName.with("b",Integer.class), options.blue());
+				addIndex(propertyContext, PropertyName.with("a",Integer.class), options.alpha());
 			}
 		}
 		return new ColorTransformation();
 	}
 
-	private void addIndex(IPropertyContext<?> propertyContext, String channelName, IndexedInGroup[] channelIndex) {
+	private void addIndex(IPropertyContext<?> propertyContext, PropertyName<Integer> channelName, IndexedInGroup[] channelIndex) {
 		if (channelIndex!=null) {
 			IPropertyContext<Integer> rContext = propertyContext.contextFor(Property.of(channelName, Integer.class));
 			for (IndexedInGroup ig : channelIndex) {

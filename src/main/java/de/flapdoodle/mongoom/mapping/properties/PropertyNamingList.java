@@ -32,8 +32,8 @@ public class PropertyNamingList implements IPropertyNaming {
 	}
 	
 	@Override
-	public String name(Field fieldType) {
-		String ret=null;
+	public PropertyName name(Field fieldType) {
+		PropertyName ret=null;
 		for (IPropertyNaming factory : _factories) {
 			ret=factory.name(fieldType);
 			if (ret!=null) break;

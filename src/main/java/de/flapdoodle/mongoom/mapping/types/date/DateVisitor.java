@@ -31,6 +31,7 @@ import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.mapping.types.color.ColorTransformation;
 
@@ -44,31 +45,31 @@ public class DateVisitor implements ITypeVisitor<Date, DBObject>{
 			IAnnotated annotated = (IAnnotated) field;
 			DateMappingOptions options=annotated.getAnnotation(DateMappingOptions.class);
 			if (options!=null) {
-				addIndex(propertyContext, "y", Integer.class, options.year());
-				addIndex(propertyContext, "m", Integer.class, options.month());
-				addIndex(propertyContext, "d", Integer.class, options.day());
-				addIndex(propertyContext, "H", Integer.class, options.hour());
-				addIndex(propertyContext, "M", Integer.class, options.minute());
-				addIndex(propertyContext, "s", Integer.class, options.second());
+				addIndex(propertyContext, PropertyName.with("year","y",Integer.class), Integer.class, options.year());
+				addIndex(propertyContext, PropertyName.with("month","m",Integer.class), Integer.class, options.month());
+				addIndex(propertyContext, PropertyName.with("day","d",Integer.class), Integer.class, options.day());
+				addIndex(propertyContext, PropertyName.with("hour","H",Integer.class), Integer.class, options.hour());
+				addIndex(propertyContext, PropertyName.with("minute","M",Integer.class), Integer.class, options.minute());
+				addIndex(propertyContext, PropertyName.with("second","s",Integer.class), Integer.class, options.second());
 			}
 			IndexedInGroup iig=annotated.getAnnotation(IndexedInGroup.class);
 			if (iig!=null) {
-				addIndex(propertyContext, "t", Date.class, iig);
+				addIndex(propertyContext, PropertyName.with("time","t",Date.class), Date.class, iig);
 			}
 			IndexedInGroups iigs=annotated.getAnnotation(IndexedInGroups.class);
 			if (iigs!=null) {
-				addIndex(propertyContext, "t", Date.class, iigs.value());
+				addIndex(propertyContext, PropertyName.with("time","t",Date.class), Date.class, iigs.value());
 			}
 			Indexed ii=annotated.getAnnotation(Indexed.class);
 			if (ii!=null) {
-				IPropertyContext<Date> rContext = propertyContext.contextFor(Property.of("t", Date.class));
+				IPropertyContext<Date> rContext = propertyContext.contextFor(Property.of(PropertyName.with("time","t",Date.class), Date.class));
 				rContext.propertyIndex().setIndexed(ii);
 			}
 		}
 		return new DateTransformation();
 	}
 
-	private <T> void addIndex(IPropertyContext<?> propertyContext, String channelName, Class<T> type, IndexedInGroup... channelIndex) {
+	private <T> void addIndex(IPropertyContext<?> propertyContext, PropertyName channelName, Class<T> type, IndexedInGroup... channelIndex) {
 		if (channelIndex!=null) {
 			IPropertyContext<T> rContext = propertyContext.contextFor(Property.of(channelName, type));
 			for (IndexedInGroup ig : channelIndex) {

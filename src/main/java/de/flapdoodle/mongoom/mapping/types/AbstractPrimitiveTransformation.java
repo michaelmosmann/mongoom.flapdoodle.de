@@ -14,44 +14,44 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.types.truncations;
+package de.flapdoodle.mongoom.mapping.types;
 
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 
+import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
-import de.flapdoodle.mongoom.mapping.types.AbstractPrimitiveTransformation;
 
 
-public class ByteVisitor extends AbstractSmallerTypeVisitor<Byte,Integer>  {
+public abstract class AbstractPrimitiveTransformation<Bean,Mapped> implements ITransformation<Bean,Mapped> {
 
-	
-	public ByteVisitor() {
-		super(Integer.class, byte.class,Byte.class);
+	private final Class<Bean> _type;
+
+	public AbstractPrimitiveTransformation(Class<Bean> type) {
+		_type = type;
 	}
 	
 	@Override
-	protected ITransformation<Byte, Integer> newTransformation() {
-		return new ByteTransformation();
+	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+		throw new MappingException(_type,"No Properties");
 	}
 
-	static class ByteTransformation extends AbstractPrimitiveTransformation<Byte, Integer> {
-		
-		public ByteTransformation() {
-			super(Byte.class);
-		}
-		
-		@Override
-		public Integer asObject(Byte value) {
-			return value!=null ? value.intValue() : null;
-		}
-
-		@Override
-		public Byte asEntity(Integer object) {
-			return object!=null ? object.byteValue() : null;
-		}
+	@Override
+	public PropertyName<?> propertyName(String property) {
+		throw new MappingException(_type,"No Properties");
 	}
+
+	@Override
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		throw new MappingException(_type,"No Properties");
+	}
+
+	@Override
+	public Set<PropertyName<?>> properties() {
+		return Sets.newHashSet();
+	}
+
 }

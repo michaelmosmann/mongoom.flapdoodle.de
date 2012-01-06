@@ -33,6 +33,7 @@ import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.IViewTransformation;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> implements IEntityQuery<T> {
@@ -47,8 +48,9 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 
 	@Override
 	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
-		ITransformation converter = getConverter(field);
-		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), field, converter);
+		MappedNameTransformation mappedConverter = getConverter(field);
+//		ITransformation converter = mappedConverter;
+		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), field, mappedConverter);
 	}
 
 	@Override
@@ -65,8 +67,8 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	public <V> IQueryResult<V> withView(Class<V> view) {
 		IViewTransformation<V,DBObject> viewConverter = getConverter().viewTransformation(view);
 		BasicDBObject viewProps=new BasicDBObject();
-		for (TypedPropertyName pn : viewConverter.properties()) {
-			viewProps.put(pn.getName(),Const.VIEW_INCLUDED);
+		for (PropertyName<?> pn : viewConverter.properties()) {
+			viewProps.put(pn.getMapped(),Const.VIEW_INCLUDED);
 		}
 		return new QueryResult<V>(getConverter(), viewConverter, _dbCollection, asDBObject(), viewProps);
 	}

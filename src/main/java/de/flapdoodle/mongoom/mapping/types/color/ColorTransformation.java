@@ -28,18 +28,30 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.entities.IPropertyTransformations;
+import de.flapdoodle.mongoom.mapping.entities.PropertyTransformationMap;
+import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.mapping.types.NoopTransformation;
 
 public class ColorTransformation implements ITransformation<Color, DBObject> {
 
-	Map<TypedPropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
-	Map<String, ITransformation<Integer, Integer>> _propertyMap = Maps.newHashMap();
+	private IPropertyTransformations _map;
+
+//Map<TypedPropertyName<?>, ITransformation> _propertyTransMap = Maps.newHashMap();
+//Map<String, ITransformation> _propertyMap = Maps.newHashMap();
+
+//	Map<TypedPropertyName<Integer>, ITransformation<Integer, Integer>> _propertyTransMap = Maps.newHashMap();
+//	Map<String, ITransformation<Integer, Integer>> _propertyMap = Maps.newHashMap();
 	{
+		PropertyTransformationMap propertyMap=new PropertyTransformationMap();
 		for (String name : Lists.newArrayList("r", "g", "b", "a")) {
-			_propertyTransMap.put(TypedPropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
-			_propertyMap.put(name, new NoopTransformation<Integer>(Integer.class));
+//			_propertyTransMap.put(TypedPropertyName.of(name, Integer.class), new NoopTransformation<Integer>(Integer.class));
+//			_propertyMap.put(name, new NoopTransformation<Integer>(Integer.class));
+			propertyMap.setTransformation(Property.of(PropertyName.with(name, Integer.class), Integer.class), new NoopTransformation<Integer>(Integer.class));
 		}
+		_map=propertyMap.readOnly();
 	}
 
 
@@ -73,20 +85,39 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 	}
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return (ITransformation<Source, ?>) _propertyTransMap.get(property);
+	public Set<PropertyName<?>> properties() {
+		return _map.propertyNames();
 	}
 	
 	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		return _propertyMap.get(property);
+	public PropertyName<?> propertyName(String property) {
+		return _map.get(property);
 	}
-
+	
 	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		HashSet<TypedPropertyName<?>> result = Sets.newHashSet();
-		result.addAll(_propertyTransMap.keySet());
-		return result;
+	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+		return _map.get(property);
 	}
+	
+	@Override
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+		return _map.get(property);
+	}
+//	@Override
+//	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
+//		return (ITransformation<Source, ?>) _propertyTransMap.get(property);
+//	}
+//	
+//	@Override
+//	public ITransformation<?, ?> propertyTransformation(String property) {
+//		return _propertyMap.get(property);
+//	}
+//
+//	@Override
+//	public Set<TypedPropertyName<?>> properties() {
+//		HashSet<TypedPropertyName<?>> result = Sets.newHashSet();
+//		result.addAll(_propertyTransMap.keySet());
+//		return result;
+//	}
 
 }

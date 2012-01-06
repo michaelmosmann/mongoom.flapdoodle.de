@@ -44,7 +44,9 @@ import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean>, IBeanContext<EntityBean> {
@@ -168,18 +170,18 @@ public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> i
 	}
 	
 	@Override
-	public void addIndexedInGroup(IPropertyName name, IndexedInGroup ig) {
+	public void addIndexedInGroup(IPropertyMappedName name, IndexedInGroup ig) {
 		EntityIndexDef entityIndexDef = _indexGroupMap.get(ig.group());
 		if (entityIndexDef==null) {
 			throw new MappingException(getEntityClass(),"IndexGroup not found:"+ig);		
 		}
-		entityIndexDef.addField(new FieldIndex(name.getName(), ig.direction(), ig.priority()));
+		entityIndexDef.addField(new FieldIndex(name.getMapped(), ig.direction(), ig.priority()));
 	}
 	
 	@Override
-	public void setIndexed(IPropertyName name, Indexed ig) {
+	public void setIndexed(IPropertyMappedName name, Indexed ig) {
 		IndexOption options = ig.options();
-		String propName = name.getName();
+		String propName = name.getMapped();
 		_indexDef.put(propName,new IndexDef(propName, Lists.newArrayList(new FieldIndex(propName, ig.direction(), 0)), options.unique(), options.dropDups(), options.sparse()));
 	}
 	

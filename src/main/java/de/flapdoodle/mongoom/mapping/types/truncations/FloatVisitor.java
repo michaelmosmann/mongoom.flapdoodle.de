@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.types.AbstractPrimitiveTransformation;
 
 
 public class FloatVisitor extends AbstractSmallerTypeVisitor<Float,Double>  {
@@ -36,8 +37,12 @@ public class FloatVisitor extends AbstractSmallerTypeVisitor<Float,Double>  {
 		return new FloatTransformation();
 	}
 
-	static class FloatTransformation implements ITransformation<Float, Double> {
-
+	static class FloatTransformation extends AbstractPrimitiveTransformation<Float, Double> {
+		
+		public FloatTransformation() {
+			super(Float.class);
+		}
+		
 		@Override
 		public Double asObject(Float value) {
 			return value!=null ? value.doubleValue() : null;
@@ -47,21 +52,5 @@ public class FloatVisitor extends AbstractSmallerTypeVisitor<Float,Double>  {
 		public Float asEntity(Double object) {
 			return object!=null ? object.floatValue() : null;
 		}
-
-		@Override
-		public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-			return null;
-		}
-
-		@Override
-		public ITransformation<?, ?> propertyTransformation(String property) {
-			return null;
-		}
-
-		@Override
-		public Set<TypedPropertyName<?>> properties() {
-			return Sets.newHashSet();
-		}
-		
 	}
 }

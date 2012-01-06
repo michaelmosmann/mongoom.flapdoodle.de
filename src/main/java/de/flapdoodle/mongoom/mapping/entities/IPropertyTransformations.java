@@ -20,14 +20,23 @@ import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 
 public interface IPropertyTransformations {
-	<Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property);
-	ITransformation<?, ?> get(String property);
+	<Source> PropertyName<Source> get(TypedPropertyName<Source> property);
+	PropertyName<?> get(String property);
+	<Source> ITransformation<Source, ?> get(PropertyName<Source> property);
 	
-	<Source> IProperty<Source> getProperty(TypedPropertyName<Source> p);
+	<Source> IProperty<Source> getProperty(PropertyName<Source> p);
 	
-	Set<TypedPropertyName<?>> typedPropertyNames();
+	Set<PropertyName<?>> propertyNames();
+
+	//	<Source> ITransformation<Source, ?> get(TypedPropertyName<Source> property);
+//	ITransformation<?, ?> get(String property);
+//	
+//	<Source> IProperty<Source> getProperty(TypedPropertyName<Source> p);
+//	
+//	Set<TypedPropertyName<?>> typedPropertyNames();
 }

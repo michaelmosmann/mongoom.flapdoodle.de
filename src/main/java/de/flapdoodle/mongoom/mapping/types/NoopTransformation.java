@@ -26,7 +26,7 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
-public class NoopTransformation<N> implements ITransformation<N,N> {
+public class NoopTransformation<N> extends AbstractPrimitiveTransformation<N,N> {
 
 	static final Map<Class<?>,Class<?>> _objectTypeMap;
 	static {
@@ -47,6 +47,7 @@ public class NoopTransformation<N> implements ITransformation<N,N> {
 	private final Class<?> _objectType;
 	
 	public NoopTransformation(Class<N> type) {
+		super(type);
 		_type = type;
 		if (_type.isPrimitive()) {
 			_objectType=_objectTypeMap.get(type);
@@ -68,21 +69,6 @@ public class NoopTransformation<N> implements ITransformation<N,N> {
 		return object;
 	}
 
-	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return null;
-	}
-	
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
-		return null;
-	}
-
-	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return null;
-	}
-	
 	private boolean isInstance(N object) {
 		if (_objectType!=null) {
 			return _objectType.isInstance(object);

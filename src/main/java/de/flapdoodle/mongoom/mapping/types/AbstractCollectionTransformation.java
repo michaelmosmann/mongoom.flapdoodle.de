@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 
@@ -61,19 +62,38 @@ public abstract class AbstractCollectionTransformation<Bean, Mapped, C extends C
 	protected abstract C newContainer();
 
 	@Override
-	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-		return _transformation.propertyTransformation(property);
-	}
-
-	@Override
-	public ITransformation<?, ?> propertyTransformation(String property) {
+	public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
 		return _transformation.propertyTransformation(property);
 	}
 	
 	@Override
-	public Set<TypedPropertyName<?>> properties() {
-		return _transformation.properties();
+	public <Source> PropertyName propertyName(TypedPropertyName<Source> property) {
+		return _transformation.propertyName(property);
 	}
+//	@Override
+//	public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
+//		return _transformation.propertyTransformation(property);
+//	}
+
+	@Override
+	public PropertyName propertyName(String property) {
+		return _transformation.propertyName(property);
+	}
+	
+//	@Override
+//	public ITransformation<?, ?> propertyTransformation(String property) {
+//		return _transformation.propertyTransformation(property);
+//	}
+
+	
+	public Set<PropertyName<?>> properties() {
+		return _transformation.properties();
+	};
+	
+//	@Override
+//	public Set<TypedPropertyName<?>> properties() {
+//		return _transformation.properties();
+//	}
 
 	@Override
 	public ITransformation<Bean, Mapped> containerConverter() {

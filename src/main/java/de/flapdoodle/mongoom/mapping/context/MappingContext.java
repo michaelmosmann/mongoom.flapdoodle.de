@@ -39,6 +39,7 @@ import de.flapdoodle.mongoom.mapping.ITypeVisitor;
 import de.flapdoodle.mongoom.mapping.properties.FieldAnnotationNaming;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyNaming;
 import de.flapdoodle.mongoom.mapping.properties.PrefixFieldNaming;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.PropertyNamingList;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.mapping.types.EnumVisitor;
@@ -258,21 +259,36 @@ public class MappingContext implements IMappingContext {
 		public Bean asEntity(Mapped object) {
 			return _parent.asEntity(object);
 		}
-
-		@Override
-		public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
-			return _parent.propertyTransformation(property);
-		}
-
-		@Override
-		public ITransformation<?, ?> propertyTransformation(String property) {
-			return _parent.propertyTransformation(property);
-		}
 		
 		@Override
-		public Set<TypedPropertyName<?>> properties() {
+		public <Source> ITransformation<Source, ?> propertyTransformation(PropertyName<Source> property) {
+			return _parent.propertyTransformation(property);
+		}
+
+		@Override
+		public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+			return _parent.propertyName(property);
+		}
+//		@Override
+//		public <Source> ITransformation<Source, ?> propertyTransformation(TypedPropertyName<Source> property) {
+//			return _parent.propertyTransformation(property);
+//		}
+		@Override
+		public PropertyName<?> propertyName(String property) {
+			return _parent.propertyName(property);
+		}
+//		@Override
+//		public ITransformation<?, ?> propertyTransformation(String property) {
+//			return _parent.propertyTransformation(property);
+//		}
+		@Override
+		public Set<PropertyName<?>> properties() {
 			return _parent.properties();
 		}
+//		@Override
+//		public Set<TypedPropertyName<?>> properties() {
+//			return _parent.properties();
+//		}
 
 	}
 
