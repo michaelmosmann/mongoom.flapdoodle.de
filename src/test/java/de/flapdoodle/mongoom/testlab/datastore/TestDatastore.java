@@ -27,10 +27,14 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
+import de.flapdoodle.mongoom.IEntityQuery;
+import de.flapdoodle.mongoom.IQuery;
+import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.datastore.Datastore;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.Transformations;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.DateMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Article;
@@ -115,6 +119,9 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,list.size());
 		
 		list=datastore.with(ColorsBean.class).field("colors","r").eq(200).result().asList();
+		assertEquals("Size",1,list.size());
+		
+		list=datastore.with(ColorsBean.class).field(TypedPropertyName.of("colors",List.class)).field(TypedPropertyName.of("r",Integer.class)).eq(200).result().asList();
 		assertEquals("Size",1,list.size());
 	}
 

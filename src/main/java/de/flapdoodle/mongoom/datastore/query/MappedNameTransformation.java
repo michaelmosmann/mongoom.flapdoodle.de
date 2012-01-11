@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom;
+package de.flapdoodle.mongoom.datastore.query;
 
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 
-public interface IQuery<T> {
+public class MappedNameTransformation {
 
-	@Deprecated
-	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
+	IPropertyMappedName _name;
+	ITransformation _transformation;
 
-	<V> IQueryOperation<T, ? extends IQuery<T>> field(TypedPropertyName<V> field);
-	
-	IQueryOperation<T, ? extends IQuery<T>> id();
+	public MappedNameTransformation(IPropertyMappedName name, ITransformation transformation) {
+		_name = name;
+		_transformation = transformation;
+	}
 
-	ISubQuery<T, ? extends IQuery<T>> or();
+	public ITransformation transformation() {
+		return _transformation;
+	}
+
+	public IPropertyMappedName name() {
+		return _name;
+	}
 }

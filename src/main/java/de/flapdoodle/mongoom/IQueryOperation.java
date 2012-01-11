@@ -18,6 +18,8 @@ package de.flapdoodle.mongoom;
 
 import java.util.regex.Pattern;
 
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+
 public interface IQueryOperation<T, Q extends IQuery<T>> {
 
 	Q exists(boolean exists);
@@ -51,4 +53,6 @@ public interface IQueryOperation<T, Q extends IQuery<T>> {
 	IQueryOperation<T, Q> not();
 
 	ISubQuery<T, Q> elemMatch();
+
+	<V> IQueryOperation<T, Q> field(TypedPropertyName<V> field);
 }

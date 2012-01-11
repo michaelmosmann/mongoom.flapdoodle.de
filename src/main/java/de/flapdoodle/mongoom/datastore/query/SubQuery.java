@@ -21,9 +21,9 @@ import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.ISubQuery;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.datastore.factories.OrObjectFactory;
-import de.flapdoodle.mongoom.datastore.query.AbstractQuery.MappedNameTransformation;
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, ITransformation> implements ISubQuery<T, Q> {
 
@@ -35,11 +35,17 @@ public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, ITransfor
 	}
 
 	@Override
-	public IQueryOperation<T, ISubQuery<T, Q>> field(String... field) {
+	public <V> IQueryOperation<T, ISubQuery<T, Q>> field(TypedPropertyName<V> field) {
 		MappedNameTransformation converter = getConverter(field);
-		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), field, converter);
+		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), converter);
 	}
 
+	@Override
+	public IQueryOperation<T, ISubQuery<T, Q>> field(String... field) {
+		MappedNameTransformation converter = getConverter(field);
+		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), converter);
+	}
+	
 	@Override
 	public IQueryOperation<T, ISubQuery<T, Q>> id() {
 		return field(Const.ID_FIELDNAME);

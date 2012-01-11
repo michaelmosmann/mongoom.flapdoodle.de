@@ -23,6 +23,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.IEntityQuery;
+import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.IQueryResult;
 import de.flapdoodle.mongoom.ISubQuery;
@@ -47,10 +48,15 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	}
 
 	@Override
+	public <V> IQueryOperation<T, IEntityQuery<T>> field(TypedPropertyName<V> field) {
+		MappedNameTransformation mappedConverter = getConverter(field);
+		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
+	}
+	@Override
 	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
 		MappedNameTransformation mappedConverter = getConverter(field);
 //		ITransformation converter = mappedConverter;
-		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), field, mappedConverter);
+		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
 	}
 
 	@Override

@@ -24,12 +24,14 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
-import de.flapdoodle.mongoom.datastore.query.AbstractQuery.MappedNameTransformation;
 import de.flapdoodle.mongoom.exceptions.MappingException;
+import de.flapdoodle.mongoom.exceptions.NotImplementedException;
 import de.flapdoodle.mongoom.mapping.BSONType;
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
 import de.flapdoodle.mongoom.mapping.IQueryTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
+import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T, Q> {
 
@@ -41,17 +43,24 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	private ITransformation _transformation;
 
 	boolean _not = false;
+	private IPropertyMappedName _name;
 
-	public QueryOperation(Q query, IDBObjectFactory queryBuilder, String[] fields, MappedNameTransformation converter) {
+	public QueryOperation(Q query, IDBObjectFactory queryBuilder, MappedNameTransformation converter) {
 		_query = query;
 		_queryBuilder = queryBuilder;
 //		_field = asName(fields);
 //		_fields = fields;
 		_field=converter.name().getMapped();
+		_name=converter.name();
 //		_converter = converter;
 		_transformation=converter.transformation();
 	}
 
+	@Override
+	public <V> IQueryOperation<T, Q> field(TypedPropertyName<V> field) {
+		return new QueryOperation<T, Q>(_query, _queryBuilder, Queries.getConverter(field, _transformation,_name));
+	}
+	
 	//	@Override
 	public IQueryOperation<T, Q> not() {
 		if (_not)
