@@ -49,7 +49,7 @@ public class TestCustomTransformation extends TestCase {
 		System.out.println("ColorBean:" + read);
 		assertEquals("Eq", dummy, read);
 
-		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(transformation.propertyName(TypedPropertyName.of("c", Color.class)));
+		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(transformation.propertyName(TypedPropertyName.of("color", Color.class)));
 		Color sourceColor = new Color(1,2,3,4);
 		DBObject colorAsObject = colorTrans.asObject(sourceColor);
 		System.out.println("DBObject.Color:" + colorAsObject);
@@ -92,7 +92,7 @@ public class TestCustomTransformation extends TestCase {
 		System.out.println("DateBean:" + read);
 		assertEquals("Eq", dummy, read);
 		
-		ITransformation<Date, DBObject> dateTrans = (ITransformation<Date, DBObject>) transformation.propertyTransformation(transformation.propertyName(TypedPropertyName.of("d", Date.class)));
+		ITransformation<Date, DBObject> dateTrans = (ITransformation<Date, DBObject>) transformation.propertyTransformation(transformation.propertyName(TypedPropertyName.of("date", Date.class)));
 		DBObject dateAsObject = dateTrans.asObject(date);
 		System.out.println("DBObject.Date:" + dateAsObject);
 		Date readDate = dateTrans.asEntity(dateAsObject);

@@ -19,6 +19,11 @@ package de.flapdoodle.mongoom.mapping.properties;
 import java.lang.reflect.Field;
 
 
-public interface IPropertyNaming {
-	PropertyName<?> name(Field field, PropertyName<?> current);
+public class FieldTypeNaming implements IPropertyNaming {
+
+	@Override
+	public PropertyName name(Field field, PropertyName current) {
+		return PropertyName.with(current.getName(), current.getMapped(), field.getType());
+	}
+
 }

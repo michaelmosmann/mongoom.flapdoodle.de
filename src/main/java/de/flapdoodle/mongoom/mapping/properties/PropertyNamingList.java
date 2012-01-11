@@ -32,11 +32,10 @@ public class PropertyNamingList implements IPropertyNaming {
 	}
 	
 	@Override
-	public PropertyName name(Field fieldType) {
-		PropertyName ret=null;
+	public PropertyName name(Field fieldType, PropertyName current) {
+		PropertyName ret=current;
 		for (IPropertyNaming factory : _factories) {
-			ret=factory.name(fieldType);
-			if (ret!=null) break;
+			ret=factory.name(fieldType, ret);
 		}
 		return ret;
 	}

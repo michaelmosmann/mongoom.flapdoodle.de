@@ -111,10 +111,10 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,list.size());
 //		System.out.println("Books: "+books);
 		
-		list=datastore.with(ColorsBean.class).field("l","r").eq(100).result().asList();
+		list=datastore.with(ColorsBean.class).field("colors","r").eq(100).result().asList();
 		assertEquals("Size",2,list.size());
 		
-		list=datastore.with(ColorsBean.class).field("l","r").eq(200).result().asList();
+		list=datastore.with(ColorsBean.class).field("colors","r").eq(200).result().asList();
 		assertEquals("Size",1,list.size());
 	}
 
@@ -186,11 +186,11 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,articles.size());
 //		System.out.println("Books: "+books);
 		
-		articles=datastore.with(Article.class).field("d","year").eq(2011).result().asList();
+		articles=datastore.with(Article.class).field("created","year").eq(2011).result().asList();
 		assertEquals("Size",1,articles.size());
-		articles=datastore.with(Article.class).field("d","year").eq(2010).result().asList();
+		articles=datastore.with(Article.class).field("created","year").eq(2010).result().asList();
 		assertEquals("Size",0,articles.size());
-		articles=datastore.with(Article.class).field("d","year").gt(2010).result().asList();
+		articles=datastore.with(Article.class).field("created","year").gt(2010).result().asList();
 		assertEquals("Size",1,articles.size());
 
 	}

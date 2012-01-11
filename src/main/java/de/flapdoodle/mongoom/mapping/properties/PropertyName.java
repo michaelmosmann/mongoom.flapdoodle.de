@@ -22,7 +22,7 @@ public final class PropertyName<T> implements IPropertyMappedName {
 	private final String _mapped;
 	private final Class<T> _type;
 
-	public PropertyName(String name, String mapped,Class<T> type) {
+	public PropertyName(String name, String mapped, Class<T> type) {
 		_name = name;
 		_mapped = mapped;
 		_type = type;
@@ -36,12 +36,65 @@ public final class PropertyName<T> implements IPropertyMappedName {
 	public String getMapped() {
 		return _mapped;
 	}
+
+	public Class<T> getType() {
+		return _type;
+	}
+	
 	
 
-	public static <T> PropertyName<T> with(String name,String mapped,Class<T> type) {
-		return new PropertyName<T>(name, mapped,type);
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_mapped == null)
+				? 0
+				: _mapped.hashCode());
+		result = prime * result + ((_name == null)
+				? 0
+				: _name.hashCode());
+		result = prime * result + ((_type == null)
+				? 0
+				: _type.hashCode());
+		return result;
 	}
-	public static <T> PropertyName<T> with(String name,Class<T> type) {
-		return new PropertyName<T>(name, name,type);
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyName other = (PropertyName) obj;
+		if (_mapped == null) {
+			if (other._mapped != null)
+				return false;
+		} else if (!_mapped.equals(other._mapped))
+			return false;
+		if (_name == null) {
+			if (other._name != null)
+				return false;
+		} else if (!_name.equals(other._name))
+			return false;
+		if (_type == null) {
+			if (other._type != null)
+				return false;
+		} else if (!_type.equals(other._type))
+			return false;
+		return true;
+	}
+
+	public static <T> PropertyName<T> with(String name, String mapped, Class<T> type) {
+		return new PropertyName<T>(name, mapped, type);
+	}
+
+	public static <T> PropertyName<T> with(String name, Class<T> type) {
+		return new PropertyName<T>(name, name, type);
+	}
+
+	public static PropertyName<?> empty() {
+		return new PropertyName(null, null, null);
 	}
 }

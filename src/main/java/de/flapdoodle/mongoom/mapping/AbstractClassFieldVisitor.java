@@ -28,6 +28,7 @@ import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.typeinfo.TypeInfo;
 
 public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVisitor {
@@ -39,7 +40,7 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 		for (Field field : fields) {
 			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
 			
-			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
+			IPropertyField<?> property = Property.of(mappingContext.naming().name(field, PropertyName.empty()),field);
 			IPropertyContext propertyContext = rootContext.contextFor(property);
 			
 			IPropertyIndex propertyIndex = propertyContext.propertyIndex();

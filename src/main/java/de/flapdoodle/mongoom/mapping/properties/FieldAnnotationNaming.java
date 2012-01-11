@@ -27,7 +27,7 @@ import de.flapdoodle.mongoom.mapping.Const;
 public class FieldAnnotationNaming implements IPropertyNaming {
 
 	@Override
-	public PropertyName name(Field fieldType) {
+	public PropertyName name(Field fieldType, PropertyName current) {
 		Property propertyAnnotation = fieldType.getAnnotation(Property.class);
 		Id idAnnotation = fieldType.getAnnotation(Id.class);
 		Version versionAnnotation = fieldType.getAnnotation(Version.class);
@@ -39,14 +39,14 @@ public class FieldAnnotationNaming implements IPropertyNaming {
 			throw new MappingException(fieldType.getType(), "Id and Version in same place: " + fieldType);
 		}
 		if (idAnnotation != null) {
-			return PropertyName.with(Const.ID_FIELDNAME,fieldType.getType());
-		}
-		if (propertyAnnotation != null) {
-			return PropertyName.with(propertyAnnotation.value(),fieldType.getType());
+			return PropertyName.with(Const.ID_FIELDNAME,current.getType());
 		}
 		if (versionAnnotation != null) {
-			return PropertyName.with(Const.VERSION_FIELDNAME,fieldType.getType());
+			return PropertyName.with(Const.VERSION_FIELDNAME,current.getType());
 		}
-		return null;
+		if (propertyAnnotation != null) {
+			return PropertyName.with(current.getName(),propertyAnnotation.value(),current.getType());
+		}
+		return current;
 	}
 }

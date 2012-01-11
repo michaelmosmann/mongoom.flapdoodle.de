@@ -37,6 +37,7 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
 import de.flapdoodle.mongoom.mapping.properties.FieldAnnotationNaming;
+import de.flapdoodle.mongoom.mapping.properties.FieldTypeNaming;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyNaming;
 import de.flapdoodle.mongoom.mapping.properties.PrefixFieldNaming;
 import de.flapdoodle.mongoom.mapping.properties.PropertyName;
@@ -104,7 +105,7 @@ public class MappingContext implements IMappingContext {
 	}
 	
 	ITypeVisitor _defaultVisitor = new PojoVisitor();
-	IPropertyNaming _defaultNaming = new PropertyNamingList(Lists.newArrayList(new FieldAnnotationNaming(),new PrefixFieldNaming()));
+	IPropertyNaming _defaultNaming = new PropertyNamingList(Lists.newArrayList(new FieldTypeNaming(),new FieldAnnotationNaming(),new PrefixFieldNaming()));
 	
 	@Override
 	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {

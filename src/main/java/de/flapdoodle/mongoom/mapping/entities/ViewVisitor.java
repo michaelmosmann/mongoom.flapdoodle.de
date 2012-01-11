@@ -72,7 +72,7 @@ public class ViewVisitor<ViewBean> extends AbstractClassFieldVisitor<ViewBean, D
 		ITypeInfo typeInfo = TypeInfo.ofClass(viewClass);
 		for (Field field : fields) {
 			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
-			IPropertyField<?> property = Property.of(mappingContext.naming().name(field),field);
+			IPropertyField<?> property = Property.of(mappingContext.naming().name(field, PropertyName.empty()),field);
 			List<String> parts=Property.split(property.name().getMapped());
 			ITransformation transformation=getTransformation(this.entityContext,parts);
 			viewContext.setTransformation(Property.of(property.name(), field), transformation);
