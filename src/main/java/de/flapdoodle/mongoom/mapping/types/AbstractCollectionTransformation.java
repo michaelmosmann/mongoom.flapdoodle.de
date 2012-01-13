@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public abstract class AbstractCollectionTransformation<Bean, Mapped, C extends Collection<Bean>> implements IContainerTransformation<Bean, Mapped, C, List<Mapped>> {
@@ -67,7 +67,7 @@ public abstract class AbstractCollectionTransformation<Bean, Mapped, C extends C
 	}
 	
 	@Override
-	public <Source> PropertyName propertyName(TypedPropertyName<Source> property) {
+	public <Source> PropertyName propertyName(PropertyReference<Source> property) {
 		return _transformation.propertyName(property);
 	}
 //	@Override

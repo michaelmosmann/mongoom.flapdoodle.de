@@ -25,9 +25,8 @@ import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
-import de.flapdoodle.mongoom.mapping.properties.Properties;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public abstract class AbstractQuery<T, C extends ITransformation> {
 
@@ -51,7 +50,7 @@ public abstract class AbstractQuery<T, C extends ITransformation> {
 		return getQueryBuilder().get();
 	}
 
-	protected <T> MappedNameTransformation getConverter(TypedPropertyName<T> field) {
+	protected <T> MappedNameTransformation getConverter(PropertyReference<T> field) {
 		C entityConverter = getConverter();
 
 		ITransformation converter = entityConverter;

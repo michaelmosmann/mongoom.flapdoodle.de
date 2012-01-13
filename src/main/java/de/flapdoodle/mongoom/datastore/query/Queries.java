@@ -23,7 +23,7 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public class Queries {
@@ -31,7 +31,7 @@ public class Queries {
 		throw new IllegalAccessError("Singleton");
 	}
 	
-	protected static <T> MappedNameTransformation getConverter(TypedPropertyName<T> field, ITransformation converter, IPropertyMappedName name) {
+	protected static <T> MappedNameTransformation getConverter(PropertyReference<T> field, ITransformation converter, IPropertyMappedName name) {
 		ITransformation lastConverter=converter;
 		PropertyName propertyName = converter.propertyName(field);
 		if (name == null)

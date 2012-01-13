@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.mapping.types;
 import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public class EnumTransformation<E extends Enum<E>> extends AbstractPrimitiveTransformation<E,String> {

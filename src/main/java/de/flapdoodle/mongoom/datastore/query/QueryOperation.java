@@ -31,7 +31,7 @@ import de.flapdoodle.mongoom.mapping.IContainerTransformation;
 import de.flapdoodle.mongoom.mapping.IQueryTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T, Q> {
 
@@ -57,7 +57,7 @@ public class QueryOperation<T, Q extends IQuery<T>> implements IQueryOperation<T
 	}
 
 	@Override
-	public <V> IQueryOperation<T, Q> field(TypedPropertyName<V> field) {
+	public <V> IQueryOperation<T, Q> field(PropertyReference<V> field) {
 		return new QueryOperation<T, Q>(_query, _queryBuilder, Queries.getConverter(field, _transformation,_name));
 	}
 	

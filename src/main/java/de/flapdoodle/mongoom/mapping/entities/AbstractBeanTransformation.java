@@ -31,7 +31,7 @@ import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Bean>> implements
 		ITransformation<Bean, DBObject> {
@@ -150,7 +150,7 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 	}
 
 	@Override
-	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+	public <Source> PropertyName<Source> propertyName(PropertyReference<Source> property) {
 		// TODO Auto-generated method stub
 		return _entityContext.getPropertyTransformations().get(property);
 	}

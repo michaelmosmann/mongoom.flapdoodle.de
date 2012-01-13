@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.mapping;
 import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public interface ITransformation<Bean,Mapped> {
 
@@ -27,7 +27,7 @@ public interface ITransformation<Bean,Mapped> {
 
 	Bean asEntity(Mapped object);
 	
-	<Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property);
+	<Source> PropertyName<Source> propertyName(PropertyReference<Source> property);
 	PropertyName<?> propertyName(String property);
 	<Source> ITransformation<Source,?> propertyTransformation(PropertyName<Source> property);
 	

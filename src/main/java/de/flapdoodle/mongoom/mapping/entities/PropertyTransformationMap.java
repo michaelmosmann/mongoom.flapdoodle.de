@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public class PropertyTransformationMap {
@@ -35,11 +35,11 @@ public class PropertyTransformationMap {
 	
 	private final Map<PropertyName<?>, ITransformation<?, ?>> propertyNameTransformation = Maps.newLinkedHashMap();
 	private final Map<String, PropertyName<?>> propertyNames = Maps.newLinkedHashMap();
-	private final Map<TypedPropertyName<?>, PropertyName<?>> propertyTypeNames = Maps.newLinkedHashMap();
+	private final Map<PropertyReference<?>, PropertyName<?>> propertyTypeNames = Maps.newLinkedHashMap();
 	private final Map<PropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
 	
 	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
-		TypedPropertyName<S> propertyName = TypedPropertyName.of(property.name().getName(), property.getType());
+		PropertyReference<S> propertyName = PropertyReference.of(property.name().getName(), property.getType());
 //		propertyTransformation.put(propertyName, transformation);
 //		propertynameTransformation.put(property.name().getName(), transformation);
 //		propertyMap.put(propertyName, property);
@@ -64,7 +64,7 @@ public class PropertyTransformationMap {
 			}
 			
 			@Override
-			public <Source> PropertyName get(TypedPropertyName<Source> property) {
+			public <Source> PropertyName get(PropertyReference<Source> property) {
 				return propertyTypeNames.get(property);
 			}
 			

@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom;
 
 import java.util.regex.Pattern;
 
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public interface IQueryOperation<T, Q extends IQuery<T>> {
 
@@ -54,5 +54,5 @@ public interface IQueryOperation<T, Q extends IQuery<T>> {
 
 	ISubQuery<T, Q> elemMatch();
 
-	<V> IQueryOperation<T, Q> field(TypedPropertyName<V> field);
+	<V> IQueryOperation<T, Q> field(PropertyReference<V> field);
 }

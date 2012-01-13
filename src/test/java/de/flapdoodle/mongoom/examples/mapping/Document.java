@@ -30,7 +30,7 @@ import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value = "Document", cap = @CappedAt(size=10000,count = 12))
@@ -38,7 +38,7 @@ import de.flapdoodle.mongoom.types.Reference;
 @Views(DocumentView.class)
 public class Document {
 
-	public static final TypedPropertyName<String> Name=TypedPropertyName.of("name",String.class);
+	public static final PropertyReference<String> Name=PropertyReference.of("name",String.class);
 	// Custom Mapping between ObjectId and typed Reference
 	@Id
 	Reference<Document> _id;

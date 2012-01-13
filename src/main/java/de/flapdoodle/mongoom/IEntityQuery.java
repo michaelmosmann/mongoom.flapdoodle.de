@@ -16,7 +16,7 @@
 
 package de.flapdoodle.mongoom;
 
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public interface IEntityQuery<T> extends IQuery<T> {
@@ -29,7 +29,7 @@ public interface IEntityQuery<T> extends IQuery<T> {
 	IQueryOperation<T, IEntityQuery<T>> field(String... string);
 
 	@Override
-	<V> IQueryOperation<T, IEntityQuery<T>> field(TypedPropertyName<V> field);
+	<V> IQueryOperation<T, IEntityQuery<T>> field(PropertyReference<V> field);
 	
 	@Override
 	IQueryOperation<T, IEntityQuery<T>> id();

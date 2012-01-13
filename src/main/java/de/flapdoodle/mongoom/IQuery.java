@@ -16,14 +16,14 @@
 
 package de.flapdoodle.mongoom;
 
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public interface IQuery<T> {
 
 	@Deprecated
 	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
 
-	<V> IQueryOperation<T, ? extends IQuery<T>> field(TypedPropertyName<V> field);
+	<V> IQueryOperation<T, ? extends IQuery<T>> field(PropertyReference<V> field);
 	
 	IQueryOperation<T, ? extends IQuery<T>> id();
 

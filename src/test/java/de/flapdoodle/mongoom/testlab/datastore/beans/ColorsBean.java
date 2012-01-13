@@ -25,7 +25,7 @@ import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
@@ -33,7 +33,7 @@ import de.flapdoodle.mongoom.types.Reference;
 @IndexGroups({@IndexGroup(group = "colors")})
 public class ColorsBean {
 
-	public static final TypedPropertyName<List> COLORS=TypedPropertyName.of("colors",List.class);
+	public static final PropertyReference<List> COLORS=PropertyReference.of("colors",List.class);
 	
 	@Id
 	Reference<ColorsBean> _id;

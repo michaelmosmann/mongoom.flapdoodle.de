@@ -32,7 +32,7 @@ import de.flapdoodle.mongoom.mapping.entities.IPropertyTransformations;
 import de.flapdoodle.mongoom.mapping.entities.PropertyTransformationMap;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.NoopTransformation;
 
 public class ColorTransformation implements ITransformation<Color, DBObject> {
@@ -95,7 +95,7 @@ public class ColorTransformation implements ITransformation<Color, DBObject> {
 	}
 	
 	@Override
-	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+	public <Source> PropertyName<Source> propertyName(PropertyReference<Source> property) {
 		return _map.get(property);
 	}
 	

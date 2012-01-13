@@ -21,11 +21,11 @@ import java.util.Set;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public interface IPropertyTransformations {
-	<Source> PropertyName<Source> get(TypedPropertyName<Source> property);
+	<Source> PropertyName<Source> get(PropertyReference<Source> property);
 	PropertyName<?> get(String property);
 	<Source> ITransformation<Source, ?> get(PropertyName<Source> property);
 	

@@ -36,13 +36,13 @@ import de.flapdoodle.mongoom.logging.LogConfig;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
+import de.flapdoodle.mongoom.mapping.naming.FieldAnnotationNaming;
 import de.flapdoodle.mongoom.mapping.naming.FieldTypeNaming;
 import de.flapdoodle.mongoom.mapping.naming.IPropertyNaming;
 import de.flapdoodle.mongoom.mapping.naming.PrefixFieldNaming;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.naming.PropertyNamingList;
-import de.flapdoodle.mongoom.mapping.properties.FieldAnnotationNaming;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.EnumVisitor;
 import de.flapdoodle.mongoom.mapping.types.ListVisitor;
 import de.flapdoodle.mongoom.mapping.types.NativeTypeVisitor;
@@ -267,7 +267,7 @@ public class MappingContext implements IMappingContext {
 		}
 
 		@Override
-		public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+		public <Source> PropertyName<Source> propertyName(PropertyReference<Source> property) {
 			return _parent.propertyName(property);
 		}
 //		@Override

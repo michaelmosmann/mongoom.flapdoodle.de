@@ -16,12 +16,12 @@
 
 package de.flapdoodle.mongoom.mapping.properties;
 
-public final class TypedPropertyName<T> {
+public final class PropertyReference<T> {
 
 	String _name;
 	Class<T> _type;
 
-	private TypedPropertyName(String name, Class<T> type) {
+	private PropertyReference(String name, Class<T> type) {
 		_name = name;
 		_type = type;
 	}
@@ -34,8 +34,8 @@ public final class TypedPropertyName<T> {
 		return _type;
 	}
 
-	public static <T> TypedPropertyName<T> of(String name, Class<T> type) {
-		return new TypedPropertyName<T>(name, type);
+	public static <T> PropertyReference<T> of(String name, Class<T> type) {
+		return new PropertyReference<T>(name, type);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public final class TypedPropertyName<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TypedPropertyName other = (TypedPropertyName) obj;
+		PropertyReference other = (PropertyReference) obj;
 		if (_name == null) {
 			if (other._name != null)
 				return false;

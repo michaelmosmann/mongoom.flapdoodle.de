@@ -34,7 +34,7 @@ import de.flapdoodle.mongoom.datastore.Datastore;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.Transformations;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.color.Colors;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.DateMappingContext;
@@ -122,7 +122,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 		list=datastore.with(ColorsBean.class).field("colors","r").eq(200).result().asList();
 		assertEquals("Size",1,list.size());
 		
-		list=datastore.with(ColorsBean.class).field(TypedPropertyName.of("colors",List.class)).field(TypedPropertyName.of("r",Integer.class)).eq(200).result().asList();
+		list=datastore.with(ColorsBean.class).field(PropertyReference.of("colors",List.class)).field(PropertyReference.of("r",Integer.class)).eq(200).result().asList();
 		assertEquals("Size",1,list.size());
 	}
 

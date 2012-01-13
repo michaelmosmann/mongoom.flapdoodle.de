@@ -23,7 +23,7 @@ import com.google.common.collect.Sets;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
-import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public abstract class AbstractPrimitiveTransformation<Bean,Mapped> implements ITransformation<Bean,Mapped> {
@@ -35,7 +35,7 @@ public abstract class AbstractPrimitiveTransformation<Bean,Mapped> implements IT
 	}
 	
 	@Override
-	public <Source> PropertyName<Source> propertyName(TypedPropertyName<Source> property) {
+	public <Source> PropertyName<Source> propertyName(PropertyReference<Source> property) {
 		throw new MappingException(_type,"No Properties");
 	}
 
