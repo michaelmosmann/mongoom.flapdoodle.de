@@ -22,6 +22,11 @@ import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
+import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
+import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.mapping.types.enums.DefaultEnumStringConverter;
+import de.flapdoodle.mongoom.mapping.types.enums.EnumConverterOption;
+import de.flapdoodle.mongoom.mapping.types.enums.IEnumStringConverter;
 
 
 public class EnumVisitor<T extends Enum<T>> extends AbstractVisitor implements ITypeVisitor<T,String> {
@@ -29,6 +34,15 @@ public class EnumVisitor<T extends Enum<T>> extends AbstractVisitor implements I
 	@Override
 	public ITransformation<T, String> transformation(IMappingContext mappingContext, IPropertyContext<?> propertyContext,
 			ITypeInfo field) {
-		return new EnumTransformation<T>((Class<T>) field.getType());
+		Class<T> enumType = (Class<T>) field.getType();
+		IEnumStringConverter<T> converter=new DefaultEnumStringConverter(enumType);
+		if (field instanceof IAnnotated) {
+			IAnnotated iafield=(IAnnotated) field;
+			EnumConverterOption enumConverterOption = iafield.getAnnotation(EnumConverterOption.class);
+			if (enumConverterOption!=null) {
+				converter=(IEnumStringConverter<T>) ClassInformation.newInstance(enumConverterOption.converter());
+			}
+		}
+		return new EnumTransformation<T>(enumType,converter);
 	}
 }

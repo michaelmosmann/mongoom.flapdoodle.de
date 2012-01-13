@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter.annotations;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
+package de.flapdoodle.mongoom.mapping.types.enums;
 
 
-public class AnnotatedField implements IAnnotated {
-	private final Field _field;
+public class DefaultEnumStringConverter<E extends Enum<E>> implements IEnumStringConverter<E> {
 
-	public AnnotatedField(Field field) {
-		_field = field;
+	private Class<E> _type;
+
+	public DefaultEnumStringConverter(Class<E> type) {
+		_type=type;
 	}
 	
 	@Override
-	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-		return _field.getAnnotation(annotationClass);
+	public E fromString(String value) {
+		return value!=null ? Enum.valueOf(_type, value) : null;
 	}
-	
-	
+
 	@Override
-	public Class<?> getType() {
-		return _field.getType();
+	public String asString(E enumValue) {
+		return enumValue!=null ? enumValue.name() : null;
 	}
 	
-	@Override
-	public String toString() {
-		return "AnnotatedField("+_field+")";
-	}
 }

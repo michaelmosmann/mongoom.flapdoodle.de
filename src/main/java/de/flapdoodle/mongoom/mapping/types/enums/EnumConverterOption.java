@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter.annotations;
+package de.flapdoodle.mongoom.mapping.types.enums;
 
-import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-
-public interface IAnnotated {
-	public <T extends Annotation> T getAnnotation(Class<T> annotationClass);
-	public Class<?> getType();
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target( {ElementType.FIELD})
+public @interface EnumConverterOption {
+	Class<? extends IEnumStringConverter> converter();
 }

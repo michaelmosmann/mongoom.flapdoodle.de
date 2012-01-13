@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.converter.annotations;
-
-import java.lang.annotation.Annotation;
+package de.flapdoodle.mongoom.mapping.types.enums;
 
 
-public class NothingAnnotated implements IAnnotated {
-	@Override
-	public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-		return null;
-	}
-	
-	@Override
-	public Class<?> getType() {
-		return NothingAnnotated.class;
-	}
+public interface IEnumStringConverter<E extends Enum<E>> {
+	E fromString(String value);
+	String asString(E enumValue);
 }

@@ -126,27 +126,8 @@ public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Be
 	}
 
 	private Bean newInstance() {
-		try {
-			Class<Bean> viewClass = _entityContext.getViewClass();
-			Constructor<Bean> defaultConstrutor = ClassInformation.getConstructor(viewClass);
-//			Constructor<?>[] constructors = viewClass.getConstructors();
-//			for (Constructor c : constructors) {
-//				System.out.println("Const: "+c);
-//			}
-//			Constructor<Bean> defaultConstrutor = viewClass.getConstructor();
-//			return viewClass.newInstance();
-			return defaultConstrutor.newInstance();
-		} catch (InstantiationException e) {
-			throw new MappingException(_entityContext.getViewClass(), e);
-		} catch (IllegalAccessException e) {
-			throw new MappingException(_entityContext.getViewClass(), e);
-		} catch (SecurityException e) {
-			throw new MappingException(_entityContext.getViewClass(), e);
-		} catch (IllegalArgumentException e) {
-			throw new MappingException(_entityContext.getViewClass(), e);
-		} catch (InvocationTargetException e) {
-			throw new MappingException(_entityContext.getViewClass(), e);
-		}
+		Class<Bean> viewClass = _entityContext.getViewClass();
+		return ClassInformation.newInstance(viewClass);
 	}
 
 	@Override

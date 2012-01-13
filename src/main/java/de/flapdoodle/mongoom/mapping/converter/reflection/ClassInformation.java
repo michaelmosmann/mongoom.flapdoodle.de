@@ -18,6 +18,7 @@ package de.flapdoodle.mongoom.mapping.converter.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
@@ -35,6 +36,23 @@ public class ClassInformation {
 
 	private ClassInformation() {
 
+	}
+
+	public static <Bean> Bean newInstance(Class<Bean> viewClass) {
+		try {
+			Constructor<Bean> defaultConstrutor = getConstructor(viewClass);
+			return defaultConstrutor.newInstance();
+		} catch (InstantiationException e) {
+			throw new MappingException(viewClass, e);
+		} catch (IllegalAccessException e) {
+			throw new MappingException(viewClass, e);
+		} catch (SecurityException e) {
+			throw new MappingException(viewClass, e);
+		} catch (IllegalArgumentException e) {
+			throw new MappingException(viewClass, e);
+		} catch (InvocationTargetException e) {
+			throw new MappingException(viewClass, e);
+		}
 	}
 
 	public static <T> Constructor<T> getConstructor(Class<T> entityClass) {

@@ -16,48 +16,17 @@
 
 package de.flapdoodle.mongoom.mapping.index;
 
-import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
-import de.flapdoodle.mongoom.annotations.index.Indexed;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
-import de.flapdoodle.mongoom.exceptions.MappingException;
-import de.flapdoodle.mongoom.mapping.converter.annotations.IAnnotated;
 
 
 public class IndexParser {
 
-	public static OneOrOther<Indexed, IndexedInGroup[]> getIndexDef(Class<?> entityClass, IAnnotated field) {
-		Indexed indexedAnn = field.getAnnotation(Indexed.class);
-		IndexedInGroup indexedInGroupAnn = field.getAnnotation(IndexedInGroup.class);
-		IndexedInGroups indexedInGroupsAnn = field.getAnnotation(IndexedInGroups.class);
-	
-		if ((indexedAnn != null) && (indexedInGroupAnn != null))
-			throw new MappingException(entityClass, "Field " + field + " is indexed and indexedInGroup");
-		if ((indexedAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(entityClass, "Field " + field + " is indexed and indexedInGroups");
-		if ((indexedInGroupAnn != null) && (indexedInGroupsAnn != null))
-			throw new MappingException(entityClass, "Field " + field
-					+ " is indexedInGroup and indexedInGroups (use indexedInGroups only)");
-		if ((indexedInGroupsAnn != null) && (indexedInGroupsAnn.value().length == 0))
-			throw new MappingException(entityClass, "Field " + field
-					+ " is indexedInGroups but in which one? (Annotation value is empty)");
-	
-		IndexedInGroup[] idxInGAnnList = null;
-		if (indexedInGroupAnn != null)
-			idxInGAnnList = new IndexedInGroup[] {indexedInGroupAnn};
-		if (indexedInGroupsAnn != null)
-			idxInGAnnList = indexedInGroupsAnn.value();
-
-		return new OneOrOther<Indexed, IndexedInGroup[]>(indexedAnn, idxInGAnnList);
-	}
 
 	private static IndexGroup[] getIndexGroups(Class<?> entityClass) {
 		IndexGroup[] list = {};

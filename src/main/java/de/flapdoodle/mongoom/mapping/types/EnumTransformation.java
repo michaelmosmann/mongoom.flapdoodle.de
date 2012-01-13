@@ -20,23 +20,26 @@ import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.mapping.types.enums.IEnumStringConverter;
 
+public class EnumTransformation<E extends Enum<E>> extends AbstractPrimitiveTransformation<E, String> {
 
-public class EnumTransformation<E extends Enum<E>> extends AbstractPrimitiveTransformation<E,String> {
+	private final IEnumStringConverter<E> _converter;
 
-	private final Class<E> _type;
+	//	private final Class<E> _type;
 
-	public EnumTransformation(Class<E> type) {
+	public EnumTransformation(Class<E> type, IEnumStringConverter<E> converter) {
 		super(type);
-		_type = type;
+		//		_type = type;
+		_converter = converter;
 	}
-	
+
 	@Override
 	public E asEntity(String object) {
-		return object!=null ? Enum.valueOf(_type, object) : null;
+		return _converter.fromString(object);
 	}
-	
+
 	public String asObject(E value) {
-		return value!=null ? value.name() : null;
+		return _converter.asString(value);
 	}
 }

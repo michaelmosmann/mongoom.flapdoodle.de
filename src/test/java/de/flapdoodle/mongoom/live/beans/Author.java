@@ -16,6 +16,10 @@
 
 package de.flapdoodle.mongoom.live.beans;
 
+import de.flapdoodle.mongoom.mapping.types.enums.DefaultEnumStringConverter;
+import de.flapdoodle.mongoom.mapping.types.enums.EnumConverterOption;
+import de.flapdoodle.mongoom.mapping.types.enums.IEnumStringConverter;
+
 
 public class Author {
 
@@ -28,6 +32,7 @@ public class Author {
 
 	String _eMail;
 
+	@EnumConverterOption(converter = StatusEnumConverter.class)
 	Status _status;
 
 	public String getName() {
@@ -57,5 +62,14 @@ public class Author {
 	@Override
 	public String toString() {
 		return "Author{email: " + _eMail + ",name: " + _name + ",status: " + _status + "}";
+	}
+	
+	public static class StatusEnumConverter extends DefaultEnumStringConverter<Status> {
+
+		public StatusEnumConverter() {
+			super(Status.class);
+		}
+
+		
 	}
 }
