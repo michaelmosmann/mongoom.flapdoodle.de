@@ -35,6 +35,7 @@ import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
 import de.flapdoodle.mongoom.mapping.context.Transformations;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
+import de.flapdoodle.mongoom.mapping.types.color.Colors;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.DateMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Article;
@@ -115,7 +116,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,list.size());
 //		System.out.println("Books: "+books);
 		
-		list=datastore.with(ColorsBean.class).field("colors","r").eq(100).result().asList();
+		list=datastore.with(ColorsBean.class).field(ColorsBean.COLORS).field(Colors.Red).eq(100).result().asList();
 		assertEquals("Size",2,list.size());
 		
 		list=datastore.with(ColorsBean.class).field("colors","r").eq(200).result().asList();
