@@ -33,7 +33,7 @@ import de.flapdoodle.mongoom.types.Reference;
 @IndexGroups({@IndexGroup(group = "colors")})
 public class ColorsBean {
 
-	public static final PropertyReference<List> COLORS=de.flapdoodle.mongoom.mapping.properties.Property.ref("colors",List.class);
+	public static final PropertyReference<List> Colors=de.flapdoodle.mongoom.mapping.properties.Property.ref("colors",List.class);
 	
 	@Id
 	Reference<ColorsBean> _id;

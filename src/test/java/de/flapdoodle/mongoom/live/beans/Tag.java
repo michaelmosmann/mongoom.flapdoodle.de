@@ -16,10 +16,15 @@
 
 package de.flapdoodle.mongoom.live.beans;
 
+import java.util.List;
+
 import de.flapdoodle.mongoom.annotations.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class Tag {
 
+	public static final PropertyReference<String> Tag=de.flapdoodle.mongoom.mapping.properties.Property.ref("tag",String.class);
+	
 	@Property("tag")
 	String _tag;
 

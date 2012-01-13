@@ -25,11 +25,15 @@ import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 @Entity("Document")
 @IndexGroups(@IndexGroup(group = "docId", options = @IndexOption(unique = true)))
 public class Document {
 
+	public static final PropertyReference<MetaInfo> Meta=de.flapdoodle.mongoom.mapping.properties.Property.ref("meta",MetaInfo.class);
+	public static final PropertyReference<String> Name=de.flapdoodle.mongoom.mapping.properties.Property.ref("name",String.class);
+	
 	@Id
 	ObjectId _id;
 

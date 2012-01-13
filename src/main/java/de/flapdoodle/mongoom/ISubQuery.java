@@ -16,11 +16,16 @@
 
 package de.flapdoodle.mongoom;
 
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+
 public interface ISubQuery<T, Q extends IQuery<T>> extends IQuery<T> {
 
-	@Override
-	IQueryOperation<T, ISubQuery<T, Q>> field(String... string);
+//	@Override
+//	IQueryOperation<T, ISubQuery<T, Q>> field(String... string);
 
+	@Override
+	<V> IQueryOperation<T, ISubQuery<T, Q>> field(PropertyReference<V> field);
+	
 	@Override
 	IQueryOperation<T, ISubQuery<T, Q>> id();
 

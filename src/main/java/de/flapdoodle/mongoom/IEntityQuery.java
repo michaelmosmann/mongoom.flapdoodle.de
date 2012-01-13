@@ -21,12 +21,9 @@ import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public interface IEntityQuery<T> extends IQuery<T> {
 
-	/**
-	 * change to String field, Class<T> type
-	 */
-	@Override
-	@Deprecated
-	IQueryOperation<T, IEntityQuery<T>> field(String... string);
+//	@Override
+//	@Deprecated
+//	IQueryOperation<T, IEntityQuery<T>> field(String... string);
 
 	@Override
 	<V> IQueryOperation<T, IEntityQuery<T>> field(PropertyReference<V> field);

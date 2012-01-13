@@ -50,8 +50,8 @@ public class TestBadUser extends AbstractDatastoreTest {
 		IDatastore datastore = getDatastore();
 		
 		datastore.insert(BadUser.get("klaus", "Klaus"));
-		BadUser klaus = datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
-		BadUser klaus2 = datastore.with(BadUser.class).field("name").eq("Klaus").result().get();
+		BadUser klaus = datastore.with(BadUser.class).field(BadUser.Name).eq("Klaus").result().get();
+		BadUser klaus2 = datastore.with(BadUser.class).field(BadUser.Name).eq("Klaus").result().get();
 
 		datastore.update(klaus);
 

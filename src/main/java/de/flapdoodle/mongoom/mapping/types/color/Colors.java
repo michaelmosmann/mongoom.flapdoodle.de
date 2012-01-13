@@ -21,6 +21,10 @@ import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public class Colors {
+	
+	private Colors() {
+		throw new IllegalAccessError("singleton");
+	}
 	public static final PropertyReference<Integer> Red=Property.ref("r",Integer.class);
 	public static final PropertyReference<Integer> Green=Property.ref("g",Integer.class);
 	public static final PropertyReference<Integer> Blue=Property.ref("b",Integer.class);

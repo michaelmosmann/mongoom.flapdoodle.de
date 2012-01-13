@@ -20,9 +20,14 @@ import java.util.List;
 
 import de.flapdoodle.mongoom.annotations.Direction;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class MetaInfo {
 
+	public static final PropertyReference<List> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",List.class);
+	public static final PropertyReference<Integer> Year=de.flapdoodle.mongoom.mapping.properties.Property.ref("year",Integer.class);
+	public static final PropertyReference<List> Tags=de.flapdoodle.mongoom.mapping.properties.Property.ref("tags",List.class);
+	
 	//	@Property("year")
 	@IndexedInGroup(group = "docId", direction = Direction.DESC)
 	int _year;

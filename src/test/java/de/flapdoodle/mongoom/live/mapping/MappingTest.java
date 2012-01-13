@@ -81,18 +81,18 @@ public class MappingTest extends AbstractDatastoreTest {
 
 		assertEquals("Klaus", "klaus", documents.get(0).getAuthor().getName());
 
-		documents = datastore.with(Document.class).field("name").eq("Doc1").result().asList();
+		documents = datastore.with(Document.class).field(Document.Name).eq("Doc1").result().asList();
 		assertEquals("Size", 1, documents.size());
 
-		documents = datastore.with(Document.class).field("meta","year").eq(2010).result().asList();
+		documents = datastore.with(Document.class).field(Document.Meta).field(MetaInfo.Year).eq(2010).result().asList();
 		assertEquals("Size", 1, documents.size());
 
 		MetaInfo mq = new MetaInfo();
 		mq.setCategory(Lists.newArrayList("fun", "sport"));
 		mq.setYear(2010);
-		IEntityQuery<Document> query = datastore.with(Document.class).or().field("meta").eq(mq).field("meta","category").eq(
-				"fun").field("name").in("Doc1", "Doc2", "Doc3").parent().or().field("name").eq("DocX").parent().or().field(
-				"meta","year").not().type(Date.class).parent().or().field("meta","tags").elemMatch().field("tag").eq("sommer").parent().parent();
+		IEntityQuery<Document> query = datastore.with(Document.class).or().field(Document.Meta).eq(mq).field(Document.Meta).field(MetaInfo.Category).eq(
+				"fun").field(Document.Name).in("Doc1", "Doc2", "Doc3").parent().or().field(Document.Name).eq("DocX").parent().or().field(
+				Document.Meta).field(MetaInfo.Year).not().type(Date.class).parent().or().field(Document.Meta).field(MetaInfo.Tags).elemMatch().field(Tag.Tag).eq("sommer").parent().parent();
 
 		//		query.field("meta.tags").elemMatch().field("tag").eq("sommer");
 		documents = query.result().asList();
@@ -100,7 +100,7 @@ public class MappingTest extends AbstractDatastoreTest {
 
 		System.out.println("Documents: " + documents);
 
-		documents = datastore.with(Document.class).or().field("meta","tags").elemMatch().field("tag").eq("sommer").parent().parent().result().asList();
+		documents = datastore.with(Document.class).or().field(Document.Meta).field(MetaInfo.Tags).elemMatch().field(Tag.Tag).eq("sommer").parent().parent().result().asList();
 		System.out.println("Documents: " + documents);
 		assertEquals("Size", 1, documents.size());
 

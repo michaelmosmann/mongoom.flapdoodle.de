@@ -26,12 +26,15 @@ import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.examples.mapping.Document;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
 @Entity(value = "ColorDocument")
 @IndexGroups({@IndexGroup(group="colorName")})
 public class ColorDocument {
+
+	public static final PropertyReference<Color> Color=de.flapdoodle.mongoom.mapping.properties.Property.ref("color",Color.class);
 
 	@Id
 	Reference<Document> _id;

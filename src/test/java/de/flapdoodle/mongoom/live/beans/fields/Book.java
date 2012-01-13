@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.live.beans.fields;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -25,10 +26,14 @@ import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 @Entity(value = "Book")
 public class Book extends ReferenceBean<Book> {
 
+	public static final PropertyReference<Set> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",Set.class);
+	public static final PropertyReference<String> Name=de.flapdoodle.mongoom.mapping.properties.Property.ref("name",String.class);
+	
 	static String _doNotMap = "DO_NOT_MAP";
 
 	@Property("name")

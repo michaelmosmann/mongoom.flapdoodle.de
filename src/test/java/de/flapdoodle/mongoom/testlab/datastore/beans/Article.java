@@ -17,6 +17,7 @@
 package de.flapdoodle.mongoom.testlab.datastore.beans;
 
 import java.util.Date;
+import java.util.List;
 
 import de.flapdoodle.mongoom.annotations.CappedAt;
 import de.flapdoodle.mongoom.annotations.Entity;
@@ -25,6 +26,7 @@ import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.date.DateMappingOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
@@ -32,6 +34,8 @@ import de.flapdoodle.mongoom.types.Reference;
 @IndexGroup(group = "all")
 public class Article {
 
+	public static final PropertyReference<Date> Created=de.flapdoodle.mongoom.mapping.properties.Property.ref("created",Date.class);
+	
 	@Id
 	Reference<Article> _id;
 

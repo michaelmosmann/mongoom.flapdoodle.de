@@ -38,6 +38,14 @@ import de.flapdoodle.mongoom.mapping.types.color.ColorTransformation;
 
 public class DateVisitor implements ITypeVisitor<Date, DBObject>{
 
+	protected static final String TIME = "time";
+	protected static final String SECOND = "second";
+	protected static final String MINUTE = "minute";
+	protected static final String HOUR = "hour";
+	protected static final String DAY = "day";
+	protected static final String MONTH = "month";
+	protected static final String YEAR = "year";
+
 	@Override
 	public ITransformation<Date, DBObject> transformation(IMappingContext mappingContext,
 			IPropertyContext<?> propertyContext, ITypeInfo field) {
@@ -45,24 +53,24 @@ public class DateVisitor implements ITypeVisitor<Date, DBObject>{
 			IAnnotated annotated = (IAnnotated) field;
 			DateMappingOptions options=annotated.getAnnotation(DateMappingOptions.class);
 			if (options!=null) {
-				addIndex(propertyContext, PropertyName.with("year","y",Integer.class), Integer.class, options.year());
-				addIndex(propertyContext, PropertyName.with("month","m",Integer.class), Integer.class, options.month());
-				addIndex(propertyContext, PropertyName.with("day","d",Integer.class), Integer.class, options.day());
-				addIndex(propertyContext, PropertyName.with("hour","H",Integer.class), Integer.class, options.hour());
-				addIndex(propertyContext, PropertyName.with("minute","M",Integer.class), Integer.class, options.minute());
-				addIndex(propertyContext, PropertyName.with("second","s",Integer.class), Integer.class, options.second());
+				addIndex(propertyContext, PropertyName.with(YEAR,"y",Integer.class), Integer.class, options.year());
+				addIndex(propertyContext, PropertyName.with(MONTH,"m",Integer.class), Integer.class, options.month());
+				addIndex(propertyContext, PropertyName.with(DAY,"d",Integer.class), Integer.class, options.day());
+				addIndex(propertyContext, PropertyName.with(HOUR,"H",Integer.class), Integer.class, options.hour());
+				addIndex(propertyContext, PropertyName.with(MINUTE,"M",Integer.class), Integer.class, options.minute());
+				addIndex(propertyContext, PropertyName.with(SECOND,"s",Integer.class), Integer.class, options.second());
 			}
 			IndexedInGroup iig=annotated.getAnnotation(IndexedInGroup.class);
 			if (iig!=null) {
-				addIndex(propertyContext, PropertyName.with("time","t",Date.class), Date.class, iig);
+				addIndex(propertyContext, PropertyName.with(TIME,"t",Date.class), Date.class, iig);
 			}
 			IndexedInGroups iigs=annotated.getAnnotation(IndexedInGroups.class);
 			if (iigs!=null) {
-				addIndex(propertyContext, PropertyName.with("time","t",Date.class), Date.class, iigs.value());
+				addIndex(propertyContext, PropertyName.with(TIME,"t",Date.class), Date.class, iigs.value());
 			}
 			Indexed ii=annotated.getAnnotation(Indexed.class);
 			if (ii!=null) {
-				IPropertyContext<Date> rContext = propertyContext.contextFor(Property.of(PropertyName.with("time","t",Date.class), Date.class));
+				IPropertyContext<Date> rContext = propertyContext.contextFor(Property.of(PropertyName.with(TIME,"t",Date.class), Date.class));
 				rContext.propertyIndex().setIndexed(ii);
 			}
 		}

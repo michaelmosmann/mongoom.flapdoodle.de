@@ -39,6 +39,8 @@ import de.flapdoodle.mongoom.types.Reference;
 public class Document {
 
 	public static final PropertyReference<String> Name=de.flapdoodle.mongoom.mapping.properties.Property.ref("name",String.class);
+	public static final PropertyReference<Meta> Meta=de.flapdoodle.mongoom.mapping.properties.Property.ref("meta",Meta.class);
+	
 	// Custom Mapping between ObjectId and typed Reference
 	@Id
 	Reference<Document> _id;

@@ -19,9 +19,12 @@ package de.flapdoodle.mongoom.examples.mapping;
 import java.util.List;
 
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class Meta {
 
+	public static final PropertyReference<List> Keyword=de.flapdoodle.mongoom.mapping.properties.Property.ref("keywords",List.class);
+	
 	@IndexedInGroup(group = "multikey")
 	List<String> _keywords;
 

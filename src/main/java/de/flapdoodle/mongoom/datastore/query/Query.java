@@ -35,7 +35,9 @@ import de.flapdoodle.mongoom.mapping.IEntityTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.IViewTransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
+import de.flapdoodle.mongoom.mapping.properties.Property;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.types.Reference;
 
 public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> implements IEntityQuery<T> {
 
@@ -52,16 +54,16 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 		MappedNameTransformation mappedConverter = getConverter(field);
 		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
 	}
-	@Override
-	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
-		MappedNameTransformation mappedConverter = getConverter(field);
-//		ITransformation converter = mappedConverter;
-		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
-	}
+//	@Override
+//	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
+//		MappedNameTransformation mappedConverter = getConverter(field);
+////		ITransformation converter = mappedConverter;
+//		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
+//	}
 
 	@Override
 	public IQueryOperation<T, IEntityQuery<T>> id() {
-		return field(Const.ID_FIELDNAME);
+		return field(Property.ref(Const.ID_FIELDNAME,Reference.class));
 	}
 
 	@Override

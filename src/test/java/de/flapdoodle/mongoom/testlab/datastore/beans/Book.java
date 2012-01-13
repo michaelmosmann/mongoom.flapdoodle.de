@@ -25,6 +25,8 @@ import de.flapdoodle.mongoom.annotations.Version;
 import de.flapdoodle.mongoom.annotations.index.IndexGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.callbacks.IEntityWriteCallback;
+import de.flapdoodle.mongoom.mapping.properties.Property;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.color.ColorConverterOptions;
 import de.flapdoodle.mongoom.types.Reference;
 
@@ -32,6 +34,8 @@ import de.flapdoodle.mongoom.types.Reference;
 @IndexGroup(group="all")
 public class Book {
 
+	public static final PropertyReference<String> Name=Property.ref("name", String.class);
+	
 	@Id
 	Reference<Book> _id;
 	

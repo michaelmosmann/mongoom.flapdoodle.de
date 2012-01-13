@@ -20,8 +20,8 @@ import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public interface IQuery<T> {
 
-	@Deprecated
-	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
+//	@Deprecated
+//	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
 
 	<V> IQueryOperation<T, ? extends IQuery<T>> field(PropertyReference<V> field);
 	

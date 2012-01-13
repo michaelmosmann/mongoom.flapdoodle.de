@@ -23,6 +23,7 @@ import de.flapdoodle.mongoom.AbstractDatastoreTest;
 import de.flapdoodle.mongoom.IDatastore;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IMappingContextFactory;
+import de.flapdoodle.mongoom.mapping.types.color.Colors;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 
 
@@ -66,12 +67,12 @@ public class TestMapColor extends AbstractDatastoreTest {
 		List<ColorDocument> list = datastore.with(ColorDocument.class).result().asList();
 		assertEquals("One", 1, list.size());
 
-		List<ColorDocument> views = datastore.with(ColorDocument.class).field("color","r").eq(255).result().asList();
+		List<ColorDocument> views = datastore.with(ColorDocument.class).field(ColorDocument.Color).field(Colors.Red).eq(255).result().asList();
 		ColorDocument view = views.get(0);
 		int red = view.getColor().getRed();
 		assertEquals("Keywords", 255, red);
 		
-		views = datastore.with(ColorDocument.class).field("color").eq(color).result().asList();
+		views = datastore.with(ColorDocument.class).field(ColorDocument.Color).eq(color).result().asList();
 		view = views.get(0);
 		red = view.getColor().getRed();
 		assertEquals("Keywords", 255, red);

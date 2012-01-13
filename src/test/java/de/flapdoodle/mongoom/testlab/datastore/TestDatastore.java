@@ -37,6 +37,7 @@ import de.flapdoodle.mongoom.mapping.context.Transformations;
 import de.flapdoodle.mongoom.mapping.properties.Property;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 import de.flapdoodle.mongoom.mapping.types.color.Colors;
+import de.flapdoodle.mongoom.mapping.types.date.Dates;
 import de.flapdoodle.mongoom.testlab.ColorMappingContext;
 import de.flapdoodle.mongoom.testlab.DateMappingContext;
 import de.flapdoodle.mongoom.testlab.datastore.beans.Article;
@@ -74,7 +75,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,books.size());
 //		System.out.println("Books: "+books);
 		
-		books=datastore.with(Book.class).field("name").eq("Blu").result().asList();
+		books=datastore.with(Book.class).field(Book.Name).eq("Blu").result().asList();
 		assertEquals("Size",1,books.size());
 
 		for (int i=0;i<10;i++) {
@@ -117,10 +118,10 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,list.size());
 //		System.out.println("Books: "+books);
 		
-		list=datastore.with(ColorsBean.class).field(ColorsBean.COLORS).field(Colors.Red).eq(100).result().asList();
+		list=datastore.with(ColorsBean.class).field(ColorsBean.Colors).field(Colors.Red).eq(100).result().asList();
 		assertEquals("Size",2,list.size());
 		
-		list=datastore.with(ColorsBean.class).field("colors","r").eq(200).result().asList();
+		list=datastore.with(ColorsBean.class).field(ColorsBean.Colors).field(Colors.Red).eq(200).result().asList();
 		assertEquals("Size",1,list.size());
 		
 		list=datastore.with(ColorsBean.class).field(Property.ref("colors",List.class)).field(Property.ref("r",Integer.class)).eq(200).result().asList();
@@ -195,11 +196,11 @@ public class TestDatastore extends AbstractMongoOMTest {
 		assertEquals("Size",2,articles.size());
 //		System.out.println("Books: "+books);
 		
-		articles=datastore.with(Article.class).field("created","year").eq(2011).result().asList();
+		articles=datastore.with(Article.class).field(Article.Created).field(Dates.Year).eq(2011).result().asList();
 		assertEquals("Size",1,articles.size());
-		articles=datastore.with(Article.class).field("created","year").eq(2010).result().asList();
+		articles=datastore.with(Article.class).field(Article.Created).field(Dates.Year).eq(2010).result().asList();
 		assertEquals("Size",0,articles.size());
-		articles=datastore.with(Article.class).field("created","year").gt(2010).result().asList();
+		articles=datastore.with(Article.class).field(Article.Created).field(Dates.Year).gt(2010).result().asList();
 		assertEquals("Size",1,articles.size());
 
 	}

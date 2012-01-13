@@ -37,9 +37,9 @@ public class TestBook extends AbstractDatastoreTest {
 		datastore.insert(Book.getInstance("Das Hobby", "sachbuch", "sonne"));
 		datastore.insert(Book.getInstance("Dei Freizeit", "sommer"));
 
-		assertEquals("sommer", 2, datastore.with(Book.class).field("category").eq("sommer").result().countAll());
+		assertEquals("sommer", 2, datastore.with(Book.class).field(Book.Category).eq("sommer").result().countAll());
 
-		Book book = datastore.with(Book.class).field("name").eq("Das Leben").result().get();
+		Book book = datastore.with(Book.class).field(Book.Name).eq("Das Leben").result().get();
 		assertNotNull("Book", book);
 		//		book.setCategory(Lists.newArrayList("blau","wal"));
 		datastore.update(book);

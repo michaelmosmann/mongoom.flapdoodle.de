@@ -47,7 +47,7 @@ class DateTransformation implements IQueryTransformation<Date, DBObject> {
 //	Map<String, ITransformation> _propertyMap = Maps.newHashMap();
 	{
 		PropertyTransformationMap propertyMap=new PropertyTransformationMap();
-		for (PropertyName name : Lists.newArrayList(PropertyName.with("year","y",Integer.class), PropertyName.with("month","m",Integer.class), PropertyName.with("day","d",Integer.class), PropertyName.with("hour","H",Integer.class),PropertyName.with("minute","M",Integer.class),PropertyName.with("second","s",Integer.class))) {
+		for (PropertyName name : Lists.newArrayList(PropertyName.with(DateVisitor.YEAR,"y",Integer.class), PropertyName.with(DateVisitor.MONTH,"m",Integer.class), PropertyName.with(DateVisitor.DAY,"d",Integer.class), PropertyName.with(DateVisitor.HOUR,"H",Integer.class),PropertyName.with(DateVisitor.MINUTE,"M",Integer.class),PropertyName.with(DateVisitor.SECOND,"s",Integer.class))) {
 //			_propertyTransMap.put(TypedPropertyName.of(name.getName(), Integer.class), new NoopTransformation<Integer>(Integer.class));
 //			_propertyMap.put(name.getName(), new NoopTransformation<Integer>(Integer.class));
 			
@@ -55,7 +55,7 @@ class DateTransformation implements IQueryTransformation<Date, DBObject> {
 		}
 //		_propertyTransMap.put(TypedPropertyName.of("time", Date.class), new NoopTransformation<Date>(Date.class));
 //		_propertyMap.put(PropertyName.with("time","t",Date.class).getName(), new NoopTransformation<Date>(Date.class));
-		propertyMap.setTransformation(Property.of(PropertyName.with("time","t",Date.class), Date.class), new NoopTransformation<Date>(Date.class));
+		propertyMap.setTransformation(Property.of(PropertyName.with(DateVisitor.TIME,"t",Date.class), Date.class), new NoopTransformation<Date>(Date.class));
 		_map = propertyMap.readOnly();
 		
 	}

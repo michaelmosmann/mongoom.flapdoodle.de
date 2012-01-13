@@ -16,14 +16,19 @@
 
 package de.flapdoodle.mongoom.live.beans.id;
 
+import java.util.List;
+
 import de.flapdoodle.mongoom.annotations.Entity;
 import de.flapdoodle.mongoom.annotations.Id;
 import de.flapdoodle.mongoom.annotations.Property;
 import de.flapdoodle.mongoom.annotations.Version;
+import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 @Entity("BadUser")
 public class BadUser {
 
+	public static final PropertyReference<String> Name=de.flapdoodle.mongoom.mapping.properties.Property.ref("name",String.class);
+	
 	@Id
 	String _id;
 
