@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.testlab.classes;
+package de.flapdoodle.mongoom.mapping.converter.reflection;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
