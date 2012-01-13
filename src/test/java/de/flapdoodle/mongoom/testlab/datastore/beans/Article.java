@@ -34,10 +34,13 @@ import de.flapdoodle.mongoom.types.Reference;
 @IndexGroup(group = "all")
 public class Article {
 
-	public static final PropertyReference<Date> Created=de.flapdoodle.mongoom.mapping.properties.Property.ref("created",Date.class);
-	
+	public static final PropertyReference<Date> Created = de.flapdoodle.mongoom.mapping.properties.Property.ref(
+			"created", Date.class);
+
 	@Id
 	Reference<Article> _id;
+
+	List<Reference<Book>> _books;
 
 	String _name;
 
@@ -66,4 +69,11 @@ public class Article {
 		return _id;
 	}
 
+	public void setBooks(List<Reference<Book>> books) {
+		_books = books;
+	}
+
+	public List<Reference<Book>> getBooks() {
+		return _books;
+	}
 }

@@ -19,6 +19,7 @@ package de.flapdoodle.mongoom.mapping.context;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 
@@ -30,9 +31,9 @@ public class Transformations {
 
 	Map<Class<?>, IEntityTransformation<?>> _transformations = Maps.newHashMap();
 	private final IMappingContextFactory<?> _contextFactory;
-	private final List<Class<?>> _entityTypes;
+	private final Set<Class<?>> _entityTypes;
 
-	public Transformations(IMappingContextFactory<?> contextFactory, List<Class<?>> entityTypes) {
+	public Transformations(IMappingContextFactory<?> contextFactory, Set<Class<?>> entityTypes) {
 		_contextFactory = contextFactory;
 		_entityTypes = entityTypes;
 		for (Class<?> type : _entityTypes) {

@@ -19,6 +19,7 @@ package de.flapdoodle.mongoom.mapping;
 import java.lang.reflect.Field;
 import java.util.List;
 
+import de.flapdoodle.mongoom.annotations.Transient;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroups;
@@ -36,34 +37,39 @@ public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVi
 	protected void parseProperties(IMappingContext mappingContext, IPropertyContext<?> rootContext, ITypeInfo typeInfo) {
 		Class<Type> entityClass = (Class<Type>) typeInfo.getType();
 		List<Field> fields = ClassInformation.getFields(entityClass);
-		
+
 		for (Field field : fields) {
-			ITypeInfo fieldInfo = TypeInfo.of(typeInfo,field);
-			
-			IPropertyField<?> property = Property.of(mappingContext.naming().name(field, PropertyName.empty()),field);
-			IPropertyContext propertyContext = rootContext.contextFor(property);
-			
-			IPropertyIndex propertyIndex = propertyContext.propertyIndex();
-			
-			Indexed indexed = property.getField().getAnnotation(Indexed.class);
-			if (indexed!=null) propertyIndex.setIndexed(indexed);
-			IndexedInGroup indexedInGroup = property.getField().getAnnotation(IndexedInGroup.class);
-			if (indexedInGroup!=null) {
-				propertyIndex.addIndexedInGroup(indexedInGroup);
-			}
-			IndexedInGroups indexedInGroups = property.getField().getAnnotation(IndexedInGroups.class);
-			if ((indexedInGroups!=null) && (indexedInGroups.value().length>0)) {
-				for (IndexedInGroup ig : indexedInGroups.value()) {
-					propertyIndex.addIndexedInGroup(ig);
+			ITypeInfo fieldInfo = TypeInfo.of(typeInfo, field);
+
+			IPropertyField<?> property = Property.of(mappingContext.naming().name(field, PropertyName.empty()), field);
+			if (property.getField().getAnnotation(Transient.class) == null) {
+				IPropertyContext propertyContext = rootContext.contextFor(property);
+
+				IPropertyIndex propertyIndex = propertyContext.propertyIndex();
+
+				Indexed indexed = property.getField().getAnnotation(Indexed.class);
+				if (indexed != null)
+					propertyIndex.setIndexed(indexed);
+				IndexedInGroup indexedInGroup = property.getField().getAnnotation(IndexedInGroup.class);
+				if (indexedInGroup != null) {
+					propertyIndex.addIndexedInGroup(indexedInGroup);
 				}
+				IndexedInGroups indexedInGroups = property.getField().getAnnotation(IndexedInGroups.class);
+				if ((indexedInGroups != null) && (indexedInGroups.value().length > 0)) {
+					for (IndexedInGroup ig : indexedInGroups.value()) {
+						propertyIndex.addIndexedInGroup(ig);
+					}
+				}
+
+				ITypeVisitor typeVisitor = mappingContext.getVisitor(typeInfo, fieldInfo);
+				if (typeVisitor == null)
+					error(entityClass, "Could not get TypeVisitor for " + field);
+				ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, fieldInfo);
+				if (transformation == null)
+					error(entityClass, "Could not get Transformation for " + field);
+				//			entityContext.addProperty(field.getName(),transformation);
+				rootContext.setTransformation(property, transformation);
 			}
-			
-			ITypeVisitor typeVisitor=mappingContext.getVisitor(typeInfo,fieldInfo);
-			if (typeVisitor==null) error(entityClass,"Could not get TypeVisitor for "+field);
-			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, fieldInfo);
-			if (transformation==null) error(entityClass,"Could not get Transformation for "+field);
-//			entityContext.addProperty(field.getName(),transformation);
-			rootContext.setTransformation(property,transformation);
 		}
 	}
 }

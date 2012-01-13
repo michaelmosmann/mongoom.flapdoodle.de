@@ -20,10 +20,12 @@ import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.bson.types.Code;
 
 import com.google.common.collect.Lists;
+import com.google.inject.internal.Sets;
 
 import de.flapdoodle.mongoom.AbstractMongoOMTest;
 import de.flapdoodle.mongoom.IDatastore;
@@ -49,7 +51,7 @@ import de.flapdoodle.mongoom.testlab.datastore.beans.NativeTypes;
 public class TestDatastore extends AbstractMongoOMTest {
 
 	public void testBooks() {
-		List<Class<?>> classes=Lists.newArrayList();
+		Set<Class<?>> classes=Sets.newHashSet();
 		classes.add(Book.class);
 		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
 			@Override
@@ -92,7 +94,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 	
 
 	public void testColors() {
-		List<Class<?>> classes=Lists.newArrayList();
+		Set<Class<?>> classes=Sets.newHashSet();
 		classes.add(ColorsBean.class);
 		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
 			@Override
@@ -129,7 +131,7 @@ public class TestDatastore extends AbstractMongoOMTest {
 	}
 
 	public void testNativeTypes() {
-		List<Class<?>> classes=Lists.newArrayList();
+		Set<Class<?>> classes=Sets.newHashSet();
 		classes.add(NativeTypes.class);
 		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
 			@Override
@@ -169,7 +171,8 @@ public class TestDatastore extends AbstractMongoOMTest {
 		cal.set(Calendar.MILLISECOND, 0);
 		Date date=cal.getTime();
 		
-		List<Class<?>> classes=Lists.newArrayList();
+		Set<Class<?>> classes=Sets.newLinkedHashSet();
+		classes.add(Book.class);
 		classes.add(Article.class);
 		IMappingContextFactory<?> factory=new IMappingContextFactory<IMappingContext>() {
 			@Override

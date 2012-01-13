@@ -18,8 +18,10 @@ package de.flapdoodle.mongoom;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.LogManager;
 
+import com.google.common.collect.Sets;
 import com.google.inject.internal.Lists;
 
 import de.flapdoodle.mongoom.datastore.Datastore;
@@ -33,11 +35,11 @@ import de.flapdoodle.mongoom.mapping.context.Transformations;
 public abstract class AbstractDatastoreTest extends AbstractMongoOMTest {
 
 	
-	private final List<Class<?>> classes;
+	private final Set<Class<?>> classes;
 	private IDatastore datastore;
 
 	public AbstractDatastoreTest(Class<?> clazz, Class<?>... classes) {
-		ArrayList<Class<?>> all = Lists.newArrayList();
+		Set<Class<?>> all = Sets.newHashSet();
 		all.add(clazz);
 		if (classes!=null) all.addAll(Lists.newArrayList(classes));
 		this.classes = all;

@@ -110,10 +110,12 @@ public class MappingContext implements IMappingContext {
 	@Override
 	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
 //		_logger.severe("getVisitor: " + containerType + " -> " + type);
-		ITypeVisitor result = typeVisitors.get(type.getType());
+		Class<?> typeForVisitor = type.getType();
+		if (typeForVisitor==null) throw new MappingException(type.getDeclaringClass(),"Type is null ("+type+")");
+		ITypeVisitor result = typeVisitors.get(typeForVisitor);
 		if (result == null) {
 			for (Class<?> superType : hasSubtypeVisitors.keySet()) {
-				if (superType.isAssignableFrom(type.getType())) {
+				if (superType.isAssignableFrom(typeForVisitor)) {
 					return hasSubtypeVisitors.get(superType);
 				}
 			}

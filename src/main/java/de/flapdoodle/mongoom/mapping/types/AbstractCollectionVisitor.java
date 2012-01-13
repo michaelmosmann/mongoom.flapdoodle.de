@@ -19,6 +19,8 @@ package de.flapdoodle.mongoom.mapping.types;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
+
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.AbstractVisitor;
 import de.flapdoodle.mongoom.mapping.ITransformation;
@@ -40,8 +42,12 @@ public abstract class AbstractCollectionVisitor<C,M> extends AbstractVisitor {
 			ITypeVisitor typeVisitor=mappingContext.getVisitor(TypeInfo.ofClass(field),TypeInfo.of(field,parameterizedClass));
 			if (typeVisitor==null) error(field.getDeclaringClass(),"Could not get TypeVisitor for "+parameterizedClass);
 			ITransformation transformation = typeVisitor.transformation(mappingContext, propertyContext, TypeInfo.of(field,parameterizedClass));
-			if (transformation==null) error(field.getDeclaringClass(),"Could not get Transformation for "+field);			
-			return transformation(parameterizedClass, transformation);
+			if (transformation==null) error(field.getDeclaringClass(),"Could not get Transformation for "+field);
+			Type beanType=parameterizedClass;
+			if (beanType instanceof ParameterizedTypeImpl) {
+				beanType=((ParameterizedTypeImpl) parameterizedClass).getRawType();
+			}
+			return transformation(beanType, transformation);
 		}
 		throw new MappingException(field.getDeclaringClass(), "Type is not a Class: " + parameterizedClass);
 	}
