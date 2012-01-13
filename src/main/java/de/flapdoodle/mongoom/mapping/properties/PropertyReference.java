@@ -21,7 +21,7 @@ public final class PropertyReference<T> {
 	String _name;
 	Class<T> _type;
 
-	private PropertyReference(String name, Class<T> type) {
+	protected PropertyReference(String name, Class<T> type) {
 		_name = name;
 		_type = type;
 	}
@@ -32,10 +32,6 @@ public final class PropertyReference<T> {
 
 	public Class<T> getType() {
 		return _type;
-	}
-
-	public static <T> PropertyReference<T> of(String name, Class<T> type) {
-		return new PropertyReference<T>(name, type);
 	}
 
 	@Override

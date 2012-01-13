@@ -37,6 +37,10 @@ public class Property {
 	public static <T> IProperty<T> of(PropertyName name, Class<T> type) {
 		return new PropertyWithClass<T>(name, type);
 	}
+	
+	public static <T> PropertyReference<T> ref(String name, Class<T> type) {
+		return new PropertyReference<T>(name, type);
+	}
 
 	static class PropertyWithClass<T> implements IProperty<T> {
 		

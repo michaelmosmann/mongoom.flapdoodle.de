@@ -16,12 +16,13 @@
 
 package de.flapdoodle.mongoom.mapping.types.color;
 
+import de.flapdoodle.mongoom.mapping.properties.Property;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
 public class Colors {
-	public static final PropertyReference<Integer> Red=PropertyReference.of("r",Integer.class);
-	public static final PropertyReference<Integer> Green=PropertyReference.of("g",Integer.class);
-	public static final PropertyReference<Integer> Blue=PropertyReference.of("b",Integer.class);
-	public static final PropertyReference<Integer> Alpha=PropertyReference.of("a",Integer.class);
+	public static final PropertyReference<Integer> Red=Property.ref("r",Integer.class);
+	public static final PropertyReference<Integer> Green=Property.ref("g",Integer.class);
+	public static final PropertyReference<Integer> Blue=Property.ref("b",Integer.class);
+	public static final PropertyReference<Integer> Alpha=Property.ref("a",Integer.class);
 }

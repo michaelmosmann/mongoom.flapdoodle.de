@@ -24,6 +24,7 @@ import com.google.common.collect.Maps;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
+import de.flapdoodle.mongoom.mapping.properties.Property;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 
@@ -39,7 +40,7 @@ public class PropertyTransformationMap {
 	private final Map<PropertyName<?>, IProperty<?>> propertyMap = Maps.newLinkedHashMap();
 	
 	public <S> void setTransformation(IProperty<S> property, ITransformation<S, ?> transformation) {
-		PropertyReference<S> propertyName = PropertyReference.of(property.name().getName(), property.getType());
+		PropertyReference<S> propertyName = Property.ref(property.name().getName(), property.getType());
 //		propertyTransformation.put(propertyName, transformation);
 //		propertynameTransformation.put(property.name().getName(), transformation);
 //		propertyMap.put(propertyName, property);

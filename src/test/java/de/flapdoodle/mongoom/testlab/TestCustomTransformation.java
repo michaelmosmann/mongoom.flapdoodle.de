@@ -28,7 +28,9 @@ import de.flapdoodle.mongoom.mapping.IEntityTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.entities.EntityVisitor;
+import de.flapdoodle.mongoom.mapping.properties.Property;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.mapping.types.color.Colors;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean;
 import de.flapdoodle.mongoom.testlab.beans.ColorBean.ColorView;
 import de.flapdoodle.mongoom.testlab.beans.DateBean;
@@ -49,14 +51,14 @@ public class TestCustomTransformation extends TestCase {
 		System.out.println("ColorBean:" + read);
 		assertEquals("Eq", dummy, read);
 
-		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(transformation.propertyName(PropertyReference.of("color", Color.class)));
+		ITransformation<Color, DBObject> colorTrans = (ITransformation<Color, DBObject>) transformation.propertyTransformation(transformation.propertyName(Property.ref("color", Color.class)));
 		Color sourceColor = new Color(1,2,3,4);
 		DBObject colorAsObject = colorTrans.asObject(sourceColor);
 		System.out.println("DBObject.Color:" + colorAsObject);
 		Color color = colorTrans.asEntity(colorAsObject);
 		assertEquals("Eq", sourceColor, color);
 		
-		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) colorTrans.propertyTransformation(colorTrans.propertyName(PropertyReference.of("r",Integer.class)));
+		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) colorTrans.propertyTransformation(colorTrans.propertyName(Colors.Red));
 		Integer value=12;
 		Object object = rtrans.asObject(value);
 		Integer propertyValue = rtrans.asEntity(object);
@@ -92,13 +94,13 @@ public class TestCustomTransformation extends TestCase {
 		System.out.println("DateBean:" + read);
 		assertEquals("Eq", dummy, read);
 		
-		ITransformation<Date, DBObject> dateTrans = (ITransformation<Date, DBObject>) transformation.propertyTransformation(transformation.propertyName(PropertyReference.of("date", Date.class)));
+		ITransformation<Date, DBObject> dateTrans = (ITransformation<Date, DBObject>) transformation.propertyTransformation(transformation.propertyName(Property.ref("date", Date.class)));
 		DBObject dateAsObject = dateTrans.asObject(date);
 		System.out.println("DBObject.Date:" + dateAsObject);
 		Date readDate = dateTrans.asEntity(dateAsObject);
 		assertEquals("Eq", date, readDate);
 		
-		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) dateTrans.propertyTransformation(dateTrans.propertyName(PropertyReference.of("year",Integer.class)));
+		ITransformation<Integer, Object> rtrans = (ITransformation<Integer, Object>) dateTrans.propertyTransformation(dateTrans.propertyName(Property.ref("year",Integer.class)));
 		Integer value=1973;
 		Object object = rtrans.asObject(value);
 		Integer propertyValue = rtrans.asEntity(object);
