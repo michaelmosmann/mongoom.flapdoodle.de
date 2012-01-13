@@ -90,7 +90,7 @@ public class MappingTest extends AbstractDatastoreTest {
 		MetaInfo mq = new MetaInfo();
 		mq.setCategory(Lists.newArrayList("fun", "sport"));
 		mq.setYear(2010);
-		IEntityQuery<Document> query = datastore.with(Document.class).or().field(Document.Meta).eq(mq).field(Document.Meta).field(MetaInfo.Category).eq(
+		IEntityQuery<Document> query = datastore.with(Document.class).or().field(Document.Meta).eq(mq).field(Document.Meta).listfield(MetaInfo.Category).eq(
 				"fun").field(Document.Name).in("Doc1", "Doc2", "Doc3").parent().or().field(Document.Name).eq("DocX").parent().or().field(
 				Document.Meta).field(MetaInfo.Year).not().type(Date.class).parent().or().field(Document.Meta).field(MetaInfo.Tags).elemMatch().field(Tag.Tag).eq("sommer").parent().parent();
 

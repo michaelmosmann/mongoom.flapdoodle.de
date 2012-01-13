@@ -31,7 +31,7 @@ import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 @Entity(value = "Book")
 public class Book extends ReferenceBean<Book> {
 
-	public static final PropertyReference<Set> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",Set.class);
+	public static final PropertyReference<Set<String>> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",de.flapdoodle.mongoom.mapping.properties.Property.setType(String.class));
 	public static final PropertyReference<String> Name=de.flapdoodle.mongoom.mapping.properties.Property.ref("name",String.class);
 	
 	static String _doNotMap = "DO_NOT_MAP";

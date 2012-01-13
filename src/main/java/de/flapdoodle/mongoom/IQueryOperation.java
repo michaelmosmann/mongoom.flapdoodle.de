@@ -16,11 +16,12 @@
 
 package de.flapdoodle.mongoom;
 
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
-public interface IQueryOperation<T, Q extends IQuery<T>> {
+public interface IQueryOperation<T, Q extends IQuery<T>, V> {
 
 	Q exists(boolean exists);
 
@@ -28,31 +29,39 @@ public interface IQueryOperation<T, Q extends IQuery<T>> {
 
 	Q mod(int mod, int eq);
 
-	<V> Q eq(V value);
+	Q eq(V value);
 
-	<V> Q ne(V value);
+	Q ne(V value);
 
-	<V> Q gt(V value);
+	Q gt(V value);
 
-	<V> Q lt(V value);
+	Q lt(V value);
 
-	<V> Q gte(V value);
+	Q gte(V value);
 
-	<V> Q lte(V value);
+	Q lte(V value);
 
-	<V> Q all(V... value);
+	Q all(V... value);
 
-	<V> Q in(V... value);
+	Q in(V... value);
 
-	<V> Q nin(V... value);
+	Q nin(V... value);
 
+	Q all(Collection<V> values);
+
+	Q in(Collection<V> values);
+
+	Q nin(Collection<V> values);
+	
 	<V> Q type(Class<?> type);
 
 	Q match(Pattern pattern);
 
-	IQueryOperation<T, Q> not();
+	IQueryOperation<T, Q, V> not();
 
 	ISubQuery<T, Q> elemMatch();
 
-	<V> IQueryOperation<T, Q> field(PropertyReference<V> field);
+	<V> IQueryOperation<T, Q, V> field(PropertyReference<V> field);
+	
+	<C extends Collection<V>, V> IListQueryOperation<T, Q, V> listfield(PropertyReference<C> field);
 }

@@ -52,7 +52,7 @@ public class TestMapping extends AbstractDatastoreTest {
 		List<Document> list = datastore.with(Document.class).result().asList();
 		assertEquals("One", 1, list.size());
 
-		List<DocumentView> views = datastore.with(Document.class).field(Document.Meta).field(Meta.Keyword).eq("One").withView(
+		List<DocumentView> views = datastore.with(Document.class).field(Document.Meta).listfield(Meta.Keyword).eq("One").withView(
 				DocumentView.class).asList();
 		DocumentView view = views.get(0);
 		List<String> keywords = view.getKeywords();

@@ -18,12 +18,14 @@ package de.flapdoodle.mongoom.examples.mapping;
 
 import java.util.List;
 
+import com.google.inject.internal.Lists;
+
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class Meta {
 
-	public static final PropertyReference<List> Keyword=de.flapdoodle.mongoom.mapping.properties.Property.ref("keywords",List.class);
+	public static final PropertyReference<List<String>> Keyword=de.flapdoodle.mongoom.mapping.properties.Property.ref("keywords",de.flapdoodle.mongoom.mapping.properties.Property.listType(String.class));
 	
 	@IndexedInGroup(group = "multikey")
 	List<String> _keywords;

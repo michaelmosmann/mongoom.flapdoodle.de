@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
@@ -41,7 +42,15 @@ public class Property {
 	public static <T> PropertyReference<T> ref(String name, Class<T> type) {
 		return new PropertyReference<T>(name, type);
 	}
+	
+	public static <T> Class<List<T>> listType(Class<T> type) {
+		return (Class<List<T>>) (Class) List.class;
+	}
 
+	public static <T> Class<Set<T>> setType(Class<T> type) {
+		return (Class<Set<T>>) (Class) Set.class;
+	}
+	
 	static class PropertyWithClass<T> implements IProperty<T> {
 		
 		private final PropertyName _name;

@@ -16,6 +16,9 @@
 
 package de.flapdoodle.mongoom.datastore.query;
 
+import java.util.Collection;
+
+import de.flapdoodle.mongoom.IListQueryOperation;
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.ISubQuery;
@@ -37,9 +40,16 @@ public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, ITransfor
 	}
 
 	@Override
-	public <V> IQueryOperation<T, ISubQuery<T, Q>> field(PropertyReference<V> field) {
+	public <V> IQueryOperation<T, ISubQuery<T, Q>,V> field(PropertyReference<V> field) {
 		MappedNameTransformation converter = getConverter(field);
-		return new QueryOperation<T, ISubQuery<T, Q>>(this, getQueryBuilder(), converter);
+		return new QueryOperation<T, ISubQuery<T, Q>,V>(this, getQueryBuilder(), converter);
+	}
+	
+	@Override
+	public <C extends Collection<V>, V> IListQueryOperation<T,  ISubQuery<T, Q>, V> listfield(
+			PropertyReference<C> field) {
+		MappedNameTransformation converter = getConverter(field);
+		return new ListQueryOperation<T, ISubQuery<T, Q>,V>(this, getQueryBuilder(), converter);
 	}
 
 //	@Override
@@ -49,8 +59,8 @@ public class SubQuery<T, Q extends IQuery<T>> extends AbstractQuery<T, ITransfor
 //	}
 	
 	@Override
-	public IQueryOperation<T, ISubQuery<T, Q>> id() {
-		return field(Property.ref(Const.ID_FIELDNAME,Reference.class));
+	public IQueryOperation<T, ISubQuery<T, Q>, Reference<T>> id() {
+		return field((PropertyReference) Property.ref(Const.ID_FIELDNAME,Reference.class));
 	}
 
 	@Override

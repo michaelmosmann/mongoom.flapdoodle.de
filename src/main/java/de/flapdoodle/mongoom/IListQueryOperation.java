@@ -16,27 +16,9 @@
 
 package de.flapdoodle.mongoom;
 
-import java.util.Collection;
 
-import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
-import de.flapdoodle.mongoom.types.Reference;
+public interface IListQueryOperation<T, Q extends IQuery<T>, V> {
 
-public interface ISubQuery<T, Q extends IQuery<T>> extends IQuery<T> {
+	Q eq(V value);
 
-//	@Override
-//	IQueryOperation<T, ISubQuery<T, Q>> field(String... string);
-
-	@Override
-	<V> IQueryOperation<T, ISubQuery<T, Q>,V> field(PropertyReference<V> field);
-	
-	@Override
-	<C extends Collection<V>, V> IListQueryOperation<T, ISubQuery<T, Q>,V> listfield(PropertyReference<C> field);
-	
-	@Override
-	IQueryOperation<T, ISubQuery<T, Q>,Reference<T>> id();
-
-	@Override
-	ISubQuery<T, ISubQuery<T, Q>> or();
-
-	Q parent();
 }

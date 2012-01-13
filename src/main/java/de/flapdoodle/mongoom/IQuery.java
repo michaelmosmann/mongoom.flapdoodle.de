@@ -16,16 +16,21 @@
 
 package de.flapdoodle.mongoom;
 
+import java.util.Collection;
+
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.types.Reference;
 
 public interface IQuery<T> {
 
 //	@Deprecated
 //	IQueryOperation<T, ? extends IQuery<T>> field(String... string);
 
-	<V> IQueryOperation<T, ? extends IQuery<T>> field(PropertyReference<V> field);
+	<V> IQueryOperation<T, ? extends IQuery<T>, V> field(PropertyReference<V> field);
 	
-	IQueryOperation<T, ? extends IQuery<T>> id();
+	<C extends Collection<V>,V> IListQueryOperation<T, ? extends IQuery<T>, V> listfield(PropertyReference<C> field);
+	
+	IQueryOperation<T, ? extends IQuery<T>, Reference<T>> id();
 
 	ISubQuery<T, ? extends IQuery<T>> or();
 }

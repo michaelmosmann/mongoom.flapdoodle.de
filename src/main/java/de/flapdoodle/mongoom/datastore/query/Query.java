@@ -16,6 +16,7 @@
 
 package de.flapdoodle.mongoom.datastore.query;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import com.mongodb.BasicDBObject;
@@ -23,6 +24,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import de.flapdoodle.mongoom.IEntityQuery;
+import de.flapdoodle.mongoom.IListQueryOperation;
 import de.flapdoodle.mongoom.IQuery;
 import de.flapdoodle.mongoom.IQueryOperation;
 import de.flapdoodle.mongoom.IQueryResult;
@@ -50,10 +52,18 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 	}
 
 	@Override
-	public <V> IQueryOperation<T, IEntityQuery<T>> field(PropertyReference<V> field) {
+	public <V> IQueryOperation<T, IEntityQuery<T>,V> field(PropertyReference<V> field) {
 		MappedNameTransformation mappedConverter = getConverter(field);
-		return new QueryOperation<T, IEntityQuery<T>>(this, getQueryBuilder(), mappedConverter);
+		return new QueryOperation<T, IEntityQuery<T>,V>(this, getQueryBuilder(), mappedConverter);
 	}
+	
+	@Override
+	public <C extends Collection<V>, V> IListQueryOperation<T, IEntityQuery<T>, V> listfield(
+			PropertyReference<C> field) {
+		MappedNameTransformation mappedConverter = getConverter(field);
+		return new ListQueryOperation<T, IEntityQuery<T>,V>(this, getQueryBuilder(), mappedConverter);
+	}
+	
 //	@Override
 //	public IQueryOperation<T, IEntityQuery<T>> field(String... field) {
 //		MappedNameTransformation mappedConverter = getConverter(field);
@@ -62,8 +72,8 @@ public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> impleme
 //	}
 
 	@Override
-	public IQueryOperation<T, IEntityQuery<T>> id() {
-		return field(Property.ref(Const.ID_FIELDNAME,Reference.class));
+	public IQueryOperation<T, IEntityQuery<T>,Reference<T>> id() {
+		return field((PropertyReference) Property.ref(Const.ID_FIELDNAME,Reference.class));
 	}
 
 	@Override

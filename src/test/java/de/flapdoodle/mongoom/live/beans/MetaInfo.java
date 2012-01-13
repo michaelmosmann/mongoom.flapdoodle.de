@@ -24,9 +24,9 @@ import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
 
 public class MetaInfo {
 
-	public static final PropertyReference<List> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",List.class);
+	public static final PropertyReference<List<String>> Category=de.flapdoodle.mongoom.mapping.properties.Property.ref("category",de.flapdoodle.mongoom.mapping.properties.Property.listType(String.class));
 	public static final PropertyReference<Integer> Year=de.flapdoodle.mongoom.mapping.properties.Property.ref("year",int.class);
-	public static final PropertyReference<List> Tags=de.flapdoodle.mongoom.mapping.properties.Property.ref("tags",List.class);
+	public static final PropertyReference<List<Tag>> Tags=de.flapdoodle.mongoom.mapping.properties.Property.ref("tags",de.flapdoodle.mongoom.mapping.properties.Property.listType(Tag.class));
 	
 	//	@Property("year")
 	@IndexedInGroup(group = "docId", direction = Direction.DESC)
