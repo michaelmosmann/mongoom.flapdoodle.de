@@ -30,8 +30,6 @@ import de.flapdoodle.mongoom.annotations.index.IndexGroups;
 import de.flapdoodle.mongoom.annotations.index.IndexOption;
 import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
-import de.flapdoodle.mongoom.mapping.properties.IEntityProperty;
-import de.flapdoodle.mongoom.mapping.properties.PropertyFactory;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.types.Reference;
 
