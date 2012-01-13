@@ -33,6 +33,11 @@ public final class PropertyReference<T> {
 	public Class<T> getType() {
 		return _type;
 	}
+	
+	@Override
+	public String toString() {
+		return ""+_name+"("+_type+")";
+	}
 
 	@Override
 	public int hashCode() {
