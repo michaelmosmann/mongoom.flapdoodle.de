@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 
 import de.flapdoodle.mongoom.mapping.IContainerTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 

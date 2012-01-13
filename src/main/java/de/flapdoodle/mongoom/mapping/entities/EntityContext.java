@@ -42,11 +42,11 @@ import de.flapdoodle.mongoom.mapping.context.PropertyContext;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.FieldIndex;
 import de.flapdoodle.mongoom.mapping.index.IndexDef;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 
 public class EntityContext<EntityBean> extends AbstractBeanContext<EntityBean> implements IEntityContext<EntityBean>, IBeanContext<EntityBean> {

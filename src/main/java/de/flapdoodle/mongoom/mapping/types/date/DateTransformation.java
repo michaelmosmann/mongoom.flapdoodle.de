@@ -33,8 +33,8 @@ import de.flapdoodle.mongoom.mapping.IQueryTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.entities.IPropertyTransformations;
 import de.flapdoodle.mongoom.mapping.entities.PropertyTransformationMap;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.mapping.types.NoopTransformation;
 

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.flapdoodle.mongoom.mapping.Const;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 
 public class Property {
 

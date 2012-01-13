@@ -22,8 +22,8 @@ import java.util.Set;
 import com.google.common.collect.Maps;
 
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 

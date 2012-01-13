@@ -19,7 +19,7 @@ package de.flapdoodle.mongoom.mapping.context;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
-import de.flapdoodle.mongoom.mapping.properties.IPropertyNaming;
+import de.flapdoodle.mongoom.mapping.naming.IPropertyNaming;
 import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 
 

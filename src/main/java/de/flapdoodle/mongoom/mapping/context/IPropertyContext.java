@@ -20,10 +20,10 @@ import de.flapdoodle.mongoom.annotations.index.Indexed;
 import de.flapdoodle.mongoom.annotations.index.IndexedInGroup;
 import de.flapdoodle.mongoom.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public interface IPropertyContext<T> {

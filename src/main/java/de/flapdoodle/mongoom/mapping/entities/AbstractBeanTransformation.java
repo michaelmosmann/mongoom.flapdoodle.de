@@ -28,9 +28,9 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public abstract class AbstractBeanTransformation<Bean, C extends IBeanContext<Bean>> implements

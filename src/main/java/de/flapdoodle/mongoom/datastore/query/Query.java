@@ -34,7 +34,7 @@ import de.flapdoodle.mongoom.mapping.Const;
 import de.flapdoodle.mongoom.mapping.IEntityTransformation;
 import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.IViewTransformation;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public class Query<T> extends AbstractQuery<T, IEntityTransformation<T>> implements IEntityQuery<T> {

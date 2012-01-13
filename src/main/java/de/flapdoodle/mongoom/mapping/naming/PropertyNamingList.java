@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.properties;
+package de.flapdoodle.mongoom.mapping.naming;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+
 
 
 public class PropertyNamingList implements IPropertyNaming {

@@ -34,9 +34,9 @@ import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
 import de.flapdoodle.mongoom.mapping.index.EntityIndexDef;
 import de.flapdoodle.mongoom.mapping.index.IndexParser;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 import de.flapdoodle.mongoom.mapping.typeinfo.TypeInfo;
 

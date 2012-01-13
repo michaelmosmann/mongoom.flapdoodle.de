@@ -26,9 +26,9 @@ import de.flapdoodle.mongoom.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.converter.reflection.ClassInformation;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.typeinfo.TypeInfo;
 
 public abstract class AbstractClassFieldVisitor<Type, Mapped> extends AbstractVisitor {

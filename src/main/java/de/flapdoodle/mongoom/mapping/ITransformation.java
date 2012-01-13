@@ -18,7 +18,7 @@ package de.flapdoodle.mongoom.mapping;
 
 import java.util.Set;
 
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public interface ITransformation<Bean,Mapped> {

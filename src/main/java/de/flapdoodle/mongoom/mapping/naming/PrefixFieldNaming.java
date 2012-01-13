@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.properties;
+package de.flapdoodle.mongoom.mapping.naming;
 
 import java.lang.reflect.Field;
 

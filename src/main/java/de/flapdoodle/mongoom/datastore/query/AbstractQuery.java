@@ -23,10 +23,10 @@ import com.mongodb.DBObject;
 import de.flapdoodle.mongoom.datastore.factories.IDBObjectFactory;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.Properties;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 public abstract class AbstractQuery<T, C extends ITransformation> {

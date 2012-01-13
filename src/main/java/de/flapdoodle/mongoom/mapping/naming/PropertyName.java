@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package de.flapdoodle.mongoom.mapping.properties;
+package de.flapdoodle.mongoom.mapping.naming;
+
+import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 
 public final class PropertyName<T> implements IPropertyMappedName {
 

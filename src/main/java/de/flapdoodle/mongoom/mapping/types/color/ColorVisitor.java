@@ -26,9 +26,9 @@ import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
 import de.flapdoodle.mongoom.mapping.context.IMappingContext;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class ColorVisitor implements ITypeVisitor<Color, DBObject>{

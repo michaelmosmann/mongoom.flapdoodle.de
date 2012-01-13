@@ -16,6 +16,8 @@
 
 package de.flapdoodle.mongoom.mapping.properties;
 
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
+
 
 public interface IProperty<T> {
 	IAnnotated annotated();

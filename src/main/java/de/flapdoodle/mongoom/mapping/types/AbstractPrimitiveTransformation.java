@@ -22,7 +22,7 @@ import com.google.common.collect.Sets;
 
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.ITransformation;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.TypedPropertyName;
 
 

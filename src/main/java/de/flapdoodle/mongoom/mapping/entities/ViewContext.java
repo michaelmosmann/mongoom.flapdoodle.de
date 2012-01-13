@@ -22,10 +22,10 @@ import de.flapdoodle.mongoom.datastore.index.IPropertyIndex;
 import de.flapdoodle.mongoom.exceptions.MappingException;
 import de.flapdoodle.mongoom.mapping.context.IPropertyContext;
 import de.flapdoodle.mongoom.mapping.context.PropertyContext;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class ViewContext<ViewBean> extends AbstractBeanContext<ViewBean> implements IPropertyContext<ViewBean> {

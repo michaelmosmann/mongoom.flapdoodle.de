@@ -23,11 +23,11 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.entities.IBeanContext;
 import de.flapdoodle.mongoom.mapping.entities.IPropertyTransformations;
 import de.flapdoodle.mongoom.mapping.entities.PropertyTransformationMap;
+import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyMappedName;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyName;
 import de.flapdoodle.mongoom.mapping.properties.Property;
-import de.flapdoodle.mongoom.mapping.properties.PropertyName;
 
 
 public class PropertyContext<T> implements IPropertyContext<T>, IBeanContext<T> {
