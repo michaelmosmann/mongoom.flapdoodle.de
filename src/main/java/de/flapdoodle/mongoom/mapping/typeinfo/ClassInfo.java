@@ -17,9 +17,8 @@
 package de.flapdoodle.mongoom.mapping.typeinfo;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
@@ -39,7 +38,7 @@ class ClassInfo implements ITypeInfo, IAnnotated {
 	@Override
 	public Class<?> getType() {
 		if (_type instanceof Class) return (Class<?>) _type;
-		if (_type instanceof ParameterizedTypeImpl) return ((ParameterizedTypeImpl) _type).getRawType();
+		if (_type instanceof ParameterizedType) return (Class<?>) ((ParameterizedType) _type).getRawType();
 		return null;
 	}
 
