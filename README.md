@@ -6,6 +6,10 @@ MongoOM is an mongodb object mapper for java
 
 Simply because none really fitted my needs.
 
+## Roadmap
+
+- will soon use classmate for reflection stuff - https://github.com/cowtowncoder/java-classmate
+
 ## Howto
 
 ### Maven
