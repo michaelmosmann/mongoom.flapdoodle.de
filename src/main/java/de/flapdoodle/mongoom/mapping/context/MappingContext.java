@@ -43,6 +43,8 @@ import de.flapdoodle.mongoom.mapping.naming.PrefixFieldNaming;
 import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.naming.PropertyNamingList;
 import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.mapping.reflection.ClassMateTypeResolver;
+import de.flapdoodle.mongoom.mapping.reflection.ITypeResolver;
 import de.flapdoodle.mongoom.mapping.types.EnumVisitor;
 import de.flapdoodle.mongoom.mapping.types.ListVisitor;
 import de.flapdoodle.mongoom.mapping.types.NativeTypeVisitor;
@@ -106,6 +108,7 @@ public class MappingContext implements IMappingContext {
 	
 	ITypeVisitor _defaultVisitor = new PojoVisitor();
 	IPropertyNaming _defaultNaming = new PropertyNamingList(Lists.newArrayList(new FieldTypeNaming(),new FieldAnnotationNaming(),new PrefixFieldNaming()));
+	ITypeResolver _defaultTypeResolver = new ClassMateTypeResolver();
 	
 	@Override
 	public <Type> ITypeVisitor<Type, ?> getVisitor(ITypeInfo containerType, ITypeInfo type) {
@@ -159,6 +162,11 @@ public class MappingContext implements IMappingContext {
 	@Override
 	public IVersionFactory<?> versionFactory(ITypeInfo field) {
 		return versionFactories.get(field.getType());
+	}
+	
+	@Override
+	public ITypeResolver typeResolver() {
+		return _defaultTypeResolver;
 	}
 	
 

@@ -18,24 +18,26 @@ package de.flapdoodle.mongoom.testlab.classmate;
 
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import com.fasterxml.classmate.AnnotationConfiguration;
 import com.fasterxml.classmate.AnnotationOverrides;
 import com.fasterxml.classmate.MemberResolver;
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.ResolvedTypeWithMembers;
 import com.fasterxml.classmate.TypeResolver;
-import com.fasterxml.classmate.members.RawField;
 import com.fasterxml.classmate.members.ResolvedField;
 
-import de.flapdoodle.mongoom.types.Reference;
-
-import junit.framework.TestCase;
+import de.flapdoodle.mongoom.annotations.Entity;
+import de.flapdoodle.mongoom.mapping.reflection.ClassMateTypeResolver;
+import de.flapdoodle.mongoom.mapping.reflection.IResolvedField;
+import de.flapdoodle.mongoom.mapping.reflection.IResolvedType;
+import de.flapdoodle.mongoom.mapping.reflection.ITypeResolver;
 
 
 public class TestClassMate extends TestCase {
 
-	public void testReference() {
-		
+	public void testGeneric() {
 		
 		TypeResolver resolver=new TypeResolver();
 		ResolvedType resolvedType = resolver.resolve(QuackString.class);
@@ -59,6 +61,27 @@ public class TestClassMate extends TestCase {
 		
 	}
 	
+	public void testGenericAdapter() {
+
+		ITypeResolver resolver=new ClassMateTypeResolver();
+		IResolvedType resolvedType = resolver.resolve(QuackString.class);
+		List<IResolvedType> params = resolvedType.typeParametersFor(IQuack.class);
+		assertEquals(1, params.size());
+		assertEquals(String.class, params.get(0).getErasedType());
+		
+		IResolvedType resolvedTypeWithMembers = resolver.resolve(QuackBox.class);
+		
+		List<IResolvedField> memberFields = resolvedTypeWithMembers.getMemberFields();
+		assertEquals(1, memberFields.size());
+		
+		IResolvedType inBoxType = memberFields.get(0).getType();
+//		System.out.println("Field: "+inBoxType.getFullDescription());
+		List<IResolvedType> inBoxParams = inBoxType.typeParametersFor(IQuack.class);
+		assertEquals(1, inBoxParams.size());
+		assertEquals(String.class, inBoxParams.get(0).getErasedType());
+		
+	}
+	
 	static interface IQuack<T> {
 		
 	}
@@ -67,6 +90,7 @@ public class TestClassMate extends TestCase {
 		
 	}
 	
+	@Entity("FU")
 	static class QuackBox {
 		IQuack<String> inBox;
 	}

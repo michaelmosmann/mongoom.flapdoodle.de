@@ -20,6 +20,7 @@ import de.flapdoodle.mongoom.mapping.ITransformation;
 import de.flapdoodle.mongoom.mapping.ITypeInfo;
 import de.flapdoodle.mongoom.mapping.ITypeVisitor;
 import de.flapdoodle.mongoom.mapping.naming.IPropertyNaming;
+import de.flapdoodle.mongoom.mapping.reflection.ITypeResolver;
 import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 
 
@@ -35,4 +36,6 @@ public interface IMappingContext {
 	IPropertyNaming naming();
 	
 	IVersionFactory<?> versionFactory(ITypeInfo field);
+	
+	ITypeResolver typeResolver();
 }

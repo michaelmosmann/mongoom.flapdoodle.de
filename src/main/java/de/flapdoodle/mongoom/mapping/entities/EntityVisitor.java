@@ -38,7 +38,8 @@ import de.flapdoodle.mongoom.mapping.naming.PropertyName;
 import de.flapdoodle.mongoom.mapping.properties.IAnnotated;
 import de.flapdoodle.mongoom.mapping.properties.IProperty;
 import de.flapdoodle.mongoom.mapping.properties.IPropertyField;
-import de.flapdoodle.mongoom.mapping.properties.PropertyReference;
+import de.flapdoodle.mongoom.mapping.reflection.IResolvedType;
+import de.flapdoodle.mongoom.mapping.reflection.ITypeResolver;
 import de.flapdoodle.mongoom.mapping.typeinfo.TypeInfo;
 import de.flapdoodle.mongoom.mapping.versions.IVersionFactory;
 
@@ -47,6 +48,21 @@ public class EntityVisitor<EntityBean> extends AbstractClassFieldVisitor<EntityB
 
 	@Override
 	public IEntityTransformation<EntityBean> transformation(IMappingContext mappingContext, Class<EntityBean> entityClass) {
+		
+		if (false) {
+			ITypeResolver typeResolver = mappingContext.typeResolver();
+			IResolvedType resolvedType = typeResolver.resolve(entityClass);
+			{
+				Entity entityAnnotation = resolvedType.getAnnotation(Entity.class);
+				if (entityAnnotation == null) {
+					error(entityClass, "Missing " + Entity.class + " Annotation");
+				}
+				Views viewsAnnotation = entityClass.getAnnotation(Views.class);
+			}
+		}
+		
+//		memberResolver.resolve(entityClass).
+		
 		Entity entityAnnotation = entityClass.getAnnotation(Entity.class);
 		if (entityAnnotation == null) {
 			error(entityClass, "Missing " + Entity.class + " Annotation");
