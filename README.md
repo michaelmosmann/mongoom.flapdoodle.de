@@ -19,7 +19,7 @@ Stable
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
-	  <version>1.3</version>
+	  <version>1.4</version>
 	</dependency>
 
 Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
@@ -27,8 +27,16 @@ Snapshots (Repository http://oss.sonatype.org/content/repositories/snapshots)
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
 		<artifactId>de.flapdoodle.mongoom</artifactId>
-	  <version>1.4-SNAPSHOT</version>
+	  <version>1.5-SNAPSHOT</version>
 	</dependency>
+
+### Changelog
+
+#### 1.5 (SNAPSHOT)
+
+#### 1.4
+
+- stable release
 
 ### Setup
 
