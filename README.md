@@ -14,7 +14,7 @@ Simply because none really fitted my needs.
 
 ### Maven
 
-Stable
+Stable (Maven Central Repository, Released: 13.08.2012 - wait 24hrs for maven central)
 
 	<dependency>
 	  <groupId>de.flapdoodle.mongoom</groupId>
