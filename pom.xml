@@ -11,7 +11,7 @@
 	<groupId>de.flapdoodle.mongoom</groupId>
 	<artifactId>de.flapdoodle.mongoom</artifactId>
 	<name>Flapdoodle MongoDB ObjectMapper</name>
-	<version>1.4</version>
+	<version>1.5-SNAPSHOT</version>
 
 	<description>A mongodb object mapper supporting most mongodb features, like multikey index, typesafe query ...</description>
 	<url>http://github.com/michaelmosmann/mongoom.flapdoodle.de</url>
